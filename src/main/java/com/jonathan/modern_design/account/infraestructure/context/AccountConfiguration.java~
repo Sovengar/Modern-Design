@@ -1,0 +1,42 @@
+package com.jonathan.modern_design.account.infraestructure.context;
+
+import com.jonathan.modern_design.account.application.AccountFacade;
+import com.jonathan.modern_design.account.application.load_account.LoadAccountUseCase;
+import com.jonathan.modern_design.account.application.send_money.SendMoneyService;
+import com.jonathan.modern_design.account.application.send_money.SendMoneyUseCase;
+import com.jonathan.modern_design.account.application.update_account.UpdateAccountUseCase;
+import com.jonathan.modern_design.account.infraestructure.persistence.AccountPersistenceAdapter;
+import com.jonathan.modern_design.account.infraestructure.persistence.InMemoryDatabase;
+
+
+public class AccountConfiguration {
+
+    public static AccountFacade createDefault() {
+        var database = new AccountPersistenceAdapter(new InMemoryDatabase());
+
+        LoadAccountUseCase loadAccountUseCase = database;
+        UpdateAccountUseCase updateAccountUseCase = database;
+
+        SendMoneyUseCase sendMoneyUseCase = new SendMoneyService(loadAccountUseCase, updateAccountUseCase);
+
+        return new AccountFacade(sendMoneyUseCase, loadAccountUseCase, updateAccountUseCase);
+    }
+
+    public AccountFacade accountFacade() {
+        var database = new AccountPersistenceAdapter(new InMemoryDatabase());
+
+        LoadAccountUseCase loadAccountUseCase = database;
+        UpdateAccountUseCase updateAccountUseCase = database;
+
+        SendMoneyUseCase sendMoneyUseCase = new SendMoneyService(loadAccountUseCase, updateAccountUseCase);
+
+        return new AccountFacade(sendMoneyUseCase, loadAccountUseCase, updateAccountUseCase);
+    }
+
+    public static AccountFacade createWithMocks(
+            SendMoneyUseCase sendMoneyUseCase,
+            LoadAccountUseCase loadAccountUseCase,
+            UpdateAccountUseCase updateAccountUseCase) {
+        return new AccountFacade(sendMoneyUseCase, loadAccountUseCase, updateAccountUseCase);
+    }
+}

@@ -1,0 +1,7 @@
+package com.jonathan.modern_design.account.application.usecases;
+
+import com.jonathan.modern_design.account.domain.Account;
+
+public interface LoadAccountUseCase {
+    Account load(Long id);
+}
