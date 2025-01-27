@@ -5,5 +5,5 @@ import com.jonathan.modern_design.account.domain.Account;
 import java.util.Optional;
 
 public interface FindAccountUseCase {
-    Optional<Account> find(Long id);
+    Optional<Account> findOne(Long id);
 }

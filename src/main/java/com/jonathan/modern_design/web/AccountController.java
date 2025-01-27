@@ -32,11 +32,11 @@ public class AccountController {
                 .targetId(targetAccountId)
                 .amount(amount).build();
 
-        accountFacade.send(command);
+        accountFacade.sendMoney(command);
     }
 
     @GetMapping(path = "/load/{accountId}")
     void load(@PathVariable Long accountId) {
-        accountFacade.load(accountId);
+        accountFacade.findOne(accountId);
     }
 }

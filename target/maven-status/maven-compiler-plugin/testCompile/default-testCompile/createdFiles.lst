@@ -1,0 +1,9 @@
+com\jonathan\modern_design\config\TestContainersConfig.class
+com\jonathan\modern_design\fake_data\AccountStub.class
+com\jonathan\modern_design\fake_data\SendMoneyCommandMother.class
+com\jonathan\modern_design\unit\AccountTest.class
+com\jonathan\modern_design\config\IntegrationTestConfig.class
+com\jonathan\modern_design\config\RepositoryIntegrationTestConfig.class
+com\jonathan\modern_design\TestModernDesignApplication.class
+com\jonathan\modern_design\config\PostgreSQLConfig.class
+com\jonathan\modern_design\Dsl.class

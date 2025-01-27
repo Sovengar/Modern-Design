@@ -1,7 +1,7 @@
-package com.sacavix.ca.moneytransfers;
+package com.jonathan.modern_design;
 
-import com.sacavix.ca.moneytransfers.account.infraestructure.persistence.AccountEntity;
-import com.sacavix.ca.moneytransfers.account.infraestructure.persistence.SpringAccountRepository;
+import com.jonathan.modern_design.account.infraestructure.persistence.AccountEntity;
+import com.jonathan.modern_design.account.infraestructure.persistence.SpringAccountRepository;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +15,6 @@ public class Extra implements InitializingBean {
     public Extra(SpringAccountRepository extra) {
         this.extra = extra;
     }
-
 
     @Override
     public void afterPropertiesSet() throws Exception {

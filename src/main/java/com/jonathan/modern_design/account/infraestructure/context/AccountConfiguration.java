@@ -32,7 +32,7 @@ public class AccountConfiguration {
     AccountFacade accountFacade(AccountRepository accountRepository) {
         UpdateAccountUseCase updateAccountUseCase = new UpdateAccountService(accountRepository);
         FindAccountUseCase findAccountUseCase = new FindAccountService(accountRepository);
-        
+
         SendMoneyUseCase sendMoneyUseCase = new SendMoneyService(findAccountUseCase, updateAccountUseCase);
 
         return new AccountFacade(accountRepository, sendMoneyUseCase, updateAccountUseCase);

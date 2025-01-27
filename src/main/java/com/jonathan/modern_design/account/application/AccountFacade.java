@@ -5,6 +5,7 @@ import com.jonathan.modern_design.account.application.send_money.SendMoneyComman
 import com.jonathan.modern_design.account.application.send_money.SendMoneyUseCase;
 import com.jonathan.modern_design.account.application.update_account.UpdateAccountUseCase;
 import com.jonathan.modern_design.account.domain.Account;
+import com.jonathan.modern_design.account.infraestructure.persistence.AccountRepository;
 import com.jonathan.modern_design.common.BeanClass;
 import lombok.RequiredArgsConstructor;
 
@@ -13,18 +14,18 @@ import java.util.Optional;
 @BeanClass
 @RequiredArgsConstructor
 public class AccountFacade implements SendMoneyUseCase, FindAccountUseCase, UpdateAccountUseCase {
+    private final AccountRepository accountRepository;
     private final SendMoneyUseCase sendMoneyUseCase;
-    private final FindAccountUseCase findAccountUseCase;
     private final UpdateAccountUseCase updateAccountUseCase;
 
     @Override
-    public boolean send(SendMoneyCommand command) {
-        return sendMoneyUseCase.send(command);
+    public boolean sendMoney(SendMoneyCommand command) {
+        return sendMoneyUseCase.sendMoney(command);
     }
 
     @Override
-    public Optional<Account> find(Long accountId) {
-        return findAccountUseCase.find(accountId);
+    public Optional<Account> findOne(Long accountId) {
+        return accountRepository.findOne(accountId);
     }
 
     @Override
