@@ -1,5 +1,6 @@
 package com.jonathan.modern_design.account.infraestructure.persistence;
 
+import com.jonathan.modern_design.common.BaseEntity;
 import jakarta.persistence.PostPersist;
 import jakarta.persistence.PrePersist;
 import lombok.AllArgsConstructor;
@@ -14,14 +15,16 @@ import jakarta.persistence.Table;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "account")
+@Table(name = "account", schema = "md")
 @Getter @Setter @ToString @NoArgsConstructor @AllArgsConstructor @Builder
 @Slf4j
-public class AccountEntity {
+@SQLRestriction("deleted <> true") //Make Hibernate ignore soft deleted entries
+public class AccountEntity extends BaseEntity {
 
     @Id
     @GeneratedValue

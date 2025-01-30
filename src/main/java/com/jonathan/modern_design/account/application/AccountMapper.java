@@ -1,9 +1,10 @@
-package com.jonathan.modern_design.account.infraestructure;
+package com.jonathan.modern_design.account.application;
 
-import com.jonathan.modern_design.account.domain.Account;
-import com.jonathan.modern_design.account.domain.AccountId;
-import com.jonathan.modern_design.account.domain.AccountMoneyVO;
+import com.jonathan.modern_design.account.domain.model.Account;
+import com.jonathan.modern_design.account.domain.model.AccountId;
+import com.jonathan.modern_design.account.domain.model.AccountMoneyVO;
 import com.jonathan.modern_design.account.infraestructure.persistence.AccountEntity;
+import com.jonathan.modern_design.common.Currency;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -26,6 +27,6 @@ public interface AccountMapper {
     }
 
     default AccountMoneyVO mapMoney(BigDecimal amount) {
-        return AccountMoneyVO.of(amount, "MXN");
+        return AccountMoneyVO.of(amount, Currency.EURO); //TODO FIX
     }
 }

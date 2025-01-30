@@ -1,5 +1,7 @@
 package com.jonathan.modern_design.account.application.send_money;
 
+import lombok.NonNull;
+
 public interface SendMoneyUseCase {
-    boolean sendMoney(SendMoneyCommand command);
+    void sendMoney(@NonNull final SendMoneyCommand command);
 }

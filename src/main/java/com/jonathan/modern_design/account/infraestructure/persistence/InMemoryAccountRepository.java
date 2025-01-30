@@ -1,6 +1,8 @@
 package com.jonathan.modern_design.account.infraestructure.persistence;
 
-import com.jonathan.modern_design.account.domain.Account;
+import com.jonathan.modern_design.account.domain.AccountRepository;
+import com.jonathan.modern_design.account.domain.model.Account;
+import lombok.NonNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -13,31 +15,35 @@ import java.util.concurrent.ConcurrentHashMap;
 import static java.util.Objects.requireNonNull;
 
 public class InMemoryAccountRepository implements AccountRepository {
-    private final ConcurrentHashMap<Long, Account> data = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<Long, Account> accounts = new ConcurrentHashMap<>();
 
-    public Optional<Account> findOne(Long id) {
-        Account account = data.get(id);
+    public Optional<Account> findOne(@NonNull Long id) {
+        Account account = accounts.get(id);
         return Optional.ofNullable(account);
     }
 
     public Page<Account> findAll(Pageable pageable) {
-        List<Account> accounts = new ArrayList<>(data.values());
-        return new PageImpl<>(accounts, pageable, accounts.size());
+        List<Account> accountsList = new ArrayList<>(accounts.values());
+        return new PageImpl<>(accountsList, pageable, accountsList.size());
     }
 
     @Override
-    public Account create(Account account) {
-        requireNonNull(account);
-        data.put(account.getId(), account);
+    public Account create(@NonNull Account account) {
+        accounts.put(account.getId(), account);
         return account;
     }
 
     @Override
-    public void update(Account account) {
+    public void update(@NonNull Account account) {
         requireNonNull(account);
     }
 
-    public void delete(Long id) {
-        data.remove(id);
+    public void delete(@NonNull final Long id) {
+        accounts.remove(id);
+    }
+
+    @Override
+    public void softDelete(@NonNull Long id) {
+        accounts.remove(id);
     }
 }

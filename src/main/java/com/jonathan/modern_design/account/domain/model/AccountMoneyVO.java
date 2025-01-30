@@ -1,7 +1,9 @@
-package com.jonathan.modern_design.account.domain;
+package com.jonathan.modern_design.account.domain.model;
 
+import com.jonathan.modern_design.account.domain.exceptions.InsufficientFundsException;
+import com.jonathan.modern_design.account.domain.exceptions.OperationWithDifferentCurrenciesException;
+import com.jonathan.modern_design.common.Currency;
 import lombok.AccessLevel;
-import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -12,9 +14,9 @@ import java.util.Objects;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class AccountMoneyVO {
     private final BigDecimal amount;
-    private final String currency;
+    private final Currency currency;
 
-    public static AccountMoneyVO of(BigDecimal amount, String currency) {
+    public static AccountMoneyVO of(BigDecimal amount, Currency currency) {
         return new AccountMoneyVO(amount, currency);
     }
 
@@ -24,11 +26,11 @@ public class AccountMoneyVO {
         return new AccountMoneyVO(this.amount.add(other.amount), this.currency);
     }
 
-    public AccountMoneyVO subtract(AccountMoneyVO other) {
+    public AccountMoneyVO substract(AccountMoneyVO other) {
         checkCurrency(other);
 
         if (this.amount.compareTo(other.amount) < 0) {
-            throw new IllegalArgumentException("Cannot subtract Money with bigger amount");
+            throw new InsufficientFundsException();
         }
 
         return new AccountMoneyVO(this.amount.subtract(other.amount), this.currency);
@@ -37,7 +39,7 @@ public class AccountMoneyVO {
 
     private void checkCurrency(AccountMoneyVO other) {
         if (!this.currency.equals(other.currency)) {
-            throw new IllegalArgumentException("Cannot operate Money with different currencies");
+            throw new OperationWithDifferentCurrenciesException();
         }
     }
 

@@ -1,0 +1,27 @@
+package com.jonathan.modern_design.account.domain;
+
+import com.jonathan.modern_design.account.domain.exceptions.CannotDoOperationsException;
+import com.jonathan.modern_design.account.domain.exceptions.InsufficientFundsException;
+import com.jonathan.modern_design.account.domain.model.Account;
+
+import java.math.BigDecimal;
+
+public class AccountValidator {
+
+    public void validateAccount(Account account){
+        validateActive(account);
+    }
+
+    private void validateActive(Account account) {
+        if (!account.isActive()) {
+            throw new CannotDoOperationsException(account.getId());
+        }
+    }
+
+    public void validateSufficientFunds(Account account, BigDecimal amount) {
+        if (account.getAmount().compareTo(amount) >= 0) {
+            throw new InsufficientFundsException();
+        }
+    }
+}
+

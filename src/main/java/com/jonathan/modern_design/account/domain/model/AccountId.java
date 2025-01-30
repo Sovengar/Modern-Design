@@ -1,4 +1,4 @@
-package com.jonathan.modern_design.account.domain;
+package com.jonathan.modern_design.account.domain.model;
 
 import lombok.AccessLevel;
 import lombok.Data;
