@@ -4,24 +4,25 @@ import com.jonathan.modern_design.account.application.send_money.SendMoneyComman
 import com.jonathan.modern_design.common.Currency;
 
 import java.math.BigDecimal;
+import java.util.UUID;
+
+import static com.jonathan.modern_design.fake_data.AccountStub.sourceAccountId;
+import static com.jonathan.modern_design.fake_data.AccountStub.targetAccountId;
 
 public class SendMoneyCommandMother {
-
-    public static SendMoneyCommand fromAccountToAccountWithAmount(
-            long sourceAccountId, long targetAccountId, double amount) {
+    public static SendMoneyCommand fromAccountToAccountWithAmount(UUID sourceAccountId, UUID targetAccountId, double amount) {
         return new SendMoneyCommand(sourceAccountId, targetAccountId, BigDecimal.valueOf(amount), Currency.EURO);
-        //return SendMoneyCommand.builder().sourceId(sourceAccountId).targetId(targetAccountId).amount(BigDecimal.valueOf(amount)).build();
     }
 
     public static SendMoneyCommand transactionWithAmount(double amount) {
-        return fromAccountToAccountWithAmount(1L, 2L, amount);
+        return fromAccountToAccountWithAmount(sourceAccountId, targetAccountId, amount);
     }
 
     public static SendMoneyCommand insufficientFundsTransaction() {
-        return fromAccountToAccountWithAmount(1L, 2L, 1000);
+        return fromAccountToAccountWithAmount(sourceAccountId, targetAccountId, 1000);
     }
 
     public static SendMoneyCommand negativeAmountTransaction() {
-        return fromAccountToAccountWithAmount(1L, 2L, -100);
+        return fromAccountToAccountWithAmount(sourceAccountId, targetAccountId, -100);
     }
 }

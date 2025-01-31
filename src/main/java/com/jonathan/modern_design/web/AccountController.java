@@ -11,18 +11,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
 @WebAdapter
 @RequestMapping("/api/v1/accounts")
-public class AccountController {
+class AccountController {
     private final AccountFacade accountFacade;
 
     @PostMapping(path = "/transfer/{sourceAccountId}/{targetAccountId}/{amount}")
     void transfer(
-            @PathVariable("sourceAccountId") Long sourceAccountId,
-            @PathVariable("targetAccountId") Long targetAccountId,
+            @PathVariable("sourceAccountId") UUID sourceAccountId,
+            @PathVariable("targetAccountId") UUID targetAccountId,
             @PathVariable("amount") BigDecimal amount) {
 
         log.info("Sending money from {} to {} with amount {}", sourceAccountId, targetAccountId, amount);
@@ -36,7 +37,7 @@ public class AccountController {
     }
 
     @GetMapping(path = "/load/{accountId}")
-    void load(@PathVariable Long accountId) {
+    void load(@PathVariable UUID accountId) {
         accountFacade.findOne(accountId);
     }
 }

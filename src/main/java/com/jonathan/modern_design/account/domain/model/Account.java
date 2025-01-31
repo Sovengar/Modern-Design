@@ -6,25 +6,26 @@ import lombok.Builder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Builder //For Mapper and testing, otherwise use the create factory method.
 public class Account {
-    AccountId id;
+    UUID uuid;
     AccountMoneyVO money;
     User user;
     LocalDateTime dateOfLastTransaction;
     boolean isActive;
 
-    private Account(AccountId id, AccountMoneyVO money, User user, LocalDateTime dateOfLastTransaction, boolean isActive) {
-        this.id = id;
+    private Account(UUID uuid, AccountMoneyVO money, User user, LocalDateTime dateOfLastTransaction, boolean isActive) {
+        this.uuid = uuid;
         this.money = money;
         this.user = user;
         this.dateOfLastTransaction = dateOfLastTransaction;
         this.isActive = isActive;
     }
 
-    public static Account create(Long id, BigDecimal amount, Currency currency, User user) {
-        return new Account(AccountId.of(id), AccountMoneyVO.of(amount, currency), user, null, true);
+    public static Account create(BigDecimal amount, Currency currency, User user) {
+        return new Account(UUID.randomUUID(), AccountMoneyVO.of(amount, currency), user, null, true);
     }
 
     public boolean isBalanceGreaterThan(BigDecimal anotherAmount) {
@@ -41,8 +42,8 @@ public class Account {
         dateOfLastTransaction = LocalDateTime.now();
     }
 
-    public Long getId(){
-        return id.getValue();
+    public UUID getId(){
+        return uuid;
     }
 
     public BigDecimal getAmount() {

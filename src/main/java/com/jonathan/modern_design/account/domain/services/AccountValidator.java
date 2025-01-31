@@ -1,5 +1,6 @@
-package com.jonathan.modern_design.account.domain;
+package com.jonathan.modern_design.account.domain.services;
 
+import com.jonathan.modern_design.account.domain.exceptions.AccountIsInactiveException;
 import com.jonathan.modern_design.account.domain.exceptions.CannotDoOperationsException;
 import com.jonathan.modern_design.account.domain.model.Account;
 
@@ -11,7 +12,7 @@ public class AccountValidator {
 
     private void validateActive(Account account) {
         if (!account.isActive()) {
-            throw new CannotDoOperationsException(account.getId());
+            throw new AccountIsInactiveException(account.getId());
         }
     }
 }

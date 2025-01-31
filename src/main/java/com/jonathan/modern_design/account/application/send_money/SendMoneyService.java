@@ -2,13 +2,19 @@ package com.jonathan.modern_design.account.application.send_money;
 
 import com.jonathan.modern_design.account.application.find_account.FindAccountUseCase;
 import com.jonathan.modern_design.account.application.update_account.UpdateAccountUseCase;
-import com.jonathan.modern_design.account.domain.AccountValidator;
+import com.jonathan.modern_design.account.domain.services.AccountValidator;
+import com.jonathan.modern_design.account.domain.exceptions.InsufficientFundsException;
+import com.jonathan.modern_design.account.domain.exceptions.OperationForbiddenForSameAccount;
 import com.jonathan.modern_design.account.domain.model.Account;
 import com.jonathan.modern_design.account.domain.exceptions.AccountNotFoundException;
+import com.jonathan.modern_design.common.Currency;
 import com.jonathan.modern_design.common.UseCase;
 import jakarta.transaction.Transactional;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+
+import java.math.BigDecimal;
+import java.util.UUID;
 
 @UseCase
 @RequiredArgsConstructor
@@ -20,23 +26,43 @@ public class SendMoneyService implements SendMoneyUseCase {
     @Transactional
     @Override
     public void sendMoney(@NonNull final SendMoneyCommand command) {
-        Account source = findAccountUseCase.findOne(command.sourceId())
-                .orElseThrow(() -> new AccountNotFoundException(command.sourceId()));
 
-        accountValidator.validateAccount(source);
+        Account source = getAccountValidated(command.sourceId());
+        Account target = getAccountValidated(command.targetId());
 
-        Account target = findAccountUseCase.findOne(command.targetId())
-                .orElseThrow(() -> new AccountNotFoundException(command.targetId()));
-
-        accountValidator.validateAccount(target);
+        validateDifferentAccounts(source, target);
 
         final var amount = command.amount();
         final var currency = command.currency();
 
+        if(!source.isBalanceGreaterThan(amount)) {
+            throw new InsufficientFundsException();
+        }
+
+        transferMoney(source, target, amount, currency);
+    }
+
+    private Account getAccountValidated(UUID accountId){
+         var account = findAccountUseCase.findOne(accountId)
+                .orElseThrow(() -> new AccountNotFoundException(accountId));
+        accountValidator.validateAccount(account);
+        return account;
+    }
+
+    private void validateDifferentAccounts(Account source, Account target){
+        var isSameAccount = source.getId().equals(target.getId());
+
+        if(isSameAccount){
+            throw new OperationForbiddenForSameAccount();
+        }
+    }
+
+    private void transferMoney(Account source, Account target, BigDecimal amount, Currency currency){
         source.substract(amount, currency);
         target.add(amount, currency);
 
         updateAccountUseCase.update(source);
         updateAccountUseCase.update(target);
     }
+
 }

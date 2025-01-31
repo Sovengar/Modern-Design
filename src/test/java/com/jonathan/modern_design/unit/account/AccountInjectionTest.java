@@ -2,6 +2,7 @@ package com.jonathan.modern_design.unit.account;
 
 import com.jonathan.modern_design.account.application.AccountFacade;
 import com.jonathan.modern_design.account.domain.AccountRepository;
+import com.jonathan.modern_design.account.domain.exceptions.AccountIsInactiveException;
 import com.jonathan.modern_design.account.domain.exceptions.InsufficientFundsException;
 import com.jonathan.modern_design.account.domain.model.Account;
 import com.jonathan.modern_design.account.infraestructure.context.AccountConfigurationFactory;
@@ -21,11 +22,11 @@ class AccountInjectionTest extends ArticleDsl {
     private AccountFacade accountFacade;
 
     @Test
-    void should_inject_money_into_the_account() {
+    void should_send_money_into_the_target_account() {
         accountFacade = new AccountConfigurationFactory().accountFacade(repository);
 
-        Account source = AccountStub.withBalance(1L, 100.0);
-        Account target = AccountStub.emptyAccount(2L);
+        Account source = AccountStub.sourceAccountwithBalance(100.0);
+        Account target = AccountStub.targetAccountEmpty();
 
         repository.create(source);
         repository.create(target);
@@ -36,11 +37,11 @@ class AccountInjectionTest extends ArticleDsl {
     }
 
     @Test
-    void approval_test_inject_money_into_the_account() {
+    void approval_test_send_money_into_the_target_account() {
         accountFacade = new AccountConfigurationFactory().accountFacade(repository);
 
-        Account source = AccountStub.withBalance(1L, 100.0);
-        Account target = AccountStub.emptyAccount(2L);
+        Account source = AccountStub.sourceAccountwithBalance(100.0);
+        Account target = AccountStub.targetAccountEmpty();
 
         repository.create(source);
         repository.create(target);
@@ -50,17 +51,47 @@ class AccountInjectionTest extends ArticleDsl {
     }
 
     @Test
-    void should_not_inject_money_into_the_account() {
+    void should_fail_when_sending_money_without_enough_money() {
         accountFacade = new AccountConfigurationFactory().accountFacade(repository);
 
-        Account source = AccountStub.emptyAccount(1L);
-        Account target = AccountStub.withBalance(2L, 100.0);
+        Account source = AccountStub.sourceAccountEmpty();
+        Account target = AccountStub.targetAccountwithBalance(100.0);
 
         repository.create(source);
         repository.create(target);
 
         assertThrows(InsufficientFundsException.class, () -> {
-            accountFacade.sendMoney(transactionWithAmount(50.0));  // Supongamos que el source no tiene suficiente dinero
+            accountFacade.sendMoney(transactionWithAmount(50.0));
+        });
+    }
+
+    @Test
+    void should_fail_when_source_account_is_inactive() {
+        accountFacade = new AccountConfigurationFactory().accountFacade(repository);
+
+        Account source = AccountStub.sourceAccountInactive();
+        Account target = AccountStub.targetAccountEmpty();
+
+        repository.create(source);
+        repository.create(target);
+
+        assertThrows(AccountIsInactiveException.class, () -> {
+            accountFacade.sendMoney(transactionWithAmount(50.0));
+        });
+    }
+
+    @Test
+    void should_fail_when_target_account_is_inactive() {
+        accountFacade = new AccountConfigurationFactory().accountFacade(repository);
+
+        Account source = AccountStub.sourceAccountwithBalance(100.0);
+        Account target = AccountStub.targetAccountInactive();
+
+        repository.create(source);
+        repository.create(target);
+
+        assertThrows(AccountIsInactiveException.class, () -> {
+            accountFacade.sendMoney(transactionWithAmount(50.0));
         });
     }
 }

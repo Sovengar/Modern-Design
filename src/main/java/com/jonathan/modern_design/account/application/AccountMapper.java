@@ -22,10 +22,6 @@ public interface AccountMapper {
     @InheritInverseConfiguration
     AccountEntity toAccountEnity (final Account account);
 
-    default AccountId mapAmount(Long value) {
-        return AccountId.of(value);
-    }
-
     default AccountMoneyVO mapMoney(BigDecimal amount) {
         return AccountMoneyVO.of(amount, Currency.EURO); //TODO FIX
     }

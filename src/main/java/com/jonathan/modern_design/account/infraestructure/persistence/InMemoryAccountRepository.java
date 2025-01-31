@@ -2,22 +2,25 @@ package com.jonathan.modern_design.account.infraestructure.persistence;
 
 import com.jonathan.modern_design.account.domain.AccountRepository;
 import com.jonathan.modern_design.account.domain.model.Account;
+import com.jonathan.modern_design.common.Currency;
 import lombok.NonNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static java.util.Objects.requireNonNull;
 
 public class InMemoryAccountRepository implements AccountRepository {
-    private final ConcurrentHashMap<Long, Account> accounts = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<UUID, Account> accounts = new ConcurrentHashMap<>();
 
-    public Optional<Account> findOne(@NonNull Long id) {
+    public Optional<Account> findOne(UUID id) {
         Account account = accounts.get(id);
         return Optional.ofNullable(account);
     }
@@ -28,22 +31,27 @@ public class InMemoryAccountRepository implements AccountRepository {
     }
 
     @Override
-    public Account create(@NonNull Account account) {
+    public Account create(Account account) {
         accounts.put(account.getId(), account);
         return account;
     }
 
     @Override
-    public void update(@NonNull Account account) {
+    public void update(Account account) {
         requireNonNull(account);
     }
 
-    public void delete(@NonNull final Long id) {
+    public void delete(final UUID id) {
         accounts.remove(id);
     }
 
     @Override
-    public void softDelete(@NonNull Long id) {
+    public void softDelete(final UUID id) {
         accounts.remove(id);
+    }
+
+    @Override
+    public void deposit(UUID accountId, BigDecimal amount, Currency currency) {
+        accounts.get(accountId).add(amount, currency);
     }
 }

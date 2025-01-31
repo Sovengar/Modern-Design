@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.SQLRestriction;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Entity
 @Table(name = "account", schema = "md")
@@ -28,7 +29,7 @@ public class AccountEntity extends BaseEntity {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private UUID id;
 
     private BigDecimal amount;
 

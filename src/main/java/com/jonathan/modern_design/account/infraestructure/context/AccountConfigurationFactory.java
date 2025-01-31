@@ -10,12 +10,9 @@ import com.jonathan.modern_design.account.application.send_money.SendMoneyUseCas
 import com.jonathan.modern_design.account.application.update_account.UpdateAccountService;
 import com.jonathan.modern_design.account.application.update_account.UpdateAccountUseCase;
 import com.jonathan.modern_design.account.domain.AccountRepository;
-import com.jonathan.modern_design.account.domain.AccountValidator;
+import com.jonathan.modern_design.account.domain.services.AccountValidator;
 import com.jonathan.modern_design.account.infraestructure.persistence.AccountRepositorySpringAdapter;
 import com.jonathan.modern_design.account.infraestructure.persistence.SpringAccountRepository;
-import com.jonathan.modern_design.user_module.application.create_user.CreateUserService;
-import com.jonathan.modern_design.user_module.application.create_user.CreateUserUseCase;
-import com.jonathan.modern_design.user_module.domain.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
