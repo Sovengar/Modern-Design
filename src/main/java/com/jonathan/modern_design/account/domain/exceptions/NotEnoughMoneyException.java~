@@ -1,7 +1,0 @@
-package com.jonathan.modern_design.account.domain.exceptions;
-
-public class NotEnoughMoney extends RuntimeException{
-    public NotEnoughMoney(){
-        super("Account doesnt have enough money");
-    }
-}

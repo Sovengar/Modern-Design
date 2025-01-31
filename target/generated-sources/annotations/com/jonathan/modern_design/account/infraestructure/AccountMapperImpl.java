@@ -1,7 +1,7 @@
 package com.jonathan.modern_design.account.infraestructure;
 
 import com.jonathan.modern_design.account.domain.Account;
-import com.jonathan.modern_design.account.infraestructure.persistence.AccountEntity;
+import com.jonathan.modern_design.account_module.infraestructure.persistence.AccountEntity;
 import java.util.ArrayList;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;

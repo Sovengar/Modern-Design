@@ -1,7 +1,7 @@
 package com.jonathan.modern_design.web;
 
-import com.jonathan.modern_design.account.application.AccountFacade;
-import com.jonathan.modern_design.account.application.send_money.SendMoneyCommand;
+import com.jonathan.modern_design.account_module.application.AccountFacade;
+import com.jonathan.modern_design.account_module.application.send_money.SendMoneyCommand;
 import com.jonathan.modern_design.common.WebAdapter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
