@@ -51,6 +51,6 @@ public class InMemoryAccountRepository implements AccountRepository {
 
     @Override
     public void deposit(UUID accountId, BigDecimal amount, Currency currency) {
-        accounts.get(accountId).add(amount, currency);
+        accounts.get(accountId).deposit(amount, currency);
     }
 }

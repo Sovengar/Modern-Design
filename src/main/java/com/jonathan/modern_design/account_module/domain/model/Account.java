@@ -1,7 +1,7 @@
 package com.jonathan.modern_design.account_module.domain.model;
 
 import com.jonathan.modern_design.common.Currency;
-import com.jonathan.modern_design.user_module.domain.model.User;
+import com.jonathan.modern_design.user_module.User;
 import lombok.Builder;
 
 import java.math.BigDecimal;
@@ -28,12 +28,8 @@ public class Account {
         return new Account(UUID.randomUUID(), AccountMoneyVO.of(amount, currency), user, null, true);
     }
 
-    public boolean isBalanceGreaterThan(BigDecimal anotherAmount) {
-        return this.money.getAmount().compareTo(anotherAmount) >= 0;
-    }
-
-    public void add(BigDecimal amount, Currency currency) {
-        this.money = this.money.add(AccountMoneyVO.of(amount, currency));
+    public void deposit(BigDecimal amount, Currency currency) {
+        this.money = this.money.deposit(AccountMoneyVO.of(amount, currency));
         dateOfLastTransaction = LocalDateTime.now();
     }
 

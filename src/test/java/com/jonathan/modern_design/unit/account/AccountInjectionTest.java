@@ -3,8 +3,8 @@ package com.jonathan.modern_design.unit.account;
 import com.jonathan.modern_design.account_module.application.AccountFacade;
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.exceptions.AccountIsInactiveException;
-import com.jonathan.modern_design.account_module.domain.exceptions.InsufficientFundsException;
 import com.jonathan.modern_design.account_module.domain.model.Account;
+import com.jonathan.modern_design.account_module.domain.model.AccountMoneyVO;
 import com.jonathan.modern_design.account_module.infraestructure.context.AccountConfigurationFactory;
 import com.jonathan.modern_design.account_module.infraestructure.persistence.InMemoryAccountRepository;
 import com.jonathan.modern_design.fake_data.AccountStub;
@@ -60,7 +60,7 @@ class AccountInjectionTest extends ArticleDsl {
         repository.create(source);
         repository.create(target);
 
-        assertThrows(InsufficientFundsException.class, () -> {
+        assertThrows(AccountMoneyVO.InsufficientFundsException.class, () -> {
             accountFacade.sendMoney(transactionWithAmount(50.0));
         });
     }

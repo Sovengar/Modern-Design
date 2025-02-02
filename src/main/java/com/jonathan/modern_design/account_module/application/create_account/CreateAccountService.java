@@ -5,7 +5,7 @@ import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountMoneyVO;
 import com.jonathan.modern_design.common.Currency;
 import com.jonathan.modern_design.common.UseCase;
-import com.jonathan.modern_design.user_module.domain.model.User;
+import com.jonathan.modern_design.user_module.User;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 

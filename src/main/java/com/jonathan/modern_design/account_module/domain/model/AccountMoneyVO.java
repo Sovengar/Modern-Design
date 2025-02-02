@@ -1,6 +1,5 @@
 package com.jonathan.modern_design.account_module.domain.model;
 
-import com.jonathan.modern_design.account_module.domain.exceptions.InsufficientFundsException;
 import com.jonathan.modern_design.account_module.domain.exceptions.OperationWithDifferentCurrenciesException;
 import com.jonathan.modern_design.common.Currency;
 import lombok.AccessLevel;
@@ -20,7 +19,7 @@ public class AccountMoneyVO {
         return new AccountMoneyVO(amount, currency);
     }
 
-    public AccountMoneyVO add(AccountMoneyVO other) {
+    public AccountMoneyVO deposit(AccountMoneyVO other) {
         checkCurrency(other);
         return new AccountMoneyVO(this.amount.add(other.amount), this.currency);
     }
@@ -28,13 +27,16 @@ public class AccountMoneyVO {
     public AccountMoneyVO substract(AccountMoneyVO other) {
         checkCurrency(other);
 
-        if (this.amount.compareTo(other.amount) < 0) {
+        if (isBalanceLowerThan(other.amount)) {
             throw new InsufficientFundsException();
         }
 
         return new AccountMoneyVO(this.amount.subtract(other.amount), this.currency);
     }
 
+    public boolean isBalanceLowerThan(BigDecimal anotherAmount) {
+        return this.amount.compareTo(anotherAmount) < 0;
+    }
 
     private void checkCurrency(AccountMoneyVO other) {
         if (!this.currency.equals(other.currency)) {
@@ -61,4 +63,9 @@ public class AccountMoneyVO {
     }
 
 
+    public static class InsufficientFundsException extends RuntimeException{
+        public InsufficientFundsException(){
+            super("Account doesnt have enough money");
+        }
+    }
 }

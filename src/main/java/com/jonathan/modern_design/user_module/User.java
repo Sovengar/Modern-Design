@@ -1,4 +1,4 @@
-package com.jonathan.modern_design.user_module.domain.model;
+package com.jonathan.modern_design.user_module;
 
 import lombok.Builder;
 
@@ -27,5 +27,9 @@ public class User {
 
     public static User create(String name, String firstname, String lastname, String email, String password, String country) {
         return new User(UUID.randomUUID(), name, firstname, lastname, email, password, country);
+    }
+
+    public UUID getId(){
+        return uuid;
     }
 }

@@ -3,7 +3,6 @@ package com.jonathan.modern_design.account_module.application.send_money;
 import com.jonathan.modern_design.account_module.application.find_account.FindAccountUseCase;
 import com.jonathan.modern_design.account_module.application.update_account.UpdateAccountUseCase;
 import com.jonathan.modern_design.account_module.domain.services.AccountValidator;
-import com.jonathan.modern_design.account_module.domain.exceptions.InsufficientFundsException;
 import com.jonathan.modern_design.account_module.domain.exceptions.OperationForbiddenForSameAccount;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.exceptions.AccountNotFoundException;
@@ -35,10 +34,6 @@ public class SendMoneyService implements SendMoneyUseCase {
         final var amount = command.amount();
         final var currency = command.currency();
 
-        if(!source.isBalanceGreaterThan(amount)) {
-            throw new InsufficientFundsException();
-        }
-
         transferMoney(source, target, amount, currency);
     }
 
@@ -59,7 +54,7 @@ public class SendMoneyService implements SendMoneyUseCase {
 
     private void transferMoney(Account source, Account target, BigDecimal amount, Currency currency){
         source.substract(amount, currency);
-        target.add(amount, currency);
+        target.deposit(amount, currency);
 
         updateAccountUseCase.update(source);
         updateAccountUseCase.update(target);
