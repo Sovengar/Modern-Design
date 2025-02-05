@@ -8,7 +8,7 @@ import com.jonathan.modern_design.user_module.User;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public class AccountStub {
+public class AccountStub extends Stub {
 
     public static UUID sourceAccountId = UUID.randomUUID();
     public static UUID targetAccountId = UUID.randomUUID();

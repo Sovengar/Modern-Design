@@ -1,27 +1,30 @@
-package com.jonathan.modern_design.unit.account;
+package com.jonathan.modern_design.account_module;
 
 import com.jonathan.modern_design.account_module.application.AccountFacade;
-import com.jonathan.modern_design.account_module.application.create_account.AccountDataCommand;
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.exceptions.AccountIsInactiveException;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountMoneyVO;
 import com.jonathan.modern_design.account_module.infraestructure.context.AccountConfigurationFactory;
 import com.jonathan.modern_design.account_module.infraestructure.persistence.AccountRepositoryFake;
+import com.jonathan.modern_design.config.ArticleDsl;
 import com.jonathan.modern_design.fake_data.AccountStub;
+import com.jonathan.modern_design.user_module.UserFacade;
 import org.approvaltests.Approvals;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 
 import java.math.BigDecimal;
 
-import static com.jonathan.modern_design.fake_data.SendMoneyCommandMother.transactionWithAmount;
+import static com.jonathan.modern_design.fake_data.SendMoneyMother.transactionWithAmount;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class AccountInjectionTest extends ArticleDsl {
+class SendMoneyAddTest extends ArticleDsl {
+
+    @Mock private UserFacade userFacade;
     private final AccountRepository repository = new AccountRepositoryFake();
-    private final AccountFacade accountFacade = new AccountConfigurationFactory().accountFacade(repository);
+    private final AccountFacade accountFacade = new AccountConfigurationFactory().accountFacade(repository, userFacade);
 
     private void poblatePersistenceLayer(Account source, Account target) {
         repository.create(source);

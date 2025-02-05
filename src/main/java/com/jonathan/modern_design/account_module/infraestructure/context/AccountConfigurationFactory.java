@@ -15,6 +15,7 @@ import com.jonathan.modern_design.account_module.domain.services.AccountValidato
 import com.jonathan.modern_design.account_module.infraestructure.persistence.AccountRepositoryFake;
 import com.jonathan.modern_design.account_module.infraestructure.persistence.AccountRepositorySpringAdapter;
 import com.jonathan.modern_design.account_module.infraestructure.persistence.SpringAccountRepository;
+import com.jonathan.modern_design.user_module.UserFacade;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -45,30 +46,26 @@ public class AccountConfigurationFactory {
     }
 
     @Bean
-    public CreateAccountUseCase createAccountUseCase(AccountRepository accountRepository) {
-        return new CreateAccountService(accountRepository);
+    public CreateAccountUseCase createAccountUseCase(AccountRepository accountRepository, UserFacade userFacade) {
+        return new CreateAccountService(accountRepository, userFacade);
     }
 
     @Bean
-    public AccountFacade accountFacade(AccountRepository accountRepository, SendMoneyUseCase sendMoneyUseCase, UpdateAccountUseCase updateAccountUseCase, CreateAccountUseCase createAccountUseCase) {
+    public AccountFacade accountFacade(AccountRepository accountRepository, UserFacade userFacade) {
+        UpdateAccountUseCase updateAccountUseCase = updateAccountUseCase(accountRepository);
+        SendMoneyUseCase sendMoneyUseCase = sendMoneyUseCase(findAccountUseCase(accountRepository), updateAccountUseCase);
+        CreateAccountUseCase createAccountUseCase = createAccountUseCase(accountRepository, userFacade);
+
         return new AccountFacade(accountRepository, sendMoneyUseCase, updateAccountUseCase, createAccountUseCase);
     }
 
-    public AccountFacade accountFacade(AccountRepository accountRepository) {
-        UpdateAccountUseCase updateAccountUseCase = updateAccountUseCase(accountRepository);
-        SendMoneyUseCase sendMoneyUseCase = sendMoneyUseCase(findAccountUseCase(accountRepository), updateAccountUseCase);
-        CreateAccountUseCase createAccountUseCase = createAccountUseCase(accountRepository);
-
-        return accountFacade(accountRepository, sendMoneyUseCase, updateAccountUseCase, createAccountUseCase);
+    public AccountFacade accountFacade(UserFacade userFacade) {
+        return accountFacade(new AccountRepositoryFake(), userFacade);
     }
 
-    public AccountFacade accountFacade() {
-        return accountFacade(new AccountRepositoryFake());
-    }
 
 
 /*
-
     @Bean
     fun getShoeService(jdbcTemplate: JdbcTemplate): ShoeService {
         // an example of 'hiding' the details implementation, only the shoeservice can be grabbed via DI

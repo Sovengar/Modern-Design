@@ -1,11 +1,10 @@
 package com.jonathan.modern_design.account_module.infraestructure.persistence;
 
-import com.jonathan.modern_design.account_module.application.AccountMapperAdapter;
+import com.jonathan.modern_design.account_module.application.AccountMapper;
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 
 import com.jonathan.modern_design.common.Currency;
-import com.jonathan.modern_design.common.PersistenceAdapter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,11 +19,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AccountRepositorySpringAdapter implements AccountRepository { //TODO FIX, AQUI DEBERIA LLAMAR LAS INTERFACES, YA QUE ALOMEJOR LA ESCRITURA ES DB Y LA LECTURA ES DE UN JSON
     private final SpringAccountRepository repository;
-    private final AccountMapperAdapter accountMapperAdapter;
+    private final AccountMapper accountMapper;
 
     @Override
     public Optional<Account> findOne(final UUID id) {
-        return findOneEntity(id).map(accountMapperAdapter::toAccount);
+        return findOneEntity(id).map(accountMapper::toAccount);
     }
 
     @Override
@@ -32,7 +31,7 @@ public class AccountRepositorySpringAdapter implements AccountRepository { //TOD
         List<Account> accounts = repository.findAll(pageable)
                 .getContent()
                 .stream()
-                .map(accountMapperAdapter::toAccount)
+                .map(accountMapper::toAccount)
         .toList();
 
         return new PageImpl<>(accounts, pageable, accounts.size());
@@ -40,13 +39,13 @@ public class AccountRepositorySpringAdapter implements AccountRepository { //TOD
 
     @Override
     public Account create(Account account) {
-        final var accountEntity = repository.save(accountMapperAdapter.toAccountEntity(account));
-        return accountMapperAdapter.toAccount(accountEntity);
+        final var accountEntity = repository.save(accountMapper.toAccountEntity(account));
+        return accountMapper.toAccount(accountEntity);
     }
 
     @Override
     public void update(Account account) {
-        repository.save(accountMapperAdapter.toAccountEntity(account));
+        repository.save(accountMapper.toAccountEntity(account));
     }
 
     @Override

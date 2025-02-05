@@ -4,8 +4,9 @@ import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountMoneyVO;
 import com.jonathan.modern_design.common.Currency;
-import com.jonathan.modern_design.common.UseCase;
 import com.jonathan.modern_design.user_module.User;
+import com.jonathan.modern_design.user_module.UserFacade;
+import com.jonathan.modern_design.user_module.dtos.CreateUserCommand;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
@@ -14,16 +15,29 @@ import java.math.BigDecimal;
 @RequiredArgsConstructor
 public class CreateAccountService implements CreateAccountUseCase {
     private final AccountRepository repository;
-    //private final CreateUserUseCase createUserUseCase;
+    private final UserFacade userFacade;
 
     @Override
     public Account createAccount(@NonNull final AccountDataCommand command) {
-        // var user = createUserUseCase.createUser(); TODO FIX
-        var user = User.create("a","a","a","a","a","a");
+        var user = createUser(command);
+        //TODO CALCULATE CURRENCY BASED ON COUNTRY
         final var account = Account.builder()
-                .money(AccountMoneyVO.of(BigDecimal.valueOf(0), Currency.EURO)) // TODO FIX CURRENCY
+                .money(AccountMoneyVO.of(BigDecimal.valueOf(0), Currency.EURO))
                 .user(user)
                 .build();
         return repository.create(account);
+    }
+
+    private User createUser(AccountDataCommand command) {
+        var userCreateCommand = CreateUserCommand.builder()
+                .name(command.name())
+                .firstname(command.firstname())
+                .lastname(command.lastname())
+                .email(command.email())
+                .password(command.password())
+                .country(command.country())
+                .build();
+
+        return userFacade.createUser(userCreateCommand);
     }
 }

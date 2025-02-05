@@ -1,6 +1,5 @@
 package com.jonathan.modern_design.config;
 
-import com.github.javafaker.Faker;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeAll;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -17,12 +16,9 @@ import org.testcontainers.utility.DockerImageName;
 @ActiveProfiles("test")
 @Testcontainers
 public abstract class RepositoryIntegrationTestConfig {
-
-    protected final Faker faker = new Faker();
-
     @Container
     @ServiceConnection
-    protected static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(DockerImageName.parse("postgres:16"));
+    protected static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(DockerImageName.parse("postgres:15.7"));
             //.withInitScript("db/dev_test/create-user-admin.sql");
 
     @BeforeAll

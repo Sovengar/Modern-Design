@@ -48,7 +48,7 @@ public abstract class IntegrationTestConfig {
 
     @Container
     @ServiceConnection
-    protected static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(DockerImageName.parse("postgres:16"));
+    protected static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(DockerImageName.parse("postgres:15.7"));
             //.withInitScript("db/dev_test/create-user-admin.sql");
 
     @BeforeAll
