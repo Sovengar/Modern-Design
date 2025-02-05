@@ -15,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-@UseCase
 @RequiredArgsConstructor
 public class SendMoneyService implements SendMoneyUseCase {
     private final FindAccountUseCase findAccountUseCase;

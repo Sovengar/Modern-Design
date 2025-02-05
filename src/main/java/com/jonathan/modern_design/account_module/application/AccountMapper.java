@@ -10,7 +10,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.math.BigDecimal;
 
-@Mapper(componentModel = "spring")
+@Mapper() //componentModel = "spring"
 public interface AccountMapper {
     AccountMapper INSTANCE = Mappers.getMapper(AccountMapper.class);
 

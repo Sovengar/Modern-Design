@@ -5,7 +5,6 @@ import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.common.UseCase;
 import lombok.RequiredArgsConstructor;
 
-@UseCase
 @RequiredArgsConstructor
 public class UpdateAccountService implements UpdateAccountUseCase {
     private final AccountRepository repository;

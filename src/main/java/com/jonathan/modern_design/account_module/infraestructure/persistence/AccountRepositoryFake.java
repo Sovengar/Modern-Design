@@ -16,14 +16,16 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static java.util.Objects.requireNonNull;
 
-public class InMemoryAccountRepository implements AccountRepository {
+public class AccountRepositoryFake implements AccountRepository {
     private final ConcurrentHashMap<UUID, Account> accounts = new ConcurrentHashMap<>();
 
+    @Override
     public Optional<Account> findOne(UUID id) {
         Account account = accounts.get(id);
         return Optional.ofNullable(account);
     }
 
+    @Override
     public Page<Account> findAll(Pageable pageable) {
         List<Account> accountsList = new ArrayList<>(accounts.values());
         return new PageImpl<>(accountsList, pageable, accountsList.size());

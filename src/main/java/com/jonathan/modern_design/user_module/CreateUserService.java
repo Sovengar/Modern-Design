@@ -3,7 +3,6 @@ package com.jonathan.modern_design.user_module;
 import com.jonathan.modern_design.common.UseCase;
 import lombok.RequiredArgsConstructor;
 
-@UseCase
 @RequiredArgsConstructor
 class CreateUserService implements CreateUserUseCase {
     private final UserRepository repository;

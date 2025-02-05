@@ -2,13 +2,11 @@ package com.jonathan.modern_design.account_module.application.deposit;
 
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.common.Currency;
-import com.jonathan.modern_design.common.UseCase;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
-@UseCase
 @RequiredArgsConstructor
 public class DepositService implements DepositUseCase {
     private final AccountRepository repository;

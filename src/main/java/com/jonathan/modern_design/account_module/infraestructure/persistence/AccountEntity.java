@@ -1,6 +1,8 @@
 package com.jonathan.modern_design.account_module.infraestructure.persistence;
 
 import com.jonathan.modern_design.common.BaseEntity;
+import com.jonathan.modern_design.common.Currency;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.PostPersist;
 import jakarta.persistence.PrePersist;
 import lombok.AllArgsConstructor;
@@ -21,7 +23,7 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
-@Table(name = "account", schema = "md")
+@Table(name = "accounts", schema = "md")
 @Getter @Setter @ToString @NoArgsConstructor @AllArgsConstructor @Builder
 @Slf4j
 @SQLRestriction("deleted <> true") //Make Hibernate ignore soft deleted entries
@@ -29,9 +31,12 @@ public class AccountEntity extends BaseEntity {
 
     @Id
     @GeneratedValue
-    private UUID id;
+    private UUID uuid;
 
     private BigDecimal amount;
+
+    @Enumerated(value = jakarta.persistence.EnumType.STRING)
+    private Currency currency;
 
     @PrePersist
     public void prePersist() {

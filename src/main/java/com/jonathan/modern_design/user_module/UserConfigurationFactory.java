@@ -6,14 +6,14 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class UserConfigurationFactory {
 
-    @Bean(name = "userRepositorySpringAdapter")
-    public UserRepository userRepository(SpringUserRepository springUserRepository) {
-        return new UserRepositorySpringAdapter(springUserRepository);
+    @Bean
+    private CreateUserUseCase createUserUseCase(UserRepository userRepository) {
+        return new CreateUserService(userRepository);
     }
 
     @Bean(name = "userFacade")
     public UserFacade userFacade(UserRepository userRepository) {
-        CreateUserUseCase createUserUseCase = new CreateUserService(userRepository);
+        CreateUserUseCase createUserUseCase = createUserUseCase(userRepository);
         return new UserFacade(userRepository, createUserUseCase);
     }
 }

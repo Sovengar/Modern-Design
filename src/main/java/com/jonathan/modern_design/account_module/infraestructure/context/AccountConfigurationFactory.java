@@ -11,6 +11,7 @@ import com.jonathan.modern_design.account_module.application.update_account.Upda
 import com.jonathan.modern_design.account_module.application.update_account.UpdateAccountUseCase;
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.services.AccountValidator;
+import com.jonathan.modern_design.account_module.infraestructure.persistence.AccountRepositoryFake;
 import com.jonathan.modern_design.account_module.infraestructure.persistence.AccountRepositorySpringAdapter;
 import com.jonathan.modern_design.account_module.infraestructure.persistence.SpringAccountRepository;
 import org.springframework.context.annotation.Bean;
@@ -19,21 +20,68 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AccountConfigurationFactory {
 
-    @Bean(name = "accountRepositorySpringAdapter")
-    public AccountRepository accountRepository(SpringAccountRepository springAccountRepository) {
-        return new AccountRepositorySpringAdapter(springAccountRepository);
-    }
-
-    @Bean(name = "accountFacade")
-    public AccountFacade accountFacade(AccountRepository accountRepository) {
-        UpdateAccountUseCase updateAccountUseCase = new UpdateAccountService(accountRepository);
-        FindAccountUseCase findAccountUseCase = new FindAccountService(accountRepository);
-
+    @Bean
+    public SendMoneyUseCase sendMoneyUseCase(FindAccountUseCase findAccountUseCase, UpdateAccountUseCase updateAccountUseCase) {
         AccountValidator accountValidator = new AccountValidator();
 
-        SendMoneyUseCase sendMoneyUseCase = new SendMoneyService(findAccountUseCase, updateAccountUseCase, accountValidator);
-        CreateAccountUseCase createAccountUseCase = new CreateAccountService(accountRepository);
+        return new SendMoneyService(findAccountUseCase, updateAccountUseCase, accountValidator);
+    }
 
+    @Bean
+    public FindAccountUseCase findAccountUseCase(AccountRepository accountRepository) {
+        return new FindAccountService(accountRepository);
+    }
+
+    @Bean
+    public UpdateAccountUseCase updateAccountUseCase(AccountRepository accountRepository) {
+        return new UpdateAccountService(accountRepository);
+    }
+
+    @Bean
+    public CreateAccountUseCase createAccountUseCase(AccountRepository accountRepository) {
+        return new CreateAccountService(accountRepository);
+    }
+
+    @Bean
+    public AccountFacade accountFacade(AccountRepository accountRepository, SendMoneyUseCase sendMoneyUseCase, UpdateAccountUseCase updateAccountUseCase, CreateAccountUseCase createAccountUseCase) {
         return new AccountFacade(accountRepository, sendMoneyUseCase, updateAccountUseCase, createAccountUseCase);
     }
+
+    public AccountFacade accountFacade(AccountRepository accountRepository) {
+        UpdateAccountUseCase updateAccountUseCase = updateAccountUseCase(accountRepository);
+        SendMoneyUseCase sendMoneyUseCase = sendMoneyUseCase(findAccountUseCase(accountRepository), updateAccountUseCase);
+        CreateAccountUseCase createAccountUseCase = createAccountUseCase(accountRepository);
+
+        return accountFacade(accountRepository, sendMoneyUseCase, updateAccountUseCase, createAccountUseCase);
+    }
+
+    public AccountFacade accountFacade() {
+        return accountFacade(new AccountRepositoryFake());
+    }
+
+
+/*
+
+    @Bean
+    fun getShoeService(jdbcTemplate: JdbcTemplate): ShoeService {
+        // an example of 'hiding' the details implementation, only the shoeservice can be grabbed via DI
+        return ShoeService(PostgresShoeRepository(jdbcTemplate))
+    }
+
+    @Bean
+    fun getProductVariantService(jdbcTemplate: JdbcTemplate, jedis: Jedis): ProductVariantService {
+        return ProductVariantService(PostgresProductVariantRepository(jdbcTemplate))
+    }
+
+    @Bean
+    fun getInventoryManagementService(jdbcTemplate: JdbcTemplate, jedis: Jedis) {
+        return InventoryManagementService(PostgresProductVariantRepository(jdbcTemplate), RedisInventoryWarehousingRepository(jedis);
+    }
+
+    @Bean
+    fun getOrderRepository(jdbcTemplate: JdbcTemplate, dynamoDbClient: DynamoDbClient): OrderRepository {
+        return PostgresOrderRepository(jdbcTemplate)
+//        return DynamoDbOrderRepository(dynamoDbClient)
+    }
+    */
 }

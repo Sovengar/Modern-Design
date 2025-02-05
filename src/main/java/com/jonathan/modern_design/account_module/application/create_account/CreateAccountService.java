@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
 
-@UseCase
 @RequiredArgsConstructor
 public class CreateAccountService implements CreateAccountUseCase {
     private final AccountRepository repository;

@@ -2,6 +2,7 @@ package com.jonathan.modern_design.config.database;
 
 import lombok.RequiredArgsConstructor;
 import org.flywaydb.core.Flyway;
+import org.flywaydb.core.api.configuration.FluentConfiguration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,29 +21,21 @@ public class FlywayConfig {
     private final DataSource dataSource;
     private final Environment env;
 
+    private final static String SCHEMA = "md";
+    private final static String ENCODING = "UTF-8";
+
     @Bean
     public Flyway flyway() {
         boolean isLocalProfile = env.acceptsProfiles(Profiles.of("local"));
 
-        final var schema = "md";
-        final var encoding = "UTF-8";
+        final String[] migrationLocations = isLocalProfile ? new String[]{"classpath:db/migrations", "classpath:db/dev"} : new String[]{"classpath:db/migrations"};
 
-        Flyway flyway = isLocalProfile ?
-                Flyway.configure()
+        Flyway flyway = Flyway.configure()
                         .dataSource(dataSource)
                         .cleanDisabled(!cleanDatabase)
-                        .locations("classpath:db/migrations", "classpath:db/dev_test/flyway")
-                        .schemas(schema)
-                        .encoding(encoding)
-                        .baselineOnMigrate(true)
-                        .validateOnMigrate(true)
-                        .validateMigrationNaming(true)
-                        .load() :
-                Flyway.configure().dataSource(dataSource)
-                        .cleanDisabled(!cleanDatabase)
-                        .locations("classpath:db/migrations")
-                        .schemas(schema)
-                        .encoding(encoding)
+                        .locations(migrationLocations)
+                        .schemas(SCHEMA)
+                        .encoding(ENCODING)
                         .baselineOnMigrate(true)
                         .validateOnMigrate(true)
                         .validateMigrationNaming(true)

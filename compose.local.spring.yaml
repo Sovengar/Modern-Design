@@ -1,16 +1,16 @@
-
+# Triggered automatically when running the application thanks to <artifactId>spring-boot-docker-compose</artifactId>
 
 services:
   postgres:
     container_name: postgres
-    image: 'postgres:16.0'
+    image: 'postgres:15.7'
     ports:
       - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
     env_file:
       - path: ./local.env
-      required: true
+        required: true
 
 volumes:
   postgres_data:

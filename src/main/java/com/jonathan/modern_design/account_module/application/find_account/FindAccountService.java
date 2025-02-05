@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import java.util.Optional;
 import java.util.UUID;
 
-@UseCase
 @RequiredArgsConstructor
 public class FindAccountService implements FindAccountUseCase{
     private final AccountRepository accountRepository;
