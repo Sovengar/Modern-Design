@@ -4,10 +4,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class UserConfigurationFactory {
+class UserConfigurationFactory {
 
     @Bean
-    private CreateUserUseCase createUserUseCase(UserRepository userRepository) {
+    public UserRepository userRepository(SpringUserRepository repository) {
+        return new UserRepositorySpringAdapter(repository);
+    }
+
+    @Bean
+    public CreateUserUseCase createUserUseCase(UserRepository userRepository) {
         return new CreateUserService(userRepository);
     }
 

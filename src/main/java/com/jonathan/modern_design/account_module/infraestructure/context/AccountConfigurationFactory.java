@@ -1,6 +1,7 @@
 package com.jonathan.modern_design.account_module.infraestructure.context;
 
 import com.jonathan.modern_design.account_module.application.AccountFacade;
+import com.jonathan.modern_design.account_module.application.AccountMapperAdapter;
 import com.jonathan.modern_design.account_module.application.create_account.CreateAccountService;
 import com.jonathan.modern_design.account_module.application.create_account.CreateAccountUseCase;
 import com.jonathan.modern_design.account_module.application.find_account.FindAccountService;
@@ -19,6 +20,12 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class AccountConfigurationFactory {
+
+    @Bean
+    public AccountRepository accountRepository(SpringAccountRepository repository) {
+        AccountMapperAdapter accountMapperAdapter = new AccountMapperAdapter();
+        return new AccountRepositorySpringAdapter(repository, accountMapperAdapter);
+    }
 
     @Bean
     public SendMoneyUseCase sendMoneyUseCase(FindAccountUseCase findAccountUseCase, UpdateAccountUseCase updateAccountUseCase) {

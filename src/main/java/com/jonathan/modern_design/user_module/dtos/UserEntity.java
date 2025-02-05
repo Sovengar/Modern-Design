@@ -1,4 +1,4 @@
-package com.jonathan.modern_design.user_module;
+package com.jonathan.modern_design.user_module.dtos;
 
 import com.jonathan.modern_design.common.BaseEntity;
 import jakarta.persistence.Entity;
