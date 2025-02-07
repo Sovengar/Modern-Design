@@ -1,7 +1,6 @@
 package com.jonathan.modern_design.account_module;
 
 import com.jonathan.modern_design.account_module.application.AccountFacade;
-import com.jonathan.modern_design.account_module.application.AccountMapper;
 import com.jonathan.modern_design.account_module.application.AccountMapperAdapter;
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.model.Account;
@@ -22,7 +21,6 @@ import java.math.BigDecimal;
 
 import static com.jonathan.modern_design.fake_data.SendMoneyMother.transactionWithAmount;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @Import(SendMoneyRepositoryIT.TestConfig.class)
 class SendMoneyRepositoryIT extends RepositoryIntegrationTestConfig {

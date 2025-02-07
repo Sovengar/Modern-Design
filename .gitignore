@@ -75,3 +75,5 @@ build/
 ### Otros ###
 !.gitignore
 node_modules/
+
+.qodo
