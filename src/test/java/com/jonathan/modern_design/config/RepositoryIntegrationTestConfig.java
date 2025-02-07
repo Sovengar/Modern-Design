@@ -2,6 +2,7 @@ package com.jonathan.modern_design.config;
 
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Tag;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
@@ -15,11 +16,11 @@ import org.testcontainers.utility.DockerImageName;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("test")
 @Testcontainers
+@Tag("integration")
 public abstract class RepositoryIntegrationTestConfig {
     @Container
     @ServiceConnection
     protected static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(DockerImageName.parse("postgres:15.7"));
-            //.withInitScript("db/dev_test/create-user-admin.sql");
 
     @BeforeAll
     static void beforeAll() {

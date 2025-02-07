@@ -3,6 +3,7 @@ package com.jonathan.modern_design.config;
 import com.github.javafaker.Faker;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -36,6 +37,7 @@ Esto es porque lo ejecuta en 2 threads, por tanto 2 transacciones, haciendo que 
 @ActiveProfiles("test")
 @Testcontainers
 @Transactional
+@Tag("integration")
 public abstract class IntegrationTestConfig {
 
     protected final Faker faker = new Faker();
@@ -49,7 +51,6 @@ public abstract class IntegrationTestConfig {
     @Container
     @ServiceConnection
     protected static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(DockerImageName.parse("postgres:15.7"));
-            //.withInitScript("db/dev_test/create-user-admin.sql");
 
     @BeforeAll
     static void beforeAll() {
