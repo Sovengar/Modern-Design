@@ -62,30 +62,4 @@ public class AccountConfiguration {
     public AccountFacade accountFacade(UserFacade userFacade) {
         return accountFacade(new AccountRepositoryFake(), userFacade);
     }
-
-
-
-/*
-    @Bean
-    fun getShoeService(jdbcTemplate: JdbcTemplate): ShoeService {
-        // an example of 'hiding' the details implementation, only the shoeservice can be grabbed via DI
-        return ShoeService(PostgresShoeRepository(jdbcTemplate))
-    }
-
-    @Bean
-    fun getProductVariantService(jdbcTemplate: JdbcTemplate, jedis: Jedis): ProductVariantService {
-        return ProductVariantService(PostgresProductVariantRepository(jdbcTemplate))
-    }
-
-    @Bean
-    fun getInventoryManagementService(jdbcTemplate: JdbcTemplate, jedis: Jedis) {
-        return InventoryManagementService(PostgresProductVariantRepository(jdbcTemplate), RedisInventoryWarehousingRepository(jedis);
-    }
-
-    @Bean
-    fun getOrderRepository(jdbcTemplate: JdbcTemplate, dynamoDbClient: DynamoDbClient): OrderRepository {
-        return PostgresOrderRepository(jdbcTemplate)
-//        return DynamoDbOrderRepository(dynamoDbClient)
-    }
-    */
 }
