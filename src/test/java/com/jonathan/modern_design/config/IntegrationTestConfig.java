@@ -10,7 +10,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -39,7 +38,6 @@ Esto es porque lo ejecuta en 2 threads, por tanto 2 transacciones, haciendo que 
 @ActiveProfiles("test")
 @Testcontainers
 @Transactional
-@Rollback
 @Tag("integration")
 public abstract class IntegrationTestConfig {
 
