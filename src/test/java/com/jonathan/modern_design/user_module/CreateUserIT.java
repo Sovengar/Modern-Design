@@ -8,7 +8,7 @@ import static com.jonathan.modern_design.fake_data.CreateUserMother.createUserCo
 import static org.assertj.core.api.Assertions.assertThat;
 
 class CreateUserIT extends RepositoryIntegrationTestConfig {
-    private final UserConfigurationFactory factory = new UserConfigurationFactory();
+    private final UserConfiguration factory = new UserConfiguration();
     private final UserRepository repository = new UserRepositoryFake();
 
     @Test
