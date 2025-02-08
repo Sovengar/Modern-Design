@@ -1,4 +1,4 @@
-package com.jonathan.modern_design.account_module.infraestructure.context;
+package com.jonathan.modern_design.account_module.infraestructure;
 
 import com.jonathan.modern_design.account_module.application.AccountFacade;
 import com.jonathan.modern_design.account_module.application.AccountMapperAdapter;
@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class AccountConfigurationFactory {
+public class AccountConfiguration {
 
     @Bean
     public AccountRepository accountRepository(SpringAccountRepository repository) {

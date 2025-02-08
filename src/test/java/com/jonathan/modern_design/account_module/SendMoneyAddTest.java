@@ -5,7 +5,7 @@ import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.exceptions.AccountIsInactiveException;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountMoneyVO;
-import com.jonathan.modern_design.account_module.infraestructure.context.AccountConfigurationFactory;
+import com.jonathan.modern_design.account_module.infraestructure.AccountConfiguration;
 import com.jonathan.modern_design.account_module.infraestructure.persistence.AccountRepositoryFake;
 import com.jonathan.modern_design.config.ArticleDsl;
 import com.jonathan.modern_design.fake_data.AccountStub;
@@ -22,9 +22,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class SendMoneyAddTest extends ArticleDsl {
 
-    @Mock private UserFacade userFacade;
     private final AccountRepository repository = new AccountRepositoryFake();
-    private final AccountFacade accountFacade = new AccountConfigurationFactory().accountFacade(repository, userFacade);
+    @Mock
+    private UserFacade userFacade;
+    private final AccountFacade accountFacade = new AccountConfiguration().accountFacade(repository, userFacade);
 
     private void poblatePersistenceLayer(Account source, Account target) {
         repository.create(source);

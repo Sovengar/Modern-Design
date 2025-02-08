@@ -4,7 +4,7 @@ import com.jonathan.modern_design.account_module.application.AccountFacade;
 import com.jonathan.modern_design.account_module.application.AccountMapperAdapter;
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.model.Account;
-import com.jonathan.modern_design.account_module.infraestructure.context.AccountConfigurationFactory;
+import com.jonathan.modern_design.account_module.infraestructure.AccountConfiguration;
 import com.jonathan.modern_design.account_module.infraestructure.persistence.AccountRepositorySpringAdapter;
 import com.jonathan.modern_design.account_module.infraestructure.persistence.SpringAccountRepository;
 import com.jonathan.modern_design.config.RepositoryIntegrationTestConfig;
@@ -29,22 +29,14 @@ class SendMoneyRepositoryIT extends RepositoryIntegrationTestConfig {
     private UserFacade userFacade;
 
     @Autowired
-    private AccountRepository repository;
+    private final AccountRepository repository;
 
-    private AccountFacade accountFacade;
+    private final AccountFacade accountFacade;
 
     @Autowired
     public SendMoneyRepositoryIT(AccountRepository repository) {
         this.repository = repository;
-        this.accountFacade = new AccountConfigurationFactory().accountFacade(repository, userFacade);
-    }
-
-    @TestConfiguration
-    static class TestConfig {
-        @Bean
-        public AccountRepository accountRepository(SpringAccountRepository repository) {
-            return new AccountRepositorySpringAdapter(repository, new AccountMapperAdapter());
-        }
+        this.accountFacade = new AccountConfiguration().accountFacade(repository, userFacade);
     }
 
     private void poblatePersistenceLayer(Account source, Account target) {
@@ -61,5 +53,13 @@ class SendMoneyRepositoryIT extends RepositoryIntegrationTestConfig {
         accountFacade.sendMoney(transactionWithAmount(50.0));
 
         assertThat(target.getAmount()).isEqualTo(BigDecimal.valueOf(50.0));
+    }
+
+    @TestConfiguration
+    static class TestConfig {
+        @Bean
+        public AccountRepository accountRepository(SpringAccountRepository repository) {
+            return new AccountRepositorySpringAdapter(repository, new AccountMapperAdapter());
+        }
     }
 }
