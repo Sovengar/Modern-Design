@@ -14,9 +14,8 @@ CREATE TABLE MD.ACCOUNTS (
 
 CREATE TABLE MD.USERS (
     uuid UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name VARCHAR(255),
-    firstname VARCHAR(255),
-    lastname VARCHAR(255),
+    realname VARCHAR(255),
+    username VARCHAR(255),
     email VARCHAR(255),
     password VARCHAR(255),
     country VARCHAR(255),

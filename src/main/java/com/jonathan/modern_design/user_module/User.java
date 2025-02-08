@@ -1,5 +1,9 @@
 package com.jonathan.modern_design.user_module;
 
+import com.jonathan.modern_design.user_module.vo.UserEmailVO;
+import com.jonathan.modern_design.user_module.vo.UserNameVO;
+import com.jonathan.modern_design.user_module.vo.UserPasswordVO;
+import com.jonathan.modern_design.user_module.vo.UserRealNameVO;
 import lombok.Builder;
 
 import java.util.UUID;
@@ -7,29 +11,15 @@ import java.util.UUID;
 @Builder
 public class User {
 
-    private UUID uuid;
-    private String name;
-    private String firstname;
-    private String lastname;
-    private String email;
-    private String password;
+    @Builder.Default
+    private UUID uuid = UUID.randomUUID();
+    private UserRealNameVO realname;
+    private UserNameVO username;
+    private UserEmailVO email;
+    private UserPasswordVO password;
     private String country;
 
-    private User(UUID uuid, String name, String firstname, String lastname, String email, String password, String country) {
-        this.uuid = uuid;
-        this.name = name;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.email = email;
-        this.password = password; //TODO ENCRIPTAR
-        this.country = country; //TODO ENUM
-    }
-
-    public static User create(String name, String firstname, String lastname, String email, String password, String country) {
-        return new User(UUID.randomUUID(), name, firstname, lastname, email, password, country);
-    }
-
-    public UUID getId(){
+    public UUID getId() {
         return uuid;
     }
 }

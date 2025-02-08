@@ -4,10 +4,12 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 class UserRepositorySpringAdapter implements UserRepository {
-    private final SpringUserRepository springUserRepository;
+    private final SpringUserRepository repository;
+    private final UserMapper userMapper;
 
     @Override
     public User createUser(User user) {
-        return null; //TODO FIX
+        final var userEntity = repository.save(userMapper.toUserEntity(user));
+        return userMapper.toUser(userEntity);
     }
 }

@@ -9,7 +9,7 @@ import org.mapstruct.Mapper;
 
 import java.math.BigDecimal;
 
-@Mapper() //componentModel = "spring"
+@Mapper
 public interface AccountMapper {
     Account toAccount(final AccountEntity accountEntity);
 

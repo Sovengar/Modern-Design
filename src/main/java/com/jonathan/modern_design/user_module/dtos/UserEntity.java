@@ -33,9 +33,8 @@ public class UserEntity extends BaseEntity {
     @Id
     @GeneratedValue
     private UUID uuid;
-    private String name;
-    private String firstname;
-    private String lastname;
+    private String realname;
+    private String username;
     private String email;
     private String password;
     private String country;

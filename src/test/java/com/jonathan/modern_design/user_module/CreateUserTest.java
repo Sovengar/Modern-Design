@@ -2,16 +2,18 @@ package com.jonathan.modern_design.user_module;
 
 import org.junit.jupiter.api.Test;
 
-import static com.jonathan.modern_design.fake_data.CreateUserMother.normalUser;
+import static com.jonathan.modern_design.fake_data.CreateUserMother.createUserCommandWithValidData;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class UserTest {
+class CreateUserTest {
     private final UserConfigurationFactory factory = new UserConfigurationFactory();
     private final UserRepository repository = new UserRepositoryFake();
 
     @Test
     void should_create_user() {
         UserFacade userFacade = factory.userFacade(repository);
-        assertThat(userFacade.createUser(normalUser())).isNotNull();
+        assertThat(userFacade.createUser(createUserCommandWithValidData())).isNotNull();
     }
+
+    //TODO VALIDACIONES MIN PASSWORD, MAX, EMAIL... UUID?
 }

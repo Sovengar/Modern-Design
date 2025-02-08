@@ -10,7 +10,7 @@ import static com.jonathan.modern_design.fake_data.AccountStub.sourceAccountId;
 import static com.jonathan.modern_design.fake_data.AccountStub.targetAccountId;
 
 public class SendMoneyMother extends Stub {
-    public static SendMoneyCommand fromAccountToAccountWithAmount(UUID sourceAccountId, UUID targetAccountId, double amount) {
+    private static SendMoneyCommand fromAccountToAccountWithAmount(UUID sourceAccountId, UUID targetAccountId, double amount) {
         return new SendMoneyCommand(sourceAccountId, targetAccountId, BigDecimal.valueOf(amount), Currency.EURO);
     }
 

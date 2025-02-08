@@ -8,7 +8,8 @@ class UserConfigurationFactory {
 
     @Bean
     public UserRepository userRepository(SpringUserRepository repository) {
-        return new UserRepositorySpringAdapter(repository);
+
+        return new UserRepositorySpringAdapter(repository, new UserMapperAdapter());
     }
 
     @Bean

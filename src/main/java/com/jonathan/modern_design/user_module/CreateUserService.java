@@ -1,13 +1,11 @@
 package com.jonathan.modern_design.user_module;
 
-import com.jonathan.modern_design.account_module.domain.model.Account;
-import com.jonathan.modern_design.account_module.domain.model.AccountMoneyVO;
-import com.jonathan.modern_design.common.Currency;
-import com.jonathan.modern_design.common.UseCase;
 import com.jonathan.modern_design.user_module.dtos.CreateUserCommand;
+import com.jonathan.modern_design.user_module.vo.UserEmailVO;
+import com.jonathan.modern_design.user_module.vo.UserNameVO;
+import com.jonathan.modern_design.user_module.vo.UserPasswordVO;
+import com.jonathan.modern_design.user_module.vo.UserRealNameVO;
 import lombok.RequiredArgsConstructor;
-
-import java.math.BigDecimal;
 
 @RequiredArgsConstructor
 class CreateUserService implements CreateUserUseCase {
@@ -16,11 +14,10 @@ class CreateUserService implements CreateUserUseCase {
     @Override
     public User createUser(CreateUserCommand command) {
         final var user = User.builder()
-            .name(command.name())
-                .firstname(command.firstname())
-                .lastname(command.lastname())
-                .email(command.email())
-                .password(command.password())
+                .realname(UserRealNameVO.of(command.realname()))
+                .username(UserNameVO.of(command.username()))
+                .email(UserEmailVO.of(command.email()))
+                .password(UserPasswordVO.of(command.password()))
                 .country(command.country())
                 .build();
 

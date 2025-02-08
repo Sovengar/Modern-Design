@@ -3,10 +3,11 @@ package com.jonathan.modern_design.fake_data;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountMoneyVO;
 import com.jonathan.modern_design.common.Currency;
-import com.jonathan.modern_design.user_module.User;
 
 import java.math.BigDecimal;
 import java.util.UUID;
+
+import static com.jonathan.modern_design.fake_data.UserStub.normalUser;
 
 public class AccountStub extends Stub {
 
@@ -37,11 +38,11 @@ public class AccountStub extends Stub {
         return builder(targetAccountId, 0.0, false);
     }
 
-    private static Account builder(UUID accountId, double balance, boolean isActive){
+    private static Account builder(UUID accountId, double balance, boolean isActive) {
         return Account.builder()
                 .uuid(accountId)
                 .money(AccountMoneyVO.of(BigDecimal.valueOf(balance), Currency.EURO))
-                .user(User.builder().name("normal user").build())
+                .user(normalUser())
                 .isActive(isActive).build();
     }
 }
