@@ -8,12 +8,12 @@ import java.io.Serializable;
 
 @Data
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class AccountId implements Serializable {
+public class AccountIdVO implements Serializable {
 
     private final Long value;
 
-    public static AccountId of(Long id) {
-        return new AccountId(id);
+    public static AccountIdVO of(Long id) {
+        return new AccountIdVO(id);
     }
 
 }
