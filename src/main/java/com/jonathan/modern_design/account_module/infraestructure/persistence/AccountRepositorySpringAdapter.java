@@ -4,6 +4,7 @@ import com.jonathan.modern_design.account_module.application.AccountMapper;
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.shared.Currency;
+import com.jonathan.modern_design.shared.annotations.PersistenceAdapter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@PersistenceAdapter
 @RequiredArgsConstructor
 public class AccountRepositorySpringAdapter implements AccountRepository { //TODO FIX, AQUI DEBERIA LLAMAR LAS INTERFACES, YA QUE ALOMEJOR LA ESCRITURA ES DB Y LA LECTURA ES DE UN JSON
     private final SpringAccountRepository repository;

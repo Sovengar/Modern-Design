@@ -3,6 +3,7 @@ package com.jonathan.modern_design.account_module.application.create_account;
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.shared.Currency;
+import com.jonathan.modern_design.shared.annotations.DomainService;
 import com.jonathan.modern_design.user_module.User;
 import com.jonathan.modern_design.user_module.UserFacade;
 import com.jonathan.modern_design.user_module.dtos.CreateUserCommand;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
 
+@DomainService
 @RequiredArgsConstructor
 public class CreateAccountService implements CreateAccountUseCase {
     private final AccountRepository repository;

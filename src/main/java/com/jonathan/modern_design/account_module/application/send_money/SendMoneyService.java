@@ -7,6 +7,7 @@ import com.jonathan.modern_design.account_module.domain.exceptions.OperationForb
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.services.AccountValidator;
 import com.jonathan.modern_design.shared.Currency;
+import com.jonathan.modern_design.shared.annotations.DomainService;
 import jakarta.transaction.Transactional;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import java.math.BigDecimal;
 import java.util.UUID;
 
+@DomainService
 @RequiredArgsConstructor
 public class SendMoneyService implements SendMoneyUseCase {
     private final FindAccountUseCase findAccountUseCase;
