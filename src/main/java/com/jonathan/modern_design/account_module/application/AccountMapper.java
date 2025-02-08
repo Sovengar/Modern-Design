@@ -3,7 +3,7 @@ package com.jonathan.modern_design.account_module.application;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountMoneyVO;
 import com.jonathan.modern_design.account_module.infraestructure.persistence.AccountEntity;
-import com.jonathan.modern_design.common.Currency;
+import com.jonathan.modern_design.shared.Currency;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 

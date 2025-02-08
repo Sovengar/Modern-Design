@@ -2,7 +2,7 @@ package com.jonathan.modern_design.account_module.infraestructure.persistence;
 
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.model.Account;
-import com.jonathan.modern_design.common.Currency;
+import com.jonathan.modern_design.shared.Currency;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;

@@ -6,9 +6,9 @@ import com.jonathan.modern_design.account_module.application.find_account.FindAc
 import com.jonathan.modern_design.account_module.application.send_money.SendMoneyCommand;
 import com.jonathan.modern_design.account_module.application.send_money.SendMoneyUseCase;
 import com.jonathan.modern_design.account_module.application.update_account.UpdateAccountUseCase;
-import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
-import com.jonathan.modern_design.common.BeanClass;
+import com.jonathan.modern_design.account_module.domain.model.Account;
+import com.jonathan.modern_design.shared.annotations.BeanClass;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 

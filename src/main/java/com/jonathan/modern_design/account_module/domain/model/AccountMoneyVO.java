@@ -1,7 +1,7 @@
 package com.jonathan.modern_design.account_module.domain.model;
 
 import com.jonathan.modern_design.account_module.domain.exceptions.OperationWithDifferentCurrenciesException;
-import com.jonathan.modern_design.common.Currency;
+import com.jonathan.modern_design.shared.Currency;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -63,8 +63,8 @@ public class AccountMoneyVO {
     }
 
 
-    public static class InsufficientFundsException extends RuntimeException{
-        public InsufficientFundsException(){
+    public static class InsufficientFundsException extends RuntimeException {
+        public InsufficientFundsException() {
             super("Account doesnt have enough money");
         }
     }

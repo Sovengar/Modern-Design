@@ -7,7 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class CreateUserTest {
     private final UserConfiguration factory = new UserConfiguration();
-    private final UserRepository repository = new UserRepositoryFake();
+    private final UserRepository repository = new InMemoryUserRepository();
 
     @Test
     void should_create_user() {

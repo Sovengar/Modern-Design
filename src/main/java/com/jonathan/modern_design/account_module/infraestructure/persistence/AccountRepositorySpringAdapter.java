@@ -3,8 +3,7 @@ package com.jonathan.modern_design.account_module.infraestructure.persistence;
 import com.jonathan.modern_design.account_module.application.AccountMapper;
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.model.Account;
-
-import com.jonathan.modern_design.common.Currency;
+import com.jonathan.modern_design.shared.Currency;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -32,7 +31,7 @@ public class AccountRepositorySpringAdapter implements AccountRepository { //TOD
                 .getContent()
                 .stream()
                 .map(accountMapper::toAccount)
-        .toList();
+                .toList();
 
         return new PageImpl<>(accounts, pageable, accounts.size());
     }

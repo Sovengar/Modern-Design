@@ -1,6 +1,4 @@
-package com.jonathan.modern_design.common;
-
-import lombok.val;
+package com.jonathan.modern_design.shared;
 
 public enum Currency {
     US_DOLLAR("USD"),

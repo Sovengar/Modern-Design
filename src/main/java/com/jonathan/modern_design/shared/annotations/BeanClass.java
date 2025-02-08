@@ -1,4 +1,4 @@
-package com.jonathan.modern_design.common;
+package com.jonathan.modern_design.shared.annotations;
 
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.stereotype.Component;

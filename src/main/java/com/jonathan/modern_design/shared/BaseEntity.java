@@ -1,4 +1,4 @@
-package com.jonathan.modern_design.common;
+package com.jonathan.modern_design.shared;
 
 import com.jonathan.modern_design.user_module.UserAuditListener;
 import jakarta.persistence.Column;

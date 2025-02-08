@@ -1,19 +1,18 @@
 package com.jonathan.modern_design.account_module.infraestructure.persistence;
 
-import com.jonathan.modern_design.common.BaseEntity;
-import com.jonathan.modern_design.common.Currency;
+import com.jonathan.modern_design.shared.BaseEntity;
+import com.jonathan.modern_design.shared.Currency;
+import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import jakarta.persistence.PostPersist;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +23,12 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "accounts", schema = "md")
-@Getter @Setter @ToString @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Slf4j
 @SQLRestriction("deleted <> true") //Make Hibernate ignore soft deleted entries
 public class AccountEntity extends BaseEntity {

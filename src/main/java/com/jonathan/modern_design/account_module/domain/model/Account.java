@@ -1,6 +1,6 @@
 package com.jonathan.modern_design.account_module.domain.model;
 
-import com.jonathan.modern_design.common.Currency;
+import com.jonathan.modern_design.shared.Currency;
 import com.jonathan.modern_design.user_module.User;
 import lombok.Builder;
 
@@ -38,7 +38,7 @@ public class Account {
         dateOfLastTransaction = LocalDateTime.now();
     }
 
-    public UUID getId(){
+    public UUID getId() {
         return uuid;
     }
 

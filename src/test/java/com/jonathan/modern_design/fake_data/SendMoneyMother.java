@@ -1,7 +1,7 @@
 package com.jonathan.modern_design.fake_data;
 
 import com.jonathan.modern_design.account_module.application.send_money.SendMoneyCommand;
-import com.jonathan.modern_design.common.Currency;
+import com.jonathan.modern_design.shared.Currency;
 
 import java.math.BigDecimal;
 import java.util.UUID;

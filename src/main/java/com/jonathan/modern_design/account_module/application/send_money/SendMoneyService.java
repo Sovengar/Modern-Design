@@ -2,12 +2,11 @@ package com.jonathan.modern_design.account_module.application.send_money;
 
 import com.jonathan.modern_design.account_module.application.find_account.FindAccountUseCase;
 import com.jonathan.modern_design.account_module.application.update_account.UpdateAccountUseCase;
-import com.jonathan.modern_design.account_module.domain.services.AccountValidator;
+import com.jonathan.modern_design.account_module.domain.exceptions.AccountNotFoundException;
 import com.jonathan.modern_design.account_module.domain.exceptions.OperationForbiddenForSameAccount;
 import com.jonathan.modern_design.account_module.domain.model.Account;
-import com.jonathan.modern_design.account_module.domain.exceptions.AccountNotFoundException;
-import com.jonathan.modern_design.common.Currency;
-import com.jonathan.modern_design.common.UseCase;
+import com.jonathan.modern_design.account_module.domain.services.AccountValidator;
+import com.jonathan.modern_design.shared.Currency;
 import jakarta.transaction.Transactional;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -36,22 +35,22 @@ public class SendMoneyService implements SendMoneyUseCase {
         transferMoney(source, target, amount, currency);
     }
 
-    private Account getAccountValidated(UUID accountId){
-         var account = findAccountUseCase.findOne(accountId)
+    private Account getAccountValidated(UUID accountId) {
+        var account = findAccountUseCase.findOne(accountId)
                 .orElseThrow(() -> new AccountNotFoundException(accountId));
         accountValidator.validateAccount(account);
         return account;
     }
 
-    private void validateDifferentAccounts(Account source, Account target){
+    private void validateDifferentAccounts(Account source, Account target) {
         var isSameAccount = source.getId().equals(target.getId());
 
-        if(isSameAccount){
+        if (isSameAccount) {
             throw new OperationForbiddenForSameAccount();
         }
     }
 
-    private void transferMoney(Account source, Account target, BigDecimal amount, Currency currency){
+    private void transferMoney(Account source, Account target, BigDecimal amount, Currency currency) {
         source.substract(amount, currency);
         target.deposit(amount, currency);
 

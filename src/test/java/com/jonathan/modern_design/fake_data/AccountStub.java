@@ -2,7 +2,7 @@ package com.jonathan.modern_design.fake_data;
 
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountMoneyVO;
-import com.jonathan.modern_design.common.Currency;
+import com.jonathan.modern_design.shared.Currency;
 
 import java.math.BigDecimal;
 import java.util.UUID;

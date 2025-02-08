@@ -2,7 +2,7 @@ package com.jonathan.modern_design.account_module.application.create_account;
 
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.model.Account;
-import com.jonathan.modern_design.common.Currency;
+import com.jonathan.modern_design.shared.Currency;
 import com.jonathan.modern_design.user_module.User;
 import com.jonathan.modern_design.user_module.UserFacade;
 import com.jonathan.modern_design.user_module.dtos.CreateUserCommand;

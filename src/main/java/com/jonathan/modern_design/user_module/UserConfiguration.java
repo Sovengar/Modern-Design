@@ -8,7 +8,6 @@ class UserConfiguration {
 
     @Bean
     public UserRepository userRepository(SpringUserRepository repository) {
-
         return new UserRepositorySpringAdapter(repository, new UserMapperAdapter());
     }
 
@@ -17,9 +16,19 @@ class UserConfiguration {
         return new CreateUserService(userRepository);
     }
 
-    @Bean(name = "userFacade")
+    @Bean
     public UserFacade userFacade(UserRepository userRepository) {
         CreateUserUseCase createUserUseCase = createUserUseCase(userRepository);
         return new UserFacade(userRepository, createUserUseCase);
     }
 }
+
+//@ComponentScan(
+//        basePackageClasses = {UserFacade.class},
+//        includeFilters = {
+//                @Filter(type = FilterType.ANNOTATION, classes = {DomainService.class, Stub.class, Fake.class})
+//        },
+//        excludeFilters = {
+//                //@Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {someExternalAPIStub.class})
+//        }
+//)

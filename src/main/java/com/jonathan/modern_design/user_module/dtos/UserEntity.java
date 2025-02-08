@@ -1,6 +1,6 @@
 package com.jonathan.modern_design.user_module.dtos;
 
-import com.jonathan.modern_design.common.BaseEntity;
+import com.jonathan.modern_design.shared.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
