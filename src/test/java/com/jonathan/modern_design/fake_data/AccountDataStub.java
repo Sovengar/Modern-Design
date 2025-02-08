@@ -6,10 +6,10 @@ public class AccountDataStub {
 
     public static AccountDataCommand randomAccount() {
         return AccountDataCommand.builder()
-                .name("Account Name")
+                .username("Account Name")
                 .email("z3u1E@example.com")
-                .firstname("John")
-                .lastname("Doe")
+                .realname("John Doe")
+                .currency("EUR")
                 .password("123456")
                 .country("FR")
                 .build();

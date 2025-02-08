@@ -2,6 +2,8 @@ package com.jonathan.modern_design.account_module;
 
 import com.jonathan.modern_design.account_module.application.AccountFacade;
 import com.jonathan.modern_design.config.IntegrationTestConfig;
+import com.jonathan.modern_design.config.PrettyTestNames;
+import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
@@ -10,6 +12,7 @@ import static com.jonathan.modern_design.fake_data.AccountDataStub.randomAccount
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@DisplayNameGeneration(PrettyTestNames.class)
 class AccountTestCase extends IntegrationTestConfig {
 
     @Autowired

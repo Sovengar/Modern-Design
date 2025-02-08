@@ -3,14 +3,16 @@ package com.jonathan.modern_design.account_module;
 import com.jonathan.modern_design.account_module.application.AccountFacade;
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.exceptions.AccountIsInactiveException;
+import com.jonathan.modern_design.account_module.domain.exceptions.OperationWithDifferentCurrenciesException;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountMoneyVO;
 import com.jonathan.modern_design.account_module.infraestructure.AccountConfiguration;
 import com.jonathan.modern_design.account_module.infraestructure.persistence.AccountRepositoryFake;
-import com.jonathan.modern_design.config.ArticleDsl;
+import com.jonathan.modern_design.config.PrettyTestNames;
 import com.jonathan.modern_design.fake_data.AccountStub;
 import com.jonathan.modern_design.user_module.UserFacade;
 import org.approvaltests.Approvals;
+import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
@@ -20,7 +22,8 @@ import static com.jonathan.modern_design.fake_data.SendMoneyMother.transactionWi
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class SendMoneyAddTest extends ArticleDsl {
+@DisplayNameGeneration(PrettyTestNames.class)
+class SendMoneyTest {
 
     private final AccountRepository repository = new AccountRepositoryFake();
     @Mock
@@ -82,6 +85,17 @@ class SendMoneyAddTest extends ArticleDsl {
         poblatePersistenceLayer(source, target);
 
         assertThrows(AccountIsInactiveException.class, () -> {
+            accountFacade.sendMoney(transactionWithAmount(50.0));
+        });
+    }
+
+    @Test
+    void should_fail_when_accounts_have_distinct_currencies() {
+        Account source = AccountStub.sourceAccountwithBalance(100.0);
+        Account target = AccountStub.targetAccountWithDifferentCurrency();
+        poblatePersistenceLayer(source, target);
+
+        assertThrows(OperationWithDifferentCurrenciesException.class, () -> {
             accountFacade.sendMoney(transactionWithAmount(50.0));
         });
     }

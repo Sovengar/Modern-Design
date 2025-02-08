@@ -38,10 +38,18 @@ public class AccountStub extends Stub {
         return builder(targetAccountId, 0.0, false);
     }
 
+    public static Account targetAccountWithDifferentCurrency() {
+        return builder(targetAccountId, 0.0, true, Currency.BRITISH_POUND);
+    }
+
     private static Account builder(UUID accountId, double balance, boolean isActive) {
+        return builder(accountId, balance, isActive, Currency.EURO);
+    }
+
+    private static Account builder(UUID accountId, double balance, boolean isActive, Currency currency) {
         return Account.builder()
                 .uuid(accountId)
-                .money(AccountMoneyVO.of(BigDecimal.valueOf(balance), Currency.EURO))
+                .money(AccountMoneyVO.of(BigDecimal.valueOf(balance), currency))
                 .user(normalUser())
                 .isActive(isActive).build();
     }

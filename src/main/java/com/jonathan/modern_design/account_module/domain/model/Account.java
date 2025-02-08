@@ -12,20 +12,22 @@ import java.util.UUID;
 public class Account {
     UUID uuid;
     AccountMoneyVO money;
+    AddressVO address;
     User user;
     LocalDateTime dateOfLastTransaction;
     boolean isActive;
 
-    private Account(UUID uuid, AccountMoneyVO money, User user, LocalDateTime dateOfLastTransaction, boolean isActive) {
+    private Account(UUID uuid, AccountMoneyVO money, AddressVO address, User user, LocalDateTime dateOfLastTransaction, boolean isActive) {
         this.uuid = uuid;
         this.money = money;
         this.user = user;
+        this.address = address;
         this.dateOfLastTransaction = dateOfLastTransaction;
         this.isActive = isActive;
     }
 
-    public static Account create(BigDecimal amount, Currency currency, User user) {
-        return new Account(UUID.randomUUID(), AccountMoneyVO.of(amount, currency), user, null, true);
+    public static Account create(BigDecimal amount, Currency currency, String address, User user) {
+        return new Account(UUID.randomUUID(), AccountMoneyVO.of(amount, currency), AddressVO.of(address), user, null, true);
     }
 
     public void deposit(BigDecimal amount, Currency currency) {

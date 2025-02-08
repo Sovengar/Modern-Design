@@ -7,9 +7,11 @@ import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.infraestructure.AccountConfiguration;
 import com.jonathan.modern_design.account_module.infraestructure.persistence.AccountRepositorySpringAdapter;
 import com.jonathan.modern_design.account_module.infraestructure.persistence.SpringAccountRepository;
+import com.jonathan.modern_design.config.PrettyTestNames;
 import com.jonathan.modern_design.config.RepositoryIntegrationTestConfig;
 import com.jonathan.modern_design.fake_data.AccountStub;
 import com.jonathan.modern_design.user_module.UserFacade;
+import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,16 +24,15 @@ import java.math.BigDecimal;
 import static com.jonathan.modern_design.fake_data.SendMoneyMother.transactionWithAmount;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@DisplayNameGeneration(PrettyTestNames.class)
 @Import(SendMoneyRepositoryIT.TestConfig.class)
 class SendMoneyRepositoryIT extends RepositoryIntegrationTestConfig {
 
-    @Mock
-    private UserFacade userFacade;
-
     @Autowired
     private final AccountRepository repository;
-
     private final AccountFacade accountFacade;
+    @Mock
+    private UserFacade userFacade;
 
     @Autowired
     public SendMoneyRepositoryIT(AccountRepository repository) {

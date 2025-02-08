@@ -143,7 +143,6 @@
                     </excludes>
                     <!-- or: -->
                     <excludedGroups>integration</excludedGroups>
-                    <argLine>-XX:+AllowRedefinitionToAddDeleteMethods</argLine>
                 </configuration>
             </plugin>
 

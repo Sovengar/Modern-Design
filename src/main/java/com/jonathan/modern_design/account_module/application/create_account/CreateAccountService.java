@@ -21,15 +21,15 @@ public class CreateAccountService implements CreateAccountUseCase {
     @Override
     public Account createAccount(@NonNull final AccountDataCommand command) {
         var user = createUser(command);
-        //TODO CALCULATE CURRENCY BASED ON COUNTRY
-        final var account = Account.create(BigDecimal.valueOf(0), Currency.EURO, user);
+        Currency currency = Currency.fromCode(command.currency());
+        final var account = Account.create(BigDecimal.valueOf(0), currency, command.address(), user);
         return repository.create(account);
     }
 
     private User createUser(AccountDataCommand command) {
         var userCreateCommand = CreateUserCommand.builder()
-                .realname(command.name())
-                .username(command.firstname())
+                .realname(command.realname())
+                .username(command.username())
                 .email(command.email())
                 .password(command.password())
                 .country(command.country())
