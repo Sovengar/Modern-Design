@@ -7,12 +7,14 @@ import com.jonathan.modern_design.user_module.vo.UserNameVO;
 import com.jonathan.modern_design.user_module.vo.UserPasswordVO;
 import com.jonathan.modern_design.user_module.vo.UserRealNameVO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @DomainService
 @RequiredArgsConstructor
 class CreateUserService implements CreateUserUseCase {
     private final UserRepository repository;
 
+    @Transactional
     @Override
     public User createUser(CreateUserCommand command) {
         final var user = User.builder()

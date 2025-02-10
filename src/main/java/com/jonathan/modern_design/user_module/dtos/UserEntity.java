@@ -1,6 +1,7 @@
 package com.jonathan.modern_design.user_module.dtos;
 
 import com.jonathan.modern_design.shared.BaseEntity;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -33,10 +34,20 @@ public class UserEntity extends BaseEntity {
     @Id
     @GeneratedValue
     private UUID uuid;
+
+    @Column
     private String realname;
+
+    @Column
     private String username;
+
+    @Column
     private String email;
+
+    @Column
     private String password;
+
+    @Column
     private String country;
 
     @PrePersist

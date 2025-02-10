@@ -8,16 +8,15 @@ import com.jonathan.modern_design.account_module.infraestructure.AccountConfigur
 import com.jonathan.modern_design.account_module.infraestructure.persistence.AccountRepositorySpringAdapter;
 import com.jonathan.modern_design.account_module.infraestructure.persistence.SpringAccountRepository;
 import com.jonathan.modern_design.config.PrettyTestNames;
-import com.jonathan.modern_design.config.RepositoryIntegrationTestConfig;
+import com.jonathan.modern_design.config.RepositoryITConfig;
 import com.jonathan.modern_design.fake_data.AccountStub;
 import com.jonathan.modern_design.user_module.UserFacade;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
 
 import java.math.BigDecimal;
 
@@ -25,20 +24,17 @@ import static com.jonathan.modern_design.fake_data.SendMoneyMother.transactionWi
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayNameGeneration(PrettyTestNames.class)
-@Import(SendMoneyRepositoryIT.TestConfig.class)
-class SendMoneyRepositoryIT extends RepositoryIntegrationTestConfig {
+class SendMoneyRepositoryIT extends RepositoryITConfig {
 
     @Autowired
-    private final AccountRepository repository;
-    private final AccountFacade accountFacade;
-    @Mock
+    private AccountRepository repository;
+
+    @Autowired
+    private AccountFacade accountFacade;
+
+    @MockBean
     private UserFacade userFacade;
 
-    @Autowired
-    public SendMoneyRepositoryIT(AccountRepository repository) {
-        this.repository = repository;
-        this.accountFacade = new AccountConfiguration().accountFacade(repository, userFacade);
-    }
 
     private void poblatePersistenceLayer(Account source, Account target) {
         repository.create(source);
@@ -62,5 +58,11 @@ class SendMoneyRepositoryIT extends RepositoryIntegrationTestConfig {
         public AccountRepository accountRepository(SpringAccountRepository repository) {
             return new AccountRepositorySpringAdapter(repository, new AccountMapperAdapter());
         }
+
+        @Bean
+        public AccountFacade accountFacade(AccountRepository repository, UserFacade userFacade) {
+            return new AccountConfiguration().accountFacade(repository, userFacade);
+        }
+
     }
 }

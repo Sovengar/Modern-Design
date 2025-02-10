@@ -40,7 +40,8 @@ public class AccountRepositorySpringAdapter implements AccountRepository { //TOD
 
     @Override
     public Account create(Account account) {
-        final var accountEntity = repository.save(accountMapper.toAccountEntity(account));
+        var accountEntity = accountMapper.toAccountEntity(account);
+        accountEntity = repository.save(accountEntity);
         return accountMapper.toAccount(accountEntity);
     }
 

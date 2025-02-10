@@ -11,7 +11,8 @@ class UserRepositorySpringAdapter implements UserRepository {
 
     @Override
     public User createUser(User user) {
-        final var userEntity = repository.save(userMapper.toUserEntity(user));
+        var userEntity = userMapper.toUserEntity(user);
+        userEntity = repository.save(userEntity);
         return userMapper.toUser(userEntity);
     }
 }

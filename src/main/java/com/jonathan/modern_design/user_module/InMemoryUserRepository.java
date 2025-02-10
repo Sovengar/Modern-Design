@@ -12,7 +12,7 @@ class InMemoryUserRepository implements UserRepository {
 
     @Override
     public User createUser(User user) {
-        users.put(user.getId(), user);
+        users.put(user.getUuid(), user);
         return user;
     }
 }

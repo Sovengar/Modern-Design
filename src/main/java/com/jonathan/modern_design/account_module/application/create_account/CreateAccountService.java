@@ -9,6 +9,7 @@ import com.jonathan.modern_design.user_module.UserFacade;
 import com.jonathan.modern_design.user_module.dtos.CreateUserCommand;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
@@ -18,6 +19,7 @@ public class CreateAccountService implements CreateAccountUseCase {
     private final AccountRepository repository;
     private final UserFacade userFacade;
 
+    @Transactional
     @Override
     public Account createAccount(@NonNull final AccountDataCommand command) {
         var user = createUser(command);

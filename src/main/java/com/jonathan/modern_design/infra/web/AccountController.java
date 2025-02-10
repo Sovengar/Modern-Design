@@ -1,4 +1,4 @@
-package com.jonathan.modern_design.web;
+package com.jonathan.modern_design.infra.web;
 
 import com.jonathan.modern_design.account_module.application.AccountFacade;
 import com.jonathan.modern_design.account_module.application.create_account.AccountDataCommand;
@@ -11,8 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.math.BigDecimal;
@@ -22,7 +22,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @WebAdapter
 @RequestMapping("/api/v1/accounts")
-class AccountController {
+public class AccountController {
     private final AccountFacade accountFacade;
 
     @PostMapping(path = "/transfer/{sourceAccountId}/{targetAccountId}/{amount}")
@@ -48,7 +48,7 @@ class AccountController {
 
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
-    public UUID create(@RequestParam AccountDataCommand accountDataCommand) {
+    public UUID create(@RequestBody AccountDataCommand accountDataCommand) {
         log.info("START - Create account");
 
         final var account = accountFacade.createAccount(accountDataCommand);
