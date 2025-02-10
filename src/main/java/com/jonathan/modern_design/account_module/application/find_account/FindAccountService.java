@@ -7,7 +7,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @DomainService
 @RequiredArgsConstructor
@@ -15,8 +14,8 @@ public class FindAccountService implements FindAccountUseCase {
     private final AccountRepository accountRepository;
 
     @Override
-    public Optional<Account> findOne(@NonNull UUID id) {
-        return accountRepository.findOne(id);
+    public Optional<Account> findOne(@NonNull String accountNumber) {
+        return accountRepository.findOne(accountNumber);
     }
 
 }

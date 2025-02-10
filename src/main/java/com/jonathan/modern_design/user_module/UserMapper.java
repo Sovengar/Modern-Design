@@ -1,17 +1,15 @@
 package com.jonathan.modern_design.user_module;
 
-import com.jonathan.modern_design.user_module.dtos.UserEntity;
 import com.jonathan.modern_design.user_module.vo.UserEmailVO;
 import com.jonathan.modern_design.user_module.vo.UserNameVO;
 import com.jonathan.modern_design.user_module.vo.UserPasswordVO;
 import com.jonathan.modern_design.user_module.vo.UserRealNameVO;
-import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
 @Mapper
-interface UserMapper {
+public interface UserMapper {
 
     @Mapping(source = "realname", target = "realname", qualifiedByName = "mapRealName")
     @Mapping(source = "username", target = "username", qualifiedByName = "mapUsername")
@@ -21,7 +19,6 @@ interface UserMapper {
 
     Iterable<User> toUsers(Iterable<UserEntity> userEntity);
 
-    @InheritInverseConfiguration
     @Mapping(source = "realname", target = "realname", qualifiedByName = "mapRealName")
     @Mapping(source = "username", target = "username", qualifiedByName = "mapUsername")
     @Mapping(source = "email", target = "email", qualifiedByName = "mapEmail")

@@ -4,13 +4,12 @@ import com.jonathan.modern_design.account_module.application.send_money.SendMone
 import com.jonathan.modern_design.shared.Currency;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 import static com.jonathan.modern_design.fake_data.AccountStub.sourceAccountId;
 import static com.jonathan.modern_design.fake_data.AccountStub.targetAccountId;
 
 public class SendMoneyMother extends Stub {
-    private static SendMoneyCommand fromAccountToAccountWithAmount(UUID sourceAccountId, UUID targetAccountId, double amount) {
+    private static SendMoneyCommand fromAccountToAccountWithAmount(String sourceAccountId, String targetAccountId, double amount) {
         return new SendMoneyCommand(sourceAccountId, targetAccountId, BigDecimal.valueOf(amount), Currency.EURO);
     }
 

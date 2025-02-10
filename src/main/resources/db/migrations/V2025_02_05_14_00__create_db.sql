@@ -1,17 +1,5 @@
 CREATE SCHEMA IF NOT EXISTS md; --AUTHORIZATION admin
 
-CREATE TABLE MD.ACCOUNTS (
-    uuid UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    amount DECIMAL(19,2),
-    currency VARCHAR(5),
-    version INTEGER,
-    created_by VARCHAR(255),
-    created_on TIMESTAMP WITHOUT TIME ZONE,
-    modified_by VARCHAR(255),
-    modified_on TIMESTAMP WITHOUT TIME ZONE,
-    deleted BOOLEAN DEFAULT FALSE
-);
-
 CREATE TABLE MD.USERS (
     uuid UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     realname VARCHAR(255),
@@ -25,4 +13,23 @@ CREATE TABLE MD.USERS (
     modified_by VARCHAR(255),
     modified_on TIMESTAMP WITHOUT TIME ZONE,
     deleted BOOLEAN DEFAULT FALSE
+);
+
+CREATE SEQUENCE MD.ACCOUNTS_SQ START WITH 1;
+CREATE TABLE MD.ACCOUNTS (
+    id BIGINT PRIMARY KEY,
+    account_number VARCHAR(255),
+    amount DECIMAL(19,2),
+    currency VARCHAR(5),
+    address VARCHAR(255),
+    date_of_last_transaction TIMESTAMP WITHOUT TIME ZONE,
+    active BOOLEAN,
+    user_id UUID,
+    version INTEGER,
+    created_by VARCHAR(255),
+    created_on TIMESTAMP WITHOUT TIME ZONE,
+    modified_by VARCHAR(255),
+    modified_on TIMESTAMP WITHOUT TIME ZONE,
+    deleted BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (user_id) REFERENCES MD.USERS(uuid)
 );

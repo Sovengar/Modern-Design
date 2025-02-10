@@ -14,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @PersistenceAdapter
 @RequiredArgsConstructor
@@ -23,8 +22,8 @@ public class AccountRepositorySpringAdapter implements AccountRepository { //TOD
     private final AccountMapper accountMapper;
 
     @Override
-    public Optional<Account> findOne(final UUID id) {
-        return findOneEntity(id).map(accountMapper::toAccount);
+    public Optional<Account> findOne(final String accountNumber) {
+        return findOneEntity(accountNumber).map(accountMapper::toAccount);
     }
 
     @Override
@@ -51,25 +50,25 @@ public class AccountRepositorySpringAdapter implements AccountRepository { //TOD
     }
 
     @Override
-    public void delete(final UUID id) {
-        repository.deleteById(id);
+    public void delete(final String accountNumber) {
+        repository.deleteById(accountNumber);
     }
 
     @Override
-    public void softDelete(final UUID id) {
-        this.findOneEntity(id).ifPresent(account -> {
+    public void softDelete(final String accountNumber) {
+        this.findOneEntity(accountNumber).ifPresent(account -> {
             account.setDeleted(true);
             repository.save(account);
         });
     }
 
     @Override
-    public void deposit(final UUID id, final BigDecimal amount, final Currency currency) {
-
+    public void deposit(final String accountNumber, final BigDecimal amount, final Currency currency) {
+        //TODO
     }
 
-    private Optional<AccountEntity> findOneEntity(@NonNull final UUID id) {
-        return repository.findById(id);
+    private Optional<AccountEntity> findOneEntity(@NonNull final String accountNumber) {
+        return repository.findById(accountNumber);
     }
 
 }

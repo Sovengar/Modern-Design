@@ -8,10 +8,9 @@ import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface AccountRepository {
-    Optional<Account> findOne(final UUID accountId);
+    Optional<Account> findOne(final String accountNumber);
 
     Page<Account> findAll(final Pageable pageable);
 
@@ -19,13 +18,13 @@ public interface AccountRepository {
 
     void update(Account account);
 
-    void delete(final UUID accountId);
+    void delete(final String accountNumber);
 
-    void softDelete(final UUID accountId);
+    void softDelete(final String accountNumber);
 
-    void deposit(final UUID accountId, final BigDecimal amount, final Currency currency);
+    void deposit(final String accountNumber, final BigDecimal amount, final Currency currency);
 
-    default Account findOneOrElseThrow(final UUID accountId) {
-        return findOne(accountId).orElseThrow(() -> new AccountNotFoundException(accountId));
+    default Account findOneOrElseThrow(final String accountNumber) {
+        return findOne(accountNumber).orElseThrow(() -> new AccountNotFoundException(accountNumber));
     }
 }

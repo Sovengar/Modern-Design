@@ -13,7 +13,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 @DomainService
 @RequiredArgsConstructor
@@ -37,15 +36,15 @@ public class SendMoneyService implements SendMoneyUseCase {
         transferMoney(source, target, amount, currency);
     }
 
-    private Account getAccountValidated(UUID accountId) {
-        var account = findAccountUseCase.findOne(accountId)
-                .orElseThrow(() -> new AccountNotFoundException(accountId));
+    private Account getAccountValidated(String accountNumber) {
+        var account = findAccountUseCase.findOne(accountNumber)
+                .orElseThrow(() -> new AccountNotFoundException(accountNumber));
         accountValidator.validateAccount(account);
         return account;
     }
 
     private void validateDifferentAccounts(Account source, Account target) {
-        var isSameAccount = source.getId().equals(target.getId());
+        var isSameAccount = source.getAccountNumber().equals(target.getAccountNumber());
 
         if (isSameAccount) {
             throw new OperationForbiddenForSameAccount();

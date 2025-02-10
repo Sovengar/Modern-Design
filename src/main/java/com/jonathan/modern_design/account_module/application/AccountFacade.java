@@ -13,7 +13,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @BeanClass
 @RequiredArgsConstructor
@@ -29,8 +28,8 @@ public class AccountFacade implements SendMoneyUseCase, FindAccountUseCase, Upda
     }
 
     @Override
-    public Optional<Account> findOne(@NonNull final UUID accountId) {
-        return accountRepository.findOne(accountId);
+    public Optional<Account> findOne(@NonNull final String accountNumber) {
+        return accountRepository.findOne(accountNumber);
     }
 
     @Override

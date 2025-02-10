@@ -11,8 +11,8 @@ import static com.jonathan.modern_design.fake_data.UserStub.normalUser;
 
 public class AccountStub extends Stub {
 
-    public static UUID sourceAccountId = UUID.randomUUID();
-    public static UUID targetAccountId = UUID.randomUUID();
+    public static String sourceAccountId = UUID.randomUUID().toString();
+    public static String targetAccountId = UUID.randomUUID().toString();
 
     public static Account sourceAccountwithBalance(double balance) {
         return builder(sourceAccountId, balance, true);
@@ -42,15 +42,15 @@ public class AccountStub extends Stub {
         return builder(targetAccountId, 0.0, true, Currency.BRITISH_POUND);
     }
 
-    private static Account builder(UUID accountId, double balance, boolean isActive) {
+    private static Account builder(String accountId, double balance, boolean isActive) {
         return builder(accountId, balance, isActive, Currency.EURO);
     }
 
-    private static Account builder(UUID accountId, double balance, boolean isActive, Currency currency) {
+    private static Account builder(String accountId, double balance, boolean isActive, Currency currency) {
         return Account.builder()
-                .uuid(accountId)
+                .accountNumber(accountId)
                 .money(AccountMoneyVO.of(BigDecimal.valueOf(balance), currency))
                 .user(normalUser())
-                .isActive(isActive).build();
+                .active(isActive).build();
     }
 }

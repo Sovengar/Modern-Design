@@ -10,24 +10,28 @@ import java.util.UUID;
 
 @Builder //For Mapper and testing, otherwise use the create factory method.
 public class Account {
-    UUID uuid;
+
+    Long id;
+    String accountNumber;
     AccountMoneyVO money;
-    AddressVO address;
+    AccountAddressVO address;
     User user;
     LocalDateTime dateOfLastTransaction;
-    boolean isActive;
+    boolean active;
 
-    private Account(UUID uuid, AccountMoneyVO money, AddressVO address, User user, LocalDateTime dateOfLastTransaction, boolean isActive) {
-        this.uuid = uuid;
+    private Account(Long id, String accountNumber, AccountMoneyVO money, AccountAddressVO address, User user, LocalDateTime dateOfLastTransaction, boolean active) {
+        this.id = id;
+        this.accountNumber = accountNumber;
         this.money = money;
         this.user = user;
         this.address = address;
         this.dateOfLastTransaction = dateOfLastTransaction;
-        this.isActive = isActive;
+        this.active = active;
     }
 
     public static Account create(BigDecimal amount, Currency currency, String address, User user) {
-        return new Account(UUID.randomUUID(), AccountMoneyVO.of(amount, currency), AddressVO.of(address), user, null, true);
+        var accountNumber = UUID.randomUUID().toString(); //TODO CREAR CLASE QUE GENERE UN IBAN NO REPETIBLE
+        return new Account(null, accountNumber, AccountMoneyVO.of(amount, currency), AccountAddressVO.of(address), user, null, true);
     }
 
     public void deposit(BigDecimal amount, Currency currency) {
@@ -40,15 +44,24 @@ public class Account {
         dateOfLastTransaction = LocalDateTime.now();
     }
 
-    public UUID getId() {
-        return uuid;
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public String getAddress() {
+        return address.toString();
     }
 
     public BigDecimal getAmount() {
         return money.getAmount();
     }
 
-    public boolean isActive() {
-        return isActive;
+    public AccountMoneyVO getMoney() {
+        return money;
     }
+
+    public boolean isActive() {
+        return active;
+    }
+
 }

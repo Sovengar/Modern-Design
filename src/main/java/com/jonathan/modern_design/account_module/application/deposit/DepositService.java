@@ -6,7 +6,6 @@ import com.jonathan.modern_design.shared.annotations.DomainService;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 @DomainService
 @RequiredArgsConstructor
@@ -14,7 +13,7 @@ public class DepositService implements DepositUseCase {
     private final AccountRepository repository;
 
     @Override
-    public void deposit(UUID accountId, BigDecimal amount, Currency currency) {
-        repository.deposit(accountId, amount, currency);
+    public void deposit(String accountNumber, BigDecimal amount, Currency currency) {
+        repository.deposit(accountNumber, amount, currency);
     }
 }

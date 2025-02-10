@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -27,8 +26,8 @@ public class AccountController {
 
     @PostMapping(path = "/transfer/{sourceAccountId}/{targetAccountId}/{amount}")
     void transfer(
-            @PathVariable("sourceAccountId") UUID sourceAccountId,
-            @PathVariable("targetAccountId") UUID targetAccountId,
+            @PathVariable("sourceAccountId") String sourceAccountId,
+            @PathVariable("targetAccountId") String targetAccountId,
             @PathVariable("amount") BigDecimal amount) {
 
         log.info("Sending money from {} to {} with amount {}", sourceAccountId, targetAccountId, amount);
@@ -41,20 +40,20 @@ public class AccountController {
         accountFacade.sendMoney(command);
     }
 
-    @GetMapping(path = "/load/{accountId}")
-    void load(@PathVariable UUID accountId) {
-        accountFacade.findOne(accountId);
+    @GetMapping(path = "/load/{accountNumber}")
+    void load(@PathVariable String accountNumber) {
+        accountFacade.findOne(accountNumber);
     }
 
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
-    public UUID create(@RequestBody AccountDataCommand accountDataCommand) {
+    public String create(@RequestBody AccountDataCommand accountDataCommand) {
         log.info("START - Create account");
 
         final var account = accountFacade.createAccount(accountDataCommand);
-        final var accountId = account.getId();
+        final var accountNumber = account.getAccountNumber();
 
-        log.info("END - Create account: {}", accountId);
-        return accountId;
+        log.info("END - Create account: {}", accountNumber);
+        return accountNumber;
     }
 }

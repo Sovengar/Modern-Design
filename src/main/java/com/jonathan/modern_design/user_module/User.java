@@ -18,4 +18,8 @@ public class User {
     private UserEmailVO email;
     private UserPasswordVO password;
     private String country;
+
+    void setUuid(final UUID uuid) {
+        this.uuid = uuid;
+    }
 }

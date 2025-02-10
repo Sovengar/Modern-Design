@@ -1,6 +1,5 @@
 package com.jonathan.modern_design.user_module;
 
-import com.jonathan.modern_design.user_module.dtos.UserEntity;
 import org.mapstruct.factory.Mappers;
 
 class UserMapperAdapter implements UserMapper {

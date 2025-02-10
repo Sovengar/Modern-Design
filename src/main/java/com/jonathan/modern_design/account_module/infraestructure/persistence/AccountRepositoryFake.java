@@ -11,17 +11,16 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static java.util.Objects.requireNonNull;
 
 public class AccountRepositoryFake implements AccountRepository {
-    private final ConcurrentHashMap<UUID, Account> accounts = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, Account> accounts = new ConcurrentHashMap<>();
 
     @Override
-    public Optional<Account> findOne(UUID id) {
-        Account account = accounts.get(id);
+    public Optional<Account> findOne(String accountNumber) {
+        Account account = accounts.get(accountNumber);
         return Optional.ofNullable(account);
     }
 
@@ -33,7 +32,7 @@ public class AccountRepositoryFake implements AccountRepository {
 
     @Override
     public Account create(Account account) {
-        accounts.put(account.getId(), account);
+        accounts.put(account.getAccountNumber(), account);
         return account;
     }
 
@@ -42,17 +41,17 @@ public class AccountRepositoryFake implements AccountRepository {
         requireNonNull(account);
     }
 
-    public void delete(final UUID id) {
-        accounts.remove(id);
+    public void delete(final String accountNumber) {
+        accounts.remove(accountNumber);
     }
 
     @Override
-    public void softDelete(final UUID id) {
-        accounts.remove(id);
+    public void softDelete(final String accountNumber) {
+        accounts.remove(accountNumber);
     }
 
     @Override
-    public void deposit(UUID accountId, BigDecimal amount, Currency currency) {
-        accounts.get(accountId).deposit(amount, currency);
+    public void deposit(String accountNumber, BigDecimal amount, Currency currency) {
+        accounts.get(accountNumber).deposit(amount, currency);
     }
 }
