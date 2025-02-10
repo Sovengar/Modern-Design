@@ -1,0 +1,23 @@
+meta {
+  name: create
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8080/api/v1/accounts
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "realname": "Juan Pérez",
+    "email": "juan.perez@example.com",
+    "username": "juanp",
+    "address": "Calle Falsa 123",
+    "password": "passwordSecreto",
+    "country": "España",
+    "currency": "EUR"
+  }
+}
