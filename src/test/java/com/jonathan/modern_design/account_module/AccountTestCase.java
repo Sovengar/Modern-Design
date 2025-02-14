@@ -2,10 +2,8 @@ package com.jonathan.modern_design.account_module;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jonathan.modern_design.__config.ITConfig;
-import com.jonathan.modern_design.__config.PrettyTestNames;
 import com.jonathan.modern_design._fake_data.CreateAccountMother;
 import com.jonathan.modern_design.account_module.application.AccountFacade;
-import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
@@ -14,7 +12,6 @@ import org.springframework.http.MediaType;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@DisplayNameGeneration(PrettyTestNames.class)
 @Import(AccountConfiguration.class)
 final class AccountTestCase extends ITConfig {
     ObjectMapper mapper = new ObjectMapper();
