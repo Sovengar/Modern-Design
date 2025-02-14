@@ -8,12 +8,11 @@ import static com.jonathan.modern_design._fake_data.CreateUserMother.createUserC
 import static org.assertj.core.api.Assertions.assertThat;
 
 class CreateUserIT extends RepositoryITConfig {
-    private final UserConfiguration factory = new UserConfiguration();
     private final UserRepository repository = new InMemoryUserRepository();
+    private final UserFacade userFacade = new UserConfiguration().userFacade(repository);
 
     @Test
     void should_create_user() {
-        UserFacade userFacade = factory.userFacade(repository);
         assertThat(userFacade.createUser(createUserCommandWithValidData())).isNotNull();
     }
 }
