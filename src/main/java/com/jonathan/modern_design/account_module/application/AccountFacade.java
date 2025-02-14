@@ -1,6 +1,6 @@
 package com.jonathan.modern_design.account_module.application;
 
-import com.jonathan.modern_design.account_module.application.create_account.AccountDataCommand;
+import com.jonathan.modern_design.account_module.application.create_account.CreateAccountCommand;
 import com.jonathan.modern_design.account_module.application.create_account.CreateAccountUseCase;
 import com.jonathan.modern_design.account_module.application.find_account.FindAccountUseCase;
 import com.jonathan.modern_design.account_module.application.send_money.SendMoneyCommand;
@@ -8,7 +8,7 @@ import com.jonathan.modern_design.account_module.application.send_money.SendMone
 import com.jonathan.modern_design.account_module.application.update_account.UpdateAccountUseCase;
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.model.Account;
-import com.jonathan.modern_design.shared.annotations.BeanClass;
+import com.jonathan.modern_design.config.annotations.BeanClass;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
@@ -38,7 +38,7 @@ public class AccountFacade implements SendMoneyUseCase, FindAccountUseCase, Upda
     }
 
     @Override
-    public Account createAccount(@NonNull final AccountDataCommand command) {
+    public Account createAccount(@NonNull final CreateAccountCommand command) {
         return createAccountUseCase.createAccount(command);
     }
 }

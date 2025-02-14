@@ -1,6 +1,6 @@
 package com.jonathan.modern_design.user_module;
 
-import com.jonathan.modern_design.shared.annotations.DomainService;
+import com.jonathan.modern_design.config.annotations.DomainService;
 import com.jonathan.modern_design.user_module.dtos.CreateUserCommand;
 import com.jonathan.modern_design.user_module.vo.UserEmailVO;
 import com.jonathan.modern_design.user_module.vo.UserNameVO;

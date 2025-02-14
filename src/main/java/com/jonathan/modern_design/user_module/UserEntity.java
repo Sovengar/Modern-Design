@@ -1,6 +1,6 @@
 package com.jonathan.modern_design.user_module;
 
-import com.jonathan.modern_design.shared.BaseEntity;
+import com.jonathan.modern_design.config.database.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

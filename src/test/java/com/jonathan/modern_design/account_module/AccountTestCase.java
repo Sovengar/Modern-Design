@@ -1,35 +1,33 @@
 package com.jonathan.modern_design.account_module;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jonathan.modern_design.__config.ITConfig;
+import com.jonathan.modern_design.__config.PrettyTestNames;
+import com.jonathan.modern_design._fake_data.CreateAccountMother;
 import com.jonathan.modern_design.account_module.application.AccountFacade;
-import com.jonathan.modern_design.account_module.infraestructure.AccountConfiguration;
-import com.jonathan.modern_design.config.PrettyTestNames;
-import com.jonathan.modern_design.config.WebITConfig;
-import com.jonathan.modern_design.infra.web.AccountController;
-import com.jonathan.modern_design.shared.annotations.Stub;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @DisplayNameGeneration(PrettyTestNames.class)
-@WebMvcTest(AccountController.class)
-final class AccountTestCase extends WebITConfig {
+@Import(AccountConfiguration.class)
+final class AccountTestCase extends ITConfig {
+    ObjectMapper mapper = new ObjectMapper();
     @Autowired
     private AccountFacade accountFacade;
 
     @Test
     void should_create_account() throws Exception {
-        mockMvc.perform(
-                        post("/accounts")
-                                .contentType(MediaType.APPLICATION_JSON))
-                //.content("{ \"numberOfPassengers\" : 5 }"))
+        String json = mapper.writeValueAsString(CreateAccountMother.createAccountCommandWithValidData());
+
+        mockMvc.perform(post("/api/v1/accounts/a")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
                 .andExpect(status().isCreated());
         //.andExpect(jsonPath("$.id").isNotEmpty())
         //.andExpect(jsonPath("$.starships").value(hasSize(1)))
@@ -37,12 +35,12 @@ final class AccountTestCase extends WebITConfig {
         //.andExpect(jsonPath("$.starships[0].capacity").value("6"));
     }
 
-    @TestConfiguration
-    @ComponentScan(
-            basePackageClasses = {AccountConfiguration.class},
-            includeFilters = {@ComponentScan.Filter(type = FilterType.ANNOTATION, classes = {Stub.class})})
-    static class StubConfiguration {
-    }
+//    @TestConfiguration
+//    @ComponentScan(
+//            basePackageClasses = {AccountConfiguration.class},
+//            includeFilters = {@ComponentScan.Filter(type = FilterType.ANNOTATION, classes = {Stub.class})})
+//    static class StubConfiguration {
+//    }
 
 //    @Test
 //    void should_return_a_fleet_given_an_id() throws Exception {

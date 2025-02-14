@@ -1,8 +1,8 @@
 package com.jonathan.modern_design.account_module.application.deposit;
 
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
+import com.jonathan.modern_design.config.annotations.DomainService;
 import com.jonathan.modern_design.shared.Currency;
-import com.jonathan.modern_design.shared.annotations.DomainService;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;

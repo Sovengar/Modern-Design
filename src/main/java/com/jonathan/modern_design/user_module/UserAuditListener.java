@@ -1,6 +1,6 @@
 package com.jonathan.modern_design.user_module;
 
-import com.jonathan.modern_design.shared.BaseEntity;
+import com.jonathan.modern_design.config.database.BaseEntity;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import org.springframework.beans.factory.annotation.Value;

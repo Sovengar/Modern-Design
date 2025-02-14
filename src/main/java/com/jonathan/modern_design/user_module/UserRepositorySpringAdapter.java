@@ -1,6 +1,6 @@
 package com.jonathan.modern_design.user_module;
 
-import com.jonathan.modern_design.shared.annotations.PersistenceAdapter;
+import com.jonathan.modern_design.config.annotations.PersistenceAdapter;
 import lombok.RequiredArgsConstructor;
 
 @PersistenceAdapter

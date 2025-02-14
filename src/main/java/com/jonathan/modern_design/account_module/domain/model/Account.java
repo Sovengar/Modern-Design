@@ -44,6 +44,15 @@ public class Account {
         dateOfLastTransaction = LocalDateTime.now();
     }
 
+    //GETTERS
+    public Long getId() {
+        return id;
+    }
+
+    public LocalDateTime getDateOfLastTransaction() {
+        return dateOfLastTransaction;
+    }
+
     public String getAccountNumber() {
         return accountNumber;
     }
@@ -63,5 +72,4 @@ public class Account {
     public boolean isActive() {
         return active;
     }
-
 }

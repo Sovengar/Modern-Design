@@ -1,10 +1,10 @@
 package com.jonathan.modern_design.user_module;
 
-import com.jonathan.modern_design.config.PrettyTestNames;
+import com.jonathan.modern_design.__config.PrettyTestNames;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Test;
 
-import static com.jonathan.modern_design.fake_data.CreateUserMother.createUserCommandWithValidData;
+import static com.jonathan.modern_design._fake_data.CreateUserMother.createUserCommandWithValidData;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayNameGeneration(PrettyTestNames.class)

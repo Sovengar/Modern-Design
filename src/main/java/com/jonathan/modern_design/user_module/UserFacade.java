@@ -1,6 +1,6 @@
 package com.jonathan.modern_design.user_module;
 
-import com.jonathan.modern_design.shared.annotations.BeanClass;
+import com.jonathan.modern_design.config.annotations.BeanClass;
 import com.jonathan.modern_design.user_module.dtos.CreateUserCommand;
 import lombok.RequiredArgsConstructor;
 

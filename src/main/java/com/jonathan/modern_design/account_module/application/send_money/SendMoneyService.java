@@ -6,8 +6,8 @@ import com.jonathan.modern_design.account_module.domain.exceptions.AccountNotFou
 import com.jonathan.modern_design.account_module.domain.exceptions.OperationForbiddenForSameAccount;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.services.AccountValidator;
+import com.jonathan.modern_design.config.annotations.DomainService;
 import com.jonathan.modern_design.shared.Currency;
-import com.jonathan.modern_design.shared.annotations.DomainService;
 import jakarta.transaction.Transactional;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

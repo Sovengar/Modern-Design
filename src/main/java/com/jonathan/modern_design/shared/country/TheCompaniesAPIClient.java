@@ -1,6 +1,6 @@
 package com.jonathan.modern_design.shared.country;
 
-import com.jonathan.modern_design.shared.annotations.BeanClass;
+import com.jonathan.modern_design.config.annotations.BeanClass;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.client.RestTemplate;

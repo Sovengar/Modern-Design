@@ -1,6 +1,6 @@
 package com.jonathan.modern_design.user_module;
 
-import com.jonathan.modern_design.shared.annotations.Fake;
+import com.jonathan.modern_design.config.annotations.Fake;
 
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;

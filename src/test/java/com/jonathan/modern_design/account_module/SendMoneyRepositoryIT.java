@@ -1,33 +1,29 @@
 package com.jonathan.modern_design.account_module;
 
+import com.jonathan.modern_design.__config.PrettyTestNames;
+import com.jonathan.modern_design.__config.RepositoryITConfig;
+import com.jonathan.modern_design._fake_data.AccountStub;
 import com.jonathan.modern_design.account_module.application.AccountFacade;
-import com.jonathan.modern_design.account_module.application.AccountMapperAdapter;
-import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.model.Account;
-import com.jonathan.modern_design.account_module.infraestructure.AccountConfiguration;
-import com.jonathan.modern_design.account_module.infraestructure.persistence.AccountRepositorySpringAdapter;
-import com.jonathan.modern_design.account_module.infraestructure.persistence.SpringAccountRepository;
-import com.jonathan.modern_design.config.PrettyTestNames;
-import com.jonathan.modern_design.config.RepositoryITConfig;
-import com.jonathan.modern_design.fake_data.AccountStub;
+import com.jonathan.modern_design.account_module.infra.persistence.AccountRepositorySpringAdapter;
 import com.jonathan.modern_design.user_module.UserFacade;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 
 import java.math.BigDecimal;
 
-import static com.jonathan.modern_design.fake_data.SendMoneyMother.transactionWithAmount;
+import static com.jonathan.modern_design._fake_data.SendMoneyMother.transactionWithAmount;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayNameGeneration(PrettyTestNames.class)
+@Import(AccountConfiguration.class)
 class SendMoneyRepositoryIT extends RepositoryITConfig {
 
     @Autowired
-    private AccountRepository repository;
+    private AccountRepositorySpringAdapter repository;
 
     @Autowired
     private AccountFacade accountFacade;
@@ -35,34 +31,17 @@ class SendMoneyRepositoryIT extends RepositoryITConfig {
     @MockBean
     private UserFacade userFacade;
 
-
-    private void poblatePersistenceLayer(Account source, Account target) {
-        repository.create(source);
-        repository.create(target);
-    }
-
     @Test
     void should_send_money_into_the_target_account() {
-        Account source = AccountStub.sourceAccountwithBalance(100.0);
-        Account target = AccountStub.targetAccountEmpty();
-        poblatePersistenceLayer(source, target);
+        Account source = repository.create(AccountStub.sourceAccountwithBalance(100.0));
+        Account target = repository.create(AccountStub.targetAccountEmpty());
 
-        accountFacade.sendMoney(transactionWithAmount(50.0));
+        accountFacade.sendMoney(transactionWithAmount(60.0));
 
-        assertThat(target.getAmount()).isEqualTo(BigDecimal.valueOf(50.0));
-    }
+        source = repository.findOne(source.getAccountNumber()).orElseThrow();
+        target = repository.findOne(target.getAccountNumber()).orElseThrow();
 
-    @TestConfiguration
-    static class TestConfig {
-        @Bean
-        public AccountRepository accountRepository(SpringAccountRepository repository) {
-            return new AccountRepositorySpringAdapter(repository, new AccountMapperAdapter());
-        }
-
-        @Bean
-        public AccountFacade accountFacade(AccountRepository repository, UserFacade userFacade) {
-            return new AccountConfiguration().accountFacade(repository, userFacade);
-        }
-
+        assertThat(source.getAmount()).isEqualTo(BigDecimal.valueOf(40.0));
+        assertThat(target.getAmount()).isEqualTo(BigDecimal.valueOf(60.0));
     }
 }

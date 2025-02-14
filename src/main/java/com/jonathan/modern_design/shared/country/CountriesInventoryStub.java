@@ -1,6 +1,6 @@
 package com.jonathan.modern_design.shared.country;
 
-import com.jonathan.modern_design.shared.annotations.Stub;
+import com.jonathan.modern_design.config.annotations.Stub;
 
 import java.util.List;
 

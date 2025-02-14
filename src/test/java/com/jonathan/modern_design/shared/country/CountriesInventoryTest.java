@@ -1,6 +1,6 @@
 package com.jonathan.modern_design.shared.country;
 
-import com.jonathan.modern_design.config.PrettyTestNames;
+import com.jonathan.modern_design.__config.PrettyTestNames;
 import lombok.val;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Test;
