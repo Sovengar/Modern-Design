@@ -17,27 +17,27 @@ import java.math.BigDecimal;
 public interface AccountMapper {
 
     @Mapping(source = "address", target = "address", qualifiedByName = "mapAddress")
-    @Mapping(target = "money", expression = "java(mapMoney(accountEntity.getAmount(), accountEntity.getCurrency()))")
+    @Mapping(target = "money", expression = "java(mapMoney(accountEntity.getBalance(), accountEntity.getCurrency()))")
     Account toAccount(final AccountEntity accountEntity);
 
     Iterable<Account> toAccounts(Iterable<AccountEntity> accountEntity);
 
     @Mapping(source = "address", target = "address", qualifiedByName = "mapAddress")
-    @Mapping(source = "money", target = "amount", qualifiedByName = "mapAmount")
+    @Mapping(source = "money", target = "balance", qualifiedByName = "mapBalance")
     @Mapping(source = "money", target = "currency", qualifiedByName = "mapCurrency")
     AccountEntity toAccountEntity(final Account account);
 
     @Mapping(source = "address", target = "address", qualifiedByName = "mapAddress")
-    @Mapping(source = "money", target = "amount", qualifiedByName = "mapAmount")
+    @Mapping(source = "money", target = "balance", qualifiedByName = "mapBalance")
     @Mapping(source = "money", target = "currency", qualifiedByName = "mapCurrency")
     void updateAccountEntity(Account account, @MappingTarget AccountEntity accountEntity);
 
-    default AccountMoneyVO mapMoney(BigDecimal amount, Currency currency) {
-        return AccountMoneyVO.of(amount, currency);
+    default AccountMoneyVO mapMoney(BigDecimal balance, Currency currency) {
+        return AccountMoneyVO.of(balance, currency);
     }
 
-    @Named("mapAmount")
-    default BigDecimal mapAmount(AccountMoneyVO money) {
+    @Named("mapBalance")
+    default BigDecimal mapBalance(AccountMoneyVO money) {
         return money.getBalance();
     }
 

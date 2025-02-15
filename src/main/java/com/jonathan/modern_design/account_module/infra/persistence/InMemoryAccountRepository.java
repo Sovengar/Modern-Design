@@ -2,12 +2,10 @@ package com.jonathan.modern_design.account_module.infra.persistence;
 
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.model.Account;
-import com.jonathan.modern_design.shared.Currency;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static java.util.Objects.requireNonNull;
 
-public class AccountRepositoryFake implements AccountRepository {
+public class InMemoryAccountRepository implements AccountRepository {
     private final ConcurrentHashMap<String, Account> accounts = new ConcurrentHashMap<>();
 
     @Override
@@ -50,8 +48,4 @@ public class AccountRepositoryFake implements AccountRepository {
         accounts.remove(accountNumber);
     }
 
-    @Override
-    public void deposit(String accountNumber, BigDecimal amount, Currency currency) {
-        accounts.get(accountNumber).deposit(amount, currency);
-    }
 }

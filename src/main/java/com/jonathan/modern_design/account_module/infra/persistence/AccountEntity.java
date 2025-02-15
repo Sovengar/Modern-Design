@@ -49,7 +49,7 @@ public class AccountEntity extends BaseEntity {
     @Column(name = "account_number")
     private String accountNumber;
     @Column
-    private BigDecimal amount;
+    private BigDecimal balance;
     @Enumerated(value = jakarta.persistence.EnumType.STRING)
     private Currency currency;
 

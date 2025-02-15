@@ -4,7 +4,6 @@ import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.infra.AccountMapper;
 import com.jonathan.modern_design.config.annotations.PersistenceAdapter;
-import com.jonathan.modern_design.shared.Currency;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
@@ -12,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,11 +62,6 @@ public class AccountRepositorySpringAdapter implements AccountRepository { //TOD
             account.setDeleted(true);
             repository.save(account);
         });
-    }
-
-    @Override
-    public void deposit(final String accountNumber, final BigDecimal amount, final Currency currency) {
-        //TODO
     }
 
     private Optional<AccountEntity> findOneEntity(@NonNull final String accountNumber) {

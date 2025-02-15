@@ -7,8 +7,13 @@ import org.springframework.context.annotation.Configuration;
 class UserConfiguration {
 
     @Bean
-    public UserRepository userRepository(SpringUserRepository repository) {
-        return new UserRepositorySpringAdapter(repository, new UserMapperAdapter());
+    public UserMapper userMapper() {
+        return new UserMapperAdapter();
+    }
+
+    @Bean
+    public UserRepository userRepository(SpringUserRepository repository, UserMapper userMapper) {
+        return new UserRepositorySpringAdapter(repository, userMapper);
     }
 
     @Bean
@@ -22,13 +27,3 @@ class UserConfiguration {
         return new UserFacade(userRepository, createUserUseCase);
     }
 }
-
-//@ComponentScan(
-//        basePackageClasses = {UserFacade.class},
-//        includeFilters = {
-//                @Filter(type = FilterType.ANNOTATION, classes = {DomainService.class, Stub.class, Fake.class})
-//        },
-//        excludeFilters = {
-//                //@Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {someExternalAPIStub.class})
-//        }
-//)

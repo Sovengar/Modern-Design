@@ -19,7 +19,7 @@ CREATE SEQUENCE MD.ACCOUNTS_SQ START WITH 1;
 CREATE TABLE MD.ACCOUNTS (
     id BIGINT PRIMARY KEY,
     account_number VARCHAR(255),
-    amount DECIMAL(19,2),
+    balance DECIMAL(19,2),
     currency VARCHAR(5),
     address VARCHAR(255),
     date_of_last_transaction TIMESTAMP WITHOUT TIME ZONE,

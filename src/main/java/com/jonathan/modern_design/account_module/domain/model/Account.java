@@ -34,8 +34,8 @@ public class Account {
         return new Account(null, accountNumber, AccountMoneyVO.of(amount, currency), AccountAddressVO.of(address), user, null, true);
     }
 
-    public void deposit(BigDecimal amount, Currency currency) {
-        this.money = this.money.deposit(AccountMoneyVO.of(amount, currency));
+    public void add(BigDecimal amount, Currency currency) {
+        this.money = this.money.add(AccountMoneyVO.of(amount, currency));
         dateOfLastTransaction = LocalDateTime.now();
     }
 

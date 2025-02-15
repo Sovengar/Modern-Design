@@ -19,7 +19,7 @@ public class AccountMoneyVO {
         return new AccountMoneyVO(amount, currency);
     }
 
-    public AccountMoneyVO deposit(AccountMoneyVO other) {
+    public AccountMoneyVO add(AccountMoneyVO other) {
         checkCurrency(other);
         return new AccountMoneyVO(this.balance.add(other.balance), this.currency);
     }

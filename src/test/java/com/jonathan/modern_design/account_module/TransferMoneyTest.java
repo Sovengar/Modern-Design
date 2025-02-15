@@ -9,7 +9,7 @@ import com.jonathan.modern_design.account_module.domain.exceptions.AccountIsInac
 import com.jonathan.modern_design.account_module.domain.exceptions.OperationWithDifferentCurrenciesException;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountMoneyVO;
-import com.jonathan.modern_design.account_module.infra.persistence.AccountRepositoryFake;
+import com.jonathan.modern_design.account_module.infra.persistence.InMemoryAccountRepository;
 import com.jonathan.modern_design.user_module.UserFacade;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Test;
@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DisplayNameGeneration(PrettyTestNames.class)
 class TransferMoneyTest {
-    private final AccountRepository repository = new AccountRepositoryFake();
+    private final AccountRepository repository = new InMemoryAccountRepository();
     private final LocalDateTime supposedToBeNow = LocalDate.of(2020, 12, 25).atStartOfDay();
     @RegisterExtension
     TimeExtension timeExtension = new TimeExtension(supposedToBeNow);

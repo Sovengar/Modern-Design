@@ -3,6 +3,8 @@ package com.jonathan.modern_design.account_module;
 import com.jonathan.modern_design.account_module.application.AccountFacade;
 import com.jonathan.modern_design.account_module.application.create_account.CreateAccountService;
 import com.jonathan.modern_design.account_module.application.create_account.CreateAccountUseCase;
+import com.jonathan.modern_design.account_module.application.deposit.DepositService;
+import com.jonathan.modern_design.account_module.application.deposit.DepositUseCase;
 import com.jonathan.modern_design.account_module.application.find_account.FindAccountService;
 import com.jonathan.modern_design.account_module.application.find_account.FindAccountUseCase;
 import com.jonathan.modern_design.account_module.application.transfer_money.TransferMoneyService;
@@ -77,11 +79,17 @@ public class AccountConfiguration {
     }
 
     @Bean
+    public DepositUseCase depositUseCase(AccountRepository accountRepository) {
+        return new DepositService(accountRepository);
+    }
+
+    @Bean
     public AccountFacade accountFacade(AccountRepository accountRepository, UserFacade userFacade) {
         UpdateAccountUseCase updateAccountUseCase = updateAccountUseCase(accountRepository);
         TransferMoneyUseCase transferMoneyUseCase = sendMoneyUseCase(findAccountUseCase(accountRepository), updateAccountUseCase);
         CreateAccountUseCase createAccountUseCase = createAccountUseCase(accountRepository, userFacade);
+        DepositUseCase depositUseCase = depositUseCase(accountRepository);
 
-        return new AccountFacade(accountRepository, transferMoneyUseCase, updateAccountUseCase, createAccountUseCase);
+        return new AccountFacade(accountRepository, transferMoneyUseCase, updateAccountUseCase, createAccountUseCase, depositUseCase);
     }
 }
