@@ -47,7 +47,7 @@ class TransferMoneyTest {
 
         accountFacade.transferMoney(transactionWithAmount(50.0));
 
-        assertThat(target.getMoney().getAmount()).isEqualTo(BigDecimal.valueOf(50.0));
+        assertThat(target.getMoney().getBalance()).isEqualTo(BigDecimal.valueOf(50.0));
     }
 
     @Test

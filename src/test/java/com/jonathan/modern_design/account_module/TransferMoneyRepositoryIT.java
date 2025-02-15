@@ -38,7 +38,7 @@ class TransferMoneyRepositoryIT extends RepositoryITConfig {
         source = repository.findOne(source.getAccountNumber()).orElseThrow();
         target = repository.findOne(target.getAccountNumber()).orElseThrow();
 
-        assertThat(source.getMoney().getAmount()).isEqualTo(BigDecimal.valueOf(40.0));
-        assertThat(target.getMoney().getAmount()).isEqualTo(BigDecimal.valueOf(60.0));
+        assertThat(source.getMoney().getBalance()).isEqualTo(BigDecimal.valueOf(40.0));
+        assertThat(target.getMoney().getBalance()).isEqualTo(BigDecimal.valueOf(60.0));
     }
 }

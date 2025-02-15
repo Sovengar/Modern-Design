@@ -44,13 +44,13 @@ final class AccountAceptanceTest extends ITConfig {
     @Test
     void approval_test_transfer_money_into_the_target_account_check_source() {
         val accounts = getAccountsAfterTransfer(50.0);
-        Approvals.verify(accounts.source().getMoney().getAmount());
+        Approvals.verify(accounts.source().getMoney().getBalance());
     }
 
     @Test
     void approval_test_transfer_money_into_the_target_account_check_target() {
         val accounts = getAccountsAfterTransfer(50.0);
-        Approvals.verify(accounts.target().getMoney().getAmount());
+        Approvals.verify(accounts.target().getMoney().getBalance());
     }
 
     //    @Test

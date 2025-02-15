@@ -38,7 +38,7 @@ public interface AccountMapper {
 
     @Named("mapAmount")
     default BigDecimal mapAmount(AccountMoneyVO money) {
-        return money.getAmount();
+        return money.getBalance();
     }
 
     @Named("mapCurrency")

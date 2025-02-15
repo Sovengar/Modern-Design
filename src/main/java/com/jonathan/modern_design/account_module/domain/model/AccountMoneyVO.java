@@ -12,7 +12,7 @@ import java.util.Objects;
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class AccountMoneyVO {
-    private final BigDecimal amount;
+    private final BigDecimal balance;
     private final Currency currency;
 
     public static AccountMoneyVO of(BigDecimal amount, Currency currency) {
@@ -21,21 +21,21 @@ public class AccountMoneyVO {
 
     public AccountMoneyVO deposit(AccountMoneyVO other) {
         checkCurrency(other);
-        return new AccountMoneyVO(this.amount.add(other.amount), this.currency);
+        return new AccountMoneyVO(this.balance.add(other.balance), this.currency);
     }
 
     public AccountMoneyVO substract(AccountMoneyVO other) {
         checkCurrency(other);
 
-        if (isBalanceLowerThan(other.amount)) {
+        if (isBalanceLowerThan(other.balance)) {
             throw new InsufficientFundsException();
         }
 
-        return new AccountMoneyVO(this.amount.subtract(other.amount), this.currency);
+        return new AccountMoneyVO(this.balance.subtract(other.balance), this.currency);
     }
 
     public boolean isBalanceLowerThan(BigDecimal anotherAmount) {
-        return this.amount.compareTo(anotherAmount) < 0;
+        return this.balance.compareTo(anotherAmount) < 0;
     }
 
     private void checkCurrency(AccountMoneyVO other) {
@@ -49,17 +49,17 @@ public class AccountMoneyVO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AccountMoneyVO money = (AccountMoneyVO) o;
-        return amount.equals(money.amount) && currency.equals(money.currency);
+        return balance.equals(money.balance) && currency.equals(money.currency);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(amount, currency);
+        return Objects.hash(balance, currency);
     }
 
     @Override
     public String toString() {
-        return amount + " " + currency;
+        return balance + " " + currency;
     }
 
 
