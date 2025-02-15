@@ -52,7 +52,7 @@ class SendMoneyTest {
 
         accountFacade.sendMoney(transactionWithAmount(50.0));
 
-        assertThat(target.getAmount()).isEqualTo(BigDecimal.valueOf(50.0));
+        assertThat(target.getMoney().getAmount()).isEqualTo(BigDecimal.valueOf(50.0));
     }
 
     @Test
@@ -63,7 +63,7 @@ class SendMoneyTest {
 
         accountFacade.sendMoney(transactionWithAmount(50.0));
 
-        Approvals.verify(target.getAmount());
+        Approvals.verify(target.getMoney().getAmount());
     }
 
     @Test

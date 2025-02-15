@@ -6,13 +6,11 @@ import com.jonathan.modern_design._fake_data.CreateAccountMother;
 import com.jonathan.modern_design.account_module.application.AccountFacade;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Import(AccountConfiguration.class)
 final class AccountTestCase extends ITConfig {
     ObjectMapper mapper = new ObjectMapper();
     @Autowired
@@ -22,7 +20,7 @@ final class AccountTestCase extends ITConfig {
     void should_create_account() throws Exception {
         String json = mapper.writeValueAsString(CreateAccountMother.createAccountCommandWithValidData());
 
-        mockMvc.perform(post("/api/v1/accounts/a")
+        mockMvc.perform(post("/api/v1/accounts")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isCreated());
@@ -31,13 +29,6 @@ final class AccountTestCase extends ITConfig {
         //.andExpect(jsonPath("$.starships[0].name").value("Millennium Falcon"))
         //.andExpect(jsonPath("$.starships[0].capacity").value("6"));
     }
-
-//    @TestConfiguration
-//    @ComponentScan(
-//            basePackageClasses = {AccountConfiguration.class},
-//            includeFilters = {@ComponentScan.Filter(type = FilterType.ANNOTATION, classes = {Stub.class})})
-//    static class StubConfiguration {
-//    }
 
 //    @Test
 //    void should_return_a_fleet_given_an_id() throws Exception {
