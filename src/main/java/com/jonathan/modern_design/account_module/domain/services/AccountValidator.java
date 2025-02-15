@@ -1,8 +1,8 @@
 package com.jonathan.modern_design.account_module.domain.services;
 
+import com.jonathan.modern_design._infra.config.annotations.DomainService;
 import com.jonathan.modern_design.account_module.domain.exceptions.AccountIsInactiveException;
 import com.jonathan.modern_design.account_module.domain.model.Account;
-import com.jonathan.modern_design.config.annotations.DomainService;
 
 @DomainService
 public class AccountValidator {

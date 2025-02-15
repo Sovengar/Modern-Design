@@ -1,27 +1,26 @@
 package com.jonathan.modern_design.user_module;
 
-import com.jonathan.modern_design.config.annotations.DomainService;
+import com.jonathan.modern_design._infra.config.annotations.DomainService;
 import com.jonathan.modern_design.user_module.dtos.CreateUserCommand;
-import com.jonathan.modern_design.user_module.vo.UserEmailVO;
-import com.jonathan.modern_design.user_module.vo.UserNameVO;
-import com.jonathan.modern_design.user_module.vo.UserPasswordVO;
-import com.jonathan.modern_design.user_module.vo.UserRealNameVO;
+import com.jonathan.modern_design.user_module.model.UserEmail;
+import com.jonathan.modern_design.user_module.model.UserName;
+import com.jonathan.modern_design.user_module.model.UserPassword;
+import com.jonathan.modern_design.user_module.model.UserRealName;
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 
 @DomainService
 @RequiredArgsConstructor
 class CreateUserService implements CreateUserUseCase {
     private final UserRepository repository;
 
-    @Transactional
     @Override
     public User createUser(CreateUserCommand command) {
         final var user = User.builder()
-                .realname(UserRealNameVO.of(command.realname()))
-                .username(UserNameVO.of(command.username()))
-                .email(UserEmailVO.of(command.email()))
-                .password(UserPasswordVO.of(command.password()))
+                .uuid(command.uuid())
+                .realname(UserRealName.of(command.realname()))
+                .username(UserName.of(command.username()))
+                .email(UserEmail.of(command.email()))
+                .password(UserPassword.of(command.password()))
                 .country(command.country())
                 .build();
 

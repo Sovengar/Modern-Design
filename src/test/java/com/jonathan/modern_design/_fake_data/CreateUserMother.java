@@ -3,10 +3,12 @@ package com.jonathan.modern_design._fake_data;
 import com.jonathan.modern_design.user_module.dtos.CreateUserCommand;
 
 import static com.jonathan.modern_design._fake_data.UserStub.DEFAULT_COUNTRY;
+import static com.jonathan.modern_design._fake_data.UserStub.DEFAULT_UUID;
 
 public class CreateUserMother extends Stub {
     public static CreateUserCommand createUserCommandWithValidData() {
         return CreateUserCommand.builder()
+                .uuid(DEFAULT_UUID)
                 .realname(faker.name().fullName())
                 .email(faker.internet().emailAddress())
                 .username(faker.name().username())
@@ -17,6 +19,7 @@ public class CreateUserMother extends Stub {
 
     public static CreateUserCommand createUserCommandWithShortPassword() {
         return CreateUserCommand.builder()
+                .uuid(DEFAULT_UUID)
                 .realname(faker.name().fullName())
                 .email(faker.internet().emailAddress())
                 .username(faker.name().username())
@@ -27,6 +30,7 @@ public class CreateUserMother extends Stub {
 
     public static CreateUserCommand createUserCommandWithTooLongPassword() {
         return CreateUserCommand.builder()
+                .uuid(DEFAULT_UUID)
                 .realname(faker.name().fullName())
                 .email(faker.internet().emailAddress())
                 .username(faker.name().username())

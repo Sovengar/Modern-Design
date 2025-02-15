@@ -1,13 +1,13 @@
 package com.jonathan.modern_design.account_module.application.transfer_money;
 
+import com.jonathan.modern_design._infra.config.annotations.DomainService;
+import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design.account_module.application.find_account.FindAccountUseCase;
 import com.jonathan.modern_design.account_module.application.update_account.UpdateAccountUseCase;
 import com.jonathan.modern_design.account_module.domain.exceptions.AccountNotFoundException;
 import com.jonathan.modern_design.account_module.domain.exceptions.OperationForbiddenForSameAccount;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.services.AccountValidator;
-import com.jonathan.modern_design.config.annotations.DomainService;
-import com.jonathan.modern_design.shared.Currency;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 

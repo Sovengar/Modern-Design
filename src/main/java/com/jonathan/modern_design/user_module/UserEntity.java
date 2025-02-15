@@ -1,12 +1,14 @@
 package com.jonathan.modern_design.user_module;
 
-import com.jonathan.modern_design.config.database.BaseEntity;
+import com.jonathan.modern_design._infra.config.database.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PostPersist;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,7 +34,12 @@ import java.util.UUID;
 public class UserEntity extends BaseEntity {
 
     @Id
-    @GeneratedValue
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USERS_SQ")
+    @SequenceGenerator(name = "USERS_SQ", sequenceName = "MD.USERS_SQ", allocationSize = 1, initialValue = 1)
+    private Long id;
+
+    @Column
     private UUID uuid;
 
     @Column

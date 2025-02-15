@@ -1,5 +1,9 @@
 package com.jonathan.modern_design.account_module;
 
+import com.jonathan.modern_design._infra.config.annotations.BeanClass;
+import com.jonathan.modern_design._infra.config.annotations.DomainService;
+import com.jonathan.modern_design._infra.config.annotations.PersistenceAdapter;
+import com.jonathan.modern_design._infra.config.annotations.WebAdapter;
 import com.jonathan.modern_design.account_module.application.AccountFacade;
 import com.jonathan.modern_design.account_module.application.create_account.CreateAccountService;
 import com.jonathan.modern_design.account_module.application.create_account.CreateAccountUseCase;
@@ -13,15 +17,10 @@ import com.jonathan.modern_design.account_module.application.update_account.Upda
 import com.jonathan.modern_design.account_module.application.update_account.UpdateAccountUseCase;
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.services.AccountValidator;
-import com.jonathan.modern_design.account_module.infra.AccountController;
 import com.jonathan.modern_design.account_module.infra.AccountMapper;
 import com.jonathan.modern_design.account_module.infra.AccountMapperAdapter;
 import com.jonathan.modern_design.account_module.infra.persistence.AccountRepositorySpringAdapter;
 import com.jonathan.modern_design.account_module.infra.persistence.SpringAccountRepository;
-import com.jonathan.modern_design.config.annotations.BeanClass;
-import com.jonathan.modern_design.config.annotations.DomainService;
-import com.jonathan.modern_design.config.annotations.PersistenceAdapter;
-import com.jonathan.modern_design.config.annotations.WebAdapter;
 import com.jonathan.modern_design.user_module.UserFacade;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -40,11 +39,6 @@ import org.springframework.context.annotation.FilterType;
         }
 )
 public class AccountConfiguration {
-
-    @Bean
-    public AccountController accountController(AccountFacade accountFacade) {
-        return new AccountController(accountFacade);
-    }
 
     @Bean
     public AccountMapper accountMapper() {

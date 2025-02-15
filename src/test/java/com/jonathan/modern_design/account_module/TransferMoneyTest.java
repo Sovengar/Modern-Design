@@ -8,7 +8,7 @@ import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.exceptions.AccountIsInactiveException;
 import com.jonathan.modern_design.account_module.domain.exceptions.OperationWithDifferentCurrenciesException;
 import com.jonathan.modern_design.account_module.domain.model.Account;
-import com.jonathan.modern_design.account_module.domain.model.AccountMoneyVO;
+import com.jonathan.modern_design.account_module.domain.model.AccountMoney;
 import com.jonathan.modern_design.account_module.infra.persistence.InMemoryAccountRepository;
 import com.jonathan.modern_design.user_module.UserFacade;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -67,7 +67,7 @@ class TransferMoneyTest {
         Account target = AccountStub.targetAccountwithBalance(100.0);
         poblatePersistenceLayer(source, target);
 
-        assertThrows(AccountMoneyVO.InsufficientFundsException.class, () -> {
+        assertThrows(AccountMoney.InsufficientFundsException.class, () -> {
             accountFacade.transferMoney(transactionWithAmount(50.0));
         });
     }

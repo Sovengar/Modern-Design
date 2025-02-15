@@ -1,8 +1,8 @@
 package com.jonathan.modern_design.account_module.infra;
 
+import com.jonathan.modern_design._infra.config.annotations.BeanClass;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.infra.persistence.AccountEntity;
-import com.jonathan.modern_design.config.annotations.BeanClass;
 import org.mapstruct.factory.Mappers;
 
 @BeanClass

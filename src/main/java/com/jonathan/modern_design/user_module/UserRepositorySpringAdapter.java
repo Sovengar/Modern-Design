@@ -1,11 +1,11 @@
 package com.jonathan.modern_design.user_module;
 
-import com.jonathan.modern_design.config.annotations.PersistenceAdapter;
+import com.jonathan.modern_design._infra.config.annotations.PersistenceAdapter;
 import lombok.RequiredArgsConstructor;
 
 @PersistenceAdapter
 @RequiredArgsConstructor
-class UserRepositorySpringAdapter implements UserRepository {
+public class UserRepositorySpringAdapter implements UserRepository {
     private final SpringUserRepository repository;
     private final UserMapper userMapper;
 

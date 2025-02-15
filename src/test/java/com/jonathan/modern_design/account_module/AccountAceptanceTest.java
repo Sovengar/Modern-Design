@@ -2,9 +2,11 @@ package com.jonathan.modern_design.account_module;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jonathan.modern_design.__config.ITConfig;
-import com.jonathan.modern_design._fake_data.AccountStub;
 import com.jonathan.modern_design._fake_data.CreateAccountMother;
+import com.jonathan.modern_design._fake_data.CreateAccountStub;
+import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design.account_module.application.AccountFacade;
+import com.jonathan.modern_design.account_module.application.deposit.DepositCommand;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.infra.persistence.AccountRepositorySpringAdapter;
 import lombok.val;
@@ -14,7 +16,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 
-import static com.jonathan.modern_design._fake_data.SendMoneyMother.transactionWithAmount;
+import java.math.BigDecimal;
+
+import static com.jonathan.modern_design._fake_data.SendMoneyMother.fromAccountToAccountWithAmount;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -70,13 +74,15 @@ final class AccountAceptanceTest extends ITConfig {
 //        //.andExpect(jsonPath("$.starships[0].capacity").value(fleet.starships().get(0).passengersCapacity()));
 //    }
     private @NotNull AccountsAfterTransfer getAccountsAfterTransfer(final double amount) {
-        Account source = repository.create(AccountStub.sourceAccountwithBalance(100.0));
-        Account target = repository.create(AccountStub.targetAccountEmpty());
+        var source = accountFacade.createAccount(CreateAccountStub.randomAccountWithCurrency(Currency.EURO));
+        source = accountFacade.deposit(new DepositCommand(source.getAccountNumber(), BigDecimal.valueOf(100), Currency.EURO));
+        var target = accountFacade.createAccount(CreateAccountStub.randomAccountWithCurrency(Currency.EURO));
 
-        accountFacade.transferMoney(transactionWithAmount(amount));
+        accountFacade.transferMoney(fromAccountToAccountWithAmount(source.getAccountNumber(), target.getAccountNumber(), 60.0));
 
         source = repository.findOne(source.getAccountNumber()).orElseThrow();
         target = repository.findOne(target.getAccountNumber()).orElseThrow();
+
         AccountsAfterTransfer result = new AccountsAfterTransfer(source, target);
         return result;
     }

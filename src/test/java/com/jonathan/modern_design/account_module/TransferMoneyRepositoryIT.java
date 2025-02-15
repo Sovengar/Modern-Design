@@ -2,10 +2,10 @@ package com.jonathan.modern_design.account_module;
 
 import com.jonathan.modern_design.__config.RepositoryITConfig;
 import com.jonathan.modern_design._fake_data.CreateAccountStub;
+import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design.account_module.application.AccountFacade;
 import com.jonathan.modern_design.account_module.application.deposit.DepositCommand;
 import com.jonathan.modern_design.account_module.infra.persistence.AccountRepositorySpringAdapter;
-import com.jonathan.modern_design.shared.Currency;
 import com.jonathan.modern_design.user_module.UserFacade;
 import com.jonathan.modern_design.user_module.dtos.CreateUserCommand;
 import org.junit.jupiter.api.Test;

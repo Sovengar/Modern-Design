@@ -1,9 +1,9 @@
 package com.jonathan.modern_design.account_module.infra.persistence;
 
+import com.jonathan.modern_design._infra.config.annotations.PersistenceAdapter;
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.infra.AccountMapper;
-import com.jonathan.modern_design.config.annotations.PersistenceAdapter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
@@ -19,6 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AccountRepositorySpringAdapter implements AccountRepository { //TODO FIX, AQUI DEBERIA LLAMAR LAS INTERFACES, YA QUE ALOMEJOR LA ESCRITURA ES DB Y LA LECTURA ES DE UN JSON
     private final SpringAccountRepository repository;
+    //private final SpringUserRepository userRepository;
     private final AccountMapper accountMapper;
 
     @Override
@@ -39,8 +40,11 @@ public class AccountRepositorySpringAdapter implements AccountRepository { //TOD
 
     @Override
     public Account create(final Account account) {
+        //TODO var userEntity = userRepository.findById(account.getUser().getUuid()).orElseThrow();
         var accountEntity = accountMapper.toAccountEntity(account);
+        //accountEntity.setUser(userEntity);
         accountEntity = repository.save(accountEntity);
+
         return accountMapper.toAccount(accountEntity);
     }
 

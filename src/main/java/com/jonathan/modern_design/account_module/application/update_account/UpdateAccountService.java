@@ -1,8 +1,8 @@
 package com.jonathan.modern_design.account_module.application.update_account;
 
+import com.jonathan.modern_design._infra.config.annotations.DomainService;
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.model.Account;
-import com.jonathan.modern_design.config.annotations.DomainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 

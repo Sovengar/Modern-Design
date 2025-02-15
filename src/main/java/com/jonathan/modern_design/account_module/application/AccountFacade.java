@@ -1,5 +1,6 @@
 package com.jonathan.modern_design.account_module.application;
 
+import com.jonathan.modern_design._infra.config.annotations.BeanClass;
 import com.jonathan.modern_design.account_module.application.create_account.CreateAccountCommand;
 import com.jonathan.modern_design.account_module.application.create_account.CreateAccountUseCase;
 import com.jonathan.modern_design.account_module.application.deposit.DepositCommand;
@@ -10,13 +11,14 @@ import com.jonathan.modern_design.account_module.application.transfer_money.Tran
 import com.jonathan.modern_design.account_module.application.update_account.UpdateAccountUseCase;
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.model.Account;
-import com.jonathan.modern_design.config.annotations.BeanClass;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @BeanClass
 @RequiredArgsConstructor
+@Transactional
 public class AccountFacade implements TransferMoneyUseCase, FindAccountUseCase, UpdateAccountUseCase, CreateAccountUseCase, DepositUseCase {
     private final AccountRepository accountRepository;
     private final TransferMoneyUseCase transferMoneyUseCase;

@@ -1,9 +1,9 @@
 package com.jonathan.modern_design.user_module;
 
-import com.jonathan.modern_design.user_module.vo.UserEmailVO;
-import com.jonathan.modern_design.user_module.vo.UserNameVO;
-import com.jonathan.modern_design.user_module.vo.UserPasswordVO;
-import com.jonathan.modern_design.user_module.vo.UserRealNameVO;
+import com.jonathan.modern_design.user_module.model.UserEmail;
+import com.jonathan.modern_design.user_module.model.UserName;
+import com.jonathan.modern_design.user_module.model.UserPassword;
+import com.jonathan.modern_design.user_module.model.UserRealName;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -26,42 +26,42 @@ public interface UserMapper {
     UserEntity toUserEntity(final User user);
 
     @Named("mapEmail")
-    default UserEmailVO mapEmail(String email) {
-        return UserEmailVO.of(email);
+    default UserEmail mapEmail(String email) {
+        return UserEmail.of(email);
     }
 
     @Named("mapPassword")
-    default UserPasswordVO mapPassword(String password) {
-        return UserPasswordVO.of(password);
+    default UserPassword mapPassword(String password) {
+        return UserPassword.of(password);
     }
 
     @Named("mapRealName")
-    default UserRealNameVO mapRealName(String realname) {
-        return UserRealNameVO.of(realname);
+    default UserRealName mapRealName(String realname) {
+        return UserRealName.of(realname);
     }
 
     @Named("mapUsername")
-    default UserNameVO mapUsername(String username) {
-        return UserNameVO.of(username);
+    default UserName mapUsername(String username) {
+        return UserName.of(username);
     }
 
     @Named("mapEmail")
-    default String mapEmail(UserEmailVO email) {
+    default String mapEmail(UserEmail email) {
         return email.getEmail();
     }
 
     @Named("mapPassword")
-    default String mapPassword(UserPasswordVO password) {
+    default String mapPassword(UserPassword password) {
         return password.getPassword();
     }
 
     @Named("mapRealName")
-    default String mapRealName(UserRealNameVO realname) {
+    default String mapRealName(UserRealName realname) {
         return realname.getName();
     }
 
     @Named("mapUsername")
-    default String mapUsername(UserNameVO username) {
+    default String mapUsername(UserName username) {
         return username.getName();
     }
 

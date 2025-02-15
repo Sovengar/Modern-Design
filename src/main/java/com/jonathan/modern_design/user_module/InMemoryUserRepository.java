@@ -1,6 +1,6 @@
 package com.jonathan.modern_design.user_module;
 
-import com.jonathan.modern_design.config.annotations.Fake;
+import com.jonathan.modern_design._infra.config.annotations.Fake;
 
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -12,8 +12,6 @@ class InMemoryUserRepository implements UserRepository {
 
     @Override
     public User createUser(User user) {
-        user.setUuid(UUID.randomUUID());
-
         users.put(user.getUuid(), user);
         return user;
     }

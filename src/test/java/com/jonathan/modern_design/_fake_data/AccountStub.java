@@ -1,9 +1,9 @@
 package com.jonathan.modern_design._fake_data;
 
+import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design.account_module.domain.model.Account;
-import com.jonathan.modern_design.account_module.domain.model.AccountAddressVO;
-import com.jonathan.modern_design.account_module.domain.model.AccountMoneyVO;
-import com.jonathan.modern_design.shared.Currency;
+import com.jonathan.modern_design.account_module.domain.model.AccountAddress;
+import com.jonathan.modern_design.account_module.domain.model.AccountMoney;
 
 import java.math.BigDecimal;
 
@@ -49,8 +49,8 @@ public class AccountStub extends Stub {
     private static Account builder(String accountId, double balance, boolean isActive, Currency currency) {
         return Account.builder()
                 .accountNumber(accountId)
-                .money(AccountMoneyVO.of(BigDecimal.valueOf(balance), currency))
-                .address(AccountAddressVO.of("street", "city", "state", "zipCode"))
+                .money(AccountMoney.of(BigDecimal.valueOf(balance), currency))
+                .address(AccountAddress.of("street", "city", "state", "zipCode"))
                 .user(normalUser())
                 .active(isActive).build();
     }

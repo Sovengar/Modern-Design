@@ -1,6 +1,6 @@
 package com.jonathan.modern_design.account_module.application.deposit;
 
-import com.jonathan.modern_design.shared.Currency;
+import com.jonathan.modern_design._shared.Currency;
 
 import java.math.BigDecimal;
 

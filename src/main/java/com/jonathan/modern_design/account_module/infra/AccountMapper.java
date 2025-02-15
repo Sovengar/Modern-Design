@@ -1,10 +1,10 @@
 package com.jonathan.modern_design.account_module.infra;
 
+import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design.account_module.domain.model.Account;
-import com.jonathan.modern_design.account_module.domain.model.AccountAddressVO;
-import com.jonathan.modern_design.account_module.domain.model.AccountMoneyVO;
+import com.jonathan.modern_design.account_module.domain.model.AccountAddress;
+import com.jonathan.modern_design.account_module.domain.model.AccountMoney;
 import com.jonathan.modern_design.account_module.infra.persistence.AccountEntity;
-import com.jonathan.modern_design.shared.Currency;
 import com.jonathan.modern_design.user_module.UserMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -32,27 +32,27 @@ public interface AccountMapper {
     @Mapping(source = "money", target = "currency", qualifiedByName = "mapCurrency")
     void updateAccountEntity(Account account, @MappingTarget AccountEntity accountEntity);
 
-    default AccountMoneyVO mapMoney(BigDecimal balance, Currency currency) {
-        return AccountMoneyVO.of(balance, currency);
+    default AccountMoney mapMoney(BigDecimal balance, Currency currency) {
+        return AccountMoney.of(balance, currency);
     }
 
     @Named("mapBalance")
-    default BigDecimal mapBalance(AccountMoneyVO money) {
+    default BigDecimal mapBalance(AccountMoney money) {
         return money.getBalance();
     }
 
     @Named("mapCurrency")
-    default Currency mapCurrency(AccountMoneyVO money) {
+    default Currency mapCurrency(AccountMoney money) {
         return money.getCurrency();
     }
 
     @Named("mapAddress")
-    default AccountAddressVO mapAddress(String address) {
-        return AccountAddressVO.of(address);
+    default AccountAddress mapAddress(String address) {
+        return AccountAddress.of(address);
     }
 
     @Named("mapAddress")
-    default String mapAddress(AccountAddressVO address) {
+    default String mapAddress(AccountAddress address) {
         return address.toString();
     }
 }

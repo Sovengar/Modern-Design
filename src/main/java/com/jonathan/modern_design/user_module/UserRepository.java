@@ -1,5 +1,5 @@
 package com.jonathan.modern_design.user_module;
 
-interface UserRepository {
+public interface UserRepository {
     User createUser(User user);
 }
