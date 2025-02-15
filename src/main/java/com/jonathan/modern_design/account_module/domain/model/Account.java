@@ -49,6 +49,10 @@ public class Account {
         return id;
     }
 
+    public User getUser() { //Only use it to map, dont use it for anything else
+        return user;
+    }
+
     public LocalDateTime getDateOfLastTransaction() {
         return dateOfLastTransaction;
     }
@@ -59,10 +63,6 @@ public class Account {
 
     public String getAddress() {
         return address.toString();
-    }
-
-    public BigDecimal getAmount() {
-        return money.getAmount();
     }
 
     public AccountMoneyVO getMoney() {
