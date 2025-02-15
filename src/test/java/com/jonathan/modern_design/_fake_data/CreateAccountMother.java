@@ -1,6 +1,7 @@
 package com.jonathan.modern_design._fake_data;
 
 import com.jonathan.modern_design.account_module.application.create_account.CreateAccountCommand;
+import com.jonathan.modern_design.shared.Currency;
 
 public class CreateAccountMother {
 
@@ -9,7 +10,7 @@ public class CreateAccountMother {
                 .username("Account Name")
                 .email("z3u1E@example.com")
                 .realname("John Doe")
-                .currency("EUR")
+                .currency(Currency.EURO)
                 .password("123456")
                 .country("FR")
                 .build();
@@ -21,7 +22,7 @@ public class CreateAccountMother {
                 .email("z3u1E@example.com")
                 .realname("John Doe")
                 .address("street, city, state, zipCode")
-                .currency("EUR")
+                .currency(Currency.EURO)
                 .password("123456")
                 .country("FR")
                 .build();

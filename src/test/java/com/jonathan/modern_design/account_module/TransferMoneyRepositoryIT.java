@@ -1,11 +1,13 @@
 package com.jonathan.modern_design.account_module;
 
 import com.jonathan.modern_design.__config.RepositoryITConfig;
-import com.jonathan.modern_design._fake_data.AccountStub;
+import com.jonathan.modern_design._fake_data.CreateAccountStub;
 import com.jonathan.modern_design.account_module.application.AccountFacade;
-import com.jonathan.modern_design.account_module.domain.model.Account;
+import com.jonathan.modern_design.account_module.application.deposit.DepositCommand;
 import com.jonathan.modern_design.account_module.infra.persistence.AccountRepositorySpringAdapter;
+import com.jonathan.modern_design.shared.Currency;
 import com.jonathan.modern_design.user_module.UserFacade;
+import com.jonathan.modern_design.user_module.dtos.CreateUserCommand;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -13,8 +15,11 @@ import org.springframework.context.annotation.Import;
 
 import java.math.BigDecimal;
 
-import static com.jonathan.modern_design._fake_data.SendMoneyMother.transactionWithAmount;
+import static com.jonathan.modern_design._fake_data.SendMoneyMother.fromAccountToAccountWithAmount;
+import static com.jonathan.modern_design._fake_data.UserStub.normalUser;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 @Import(AccountConfiguration.class)
 class TransferMoneyRepositoryIT extends RepositoryITConfig {
@@ -30,10 +35,12 @@ class TransferMoneyRepositoryIT extends RepositoryITConfig {
 
     @Test
     void should_send_money_into_the_target_account() {
-        Account source = repository.create(AccountStub.sourceAccountwithBalance(100.0));
-        Account target = repository.create(AccountStub.targetAccountEmpty());
+        var source = accountFacade.createAccount(CreateAccountStub.randomAccountWithCurrency(Currency.EURO));
+        source = accountFacade.deposit(new DepositCommand(source.getAccountNumber(), BigDecimal.valueOf(100), Currency.EURO));
+        var target = accountFacade.createAccount(CreateAccountStub.randomAccountWithCurrency(Currency.EURO));
+        when(userFacade.createUser(any(CreateUserCommand.class))).thenReturn(normalUser()); //TODO DEVUELVE NULL
 
-        accountFacade.transferMoney(transactionWithAmount(60.0));
+        accountFacade.transferMoney(fromAccountToAccountWithAmount(source.getAccountNumber(), target.getAccountNumber(), 60.0));
 
         source = repository.findOne(source.getAccountNumber()).orElseThrow();
         target = repository.findOne(target.getAccountNumber()).orElseThrow();

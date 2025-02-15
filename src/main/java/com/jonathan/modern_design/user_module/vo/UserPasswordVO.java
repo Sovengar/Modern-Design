@@ -1,5 +1,6 @@
 package com.jonathan.modern_design.user_module.vo;
 
+import com.jonathan.modern_design.config.exception.RootException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +41,7 @@ public class UserPasswordVO {
         return password.equals(passwordVO.password);
     }
 
-    private static class UserPasswordNotValidException extends RuntimeException {
+    private static class UserPasswordNotValidException extends RootException {
         public UserPasswordNotValidException(String message) {
             super(message);
         }

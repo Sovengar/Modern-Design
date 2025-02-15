@@ -1,6 +1,7 @@
 package com.jonathan.modern_design.account_module.application.deposit;
 
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
+import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.config.annotations.DomainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,9 +13,11 @@ public class DepositService implements DepositUseCase {
 
     @Transactional
     @Override
-    public void deposit(final DepositCommand command) {
+    public Account deposit(final DepositCommand command) {
         var account = repository.findOne(command.accountNumber()).orElseThrow();
         account.add(command.amount(), command.currency());
         repository.update(account);
+
+        return repository.findOne(command.accountNumber()).orElseThrow();
     }
 }

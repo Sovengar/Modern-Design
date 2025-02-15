@@ -45,7 +45,7 @@ public class AccountFacade implements TransferMoneyUseCase, FindAccountUseCase, 
     }
 
     @Override
-    public void deposit(final DepositCommand command) {
-        depositUseCase.deposit(command);
+    public Account deposit(final DepositCommand command) {
+        return depositUseCase.deposit(command);
     }
 }

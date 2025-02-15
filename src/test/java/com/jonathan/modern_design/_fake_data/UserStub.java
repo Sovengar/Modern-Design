@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public class UserStub extends Stub {
     public static final String DEFAULT_COUNTRY = "ES";
-    private static final UUID DEFAULT_ID = UUID.randomUUID();
+    private static final UUID DEFAULT_ID = UUID.fromString("47611f29-731c-4dcc-966b-3537c35e8ace");
 
     public static User normalUser() {
         return User.builder()

@@ -1,5 +1,6 @@
 package com.jonathan.modern_design.user_module.vo;
 
+import com.jonathan.modern_design.config.exception.RootException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +44,7 @@ public class UserEmailVO {
         return email;
     }
 
-    private static class InvalidEmailException extends RuntimeException {
+    private static class InvalidEmailException extends RootException {
         public InvalidEmailException(String message) {
             super(message);
         }

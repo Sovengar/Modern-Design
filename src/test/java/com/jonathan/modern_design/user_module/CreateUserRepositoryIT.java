@@ -10,7 +10,7 @@ import static com.jonathan.modern_design._fake_data.CreateUserMother.createUserC
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Import(UserConfiguration.class)
-class CreateUserIT extends RepositoryITConfig {
+class CreateUserRepositoryIT extends RepositoryITConfig {
 
     @Autowired
     private UserRepositorySpringAdapter repository;

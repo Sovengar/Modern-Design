@@ -1,6 +1,8 @@
 package com.jonathan.modern_design.account_module.domain.exceptions;
 
-public class AccountIsInactiveException extends RuntimeException {
+import com.jonathan.modern_design.config.exception.RootException;
+
+public class AccountIsInactiveException extends RootException {
     public AccountIsInactiveException(String accountNumber) {
         super(String.format("Account %s is inactive", accountNumber));
     }
