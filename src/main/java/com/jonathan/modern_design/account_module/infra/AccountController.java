@@ -2,9 +2,10 @@ package com.jonathan.modern_design.account_module.infra;
 
 import com.jonathan.modern_design.account_module.application.AccountFacade;
 import com.jonathan.modern_design.account_module.application.create_account.CreateAccountCommand;
-import com.jonathan.modern_design.account_module.application.send_money.SendMoneyCommand;
+import com.jonathan.modern_design.account_module.application.transfer_money.TransferMoneyCommand;
 import com.jonathan.modern_design.config.annotations.WebAdapter;
 import com.jonathan.modern_design.shared.Currency;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -30,6 +31,7 @@ import static org.springframework.web.servlet.mvc.method.annotation.MvcUriCompon
 public class AccountController {
     private final AccountFacade accountFacade;
 
+    @Transactional
     @PostMapping(path = "/transfer/{sourceAccountId}/{targetAccountId}/{amount}/{currency}")
     void transferMoney(
             @PathVariable("sourceAccountId") String sourceAccountId,
@@ -39,9 +41,9 @@ public class AccountController {
 
         log.info("BEGIN Transfer money from {} to {} with amount {}", sourceAccountId, targetAccountId, amount);
 
-        val command = new SendMoneyCommand(sourceAccountId, targetAccountId, amount, Currency.fromCode(currency));
+        val command = new TransferMoneyCommand(sourceAccountId, targetAccountId, amount, Currency.fromCode(currency));
 
-        accountFacade.sendMoney(command);
+        accountFacade.transferMoney(command);
 
         log.info("END Transfer money from {} to {} with amount {}", sourceAccountId, targetAccountId, amount);
     }

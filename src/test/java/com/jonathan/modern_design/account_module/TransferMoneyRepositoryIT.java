@@ -17,7 +17,7 @@ import static com.jonathan.modern_design._fake_data.SendMoneyMother.transactionW
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Import(AccountConfiguration.class)
-class SendMoneyRepositoryIT extends RepositoryITConfig {
+class TransferMoneyRepositoryIT extends RepositoryITConfig {
 
     @Autowired
     private AccountRepositorySpringAdapter repository;
@@ -33,7 +33,7 @@ class SendMoneyRepositoryIT extends RepositoryITConfig {
         Account source = repository.create(AccountStub.sourceAccountwithBalance(100.0));
         Account target = repository.create(AccountStub.targetAccountEmpty());
 
-        accountFacade.sendMoney(transactionWithAmount(60.0));
+        accountFacade.transferMoney(transactionWithAmount(60.0));
 
         source = repository.findOne(source.getAccountNumber()).orElseThrow();
         target = repository.findOne(target.getAccountNumber()).orElseThrow();

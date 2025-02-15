@@ -11,7 +11,6 @@ import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountMoneyVO;
 import com.jonathan.modern_design.account_module.infra.persistence.AccountRepositoryFake;
 import com.jonathan.modern_design.user_module.UserFacade;
-import org.approvaltests.Approvals;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
@@ -26,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DisplayNameGeneration(PrettyTestNames.class)
-class SendMoneyTest {
+class TransferMoneyTest {
     private final AccountRepository repository = new AccountRepositoryFake();
     private final LocalDateTime supposedToBeNow = LocalDate.of(2020, 12, 25).atStartOfDay();
     @RegisterExtension
@@ -35,35 +34,20 @@ class SendMoneyTest {
     private UserFacade userFacade;
     private final AccountFacade accountFacade = new AccountConfiguration().accountFacade(repository, userFacade);
 
-    private static LocalDate testedCode() { // deep in a dark library
-        return LocalDate.now();
-    }
-
     private void poblatePersistenceLayer(Account source, Account target) {
         repository.create(source);
         repository.create(target);
     }
 
     @Test
-    void should_send_money_into_the_target_account() {
+    void should_transfer_money_into_the_target_account() {
         Account source = AccountStub.sourceAccountwithBalance(100.0);
         Account target = AccountStub.targetAccountEmpty();
         poblatePersistenceLayer(source, target);
 
-        accountFacade.sendMoney(transactionWithAmount(50.0));
+        accountFacade.transferMoney(transactionWithAmount(50.0));
 
         assertThat(target.getMoney().getAmount()).isEqualTo(BigDecimal.valueOf(50.0));
-    }
-
-    @Test
-    void approval_test_send_money_into_the_target_account() {
-        Account source = AccountStub.sourceAccountwithBalance(100.0);
-        Account target = AccountStub.targetAccountEmpty();
-        poblatePersistenceLayer(source, target);
-
-        accountFacade.sendMoney(transactionWithAmount(50.0));
-
-        Approvals.verify(target.getMoney().getAmount());
     }
 
     @Test
@@ -72,41 +56,41 @@ class SendMoneyTest {
         Account target = AccountStub.targetAccountEmpty();
         poblatePersistenceLayer(source, target);
 
-        accountFacade.sendMoney(transactionWithAmount(50.0));
+        accountFacade.transferMoney(transactionWithAmount(50.0));
 
         assertThat(target.getDateOfLastTransaction()).isEqualTo(supposedToBeNow);
     }
 
     @Test
-    void should_fail_when_sending_money_without_enough_money() {
+    void should_fail_transference_when_not_enough_money() {
         Account source = AccountStub.sourceAccountEmpty();
         Account target = AccountStub.targetAccountwithBalance(100.0);
         poblatePersistenceLayer(source, target);
 
         assertThrows(AccountMoneyVO.InsufficientFundsException.class, () -> {
-            accountFacade.sendMoney(transactionWithAmount(50.0));
+            accountFacade.transferMoney(transactionWithAmount(50.0));
         });
     }
 
     @Test
-    void should_fail_when_source_account_is_inactive() {
+    void should_fail_transference_when_source_account_is_inactive() {
         Account source = AccountStub.sourceAccountInactive();
         Account target = AccountStub.targetAccountEmpty();
         poblatePersistenceLayer(source, target);
 
         assertThrows(AccountIsInactiveException.class, () -> {
-            accountFacade.sendMoney(transactionWithAmount(50.0));
+            accountFacade.transferMoney(transactionWithAmount(50.0));
         });
     }
 
     @Test
-    void should_fail_when_target_account_is_inactive() {
+    void should_fail_transference_when_target_account_is_inactive() {
         Account source = AccountStub.sourceAccountwithBalance(100.0);
         Account target = AccountStub.targetAccountInactive();
         poblatePersistenceLayer(source, target);
 
         assertThrows(AccountIsInactiveException.class, () -> {
-            accountFacade.sendMoney(transactionWithAmount(50.0));
+            accountFacade.transferMoney(transactionWithAmount(50.0));
         });
     }
 
@@ -117,7 +101,7 @@ class SendMoneyTest {
         poblatePersistenceLayer(source, target);
 
         assertThrows(OperationWithDifferentCurrenciesException.class, () -> {
-            accountFacade.sendMoney(transactionWithAmount(50.0));
+            accountFacade.transferMoney(transactionWithAmount(50.0));
         });
     }
 }

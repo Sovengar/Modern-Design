@@ -1,4 +1,4 @@
-package com.jonathan.modern_design.account_module.application.send_money;
+package com.jonathan.modern_design.account_module.application.transfer_money;
 
 import com.jonathan.modern_design.account_module.application.find_account.FindAccountUseCase;
 import com.jonathan.modern_design.account_module.application.update_account.UpdateAccountUseCase;
@@ -8,7 +8,6 @@ import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.services.AccountValidator;
 import com.jonathan.modern_design.config.annotations.DomainService;
 import com.jonathan.modern_design.shared.Currency;
-import jakarta.transaction.Transactional;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
@@ -16,14 +15,13 @@ import java.math.BigDecimal;
 
 @DomainService
 @RequiredArgsConstructor
-public class SendMoneyService implements SendMoneyUseCase {
+public class TransferMoneyService implements TransferMoneyUseCase {
     private final FindAccountUseCase findAccountUseCase;
     private final UpdateAccountUseCase updateAccountUseCase;
     private final AccountValidator accountValidator;
 
-    @Transactional
     @Override
-    public void sendMoney(@NonNull final SendMoneyCommand command) {
+    public void transferMoney(@NonNull final TransferMoneyCommand command) {
 
         Account source = getAccountValidated(command.sourceId());
         Account target = getAccountValidated(command.targetId());

@@ -20,6 +20,7 @@ public class CreateAccountMother {
                 .username("Account Name")
                 .email("z3u1E@example.com")
                 .realname("John Doe")
+                .address("street, city, state, zipCode")
                 .currency("EUR")
                 .password("123456")
                 .country("FR")

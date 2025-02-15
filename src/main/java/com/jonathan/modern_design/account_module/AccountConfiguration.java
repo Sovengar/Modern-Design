@@ -5,8 +5,8 @@ import com.jonathan.modern_design.account_module.application.create_account.Crea
 import com.jonathan.modern_design.account_module.application.create_account.CreateAccountUseCase;
 import com.jonathan.modern_design.account_module.application.find_account.FindAccountService;
 import com.jonathan.modern_design.account_module.application.find_account.FindAccountUseCase;
-import com.jonathan.modern_design.account_module.application.send_money.SendMoneyService;
-import com.jonathan.modern_design.account_module.application.send_money.SendMoneyUseCase;
+import com.jonathan.modern_design.account_module.application.transfer_money.TransferMoneyService;
+import com.jonathan.modern_design.account_module.application.transfer_money.TransferMoneyUseCase;
 import com.jonathan.modern_design.account_module.application.update_account.UpdateAccountService;
 import com.jonathan.modern_design.account_module.application.update_account.UpdateAccountUseCase;
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
@@ -55,10 +55,10 @@ public class AccountConfiguration {
     }
 
     @Bean
-    public SendMoneyUseCase sendMoneyUseCase(FindAccountUseCase findAccountUseCase, UpdateAccountUseCase updateAccountUseCase) {
+    public TransferMoneyUseCase sendMoneyUseCase(FindAccountUseCase findAccountUseCase, UpdateAccountUseCase updateAccountUseCase) {
         AccountValidator accountValidator = new AccountValidator();
 
-        return new SendMoneyService(findAccountUseCase, updateAccountUseCase, accountValidator);
+        return new TransferMoneyService(findAccountUseCase, updateAccountUseCase, accountValidator);
     }
 
     @Bean
@@ -79,9 +79,9 @@ public class AccountConfiguration {
     @Bean
     public AccountFacade accountFacade(AccountRepository accountRepository, UserFacade userFacade) {
         UpdateAccountUseCase updateAccountUseCase = updateAccountUseCase(accountRepository);
-        SendMoneyUseCase sendMoneyUseCase = sendMoneyUseCase(findAccountUseCase(accountRepository), updateAccountUseCase);
+        TransferMoneyUseCase transferMoneyUseCase = sendMoneyUseCase(findAccountUseCase(accountRepository), updateAccountUseCase);
         CreateAccountUseCase createAccountUseCase = createAccountUseCase(accountRepository, userFacade);
 
-        return new AccountFacade(accountRepository, sendMoneyUseCase, updateAccountUseCase, createAccountUseCase);
+        return new AccountFacade(accountRepository, transferMoneyUseCase, updateAccountUseCase, createAccountUseCase);
     }
 }
