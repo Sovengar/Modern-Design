@@ -6,8 +6,8 @@ import com.jonathan.modern_design._fake_data.CreateAccountMother;
 import com.jonathan.modern_design._fake_data.CreateAccountStub;
 import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design.account_module.application.AccountFacade;
-import com.jonathan.modern_design.account_module.application.deposit.DepositCommand;
 import com.jonathan.modern_design.account_module.domain.model.Account;
+import com.jonathan.modern_design.account_module.domain.services.DepositUseCase;
 import com.jonathan.modern_design.account_module.infra.persistence.AccountPersistenceAdapter;
 import lombok.val;
 import org.approvaltests.Approvals;
@@ -75,7 +75,7 @@ final class AccountAceptanceTest extends ITConfig {
 //    }
     private @NotNull AccountsAfterTransfer getAccountsAfterTransfer(final double amount) {
         var source = accountFacade.createAccount(CreateAccountStub.randomAccountWithCurrency(Currency.EURO));
-        source = accountFacade.deposit(new DepositCommand(source.getAccountNumber(), BigDecimal.valueOf(100), Currency.EURO));
+        source = accountFacade.deposit(new DepositUseCase.DepositCommand(source.getAccountNumber(), BigDecimal.valueOf(100), Currency.EURO));
         var target = accountFacade.createAccount(CreateAccountStub.randomAccountWithCurrency(Currency.EURO));
 
         accountFacade.transferMoney(fromAccountToAccountWithAmount(source.getAccountNumber(), target.getAccountNumber(), 60.0));

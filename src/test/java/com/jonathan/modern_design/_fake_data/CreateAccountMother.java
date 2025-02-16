@@ -1,14 +1,14 @@
 package com.jonathan.modern_design._fake_data;
 
 import com.jonathan.modern_design._shared.Currency;
-import com.jonathan.modern_design.account_module.application.create_account.CreateAccountCommand;
+import com.jonathan.modern_design.account_module.domain.services.CreateAccountUseCase;
 
 import static com.jonathan.modern_design._fake_data.UserStub.DEFAULT_COUNTRY;
 
 public class CreateAccountMother extends Stub {
 
-    public static CreateAccountCommand createAccountCommandWithInvalidData() {
-        return CreateAccountCommand.builder()
+    public static CreateAccountUseCase.CreateAccountCommand createAccountCommandWithInvalidData() {
+        return CreateAccountUseCase.CreateAccountCommand.builder()
                 .username("Account Name")
                 .email("z3u1E@example.com")
                 .realname("John Doe")
@@ -18,8 +18,8 @@ public class CreateAccountMother extends Stub {
                 .build();
     }
 
-    public static CreateAccountCommand createAccountCommandWithValidData() {
-        return CreateAccountCommand.builder()
+    public static CreateAccountUseCase.CreateAccountCommand createAccountCommandWithValidData() {
+        return CreateAccountUseCase.CreateAccountCommand.builder()
                 .username(faker.name().username())
                 .email(faker.internet().emailAddress())
                 .realname(faker.name().fullName())

@@ -4,7 +4,7 @@ import com.jonathan.modern_design.__config.RepositoryITConfig;
 import com.jonathan.modern_design._fake_data.CreateAccountStub;
 import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design.account_module.application.AccountFacade;
-import com.jonathan.modern_design.account_module.application.deposit.DepositCommand;
+import com.jonathan.modern_design.account_module.domain.services.DepositUseCase;
 import com.jonathan.modern_design.account_module.infra.persistence.AccountPersistenceAdapter;
 import com.jonathan.modern_design.user_module.application.RegisterUserCommand;
 import com.jonathan.modern_design.user_module.application.UserFacade;
@@ -36,7 +36,7 @@ class TransferMoneyRepositoryIT extends RepositoryITConfig {
     @Test
     void should_send_money_into_the_target_account() {
         var source = accountFacade.createAccount(CreateAccountStub.randomAccountWithCurrency(Currency.EURO));
-        source = accountFacade.deposit(new DepositCommand(source.getAccountNumber(), BigDecimal.valueOf(100), Currency.EURO));
+        source = accountFacade.deposit(new DepositUseCase.DepositCommand(source.getAccountNumber(), BigDecimal.valueOf(100), Currency.EURO));
         var target = accountFacade.createAccount(CreateAccountStub.randomAccountWithCurrency(Currency.EURO));
         when(userFacade.registerUser(any(RegisterUserCommand.class))).thenReturn(normalUser()); //TODO DEVUELVE NULL
 

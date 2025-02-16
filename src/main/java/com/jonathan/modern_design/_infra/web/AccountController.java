@@ -2,8 +2,8 @@ package com.jonathan.modern_design._infra.web;
 
 import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design.account_module.application.AccountFacade;
-import com.jonathan.modern_design.account_module.application.create_account.CreateAccountCommand;
 import com.jonathan.modern_design.account_module.application.transfer_money.TransferMoneyCommand;
+import com.jonathan.modern_design.account_module.domain.services.CreateAccountUseCase;
 import com.jonathan.modern_design.account_module.infra.AccountResource;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -56,7 +56,7 @@ class AccountController {
     }
 
     @PostMapping(path = "", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<AccountResource> createAccount(@RequestBody CreateAccountCommand createAccountCommand) {
+    public ResponseEntity<AccountResource> createAccount(@RequestBody CreateAccountUseCase.CreateAccountCommand createAccountCommand) {
         log.info("START - Create account");
         final var account = accountFacade.createAccount(createAccountCommand);
         final var accountNumber = account.getAccountNumber();

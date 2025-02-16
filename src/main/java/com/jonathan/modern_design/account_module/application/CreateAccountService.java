@@ -1,9 +1,10 @@
-package com.jonathan.modern_design.account_module.application.create_account;
+package com.jonathan.modern_design.account_module.application;
 
 import com.jonathan.modern_design._infra.config.annotations.DomainService;
 import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.model.Account;
+import com.jonathan.modern_design.account_module.domain.services.CreateAccountUseCase;
 import com.jonathan.modern_design.user_module.application.RegisterUserCommand;
 import com.jonathan.modern_design.user_module.application.UserFacade;
 import com.jonathan.modern_design.user_module.domain.User;

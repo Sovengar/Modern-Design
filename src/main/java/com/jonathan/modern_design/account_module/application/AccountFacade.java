@@ -1,16 +1,14 @@
 package com.jonathan.modern_design.account_module.application;
 
 import com.jonathan.modern_design._infra.config.annotations.BeanClass;
-import com.jonathan.modern_design.account_module.application.create_account.CreateAccountCommand;
-import com.jonathan.modern_design.account_module.application.create_account.CreateAccountUseCase;
-import com.jonathan.modern_design.account_module.application.deposit.DepositCommand;
-import com.jonathan.modern_design.account_module.application.deposit.DepositUseCase;
 import com.jonathan.modern_design.account_module.application.find_account.FindAccountUseCase;
 import com.jonathan.modern_design.account_module.application.transfer_money.TransferMoneyCommand;
 import com.jonathan.modern_design.account_module.application.transfer_money.TransferMoneyUseCase;
 import com.jonathan.modern_design.account_module.application.update_account.UpdateAccountUseCase;
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.model.Account;
+import com.jonathan.modern_design.account_module.domain.services.CreateAccountUseCase;
+import com.jonathan.modern_design.account_module.domain.services.DepositUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
