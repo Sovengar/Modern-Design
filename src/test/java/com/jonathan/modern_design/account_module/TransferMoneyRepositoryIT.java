@@ -6,7 +6,7 @@ import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design.account_module.application.AccountFacade;
 import com.jonathan.modern_design.account_module.application.deposit.DepositCommand;
 import com.jonathan.modern_design.account_module.infra.persistence.AccountRepositorySpringAdapter;
-import com.jonathan.modern_design.user_module.application.CreateUserCommand;
+import com.jonathan.modern_design.user_module.application.RegisterUserCommand;
 import com.jonathan.modern_design.user_module.application.UserFacade;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ class TransferMoneyRepositoryIT extends RepositoryITConfig {
         var source = accountFacade.createAccount(CreateAccountStub.randomAccountWithCurrency(Currency.EURO));
         source = accountFacade.deposit(new DepositCommand(source.getAccountNumber(), BigDecimal.valueOf(100), Currency.EURO));
         var target = accountFacade.createAccount(CreateAccountStub.randomAccountWithCurrency(Currency.EURO));
-        when(userFacade.createUser(any(CreateUserCommand.class))).thenReturn(normalUser()); //TODO DEVUELVE NULL
+        when(userFacade.registerUser(any(RegisterUserCommand.class))).thenReturn(normalUser()); //TODO DEVUELVE NULL
 
         accountFacade.transferMoney(fromAccountToAccountWithAmount(source.getAccountNumber(), target.getAccountNumber(), 60.0));
 

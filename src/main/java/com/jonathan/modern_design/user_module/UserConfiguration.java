@@ -1,7 +1,7 @@
 package com.jonathan.modern_design.user_module;
 
-import com.jonathan.modern_design.user_module.application.CreateUserService;
-import com.jonathan.modern_design.user_module.application.CreateUserUseCase;
+import com.jonathan.modern_design.user_module.application.RegisterUserService;
+import com.jonathan.modern_design.user_module.application.RegisterUserUseCase;
 import com.jonathan.modern_design.user_module.application.UserFacade;
 import com.jonathan.modern_design.user_module.domain.UserRepository;
 import com.jonathan.modern_design.user_module.infra.SpringUserRepository;
@@ -25,13 +25,13 @@ class UserConfiguration {
     }
 
     @Bean
-    public CreateUserUseCase createUserUseCase(UserRepository userRepository) {
-        return new CreateUserService(userRepository);
+    public RegisterUserUseCase createUserUseCase(UserRepository userRepository) {
+        return new RegisterUserService(userRepository);
     }
 
     @Bean
     public UserFacade userFacade(UserRepository userRepository) {
-        CreateUserUseCase createUserUseCase = createUserUseCase(userRepository);
-        return new UserFacade(userRepository, createUserUseCase);
+        RegisterUserUseCase registerUserUseCase = createUserUseCase(userRepository);
+        return new UserFacade(userRepository, registerUserUseCase);
     }
 }

@@ -11,11 +11,11 @@ import lombok.RequiredArgsConstructor;
 
 @DomainService
 @RequiredArgsConstructor
-public class CreateUserService implements CreateUserUseCase {
+public class RegisterUserService implements RegisterUserUseCase {
     private final UserRepository repository;
 
     @Override
-    public User createUser(CreateUserCommand command) {
+    public User registerUser(RegisterUserCommand command) {
         final var user = User.builder()
                 .uuid(command.uuid())
                 .realname(UserRealName.of(command.realname()))

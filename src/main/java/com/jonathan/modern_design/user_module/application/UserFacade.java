@@ -9,12 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 @BeanClass
 @RequiredArgsConstructor
 @Transactional
-public class UserFacade implements CreateUserUseCase {
+public class UserFacade implements RegisterUserUseCase {
     private final UserRepository userRepository;
-    private final CreateUserUseCase createUserUseCase;
+    private final RegisterUserUseCase registerUserUseCase;
 
     @Override
-    public User createUser(CreateUserCommand command) {
-        return createUserUseCase.createUser(command);
+    public User registerUser(RegisterUserCommand command) {
+        return registerUserUseCase.registerUser(command);
     }
 }

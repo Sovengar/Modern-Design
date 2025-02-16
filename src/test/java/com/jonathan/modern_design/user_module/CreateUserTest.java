@@ -18,7 +18,7 @@ class CreateUserTest {
     @Test
     void should_create_user() {
         UserFacade userFacade = factory.userFacade(repository);
-        assertThat(userFacade.createUser(createUserCommandWithValidData())).isNotNull();
+        assertThat(userFacade.registerUser(createUserCommandWithValidData())).isNotNull();
     }
 
     //TODO VALIDACIONES MIN PASSWORD, MAX, EMAIL... UUID?

@@ -4,7 +4,7 @@ import com.jonathan.modern_design._infra.config.annotations.DomainService;
 import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.model.Account;
-import com.jonathan.modern_design.user_module.application.CreateUserCommand;
+import com.jonathan.modern_design.user_module.application.RegisterUserCommand;
 import com.jonathan.modern_design.user_module.application.UserFacade;
 import com.jonathan.modern_design.user_module.domain.User;
 import lombok.NonNull;
@@ -23,14 +23,14 @@ public class CreateAccountService implements CreateAccountUseCase {
     @Transactional
     @Override
     public Account createAccount(@NonNull final CreateAccountCommand command) {
-        var user = createUser(command);
+        var user = registerUser(command);
         final var currency = Currency.fromCode(command.currency());
         final var account = Account.create(BigDecimal.valueOf(0), currency, command.address(), user);
         return repository.create(account);
     }
 
-    private User createUser(CreateAccountCommand command) {
-        var userCreateCommand = CreateUserCommand.builder()
+    private User registerUser(CreateAccountCommand command) {
+        var userCreateCommand = RegisterUserCommand.builder()
                 .uuid(UUID.randomUUID())
                 .realname(command.realname())
                 .username(command.username())
@@ -39,6 +39,6 @@ public class CreateAccountService implements CreateAccountUseCase {
                 .country(command.country())
                 .build();
 
-        return userFacade.createUser(userCreateCommand);
+        return userFacade.registerUser(userCreateCommand);
     }
 }

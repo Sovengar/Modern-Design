@@ -22,6 +22,6 @@ class CreateUserRepositoryIT extends RepositoryITConfig {
 
     @Test
     void should_create_user() {
-        assertThat(userFacade.createUser(createUserCommandWithValidData())).isNotNull();
+        assertThat(userFacade.registerUser(createUserCommandWithValidData())).isNotNull();
     }
 }
