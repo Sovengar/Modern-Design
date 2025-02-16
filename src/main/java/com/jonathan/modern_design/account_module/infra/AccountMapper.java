@@ -38,7 +38,7 @@ public interface AccountMapper {
 
     @Named("mapBalance")
     default BigDecimal mapBalance(AccountMoney money) {
-        return money.getBalance();
+        return money.getAmount();
     }
 
     @Named("mapCurrency")
@@ -54,5 +54,13 @@ public interface AccountMapper {
     @Named("mapAddress")
     default String mapAddress(AccountAddress address) {
         return address.toString();
+    }
+
+    default Account.AccountId mapId(Long id) {
+        return new Account.AccountId(id);
+    }
+
+    default Long mapId(Account.AccountId id) {
+        return id == null ? null : id.value();
     }
 }

@@ -13,7 +13,7 @@ import java.util.Objects;
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class AccountMoney {
-    private final BigDecimal balance;
+    private final BigDecimal amount;
     private final Currency currency;
 
     public static AccountMoney of(BigDecimal amount, Currency currency) {
@@ -22,22 +22,19 @@ public class AccountMoney {
 
     public AccountMoney add(AccountMoney other) {
         checkCurrency(other);
-        return new AccountMoney(this.balance.add(other.balance), this.currency);
+        return new AccountMoney(this.amount.add(other.amount), this.currency);
     }
 
     public AccountMoney substract(AccountMoney other) {
         checkCurrency(other);
 
-        if (isBalanceLowerThan(other.balance)) {
+        if (isLowerThan(other.amount)) {
             throw new InsufficientFundsException();
         }
 
-        return new AccountMoney(this.balance.subtract(other.balance), this.currency);
+        return new AccountMoney(this.amount.subtract(other.amount), this.currency);
     }
 
-    public boolean isBalanceLowerThan(BigDecimal anotherAmount) {
-        return this.balance.compareTo(anotherAmount) < 0;
-    }
 
     private void checkCurrency(AccountMoney other) {
         if (!this.currency.equals(other.currency)) {
@@ -45,22 +42,47 @@ public class AccountMoney {
         }
     }
 
+    public boolean isPositiveOrZero() {
+        return this.amount.compareTo(BigDecimal.ZERO) >= 0;
+    }
+
+    public boolean isNegative() {
+        return this.amount.compareTo(BigDecimal.ZERO) < 0;
+    }
+
+    public boolean isPositive() {
+        return this.amount.compareTo(BigDecimal.ZERO) > 0;
+    }
+
+    public boolean isGreaterThanOrEqualTo(BigDecimal anotherAmount) {
+        return this.amount.compareTo(anotherAmount) >= 0;
+    }
+
+    public boolean isGreaterThan(BigDecimal anotherAmount) {
+        return this.amount.compareTo(anotherAmount) >= 1;
+    }
+
+    public boolean isLowerThan(BigDecimal anotherAmount) {
+        return this.amount.compareTo(anotherAmount) < 0;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AccountMoney money = (AccountMoney) o;
-        return balance.equals(money.balance) && currency.equals(money.currency);
+        return amount.equals(money.amount) && currency.equals(money.currency);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(balance, currency);
+        return Objects.hash(amount, currency);
     }
 
     @Override
     public String toString() {
-        return balance + " " + currency;
+        return amount + " " + currency;
     }
 
 

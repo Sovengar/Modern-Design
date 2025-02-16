@@ -15,7 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class Account {
-    Long id;
+    AccountId id;
     String accountNumber;
     AccountMoney money;
     AccountAddress address;
@@ -39,5 +39,8 @@ public class Account {
     public void substract(BigDecimal amount, Currency currency) {
         this.money = this.money.substract(AccountMoney.of(amount, currency));
         dateOfLastTransaction = LocalDateTime.now();
+    }
+
+    public record AccountId(Long value) {
     }
 }
