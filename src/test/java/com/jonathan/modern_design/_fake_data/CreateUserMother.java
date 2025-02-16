@@ -1,13 +1,13 @@
 package com.jonathan.modern_design._fake_data;
 
-import com.jonathan.modern_design.user_module.application.RegisterUserCommand;
+import com.jonathan.modern_design.user_module.domain.services.RegisterUserUseCase;
 
 import static com.jonathan.modern_design._fake_data.UserStub.DEFAULT_COUNTRY;
 import static com.jonathan.modern_design._fake_data.UserStub.DEFAULT_UUID;
 
 public class CreateUserMother extends Stub {
-    public static RegisterUserCommand createUserCommandWithValidData() {
-        return RegisterUserCommand.builder()
+    public static RegisterUserUseCase.RegisterUserCommand createUserCommandWithValidData() {
+        return RegisterUserUseCase.RegisterUserCommand.builder()
                 .uuid(DEFAULT_UUID)
                 .realname(faker.name().fullName())
                 .email(faker.internet().emailAddress())
@@ -17,8 +17,8 @@ public class CreateUserMother extends Stub {
                 .build();
     }
 
-    public static RegisterUserCommand createUserCommandWithShortPassword() {
-        return RegisterUserCommand.builder()
+    public static RegisterUserUseCase.RegisterUserCommand createUserCommandWithShortPassword() {
+        return RegisterUserUseCase.RegisterUserCommand.builder()
                 .uuid(DEFAULT_UUID)
                 .realname(faker.name().fullName())
                 .email(faker.internet().emailAddress())
@@ -28,8 +28,8 @@ public class CreateUserMother extends Stub {
                 .build();
     }
 
-    public static RegisterUserCommand createUserCommandWithTooLongPassword() {
-        return RegisterUserCommand.builder()
+    public static RegisterUserUseCase.RegisterUserCommand createUserCommandWithTooLongPassword() {
+        return RegisterUserUseCase.RegisterUserCommand.builder()
                 .uuid(DEFAULT_UUID)
                 .realname(faker.name().fullName())
                 .email(faker.internet().emailAddress())

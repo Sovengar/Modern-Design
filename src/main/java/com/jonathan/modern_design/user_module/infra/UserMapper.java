@@ -1,10 +1,10 @@
 package com.jonathan.modern_design.user_module.infra;
 
 import com.jonathan.modern_design.user_module.domain.User;
-import com.jonathan.modern_design.user_module.model.UserEmail;
-import com.jonathan.modern_design.user_module.model.UserName;
-import com.jonathan.modern_design.user_module.model.UserPassword;
-import com.jonathan.modern_design.user_module.model.UserRealName;
+import com.jonathan.modern_design.user_module.domain.model.UserEmail;
+import com.jonathan.modern_design.user_module.domain.model.UserName;
+import com.jonathan.modern_design.user_module.domain.model.UserPassword;
+import com.jonathan.modern_design.user_module.domain.model.UserRealName;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;

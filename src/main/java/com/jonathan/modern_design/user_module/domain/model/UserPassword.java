@@ -1,4 +1,4 @@
-package com.jonathan.modern_design.user_module.model;
+package com.jonathan.modern_design.user_module.domain.model;
 
 import com.jonathan.modern_design._infra.config.exception.RootException;
 import lombok.AccessLevel;

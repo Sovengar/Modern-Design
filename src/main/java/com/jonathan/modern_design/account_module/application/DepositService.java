@@ -18,7 +18,7 @@ public class DepositService implements DepositUseCase {
         var account = repository.findOne(command.accountNumber()).orElseThrow();
         account.add(command.amount(), command.currency());
         repository.update(account);
-
+        //TODO DEBERIA HACER AQUI EL FINDONE O DESDE FUERA?
         return repository.findOne(command.accountNumber()).orElseThrow();
     }
 }

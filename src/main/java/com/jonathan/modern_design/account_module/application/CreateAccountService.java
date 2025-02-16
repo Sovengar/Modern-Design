@@ -5,9 +5,9 @@ import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.services.CreateAccountUseCase;
-import com.jonathan.modern_design.user_module.application.RegisterUserCommand;
 import com.jonathan.modern_design.user_module.application.UserFacade;
 import com.jonathan.modern_design.user_module.domain.User;
+import com.jonathan.modern_design.user_module.domain.services.RegisterUserUseCase;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +31,7 @@ public class CreateAccountService implements CreateAccountUseCase {
     }
 
     private User registerUser(CreateAccountCommand command) {
-        var userCreateCommand = RegisterUserCommand.builder()
+        var userCreateCommand = RegisterUserUseCase.RegisterUserCommand.builder()
                 .uuid(UUID.randomUUID())
                 .realname(command.realname())
                 .username(command.username())
