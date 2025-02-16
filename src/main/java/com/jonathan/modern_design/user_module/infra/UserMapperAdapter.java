@@ -1,8 +1,9 @@
-package com.jonathan.modern_design.user_module;
+package com.jonathan.modern_design.user_module.infra;
 
+import com.jonathan.modern_design.user_module.domain.User;
 import org.mapstruct.factory.Mappers;
 
-class UserMapperAdapter implements UserMapper {
+public class UserMapperAdapter implements UserMapper {
     private final UserMapper mapStructInstance = Mappers.getMapper(UserMapper.class);
 
     @Override

@@ -5,7 +5,7 @@ import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountAddress;
 import com.jonathan.modern_design.account_module.domain.model.AccountMoney;
 import com.jonathan.modern_design.account_module.infra.persistence.AccountEntity;
-import com.jonathan.modern_design.user_module.UserMapper;
+import com.jonathan.modern_design.user_module.infra.UserMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;

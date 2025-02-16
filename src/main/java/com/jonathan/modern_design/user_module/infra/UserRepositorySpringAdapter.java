@@ -1,6 +1,8 @@
-package com.jonathan.modern_design.user_module;
+package com.jonathan.modern_design.user_module.infra;
 
 import com.jonathan.modern_design._infra.config.annotations.PersistenceAdapter;
+import com.jonathan.modern_design.user_module.domain.User;
+import com.jonathan.modern_design.user_module.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 @PersistenceAdapter

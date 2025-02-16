@@ -1,7 +1,7 @@
 package com.jonathan.modern_design.account_module.domain.model;
 
 import com.jonathan.modern_design._shared.Currency;
-import com.jonathan.modern_design.user_module.User;
+import com.jonathan.modern_design.user_module.domain.User;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

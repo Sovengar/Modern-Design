@@ -1,6 +1,9 @@
 package com.jonathan.modern_design.user_module;
 
 import com.jonathan.modern_design.__config.PrettyTestNames;
+import com.jonathan.modern_design.user_module.application.UserFacade;
+import com.jonathan.modern_design.user_module.domain.UserRepository;
+import com.jonathan.modern_design.user_module.infra.InMemoryUserRepository;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Test;
 

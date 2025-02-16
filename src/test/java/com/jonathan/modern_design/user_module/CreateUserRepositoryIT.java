@@ -2,6 +2,8 @@ package com.jonathan.modern_design.user_module;
 
 
 import com.jonathan.modern_design.__config.RepositoryITConfig;
+import com.jonathan.modern_design.user_module.application.UserFacade;
+import com.jonathan.modern_design.user_module.infra.UserRepositorySpringAdapter;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;

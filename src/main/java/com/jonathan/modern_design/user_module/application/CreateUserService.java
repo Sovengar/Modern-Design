@@ -1,7 +1,8 @@
-package com.jonathan.modern_design.user_module;
+package com.jonathan.modern_design.user_module.application;
 
 import com.jonathan.modern_design._infra.config.annotations.DomainService;
-import com.jonathan.modern_design.user_module.dtos.CreateUserCommand;
+import com.jonathan.modern_design.user_module.domain.User;
+import com.jonathan.modern_design.user_module.domain.UserRepository;
 import com.jonathan.modern_design.user_module.model.UserEmail;
 import com.jonathan.modern_design.user_module.model.UserName;
 import com.jonathan.modern_design.user_module.model.UserPassword;
@@ -10,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 
 @DomainService
 @RequiredArgsConstructor
-class CreateUserService implements CreateUserUseCase {
+public class CreateUserService implements CreateUserUseCase {
     private final UserRepository repository;
 
     @Override

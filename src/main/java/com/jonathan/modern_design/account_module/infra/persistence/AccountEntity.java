@@ -2,7 +2,7 @@ package com.jonathan.modern_design.account_module.infra.persistence;
 
 import com.jonathan.modern_design._infra.config.database.BaseEntity;
 import com.jonathan.modern_design._shared.Currency;
-import com.jonathan.modern_design.user_module.UserEntity;
+import com.jonathan.modern_design.user_module.infra.UserEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

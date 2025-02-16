@@ -1,4 +1,4 @@
-package com.jonathan.modern_design.user_module.dtos;
+package com.jonathan.modern_design.user_module.application;
 
 import lombok.Builder;
 

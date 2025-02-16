@@ -1,6 +1,6 @@
 package com.jonathan.modern_design._fake_data;
 
-import com.jonathan.modern_design.user_module.dtos.CreateUserCommand;
+import com.jonathan.modern_design.user_module.application.CreateUserCommand;
 
 import static com.jonathan.modern_design._fake_data.UserStub.DEFAULT_COUNTRY;
 import static com.jonathan.modern_design._fake_data.UserStub.DEFAULT_UUID;

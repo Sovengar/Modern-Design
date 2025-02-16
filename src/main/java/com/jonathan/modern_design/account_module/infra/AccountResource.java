@@ -1,7 +1,7 @@
 package com.jonathan.modern_design.account_module.infra;
 
 import com.jonathan.modern_design.account_module.domain.model.Account;
-import com.jonathan.modern_design.user_module.dtos.UserResource;
+import com.jonathan.modern_design.user_module.infra.UserResource;
 
 import java.math.BigDecimal;
 

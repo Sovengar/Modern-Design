@@ -1,7 +1,8 @@
-package com.jonathan.modern_design.user_module;
+package com.jonathan.modern_design.user_module.application;
 
 import com.jonathan.modern_design._infra.config.annotations.BeanClass;
-import com.jonathan.modern_design.user_module.dtos.CreateUserCommand;
+import com.jonathan.modern_design.user_module.domain.User;
+import com.jonathan.modern_design.user_module.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 

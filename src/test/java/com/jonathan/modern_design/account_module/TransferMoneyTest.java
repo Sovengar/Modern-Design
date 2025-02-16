@@ -10,7 +10,7 @@ import com.jonathan.modern_design.account_module.domain.exceptions.OperationWith
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountMoney;
 import com.jonathan.modern_design.account_module.infra.persistence.InMemoryAccountRepository;
-import com.jonathan.modern_design.user_module.UserFacade;
+import com.jonathan.modern_design.user_module.application.UserFacade;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;

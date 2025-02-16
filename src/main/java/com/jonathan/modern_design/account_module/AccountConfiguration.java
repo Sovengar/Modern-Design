@@ -21,7 +21,7 @@ import com.jonathan.modern_design.account_module.infra.AccountMapper;
 import com.jonathan.modern_design.account_module.infra.AccountMapperAdapter;
 import com.jonathan.modern_design.account_module.infra.persistence.AccountRepositorySpringAdapter;
 import com.jonathan.modern_design.account_module.infra.persistence.SpringAccountRepository;
-import com.jonathan.modern_design.user_module.UserFacade;
+import com.jonathan.modern_design.user_module.application.UserFacade;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
