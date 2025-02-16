@@ -1,45 +1,44 @@
 Proyecto para mostrar practicas de diseño moderno.
 
-TDD
-BDD
-
 # Architecture
 
-Clean architecture
-SOLID
-DDD
+- Clean architecture
+- SOLID
+- DDD
 
-## Patterns
+# Testing
 
-Humble Object pattern
-Facade pattern (Grouping usecases, one step closer to modules and microservices)
-CQRS (soft implementation)
-Adapter / Anti corruption layer for external services/APIs
+- Stubs
+- Fakes
+- Mocks
+- TDD
+- BDD
 
-### Instantiation
+# Patterns
 
-Factory Classes (Configuration)
-Factory method / Named Constructors
-Builder (for mapper, testing and objects with many attributes)
-ObjectMother (for testing small objects with few combinations)
+- Humble Object pattern
+- Facade pattern (Grouping usecases, one step closer to modules and microservices)
+- CQRS (soft implementation)
+- Adapter / Anti corruption layer for external services/APIs
 
-### Others
+## Instantiation
 
-DTOs (to transfer data between layers)
-Resources (DTOs that expose our API to the external clients, has to be robust for less versioning)
-Records (Immutable DTOs for many different scenarios)
-Value Objects
-Micro Types (AccountId, reserve for PK only)
-CQR separating commands from queries, query after command.
-Internal classes (exception classes,records, micro types, ...)
-Wrapper classes (For external services to map his json to our POJOs)
-Tell Don't Ask (Have getters for mapper but not setters to avoid mutable objects and business logic leaking)
+- Factory Classes (Configuration)
+- Factory method / Named Constructors
+- Builder (for mapper, testing and objects with many attributes)
+- ObjectMother (for testing small objects with few combinations)
 
-## Testing
+## Others
 
-Stubs
-Fakes
-Mocks
+- DTOs (to transfer data between layers)
+- Resources (DTOs that expose our API to the external clients, has to be robust for less versioning)
+- Records (Immutable DTOs for many different scenarios)
+- Value Objects
+- Micro Types (AccountId, reserve for PK only)
+- CQR separating commands from queries, query after command.
+- Internal classes (exception classes,records, micro types, ...)
+- Wrapper classes (For external services to map his json to our POJOs)
+- Tell Don't Ask (Have getters for mapper but not setters to avoid mutable objects and business logic leaking)
 
 # Configuration
 
