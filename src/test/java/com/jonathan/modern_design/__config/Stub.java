@@ -1,4 +1,4 @@
-package com.jonathan.modern_design._fake_data;
+package com.jonathan.modern_design.__config;
 
 import com.github.javafaker.Faker;
 

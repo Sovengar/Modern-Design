@@ -59,7 +59,7 @@ class AccountController {
     public ResponseEntity<AccountResource> createAccount(@RequestBody CreateAccountUseCase.CreateAccountCommand createAccountCommand) {
         log.info("START - Create account");
         final var account = accountFacade.createAccount(createAccountCommand);
-        final var accountNumber = account.getAccountNumber();
+        final var accountNumber = account.getAccountNumber().getAccountNumber();
         log.info("END - Create account: {}", accountNumber);
 
         var build = fromMethodCall(on(this.getClass()).loadAccount(accountNumber)).build();

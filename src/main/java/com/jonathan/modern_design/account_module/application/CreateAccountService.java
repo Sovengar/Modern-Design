@@ -26,7 +26,8 @@ public class CreateAccountService implements CreateAccountUseCase {
     public Account createAccount(@NonNull final CreateAccountCommand command) {
         var user = registerUser(command);
         final var currency = Currency.fromCode(command.currency());
-        final var account = Account.create(BigDecimal.valueOf(0), currency, command.address(), user);
+
+        final var account = Account.create(new AccountNumberGenerator().generate(), BigDecimal.valueOf(0), currency, command.address(), user);
         return repository.create(account);
     }
 
@@ -41,5 +42,12 @@ public class CreateAccountService implements CreateAccountUseCase {
                 .build();
 
         return userFacade.registerUser(userCreateCommand);
+    }
+
+    class AccountNumberGenerator {
+
+        public String generate() {
+            return UUID.randomUUID().toString();
+        }
     }
 }

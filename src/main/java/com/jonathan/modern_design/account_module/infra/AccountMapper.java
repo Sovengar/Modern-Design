@@ -4,6 +4,7 @@ import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountAddress;
 import com.jonathan.modern_design.account_module.domain.model.AccountMoney;
+import com.jonathan.modern_design.account_module.domain.model.AccountNumber;
 import com.jonathan.modern_design.account_module.infra.persistence.AccountEntity;
 import com.jonathan.modern_design.user_module.infra.UserMapper;
 import org.mapstruct.Mapper;
@@ -54,6 +55,14 @@ public interface AccountMapper {
     @Named("mapAddress")
     default String mapAddress(AccountAddress address) {
         return address.toString();
+    }
+
+    default String mapAccountNumber(AccountNumber accountNumber) {
+        return accountNumber.getAccountNumber();
+    }
+
+    default AccountNumber mapAccountNumber(String accountNumber) {
+        return AccountNumber.of(accountNumber);
     }
 
     default Account.AccountId mapId(Long id) {

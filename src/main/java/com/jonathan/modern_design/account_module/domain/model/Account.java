@@ -9,26 +9,24 @@ import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Builder //For Mapper and testing, otherwise use the create factory method.
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class Account {
     AccountId id;
-    String accountNumber;
+    AccountNumber accountNumber;
     AccountMoney money;
     AccountAddress address;
     User user;
     LocalDateTime dateOfLastTransaction;
     boolean active;
 
-    public static Account create(BigDecimal amount, Currency currency, String address, User user) {
-        var accountNumber = UUID.randomUUID().toString(); //TODO CREAR CLASE QUE GENERE UN IBAN NO REPETIBLE
+    public static Account create(String accountNumber, BigDecimal amount, Currency currency, String address, User user) {
         LocalDateTime dateOfLastTransaction = null;
         var isActive = true;
 
-        return new Account(null, accountNumber, AccountMoney.of(amount, currency), AccountAddress.of(address), user, dateOfLastTransaction, isActive);
+        return new Account(null, AccountNumber.of(accountNumber), AccountMoney.of(amount, currency), AccountAddress.of(address), user, dateOfLastTransaction, isActive);
     }
 
     public void add(BigDecimal amount, Currency currency) {

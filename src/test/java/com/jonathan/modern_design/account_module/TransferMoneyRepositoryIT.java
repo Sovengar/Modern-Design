@@ -1,7 +1,6 @@
 package com.jonathan.modern_design.account_module;
 
 import com.jonathan.modern_design.__config.RepositoryITConfig;
-import com.jonathan.modern_design._fake_data.CreateAccountStub;
 import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design.account_module.application.AccountFacade;
 import com.jonathan.modern_design.account_module.domain.services.DepositUseCase;
@@ -15,7 +14,8 @@ import org.springframework.context.annotation.Import;
 
 import java.math.BigDecimal;
 
-import static com.jonathan.modern_design._fake_data.SendMoneyMother.fromAccountToAccountWithAmount;
+import static com.jonathan.modern_design._fake_data.AccountStub.CreateAccountMother.randomAccountWithCurrency;
+import static com.jonathan.modern_design._fake_data.AccountStub.TransferMoneyMother.fromAccountToAccountWithAmount;
 import static com.jonathan.modern_design._fake_data.UserStub.normalUser;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -35,15 +35,15 @@ class TransferMoneyRepositoryIT extends RepositoryITConfig {
 
     @Test
     void should_send_money_into_the_target_account() {
-        var source = accountFacade.createAccount(CreateAccountStub.randomAccountWithCurrency(Currency.EURO));
-        source = accountFacade.deposit(new DepositUseCase.DepositCommand(source.getAccountNumber(), BigDecimal.valueOf(100), Currency.EURO));
-        var target = accountFacade.createAccount(CreateAccountStub.randomAccountWithCurrency(Currency.EURO));
+        var source = accountFacade.createAccount(randomAccountWithCurrency(Currency.EURO));
+        source = accountFacade.deposit(new DepositUseCase.DepositCommand(source.getAccountNumber().getAccountNumber(), BigDecimal.valueOf(100), Currency.EURO));
+        var target = accountFacade.createAccount(randomAccountWithCurrency(Currency.EURO));
         when(userFacade.registerUser(any(RegisterUserUseCase.RegisterUserCommand.class))).thenReturn(normalUser()); //TODO DEVUELVE NULL
 
-        accountFacade.transferMoney(fromAccountToAccountWithAmount(source.getAccountNumber(), target.getAccountNumber(), 60.0));
+        accountFacade.transferMoney(fromAccountToAccountWithAmount(source.getAccountNumber().getAccountNumber(), target.getAccountNumber().getAccountNumber(), 60.0));
 
-        source = repository.findOne(source.getAccountNumber()).orElseThrow();
-        target = repository.findOne(target.getAccountNumber()).orElseThrow();
+        source = repository.findOne(source.getAccountNumber().getAccountNumber()).orElseThrow();
+        target = repository.findOne(target.getAccountNumber().getAccountNumber()).orElseThrow();
 
         assertThat(source.getMoney().getAmount()).isEqualTo(BigDecimal.valueOf(40.0));
         assertThat(target.getMoney().getAmount()).isEqualTo(BigDecimal.valueOf(60.0));

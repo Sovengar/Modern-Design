@@ -48,7 +48,7 @@ public class AccountPersistenceAdapter implements AccountRepository { //TODO FIX
 
     @Override
     public void update(final Account account) {
-        var accountEntity = findOneEntity(account.getAccountNumber()).orElseThrow();
+        var accountEntity = findOneEntity(account.getAccountNumber().getAccountNumber()).orElseThrow();
         accountMapper.updateAccountEntity(account, accountEntity);
         repository.save(accountEntity);
     }

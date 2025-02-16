@@ -28,11 +28,18 @@ Proyecto para mostrar practicas de diseño moderno.
 - Builder (for mapper, testing and objects with many attributes)
 - ObjectMother (for testing small objects with few combinations)
 
+## Java
+
+- Optional
+- Stream
+- Default methods
+- Records (Immutable DTOs for many different scenarios)
+- Sealed? Switch matchers?
+
 ## Others
 
 - DTOs (to transfer data between layers)
 - Resources (DTOs that expose our API to the external clients, has to be robust for less versioning)
-- Records (Immutable DTOs for many different scenarios)
 - Value Objects
 - Micro Types (AccountId, reserve for PK only)
 - CQR separating commands from queries, query after command.

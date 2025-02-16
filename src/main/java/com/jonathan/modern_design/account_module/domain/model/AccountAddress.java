@@ -1,20 +1,18 @@
 package com.jonathan.modern_design.account_module.domain.model;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 import java.util.Objects;
 
-
+@Getter
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class AccountAddress {
     private final String street;
     private final String city;
     private final String state;
     private final String zipCode;
-
-    private AccountAddress(String street, String city, String state, String zipCode) {
-        this.street = street;
-        this.city = city;
-        this.state = state;
-        this.zipCode = zipCode;
-    }
 
     public static AccountAddress of(String street, String city, String state, String zipCode) {
         return new AccountAddress(street, city, state, zipCode);

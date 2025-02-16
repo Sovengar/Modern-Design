@@ -30,7 +30,7 @@ public class InMemoryAccountRepository implements AccountRepository {
 
     @Override
     public Account create(Account account) {
-        accounts.put(account.getAccountNumber(), account);
+        accounts.put(account.getAccountNumber().getAccountNumber(), account);
         return account;
     }
 

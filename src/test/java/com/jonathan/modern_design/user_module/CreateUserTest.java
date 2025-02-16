@@ -7,7 +7,7 @@ import com.jonathan.modern_design.user_module.infra.InMemoryUserRepository;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Test;
 
-import static com.jonathan.modern_design._fake_data.CreateUserMother.createUserCommandWithValidData;
+import static com.jonathan.modern_design._fake_data.UserStub.CreateUserMother.createUserCommandWithValidData;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayNameGeneration(PrettyTestNames.class)
