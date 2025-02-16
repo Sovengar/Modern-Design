@@ -19,7 +19,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AccountRepositorySpringAdapter implements AccountRepository { //TODO FIX, AQUI DEBERIA LLAMAR LAS INTERFACES, YA QUE ALOMEJOR LA ESCRITURA ES DB Y LA LECTURA ES DE UN JSON
     private final SpringAccountRepository repository;
-    //private final SpringUserRepository userRepository;
     private final AccountMapper accountMapper;
 
     @Override
@@ -40,10 +39,9 @@ public class AccountRepositorySpringAdapter implements AccountRepository { //TOD
 
     @Override
     public Account create(final Account account) {
-        //TODO var userEntity = userRepository.findById(account.getUser().getUuid()).orElseThrow();
         var accountEntity = accountMapper.toAccountEntity(account);
-        //accountEntity.setUser(userEntity);
         accountEntity = repository.save(accountEntity);
+        //TODO FIX DETACHED USER
 
         return accountMapper.toAccount(accountEntity);
     }
