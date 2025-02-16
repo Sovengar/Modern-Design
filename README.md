@@ -1,28 +1,47 @@
 Proyecto para mostrar practicas de diseño moderno.
 
-Clean architecture
-SOLID
 TDD
 BDD
+
+# Architecture
+
+Clean architecture
+SOLID
 DDD
 
-Patterns
+## Patterns
+
 Humble Object pattern
-Adapter Pattern
-Facade pattern
-Command pattern
+Facade pattern (Grouping usecases, one step closer to modules and microservices)
+CQRS (soft implementation)
+Adapter / Anti corruption layer for external services/APIs
 
-Factory Classes
-Factory method
-Builder
-ObjectMother
+### Instantiation
 
-Testing
+Factory Classes (Configuration)
+Factory method / Named Constructors
+Builder (for mapper, testing and objects with many attributes)
+ObjectMother (for testing small objects with few combinations)
+
+### Others
+
+DTOs (to transfer data between layers)
+Resources (DTOs that expose our API to the external clients, has to be robust for less versioning)
+Records (Immutable DTOs for many different scenarios)
+Value Objects
+Micro Types (AccountId, reserve for PK only)
+CQR separating commands from queries, query after command.
+Internal classes (exception classes,records, micro types, ...)
+Wrapper classes (For external services to map his json to our POJOs)
+Tell Don't Ask (Have getters for mapper but not setters to avoid mutable objects and business logic leaking)
+
+## Testing
+
 Stubs
 Fakes
 Mocks
 
-# Development
+# Configuration
 
 ## Docker
 
