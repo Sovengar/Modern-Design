@@ -7,7 +7,7 @@ import com.jonathan.modern_design.user_module.domain.UserRepository;
 import com.jonathan.modern_design.user_module.infra.SpringUserRepository;
 import com.jonathan.modern_design.user_module.infra.UserMapper;
 import com.jonathan.modern_design.user_module.infra.UserMapperAdapter;
-import com.jonathan.modern_design.user_module.infra.UserRepositorySpringAdapter;
+import com.jonathan.modern_design.user_module.infra.UserPersistenceAdapter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -21,7 +21,7 @@ class UserConfiguration {
 
     @Bean
     public UserRepository userRepository(SpringUserRepository repository, UserMapper userMapper) {
-        return new UserRepositorySpringAdapter(repository, userMapper);
+        return new UserPersistenceAdapter(repository, userMapper);
     }
 
     @Bean

@@ -5,7 +5,7 @@ import com.jonathan.modern_design._fake_data.CreateAccountStub;
 import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design.account_module.application.AccountFacade;
 import com.jonathan.modern_design.account_module.application.deposit.DepositCommand;
-import com.jonathan.modern_design.account_module.infra.persistence.AccountRepositorySpringAdapter;
+import com.jonathan.modern_design.account_module.infra.persistence.AccountPersistenceAdapter;
 import com.jonathan.modern_design.user_module.application.RegisterUserCommand;
 import com.jonathan.modern_design.user_module.application.UserFacade;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,7 @@ import static org.mockito.Mockito.when;
 class TransferMoneyRepositoryIT extends RepositoryITConfig {
 
     @Autowired
-    private AccountRepositorySpringAdapter repository;
+    private AccountPersistenceAdapter repository;
 
     @Autowired
     private AccountFacade accountFacade;

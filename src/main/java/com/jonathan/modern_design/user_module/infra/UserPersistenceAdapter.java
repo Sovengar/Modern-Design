@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 
 @PersistenceAdapter
 @RequiredArgsConstructor
-public class UserRepositorySpringAdapter implements UserRepository {
+public class UserPersistenceAdapter implements UserRepository {
     private final SpringUserRepository repository;
     private final UserMapper userMapper;
 

@@ -19,7 +19,7 @@ import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.services.AccountValidator;
 import com.jonathan.modern_design.account_module.infra.AccountMapper;
 import com.jonathan.modern_design.account_module.infra.AccountMapperAdapter;
-import com.jonathan.modern_design.account_module.infra.persistence.AccountRepositorySpringAdapter;
+import com.jonathan.modern_design.account_module.infra.persistence.AccountPersistenceAdapter;
 import com.jonathan.modern_design.account_module.infra.persistence.SpringAccountRepository;
 import com.jonathan.modern_design.user_module.application.UserFacade;
 import org.springframework.context.annotation.Bean;
@@ -47,7 +47,7 @@ public class AccountConfiguration {
 
     @Bean
     public AccountRepository accountRepository(SpringAccountRepository repository, AccountMapper accountMapper) {
-        return new AccountRepositorySpringAdapter(repository, accountMapper);
+        return new AccountPersistenceAdapter(repository, accountMapper);
     }
 
     @Bean

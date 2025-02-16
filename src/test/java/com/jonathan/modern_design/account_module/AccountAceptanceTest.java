@@ -8,7 +8,7 @@ import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design.account_module.application.AccountFacade;
 import com.jonathan.modern_design.account_module.application.deposit.DepositCommand;
 import com.jonathan.modern_design.account_module.domain.model.Account;
-import com.jonathan.modern_design.account_module.infra.persistence.AccountRepositorySpringAdapter;
+import com.jonathan.modern_design.account_module.infra.persistence.AccountPersistenceAdapter;
 import lombok.val;
 import org.approvaltests.Approvals;
 import org.jetbrains.annotations.NotNull;
@@ -26,7 +26,7 @@ final class AccountAceptanceTest extends ITConfig {
     ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
-    private AccountRepositorySpringAdapter repository;
+    private AccountPersistenceAdapter repository;
 
     @Autowired
     private AccountFacade accountFacade;
