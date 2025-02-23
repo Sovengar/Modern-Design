@@ -6,7 +6,7 @@ import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.services.CreateAccountUseCase;
 import com.jonathan.modern_design.user_module.application.UserFacade;
-import com.jonathan.modern_design.user_module.domain.User;
+import com.jonathan.modern_design.user_module.domain.model.User;
 import com.jonathan.modern_design.user_module.domain.services.RegisterUserUseCase;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

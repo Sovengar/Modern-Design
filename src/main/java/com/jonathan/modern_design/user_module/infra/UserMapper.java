@@ -1,6 +1,6 @@
 package com.jonathan.modern_design.user_module.infra;
 
-import com.jonathan.modern_design.user_module.domain.User;
+import com.jonathan.modern_design.user_module.domain.model.User;
 import com.jonathan.modern_design.user_module.domain.model.UserEmail;
 import com.jonathan.modern_design.user_module.domain.model.UserName;
 import com.jonathan.modern_design.user_module.domain.model.UserPassword;

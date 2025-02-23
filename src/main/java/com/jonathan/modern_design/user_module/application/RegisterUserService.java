@@ -1,8 +1,8 @@
 package com.jonathan.modern_design.user_module.application;
 
 import com.jonathan.modern_design._infra.config.annotations.DomainService;
-import com.jonathan.modern_design.user_module.domain.User;
 import com.jonathan.modern_design.user_module.domain.UserRepository;
+import com.jonathan.modern_design.user_module.domain.model.User;
 import com.jonathan.modern_design.user_module.domain.model.UserEmail;
 import com.jonathan.modern_design.user_module.domain.model.UserName;
 import com.jonathan.modern_design.user_module.domain.model.UserPassword;

@@ -1,6 +1,6 @@
 package com.jonathan.modern_design.user_module.infra;
 
-import com.jonathan.modern_design.user_module.domain.User;
+import com.jonathan.modern_design.user_module.domain.model.User;
 import org.mapstruct.factory.Mappers;
 
 public class UserMapperAdapter implements UserMapper {

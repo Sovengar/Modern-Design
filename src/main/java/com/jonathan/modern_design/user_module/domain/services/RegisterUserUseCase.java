@@ -1,6 +1,6 @@
 package com.jonathan.modern_design.user_module.domain.services;
 
-import com.jonathan.modern_design.user_module.domain.User;
+import com.jonathan.modern_design.user_module.domain.model.User;
 import lombok.Builder;
 
 import java.util.UUID;
