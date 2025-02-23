@@ -1,14 +1,11 @@
-package com.jonathan.modern_design.account_module.application;
+package com.jonathan.modern_design.account_module.domain.services;
 
 import com.jonathan.modern_design._infra.config.annotations.DomainService;
 import com.jonathan.modern_design._shared.Currency;
-import com.jonathan.modern_design.account_module.application.find_account.FindAccountUseCase;
-import com.jonathan.modern_design.account_module.domain.exceptions.AccountNotFoundException;
+import com.jonathan.modern_design.account_module.application.TransferMoneyUseCase;
+import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.exceptions.OperationForbiddenForSameAccount;
 import com.jonathan.modern_design.account_module.domain.model.Account;
-import com.jonathan.modern_design.account_module.domain.services.AccountValidator;
-import com.jonathan.modern_design.account_module.domain.services.TransferMoneyUseCase;
-import com.jonathan.modern_design.account_module.domain.services.UpdateAccountUseCase;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
@@ -17,13 +14,11 @@ import java.math.BigDecimal;
 @DomainService
 @RequiredArgsConstructor
 public class TransferMoneyService implements TransferMoneyUseCase {
-    private final FindAccountUseCase findAccountUseCase;
-    private final UpdateAccountUseCase updateAccountUseCase;
+    private final AccountRepository repository;
     private final AccountValidator accountValidator;
 
     @Override
     public void transferMoney(@NonNull final TransferMoneyCommand command) {
-
         Account source = getAccountValidated(command.sourceId());
         Account target = getAccountValidated(command.targetId());
 
@@ -36,8 +31,7 @@ public class TransferMoneyService implements TransferMoneyUseCase {
     }
 
     private Account getAccountValidated(String accountNumber) {
-        var account = findAccountUseCase.findOne(accountNumber)
-                .orElseThrow(() -> new AccountNotFoundException(accountNumber));
+        var account = repository.findOneOrElseThrow(accountNumber);
         accountValidator.validateAccount(account);
         return account;
     }
@@ -54,8 +48,8 @@ public class TransferMoneyService implements TransferMoneyUseCase {
         source.substract(amount, currency);
         target.add(amount, currency);
 
-        updateAccountUseCase.update(source);
-        updateAccountUseCase.update(target);
+        repository.update(source);
+        repository.update(target);
     }
 
 }

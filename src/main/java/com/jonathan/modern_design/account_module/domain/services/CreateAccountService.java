@@ -1,16 +1,15 @@
-package com.jonathan.modern_design.account_module.application;
+package com.jonathan.modern_design.account_module.domain.services;
 
 import com.jonathan.modern_design._infra.config.annotations.DomainService;
 import com.jonathan.modern_design._shared.Currency;
+import com.jonathan.modern_design.account_module.application.CreateAccountUseCase;
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.model.Account;
-import com.jonathan.modern_design.account_module.domain.services.CreateAccountUseCase;
-import com.jonathan.modern_design.user_module.application.UserFacade;
+import com.jonathan.modern_design.user_module.UserFacade;
+import com.jonathan.modern_design.user_module.application.RegisterUserUseCase;
 import com.jonathan.modern_design.user_module.domain.model.User;
-import com.jonathan.modern_design.user_module.domain.services.RegisterUserUseCase;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -21,7 +20,6 @@ public class CreateAccountService implements CreateAccountUseCase {
     private final AccountRepository repository;
     private final UserFacade userFacade;
 
-    @Transactional
     @Override
     public Account createAccount(@NonNull final CreateAccountCommand command) {
         var user = registerUser(command);
@@ -45,7 +43,6 @@ public class CreateAccountService implements CreateAccountUseCase {
     }
 
     class AccountNumberGenerator {
-
         public String generate() {
             return UUID.randomUUID().toString();
         }

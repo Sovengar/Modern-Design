@@ -2,12 +2,12 @@ package com.jonathan.modern_design._fake_data;
 
 import com.jonathan.modern_design.__config.Stub;
 import com.jonathan.modern_design._shared.Currency;
+import com.jonathan.modern_design.account_module.application.CreateAccountUseCase;
+import com.jonathan.modern_design.account_module.application.TransferMoneyUseCase;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountAddress;
 import com.jonathan.modern_design.account_module.domain.model.AccountMoney;
 import com.jonathan.modern_design.account_module.domain.model.AccountNumber;
-import com.jonathan.modern_design.account_module.domain.services.CreateAccountUseCase;
-import com.jonathan.modern_design.account_module.domain.services.TransferMoneyUseCase;
 
 import java.math.BigDecimal;
 

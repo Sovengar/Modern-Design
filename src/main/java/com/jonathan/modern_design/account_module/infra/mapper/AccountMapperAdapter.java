@@ -1,17 +1,29 @@
-package com.jonathan.modern_design.account_module.infra;
+package com.jonathan.modern_design.account_module.infra.mapper;
 
 import com.jonathan.modern_design._infra.config.annotations.BeanClass;
+import com.jonathan.modern_design._shared.Currency;
+import com.jonathan.modern_design.account_module.application.FindAccountUseCase;
 import com.jonathan.modern_design.account_module.domain.model.Account;
+import com.jonathan.modern_design.account_module.domain.model.AccountMoney;
+import com.jonathan.modern_design.account_module.domain.model.AccountNumber;
 import com.jonathan.modern_design.account_module.infra.persistence.AccountEntity;
 import org.mapstruct.factory.Mappers;
 
 @BeanClass
 public class AccountMapperAdapter implements AccountMapper {
-    AccountMapper mapStructInstance = Mappers.getMapper(AccountMapper.class);
+    AccountMapperMapStruct mapStructInstance = Mappers.getMapper(AccountMapperMapStruct.class);
 
     @Override
     public Account toAccount(AccountEntity accountEntity) {
         return mapStructInstance.toAccount(accountEntity);
+    }
+
+    @Override
+    public Account toAccount(final FindAccountUseCase.AccountResource accountResource) {
+        return Account.builder()
+                .accountNumber(AccountNumber.of(accountResource.accountNumber()))
+                .money(AccountMoney.of(accountResource.amount(), Currency.valueOf(accountResource.currency())))
+                .user(null).build(); //TODO
     }
 
     @Override

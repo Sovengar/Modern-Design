@@ -1,9 +1,8 @@
 package com.jonathan.modern_design.user_module;
 
-import com.jonathan.modern_design.user_module.application.RegisterUserService;
-import com.jonathan.modern_design.user_module.application.UserFacade;
+import com.jonathan.modern_design.user_module.application.RegisterUserUseCase;
 import com.jonathan.modern_design.user_module.domain.UserRepository;
-import com.jonathan.modern_design.user_module.domain.services.RegisterUserUseCase;
+import com.jonathan.modern_design.user_module.domain.services.RegisterUserService;
 import com.jonathan.modern_design.user_module.infra.SpringUserRepository;
 import com.jonathan.modern_design.user_module.infra.UserMapper;
 import com.jonathan.modern_design.user_module.infra.UserMapperAdapter;

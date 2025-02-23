@@ -1,12 +1,12 @@
 package com.jonathan.modern_design._fake_data;
 
 import com.jonathan.modern_design.__config.Stub;
+import com.jonathan.modern_design.user_module.application.RegisterUserUseCase;
 import com.jonathan.modern_design.user_module.domain.model.User;
 import com.jonathan.modern_design.user_module.domain.model.UserEmail;
 import com.jonathan.modern_design.user_module.domain.model.UserName;
 import com.jonathan.modern_design.user_module.domain.model.UserPassword;
 import com.jonathan.modern_design.user_module.domain.model.UserRealName;
-import com.jonathan.modern_design.user_module.domain.services.RegisterUserUseCase;
 
 import java.util.UUID;
 

@@ -4,9 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jonathan.modern_design.__config.ITConfig;
 import com.jonathan.modern_design._fake_data.AccountStub;
 import com.jonathan.modern_design._shared.Currency;
-import com.jonathan.modern_design.account_module.application.AccountFacade;
+import com.jonathan.modern_design.account_module.application.DepositUseCase;
 import com.jonathan.modern_design.account_module.domain.model.Account;
-import com.jonathan.modern_design.account_module.domain.services.DepositUseCase;
 import com.jonathan.modern_design.account_module.infra.persistence.AccountPersistenceAdapter;
 import lombok.val;
 import org.approvaltests.Approvals;
@@ -83,8 +82,7 @@ final class AccountAceptanceTest extends ITConfig {
         source = repository.findOne(source.getAccountNumber().getAccountNumber()).orElseThrow();
         target = repository.findOne(target.getAccountNumber().getAccountNumber()).orElseThrow();
 
-        AccountsAfterTransfer result = new AccountsAfterTransfer(source, target);
-        return result;
+        return new AccountsAfterTransfer(source, target);
     }
 
     private record AccountsAfterTransfer(Account source, Account target) {

@@ -1,4 +1,4 @@
-package com.jonathan.modern_design.account_module.infra;
+package com.jonathan.modern_design.account_module.infra.mapper;
 
 import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design.account_module.domain.model.Account;
@@ -15,8 +15,7 @@ import org.mapstruct.Named;
 import java.math.BigDecimal;
 
 @Mapper(uses = {UserMapper.class})
-public interface AccountMapper {
-
+public interface AccountMapperMapStruct {
     @Mapping(source = "address", target = "address", qualifiedByName = "mapAddress")
     @Mapping(target = "money", expression = "java(mapMoney(accountEntity.getBalance(), accountEntity.getCurrency()))")
     Account toAccount(final AccountEntity accountEntity);

@@ -2,11 +2,10 @@ package com.jonathan.modern_design.account_module;
 
 import com.jonathan.modern_design.__config.RepositoryITConfig;
 import com.jonathan.modern_design._shared.Currency;
-import com.jonathan.modern_design.account_module.application.AccountFacade;
-import com.jonathan.modern_design.account_module.domain.services.DepositUseCase;
+import com.jonathan.modern_design.account_module.application.DepositUseCase;
 import com.jonathan.modern_design.account_module.infra.persistence.AccountPersistenceAdapter;
-import com.jonathan.modern_design.user_module.application.UserFacade;
-import com.jonathan.modern_design.user_module.domain.services.RegisterUserUseCase;
+import com.jonathan.modern_design.user_module.UserFacade;
+import com.jonathan.modern_design.user_module.application.RegisterUserUseCase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;

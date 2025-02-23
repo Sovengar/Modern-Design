@@ -16,6 +16,6 @@ public class User {
     private UserPassword password;
     private String country;
 
-    record UserId(Long id) {
+    public record UserId(Long value) {
     }
 }

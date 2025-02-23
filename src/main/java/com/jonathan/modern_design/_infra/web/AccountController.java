@@ -1,10 +1,10 @@
 package com.jonathan.modern_design._infra.web;
 
 import com.jonathan.modern_design._shared.Currency;
-import com.jonathan.modern_design.account_module.application.AccountFacade;
-import com.jonathan.modern_design.account_module.domain.services.CreateAccountUseCase;
-import com.jonathan.modern_design.account_module.domain.services.TransferMoneyUseCase;
-import com.jonathan.modern_design.account_module.infra.AccountResource;
+import com.jonathan.modern_design.account_module.AccountFacade;
+import com.jonathan.modern_design.account_module.application.CreateAccountUseCase;
+import com.jonathan.modern_design.account_module.application.FindAccountUseCase;
+import com.jonathan.modern_design.account_module.application.TransferMoneyUseCase;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,20 +50,19 @@ class AccountController {
     }
 
     @GetMapping(path = "/{accountNumber}")
-    ResponseEntity<AccountResource> loadAccount(@PathVariable String accountNumber) {
-        val account = accountFacade.findOne(accountNumber).orElseThrow();
-        return ok(new AccountResource(account));
+    ResponseEntity<FindAccountUseCase.AccountResource> loadAccount(@PathVariable String accountNumber) {
+        return ok(accountFacade.findOne(accountNumber));
     }
 
     @PostMapping(path = "", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<AccountResource> createAccount(@RequestBody CreateAccountUseCase.CreateAccountCommand createAccountCommand) {
+    public ResponseEntity<FindAccountUseCase.AccountResource> createAccount(@RequestBody CreateAccountUseCase.CreateAccountCommand createAccountCommand) {
         log.info("START - Create account");
         final var account = accountFacade.createAccount(createAccountCommand);
         final var accountNumber = account.getAccountNumber().getAccountNumber();
         log.info("END - Create account: {}", accountNumber);
 
-        var build = fromMethodCall(on(this.getClass()).loadAccount(accountNumber)).build();
-        return created(build.toUri()).body(new AccountResource(account));
+        var uri = fromMethodCall(on(this.getClass()).loadAccount(accountNumber)).build().toUri();
+        return created(uri).body(new FindAccountUseCase.AccountResource(account));
     }
 
 

@@ -4,24 +4,17 @@ import com.jonathan.modern_design._infra.config.annotations.BeanClass;
 import com.jonathan.modern_design._infra.config.annotations.DomainService;
 import com.jonathan.modern_design._infra.config.annotations.PersistenceAdapter;
 import com.jonathan.modern_design._infra.config.annotations.WebAdapter;
-import com.jonathan.modern_design.account_module.application.AccountFacade;
-import com.jonathan.modern_design.account_module.application.CreateAccountService;
-import com.jonathan.modern_design.account_module.application.DepositService;
-import com.jonathan.modern_design.account_module.application.TransferMoneyService;
-import com.jonathan.modern_design.account_module.application.UpdateAccountService;
-import com.jonathan.modern_design.account_module.application.find_account.FindAccountService;
-import com.jonathan.modern_design.account_module.application.find_account.FindAccountUseCase;
+import com.jonathan.modern_design.account_module.application.CreateAccountUseCase;
+import com.jonathan.modern_design.account_module.application.TransferMoneyUseCase;
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.services.AccountValidator;
-import com.jonathan.modern_design.account_module.domain.services.CreateAccountUseCase;
-import com.jonathan.modern_design.account_module.domain.services.DepositUseCase;
-import com.jonathan.modern_design.account_module.domain.services.TransferMoneyUseCase;
-import com.jonathan.modern_design.account_module.domain.services.UpdateAccountUseCase;
-import com.jonathan.modern_design.account_module.infra.AccountMapper;
-import com.jonathan.modern_design.account_module.infra.AccountMapperAdapter;
+import com.jonathan.modern_design.account_module.domain.services.CreateAccountService;
+import com.jonathan.modern_design.account_module.domain.services.TransferMoneyService;
+import com.jonathan.modern_design.account_module.infra.mapper.AccountMapper;
+import com.jonathan.modern_design.account_module.infra.mapper.AccountMapperAdapter;
 import com.jonathan.modern_design.account_module.infra.persistence.AccountPersistenceAdapter;
 import com.jonathan.modern_design.account_module.infra.persistence.SpringAccountRepository;
-import com.jonathan.modern_design.user_module.application.UserFacade;
+import com.jonathan.modern_design.user_module.UserFacade;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -51,20 +44,9 @@ public class AccountConfiguration {
     }
 
     @Bean
-    public TransferMoneyUseCase sendMoneyUseCase(FindAccountUseCase findAccountUseCase, UpdateAccountUseCase updateAccountUseCase) {
+    public TransferMoneyUseCase transferMoneyUseCase(AccountRepository accountRepository) {
         AccountValidator accountValidator = new AccountValidator();
-
-        return new TransferMoneyService(findAccountUseCase, updateAccountUseCase, accountValidator);
-    }
-
-    @Bean
-    public FindAccountUseCase findAccountUseCase(AccountRepository accountRepository) {
-        return new FindAccountService(accountRepository);
-    }
-
-    @Bean
-    public UpdateAccountUseCase updateAccountUseCase(AccountRepository accountRepository) {
-        return new UpdateAccountService(accountRepository);
+        return new TransferMoneyService(accountRepository, accountValidator);
     }
 
     @Bean
@@ -73,17 +55,12 @@ public class AccountConfiguration {
     }
 
     @Bean
-    public DepositUseCase depositUseCase(AccountRepository accountRepository) {
-        return new DepositService(accountRepository);
-    }
-
-    @Bean
     public AccountFacade accountFacade(AccountRepository accountRepository, UserFacade userFacade) {
-        UpdateAccountUseCase updateAccountUseCase = updateAccountUseCase(accountRepository);
-        TransferMoneyUseCase transferMoneyUseCase = sendMoneyUseCase(findAccountUseCase(accountRepository), updateAccountUseCase);
-        CreateAccountUseCase createAccountUseCase = createAccountUseCase(accountRepository, userFacade);
-        DepositUseCase depositUseCase = depositUseCase(accountRepository);
-
-        return new AccountFacade(accountRepository, transferMoneyUseCase, updateAccountUseCase, createAccountUseCase, depositUseCase);
+        return new AccountFacade(
+                accountRepository,
+                transferMoneyUseCase(accountRepository),
+                createAccountUseCase(accountRepository, userFacade),
+                accountMapper()
+        );
     }
 }

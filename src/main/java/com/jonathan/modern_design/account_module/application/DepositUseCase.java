@@ -1,4 +1,4 @@
-package com.jonathan.modern_design.account_module.domain.services;
+package com.jonathan.modern_design.account_module.application;
 
 import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design.account_module.domain.model.Account;

@@ -3,7 +3,7 @@ package com.jonathan.modern_design.account_module.infra.persistence;
 import com.jonathan.modern_design._infra.config.annotations.PersistenceAdapter;
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.model.Account;
-import com.jonathan.modern_design.account_module.infra.AccountMapper;
+import com.jonathan.modern_design.account_module.infra.mapper.AccountMapper;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;

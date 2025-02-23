@@ -26,6 +26,14 @@ public interface UserMapper {
     @Mapping(source = "password", target = "password", qualifiedByName = "mapPassword")
     UserEntity toUserEntity(final User user);
 
+    default User.UserId mapId(Long id) {
+        return new User.UserId(id);
+    }
+
+    default Long mapId(User.UserId id) {
+        return id == null ? null : id.value();
+    }
+
     @Named("mapEmail")
     default UserEmail mapEmail(String email) {
         return UserEmail.of(email);
