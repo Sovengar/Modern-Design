@@ -1,5 +1,12 @@
 Proyecto para mostrar practicas de diseño moderno.
 
+# Important
+
+Account es una version full clean architecture, mientras que User es una mas pragmatica.
+Por ejemplo, SpringJPA esta en el domain y el entity de db y del domain estan fusionados.
+
+En el facade, no todos los usecases tienen su propia clase, esto es debido a que la idea es extraerlo cuando crece, no by default.
+
 # Architecture
 
 - Clean architecture
