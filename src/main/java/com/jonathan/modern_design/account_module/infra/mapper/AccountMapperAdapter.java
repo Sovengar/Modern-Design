@@ -2,7 +2,7 @@ package com.jonathan.modern_design.account_module.infra.mapper;
 
 import com.jonathan.modern_design._infra.config.annotations.BeanClass;
 import com.jonathan.modern_design._shared.Currency;
-import com.jonathan.modern_design.account_module.application.FindAccountUseCase;
+import com.jonathan.modern_design.account_module.application.AccountResource;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountMoney;
 import com.jonathan.modern_design.account_module.domain.model.AccountNumber;
@@ -19,7 +19,7 @@ public class AccountMapperAdapter implements AccountMapper {
     }
 
     @Override
-    public Account toAccount(final FindAccountUseCase.AccountResource accountResource) {
+    public Account toAccount(final AccountResource accountResource) {
         return Account.builder()
                 .accountNumber(AccountNumber.of(accountResource.accountNumber()))
                 .money(AccountMoney.of(accountResource.amount(), Currency.valueOf(accountResource.currency())))

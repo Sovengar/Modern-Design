@@ -35,14 +35,16 @@ class TransferMoneyRepositoryIT extends RepositoryITConfig {
     @Test
     void should_send_money_into_the_target_account() {
         var source = accountFacade.createAccount(randomAccountWithCurrency(Currency.EURO));
-        source = accountFacade.deposit(new DepositUseCase.DepositCommand(source.getAccountNumber().getAccountNumber(), BigDecimal.valueOf(100), Currency.EURO));
+        var sourceNumber = source.getAccountNumber().getValue();
+        accountFacade.deposit(new DepositUseCase.DepositCommand(sourceNumber, BigDecimal.valueOf(100), Currency.EURO));
         var target = accountFacade.createAccount(randomAccountWithCurrency(Currency.EURO));
         when(userFacade.registerUser(any(RegisterUserUseCase.RegisterUserCommand.class))).thenReturn(normalUser()); //TODO DEVUELVE NULL
 
-        accountFacade.transferMoney(fromAccountToAccountWithAmount(source.getAccountNumber().getAccountNumber(), target.getAccountNumber().getAccountNumber(), 60.0));
+        var targetNumber = target.getAccountNumber().getValue();
+        accountFacade.transferMoney(fromAccountToAccountWithAmount(sourceNumber, targetNumber, 60.0));
 
-        source = repository.findOne(source.getAccountNumber().getAccountNumber()).orElseThrow();
-        target = repository.findOne(target.getAccountNumber().getAccountNumber()).orElseThrow();
+        source = repository.findOne(sourceNumber).orElseThrow();
+        target = repository.findOne(targetNumber).orElseThrow();
 
         assertThat(source.getMoney().getAmount()).isEqualTo(BigDecimal.valueOf(40.0));
         assertThat(target.getMoney().getAmount()).isEqualTo(BigDecimal.valueOf(60.0));

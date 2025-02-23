@@ -1,4 +1,4 @@
-package com.jonathan.modern_design.user_module.infra;
+package com.jonathan.modern_design.user_module.application;
 
 import com.jonathan.modern_design.user_module.domain.model.User;
 

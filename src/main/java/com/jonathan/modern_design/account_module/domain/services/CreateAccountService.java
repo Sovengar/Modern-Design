@@ -8,7 +8,6 @@ import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.user_module.UserFacade;
 import com.jonathan.modern_design.user_module.application.RegisterUserUseCase;
 import com.jonathan.modern_design.user_module.domain.model.User;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
@@ -20,8 +19,7 @@ public class CreateAccountService implements CreateAccountUseCase {
     private final AccountRepository repository;
     private final UserFacade userFacade;
 
-    @Override
-    public Account createAccount(@NonNull final CreateAccountCommand command) {
+    public Account createAccount(final CreateAccountCommand command) {
         var user = registerUser(command);
         final var currency = Currency.fromCode(command.currency());
 
@@ -29,7 +27,7 @@ public class CreateAccountService implements CreateAccountUseCase {
         return repository.create(account);
     }
 
-    private User registerUser(CreateAccountCommand command) {
+    private User registerUser(final CreateAccountCommand command) {
         var userCreateCommand = RegisterUserUseCase.RegisterUserCommand.builder()
                 .uuid(UUID.randomUUID())
                 .realname(command.realname())

@@ -17,7 +17,7 @@ import java.util.Optional;
 @PersistenceAdapter
 @Primary //When Spring finds AccountRepository and AccountRepositorySpringAdapter, it will use AccountRepositorySpringAdapter
 @RequiredArgsConstructor
-public class AccountPersistenceAdapter implements AccountRepository { //TODO FIX, AQUI DEBERIA LLAMAR LAS INTERFACES, YA QUE ALOMEJOR LA ESCRITURA ES DB Y LA LECTURA ES DE UN JSON
+public class AccountPersistenceAdapter implements AccountRepository {
     private final SpringAccountRepository repository;
     private final AccountMapper accountMapper;
 
@@ -48,7 +48,7 @@ public class AccountPersistenceAdapter implements AccountRepository { //TODO FIX
 
     @Override
     public void update(final Account account) {
-        var accountEntity = findOneEntity(account.getAccountNumber().getAccountNumber()).orElseThrow();
+        var accountEntity = findOneEntity(account.getAccountNumber().getValue()).orElseThrow();
         accountMapper.updateAccountEntity(account, accountEntity);
         repository.save(accountEntity);
     }

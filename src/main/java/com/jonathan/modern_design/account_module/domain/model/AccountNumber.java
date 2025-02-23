@@ -10,7 +10,7 @@ import static java.util.regex.Pattern.matches;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class AccountNumber {
-    private final String accountNumber;
+    private final String value;
 
     public static AccountNumber of(String accountNumber) {
         if (accountNumber == null || accountNumber.isEmpty()) {

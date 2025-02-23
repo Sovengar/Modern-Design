@@ -6,7 +6,6 @@ import com.jonathan.modern_design.account_module.application.TransferMoneyUseCas
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.exceptions.OperationForbiddenForSameAccount;
 import com.jonathan.modern_design.account_module.domain.model.Account;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
@@ -18,7 +17,7 @@ public class TransferMoneyService implements TransferMoneyUseCase {
     private final AccountValidator accountValidator;
 
     @Override
-    public void transferMoney(@NonNull final TransferMoneyCommand command) {
+    public void transferMoney(final TransferMoneyCommand command) {
         Account source = getAccountValidated(command.sourceId());
         Account target = getAccountValidated(command.targetId());
 
@@ -30,13 +29,13 @@ public class TransferMoneyService implements TransferMoneyUseCase {
         transferMoney(source, target, amount, currency);
     }
 
-    private Account getAccountValidated(String accountNumber) {
+    private Account getAccountValidated(final String accountNumber) {
         var account = repository.findOneOrElseThrow(accountNumber);
         accountValidator.validateAccount(account);
         return account;
     }
 
-    private void validateDifferentAccounts(Account source, Account target) {
+    private void validateDifferentAccounts(final Account source, final Account target) {
         var isSameAccount = source.getAccountNumber().equals(target.getAccountNumber());
 
         if (isSameAccount) {
@@ -44,7 +43,7 @@ public class TransferMoneyService implements TransferMoneyUseCase {
         }
     }
 
-    private void transferMoney(Account source, Account target, BigDecimal amount, Currency currency) {
+    private void transferMoney(Account source, Account target, final BigDecimal amount, final Currency currency) {
         source.substract(amount, currency);
         target.add(amount, currency);
 

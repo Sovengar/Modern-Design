@@ -57,7 +57,7 @@ public interface AccountMapperMapStruct {
     }
 
     default String mapAccountNumber(AccountNumber accountNumber) {
-        return accountNumber.getAccountNumber();
+        return accountNumber.getValue();
     }
 
     default AccountNumber mapAccountNumber(String accountNumber) {

@@ -9,7 +9,6 @@ import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.infra.persistence.AccountPersistenceAdapter;
 import lombok.val;
 import org.approvaltests.Approvals;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -72,15 +71,20 @@ final class AccountAceptanceTest extends ITConfig {
 //        //.andExpect(jsonPath("$.starships[0].name").value(fleet.starships().get(0).name()))
 //        //.andExpect(jsonPath("$.starships[0].capacity").value(fleet.starships().get(0).passengersCapacity()));
 //    }
-    private @NotNull AccountsAfterTransfer getAccountsAfterTransfer(final double amount) {
+    private AccountsAfterTransfer getAccountsAfterTransfer(final double amount) {
+        //Source
         var source = accountFacade.createAccount(randomAccountWithCurrency(Currency.EURO));
-        source = accountFacade.deposit(new DepositUseCase.DepositCommand(source.getAccountNumber().getAccountNumber(), BigDecimal.valueOf(100), Currency.EURO));
+        var sourceNumber = source.getAccountNumber().getValue();
+        accountFacade.deposit(new DepositUseCase.DepositCommand(sourceNumber, BigDecimal.valueOf(100), Currency.EURO));
+
+        //Target
         var target = accountFacade.createAccount(randomAccountWithCurrency(Currency.EURO));
+        var targetNumber = target.getAccountNumber().getValue();
 
-        accountFacade.transferMoney(fromAccountToAccountWithAmount(source.getAccountNumber().getAccountNumber(), target.getAccountNumber().getAccountNumber(), 60.0));
-
-        source = repository.findOne(source.getAccountNumber().getAccountNumber()).orElseThrow();
-        target = repository.findOne(target.getAccountNumber().getAccountNumber()).orElseThrow();
+        //Last
+        accountFacade.transferMoney(fromAccountToAccountWithAmount(sourceNumber, targetNumber, 60.0));
+        source = repository.findOne(sourceNumber).orElseThrow();
+        target = repository.findOne(targetNumber).orElseThrow();
 
         return new AccountsAfterTransfer(source, target);
     }

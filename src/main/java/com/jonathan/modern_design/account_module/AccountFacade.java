@@ -1,6 +1,7 @@
 package com.jonathan.modern_design.account_module;
 
 import com.jonathan.modern_design._infra.config.annotations.BeanClass;
+import com.jonathan.modern_design.account_module.application.AccountResource;
 import com.jonathan.modern_design.account_module.application.CreateAccountUseCase;
 import com.jonathan.modern_design.account_module.application.DepositUseCase;
 import com.jonathan.modern_design.account_module.application.FindAccountUseCase;
@@ -37,9 +38,8 @@ public class AccountFacade implements TransferMoneyUseCase, FindAccountUseCase, 
     @Transactional
     @Override
     public void update(AccountResource accountResource) {
-        //If update ends up with more logic, extract to a service and make other services depend on it, i.e. transferMoney
         var account = accountMapper.toAccount(accountResource);
-        repository.update(account);
+        update(account);
     }
 
     @Transactional
@@ -50,10 +50,14 @@ public class AccountFacade implements TransferMoneyUseCase, FindAccountUseCase, 
 
     @Transactional
     @Override
-    public Account deposit(final DepositCommand command) { //TODO DEVOLVER VOID
+    public void deposit(final DepositCommand command) {
         var account = repository.findOne(command.accountNumber()).orElseThrow();
         account.add(command.amount(), command.currency());
+        update(account);
+    }
+
+    private void update(Account account) {
+        //If update ends up with more logic, extract to a service and make other services depend on it, i.e. transferMoney
         repository.update(account);
-        return repository.findOne(command.accountNumber()).orElseThrow();
     }
 }

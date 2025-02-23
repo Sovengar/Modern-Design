@@ -2,8 +2,8 @@ package com.jonathan.modern_design._infra.web;
 
 import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design.account_module.AccountFacade;
+import com.jonathan.modern_design.account_module.application.AccountResource;
 import com.jonathan.modern_design.account_module.application.CreateAccountUseCase;
-import com.jonathan.modern_design.account_module.application.FindAccountUseCase;
 import com.jonathan.modern_design.account_module.application.TransferMoneyUseCase;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -50,20 +50,19 @@ class AccountController {
     }
 
     @GetMapping(path = "/{accountNumber}")
-    ResponseEntity<FindAccountUseCase.AccountResource> loadAccount(@PathVariable String accountNumber) {
+    ResponseEntity<AccountResource> loadAccount(@PathVariable String accountNumber) {
         return ok(accountFacade.findOne(accountNumber));
     }
 
     @PostMapping(path = "", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<FindAccountUseCase.AccountResource> createAccount(@RequestBody CreateAccountUseCase.CreateAccountCommand createAccountCommand) {
+    public ResponseEntity<AccountResource> createAccount(@RequestBody CreateAccountUseCase.CreateAccountCommand createAccountCommand) {
         log.info("START - Create account");
         final var account = accountFacade.createAccount(createAccountCommand);
-        final var accountNumber = account.getAccountNumber().getAccountNumber();
+        final var accountNumber = account.getAccountNumber().getValue();
         log.info("END - Create account: {}", accountNumber);
 
         var uri = fromMethodCall(on(this.getClass()).loadAccount(accountNumber)).build().toUri();
-        return created(uri).body(new FindAccountUseCase.AccountResource(account));
+        return created(uri).body(new AccountResource(account));
     }
-
 
 }
