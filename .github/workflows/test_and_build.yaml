@@ -35,6 +35,15 @@ jobs:
         with:
           name: test-results
           path: target/surefire-reports
+      - name: SonarQube analysis
+        uses: sonarcloud/sonarcloud-github-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONARCLOUD_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
+          SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
+          SONAR_ORG: ${{ secrets.SONAR_ORG }}
+        with:
+          args: --github-repository ${GITHUB_REPOSITORY} --github-token ${GITHUB_TOKEN} --sonar-project-key ${SONAR_PROJECT_KEY} --sonar-organization ${SONAR_ORG}
 
       # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
       - name: Update dependency graph
