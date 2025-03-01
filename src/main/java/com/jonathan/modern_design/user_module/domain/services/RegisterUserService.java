@@ -10,6 +10,8 @@ import com.jonathan.modern_design.user_module.domain.model.UserPassword;
 import com.jonathan.modern_design.user_module.domain.model.UserRealName;
 import lombok.RequiredArgsConstructor;
 
+import static java.lang.String.format;
+
 @DomainService
 @RequiredArgsConstructor
 public class RegisterUserService implements RegisterUserUseCase {
@@ -17,6 +19,11 @@ public class RegisterUserService implements RegisterUserUseCase {
 
     @Override
     public User registerUser(RegisterUserCommand command) {
+
+        repository.findById(command.uuid()).ifPresent(user -> {
+            throw new UserAlreadyExistsException(format("User [%s] already exists", command.uuid()));
+        });
+
         final var user = User.builder()
                 .uuid(command.uuid())
                 .realname(UserRealName.of(command.realname()))
@@ -27,5 +34,11 @@ public class RegisterUserService implements RegisterUserUseCase {
                 .build();
 
         return repository.createUser(user);
+    }
+
+    private static class UserAlreadyExistsException extends RuntimeException {
+        public UserAlreadyExistsException(String message) {
+            super(message);
+        }
     }
 }
