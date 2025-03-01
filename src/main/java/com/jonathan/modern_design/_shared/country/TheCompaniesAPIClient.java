@@ -7,6 +7,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 @BeanClass
@@ -39,6 +40,11 @@ class TheCompaniesAPIClient implements CountriesInventory {
         } while (currentPage <= response.meta().lastPage());
 
         return countries;
+    }
+
+    @Override
+    public Optional<Country> findByCode(final String code) {
+        return Optional.empty(); //TODO: Implement this
     }
 
     private List<Country> convertTheCompaniesAPIResponseToCountries(TheCompaniesAPIWrapper.TheCompaniesAPIResponse response) {

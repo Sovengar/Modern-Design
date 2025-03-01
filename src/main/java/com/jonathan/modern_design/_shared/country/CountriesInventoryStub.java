@@ -3,11 +3,12 @@ package com.jonathan.modern_design._shared.country;
 import com.jonathan.modern_design._infra.config.annotations.Stub;
 
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.Arrays.asList;
 
 @Stub
-final class CountriesInventoryStub implements CountriesInventory {
+public final class CountriesInventoryStub implements CountriesInventory {
     private static final List<Country> DEFAULT_COUNTRIES = asList(
             new Country("ES", "Spain"),
             new Country("US", "United States"),
@@ -46,5 +47,10 @@ final class CountriesInventoryStub implements CountriesInventory {
     @Override
     public List<Country> countries() {
         return countries;
+    }
+
+    @Override
+    public Optional<Country> findByCode(final String code) {
+        return Optional.ofNullable(countries.stream().filter(c -> code.equals(c.code())).findFirst().orElse(null));
     }
 }

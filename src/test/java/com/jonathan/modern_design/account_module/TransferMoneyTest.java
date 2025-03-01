@@ -3,6 +3,8 @@ package com.jonathan.modern_design.account_module;
 import com.jonathan.modern_design.__config.PrettyTestNames;
 import com.jonathan.modern_design.__config.TimeExtension;
 import com.jonathan.modern_design._fake_data.AccountStub;
+import com.jonathan.modern_design._shared.country.CountriesInventory;
+import com.jonathan.modern_design._shared.country.CountriesInventoryStub;
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.exceptions.AccountIsInactiveException;
 import com.jonathan.modern_design.account_module.domain.exceptions.OperationWithDifferentCurrenciesException;
@@ -27,11 +29,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class TransferMoneyTest {
     private final AccountRepository repository = new InMemoryAccountRepository();
     private final LocalDateTime supposedToBeNow = LocalDate.of(2020, 12, 25).atStartOfDay();
+    private final CountriesInventory countriesInventory = new CountriesInventoryStub();
     @RegisterExtension
     TimeExtension timeExtension = new TimeExtension(supposedToBeNow);
     @Mock
     private UserFacade userFacade;
-    private final AccountFacade accountFacade = new AccountConfiguration().accountFacade(repository, userFacade);
+    private final AccountFacade accountFacade = new AccountConfiguration().accountFacade(repository, userFacade, countriesInventory);
 
     private void poblatePersistenceLayer(Account source, Account target) {
         repository.create(source);

@@ -2,6 +2,7 @@ package com.jonathan.modern_design.account_module.domain.services;
 
 import com.jonathan.modern_design._infra.config.annotations.DomainService;
 import com.jonathan.modern_design._shared.Currency;
+import com.jonathan.modern_design._shared.country.CountriesInventory;
 import com.jonathan.modern_design.account_module.application.CreateAccountUseCase;
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.model.Account;
@@ -18,6 +19,7 @@ import java.util.UUID;
 public class CreateAccountService implements CreateAccountUseCase {
     private final AccountRepository repository;
     private final UserFacade userFacade;
+    private final CountriesInventory countriesInventory;
 
     public Account createAccount(final CreateAccountCommand command) {
         var user = registerUser(command);
@@ -28,14 +30,13 @@ public class CreateAccountService implements CreateAccountUseCase {
     }
 
     private User registerUser(final CreateAccountCommand command) {
-        var userCreateCommand = RegisterUserUseCase.RegisterUserCommand.builder()
-                .uuid(UUID.randomUUID())
-                .realname(command.realname())
-                .username(command.username())
-                .email(command.email())
-                .password(command.password())
-                .country(command.country())
-                .build();
+        var userCreateCommand = new RegisterUserUseCase.RegisterUserCommand(
+                UUID.randomUUID(),
+                command.realname(),
+                command.username(),
+                command.email(),
+                command.password(),
+                countriesInventory.findByCodeOrElseThrow(command.country()));
 
         return userFacade.registerUser(userCreateCommand);
     }

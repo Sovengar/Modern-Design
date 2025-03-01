@@ -82,7 +82,7 @@ public class AccountStub extends Stub {
                     .address("street, city, state, zipCode")
                     .currency(Currency.EURO.getCode())
                     .password(VALID_PASSWORD)
-                    .country(DEFAULT_COUNTRY)
+                    .country(DEFAULT_COUNTRY.code())
                     .build();
         }
 
@@ -94,7 +94,7 @@ public class AccountStub extends Stub {
                     .address("street, city, state, zipCode")
                     .currency(currency.getCode())
                     .password(VALID_PASSWORD)
-                    .country(DEFAULT_COUNTRY)
+                    .country(DEFAULT_COUNTRY.code())
                     .build();
         }
     }

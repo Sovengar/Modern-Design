@@ -1,6 +1,7 @@
 package com.jonathan.modern_design.user_module.domain.model;
 
 import com.jonathan.modern_design._infra.config.database.BaseEntity;
+import com.jonathan.modern_design._shared.country.Country;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,7 +13,6 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -28,7 +28,6 @@ import java.util.UUID;
 @ToString
 @NoArgsConstructor(access = AccessLevel.PRIVATE) //For Hibernate
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder //TODO QUITAR
 @SQLRestriction("deleted <> true") //Make Hibernate ignore soft deleted entries
 public class User extends BaseEntity {
     @Id
@@ -53,7 +52,11 @@ public class User extends BaseEntity {
     private UserPassword password;
 
     @Column
-    private String country;
+    private Country country;
+
+    public static User create(UUID uuid, String realname, String username, String email, String password, Country country) {
+        return new User(new UserId(null), uuid, UserRealName.of(realname), UserName.of(username), UserEmail.of(email), UserPassword.of(password), country);
+    }
 
     @PrePersist
     public void prePersist() {

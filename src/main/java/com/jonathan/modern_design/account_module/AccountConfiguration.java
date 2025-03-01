@@ -4,6 +4,7 @@ import com.jonathan.modern_design._infra.config.annotations.BeanClass;
 import com.jonathan.modern_design._infra.config.annotations.DomainService;
 import com.jonathan.modern_design._infra.config.annotations.PersistenceAdapter;
 import com.jonathan.modern_design._infra.config.annotations.WebAdapter;
+import com.jonathan.modern_design._shared.country.CountriesInventory;
 import com.jonathan.modern_design.account_module.application.CreateAccountUseCase;
 import com.jonathan.modern_design.account_module.application.TransferMoneyUseCase;
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
@@ -50,16 +51,16 @@ public class AccountConfiguration {
     }
 
     @Bean
-    public CreateAccountUseCase createAccountUseCase(AccountRepository accountRepository, UserFacade userFacade) {
-        return new CreateAccountService(accountRepository, userFacade);
+    public CreateAccountUseCase createAccountUseCase(AccountRepository accountRepository, UserFacade userFacade, CountriesInventory countriesInventory) {
+        return new CreateAccountService(accountRepository, userFacade, countriesInventory);
     }
 
     @Bean
-    public AccountFacade accountFacade(AccountRepository accountRepository, UserFacade userFacade) {
+    public AccountFacade accountFacade(AccountRepository accountRepository, UserFacade userFacade, CountriesInventory countriesInventory) {
         return new AccountFacade(
                 accountRepository,
                 transferMoneyUseCase(accountRepository),
-                createAccountUseCase(accountRepository, userFacade),
+                createAccountUseCase(accountRepository, userFacade, countriesInventory),
                 accountMapper()
         );
     }
