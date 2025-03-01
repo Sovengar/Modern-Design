@@ -19,8 +19,8 @@ class UserConfiguration {
     }
 
     @Bean
-    public UserRepository userRepository(SpringUserRepository repository, UserMapper userMapper) {
-        return new UserPersistenceAdapter(repository, userMapper);
+    public UserRepository userRepository(SpringUserRepository repository) {
+        return new UserPersistenceAdapter(repository);
     }
 
     @Bean

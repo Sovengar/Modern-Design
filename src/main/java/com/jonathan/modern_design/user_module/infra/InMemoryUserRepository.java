@@ -4,6 +4,7 @@ import com.jonathan.modern_design._infra.config.annotations.Fake;
 import com.jonathan.modern_design.user_module.domain.UserRepository;
 import com.jonathan.modern_design.user_module.domain.model.User;
 
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -16,5 +17,10 @@ public class InMemoryUserRepository implements UserRepository {
     public User createUser(User user) {
         users.put(user.getUuid(), user);
         return user;
+    }
+
+    @Override
+    public Optional<User> findById(final UUID uuid) {
+        return Optional.ofNullable(users.get(uuid));
     }
 }

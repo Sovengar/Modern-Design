@@ -2,7 +2,7 @@ package com.jonathan.modern_design.account_module.infra.persistence;
 
 import com.jonathan.modern_design._infra.config.database.BaseEntity;
 import com.jonathan.modern_design._shared.Currency;
-import com.jonathan.modern_design.user_module.infra.UserEntity;
+import com.jonathan.modern_design.user_module.domain.model.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -58,7 +58,7 @@ public class AccountEntity extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "user_id")
-    private UserEntity user;
+    private User user;
 
     @Column
     private LocalDateTime dateOfLastTransaction;

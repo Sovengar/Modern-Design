@@ -9,4 +9,8 @@ public record UserResource(String realname, String email, String country, String
     public UserResource(User user) {
         this(user.getRealname().getName(), user.getEmail().getEmail(), user.getCountry(), user.getUsername().getName(), Map.of("name", "realname"));
     }
+
+    public static UserResource from(final User user) {
+        return new UserResource(user);
+    }
 }
