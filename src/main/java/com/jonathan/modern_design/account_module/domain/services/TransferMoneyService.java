@@ -6,6 +6,7 @@ import com.jonathan.modern_design.account_module.application.TransferMoneyUseCas
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.exceptions.OperationForbiddenForSameAccount;
 import com.jonathan.modern_design.account_module.domain.model.Account;
+import com.jonathan.modern_design.account_module.domain.model.AccountNumber;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
@@ -21,7 +22,7 @@ public class TransferMoneyService implements TransferMoneyUseCase {
         Account source = getAccountValidated(command.sourceId());
         Account target = getAccountValidated(command.targetId());
 
-        validateDifferentAccounts(source, target);
+        validateDifferentAccounts(source.getAccountNumber(), target.getAccountNumber());
 
         final var amount = command.amount();
         final var currency = command.currency();
@@ -35,8 +36,8 @@ public class TransferMoneyService implements TransferMoneyUseCase {
         return account;
     }
 
-    private void validateDifferentAccounts(final Account source, final Account target) {
-        var isSameAccount = source.getAccountNumber().equals(target.getAccountNumber());
+    private void validateDifferentAccounts(final AccountNumber source, final AccountNumber target) {
+        var isSameAccount = source.equals(target);
 
         if (isSameAccount) {
             throw new OperationForbiddenForSameAccount();

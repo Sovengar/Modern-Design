@@ -10,7 +10,8 @@ import com.jonathan.modern_design.account_module.domain.exceptions.AccountIsInac
 import com.jonathan.modern_design.account_module.domain.exceptions.OperationWithDifferentCurrenciesException;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountMoney;
-import com.jonathan.modern_design.account_module.infra.persistence.InMemoryAccountRepository;
+import com.jonathan.modern_design.account_module.infra.persistence.AccountInMemoryRepo;
+import com.jonathan.modern_design.account_module.infra.query.AccountSearchRepo;
 import com.jonathan.modern_design.user_module.UserFacade;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Nested;
@@ -23,19 +24,21 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static com.jonathan.modern_design._fake_data.AccountStub.TransferMoneyMother.transactionWithAmount;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 @DisplayNameGeneration(PrettyTestNames.class)
 class TransferMoneyTest {
-    private final AccountRepository repository = new InMemoryAccountRepository();
+    private final AccountRepository repository = new AccountInMemoryRepo();
     private final LocalDateTime supposedToBeNow = LocalDate.of(2020, 12, 25).atStartOfDay();
     private final CountriesInventory countriesInventory = new CountriesInventoryStub();
     @RegisterExtension
     TimeExtension timeExtension = new TimeExtension(supposedToBeNow);
     @Mock
     private UserFacade userFacade;
-    private final AccountFacade accountFacade = new AccountConfiguration().accountFacade(repository, userFacade, countriesInventory);
+    @Mock
+    private AccountSearchRepo accountSearchRepo;
+    private final AccountFacade accountFacade = new AccountConfiguration().accountFacade(repository, accountSearchRepo, userFacade, countriesInventory);
 
     private void poblatePersistenceLayer(Account source, Account target) {
         repository.create(source);
@@ -46,8 +49,8 @@ class TransferMoneyTest {
     class ValidAccount {
         @Test
         void should_transfer_money_into_the_target_account() {
-            Account source = AccountStub.sourceAccountwithBalance(100.0);
-            Account target = AccountStub.targetAccountEmpty();
+            var source = AccountStub.sourceAccountwithBalance(100.0);
+            var target = AccountStub.targetAccountEmpty();
             poblatePersistenceLayer(source, target);
 
             accountFacade.transferMoney(transactionWithAmount(50.0));
@@ -57,8 +60,8 @@ class TransferMoneyTest {
 
         @Test
         void should_update_date_of_last_transaction() {
-            Account source = AccountStub.sourceAccountwithBalance(100.0);
-            Account target = AccountStub.targetAccountEmpty();
+            var source = AccountStub.sourceAccountwithBalance(100.0);
+            var target = AccountStub.targetAccountEmpty();
             poblatePersistenceLayer(source, target);
 
             accountFacade.transferMoney(transactionWithAmount(50.0));
@@ -71,8 +74,8 @@ class TransferMoneyTest {
     class InvalidAccounts {
         @Test
         void should_fail_transference_when_not_enough_money() {
-            Account source = AccountStub.sourceAccountEmpty();
-            Account target = AccountStub.targetAccountwithBalance(100.0);
+            var source = AccountStub.sourceAccountEmpty();
+            var target = AccountStub.targetAccountwithBalance(100.0);
             poblatePersistenceLayer(source, target);
 
             assertThatThrownBy(() -> accountFacade.transferMoney(transactionWithAmount(50.0)))
@@ -81,8 +84,8 @@ class TransferMoneyTest {
 
         @Test
         void should_fail_transference_when_source_account_is_inactive() {
-            Account source = AccountStub.sourceAccountInactive();
-            Account target = AccountStub.targetAccountEmpty();
+            var source = AccountStub.sourceAccountInactive();
+            var target = AccountStub.targetAccountEmpty();
             poblatePersistenceLayer(source, target);
 
             assertThatThrownBy(() -> accountFacade.transferMoney(transactionWithAmount(50.0)))
@@ -91,8 +94,8 @@ class TransferMoneyTest {
 
         @Test
         void should_fail_transference_when_target_account_is_inactive() {
-            Account source = AccountStub.sourceAccountwithBalance(100.0);
-            Account target = AccountStub.targetAccountInactive();
+            var source = AccountStub.sourceAccountwithBalance(100.0);
+            var target = AccountStub.targetAccountInactive();
             poblatePersistenceLayer(source, target);
 
             assertThatThrownBy(() -> accountFacade.transferMoney(transactionWithAmount(50.0)))
@@ -101,8 +104,8 @@ class TransferMoneyTest {
 
         @Test
         void should_fail_when_accounts_have_distinct_currencies() {
-            Account source = AccountStub.sourceAccountwithBalance(100.0);
-            Account target = AccountStub.targetAccountWithDifferentCurrency();
+            var source = AccountStub.sourceAccountwithBalance(100.0);
+            var target = AccountStub.targetAccountWithDifferentCurrency();
             poblatePersistenceLayer(source, target);
 
             assertThatThrownBy(() -> accountFacade.transferMoney(transactionWithAmount(50.0)))
