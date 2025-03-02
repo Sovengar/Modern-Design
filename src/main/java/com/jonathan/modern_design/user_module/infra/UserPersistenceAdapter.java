@@ -11,7 +11,7 @@ import java.util.UUID;
 @PersistenceAdapter
 @RequiredArgsConstructor
 public class UserPersistenceAdapter implements UserRepository {
-    private final SpringUserRepository repository;
+    private final UserSpringRepo repository;
 
     @Override
     public User createUser(User user) {

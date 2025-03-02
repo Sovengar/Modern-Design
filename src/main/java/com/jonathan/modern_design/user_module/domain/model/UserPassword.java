@@ -16,7 +16,7 @@ import static java.util.regex.Pattern.matches;
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserPassword {
-    private final String password;
+    private final String value;
 
     public static UserPassword of(String password) {
         PasswordValidator.validatePassword(password);
@@ -26,19 +26,19 @@ public class UserPassword {
 
     @Override
     public String toString() {
-        return password;
+        return value;
     }
 
     @Override
     public int hashCode() {
-        return password.hashCode();
+        return value.hashCode();
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof UserPassword passwordVO)) return false;
-        return password.equals(passwordVO.password);
+        return value.equals(passwordVO.value);
     }
 
     private static class InvalidUserPasswordException extends RootException {

@@ -14,7 +14,7 @@ public class UserStub extends Stub {
     public static final String VALID_PASSWORD = faker.internet().password(4, 12, true, true, true) + "1ºAa";
 
     public static User normalUser() {
-        return User.create(DEFAULT_UUID, faker.name().fullName(), faker.name().username(), faker.internet().emailAddress(), VALID_PASSWORD, DEFAULT_COUNTRY);
+        return User.register(DEFAULT_UUID, faker.name().fullName(), faker.name().username(), faker.internet().emailAddress(), VALID_PASSWORD, DEFAULT_COUNTRY);
     }
 
     public static class CreateValidUser extends Stub {

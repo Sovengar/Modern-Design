@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 public class UserEmail {
     private static final int MAX_LENGTH = 254;
     private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
-    private final String email;
+    private final String value;
 
     public static UserEmail of(String email) {
         if (email == null) {
@@ -30,17 +30,17 @@ public class UserEmail {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof UserEmail emailVO)) return false;
-        return email.equals(emailVO.email);
+        return value.equals(emailVO.value);
     }
 
     @Override
     public int hashCode() {
-        return email.hashCode();
+        return value.hashCode();
     }
 
     @Override
     public String toString() {
-        return email;
+        return value;
     }
 
     private static class InvalidEmailException extends RootException {

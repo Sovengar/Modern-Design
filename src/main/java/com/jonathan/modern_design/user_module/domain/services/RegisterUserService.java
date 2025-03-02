@@ -20,7 +20,7 @@ public class RegisterUserService implements RegisterUserUseCase {
             throw new UserAlreadyExistsException(format("User [%s] already exists", command.uuid()));
         });
 
-        final var user = User.create(command.uuid(), command.realname(), command.username(), command.email(), command.password(), command.country());
+        final var user = User.register(command.uuid(), command.realname(), command.username(), command.email(), command.password(), command.country());
         return repository.createUser(user);
     }
 
