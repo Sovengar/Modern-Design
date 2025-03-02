@@ -9,15 +9,21 @@ import com.jonathan.modern_design.account_module.application.TransferMoneyUseCas
 import com.jonathan.modern_design.account_module.application.UpdateAccountUseCase;
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.model.Account;
+import com.jonathan.modern_design.account_module.domain.model.AccountNumber;
 import com.jonathan.modern_design.account_module.infra.mapper.AccountMapper;
+import com.jonathan.modern_design.account_module.infra.query.AccountSearchCriteria;
+import com.jonathan.modern_design.account_module.infra.query.AccountSearchRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @BeanClass
 @RequiredArgsConstructor
 
 public class AccountFacade implements TransferMoneyUseCase, FindAccountUseCase, UpdateAccountUseCase, CreateAccountUseCase, DepositUseCase {
     private final AccountRepository repository;
+    private final AccountSearchRepo accountSearchRepo;
     private final TransferMoneyUseCase transferMoneyUseCase;
     private final CreateAccountUseCase createAccountUseCase;
     private final AccountMapper accountMapper;
@@ -28,23 +34,29 @@ public class AccountFacade implements TransferMoneyUseCase, FindAccountUseCase, 
         transferMoneyUseCase.transferMoney(command);
     }
 
-    // CQRS, we can skip service layer and access directly to repository
+    //region CQRS, we can skip service layer and access directly to repository
     @Override
     public AccountResource findOne(final String accountNumber) {
         final var account = repository.findOneOrElseThrow(accountNumber);
         return new AccountResource(account);
     }
 
+    public List<AccountResource> search(final AccountSearchCriteria filters) {
+        return accountSearchRepo.search(filters);
+        //TODO Tener varios search por caso de uso y n mappers, n projections, ...
+    }
+    //endregion
+
     @Transactional
     @Override
-    public void update(AccountResource accountResource) {
-        var account = accountMapper.toAccount(accountResource);
+    public void update(AccountResource dto) {
+        var account = accountMapper.toAccount(dto);
         update(account);
     }
 
     @Transactional
     @Override
-    public Account createAccount(final CreateAccountCommand command) {
+    public AccountNumber createAccount(final CreateAccountCommand command) {
         return createAccountUseCase.createAccount(command);
     }
 

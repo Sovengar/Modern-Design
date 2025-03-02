@@ -3,6 +3,7 @@ package com.jonathan.modern_design.account_module.infra.persistence;
 import com.jonathan.modern_design._infra.config.annotations.PersistenceAdapter;
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.model.Account;
+import com.jonathan.modern_design.account_module.domain.model.AccountNumber;
 import com.jonathan.modern_design.account_module.infra.mapper.AccountMapper;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -15,15 +16,19 @@ import java.util.List;
 import java.util.Optional;
 
 @PersistenceAdapter
-@Primary //When Spring finds AccountRepository and AccountRepositorySpringAdapter, it will use AccountRepositorySpringAdapter
+@Primary //When Spring finds AccountRepository but creates AccountSpringRepo, it will use AccountRepositorySpringAdapter
 @RequiredArgsConstructor
 public class AccountPersistenceAdapter implements AccountRepository {
-    private final SpringAccountRepository repository;
+    private final AccountSpringRepo repository;
     private final AccountMapper accountMapper;
 
     @Override
     public Optional<Account> findOne(final String accountNumber) {
         return findOneEntity(accountNumber).map(accountMapper::toAccount);
+    }
+
+    private Optional<AccountEntity> findOneEntity(@NonNull final String accountNumber) {
+        return repository.findByAccountNumber(accountNumber);
     }
 
     @Override
@@ -38,12 +43,10 @@ public class AccountPersistenceAdapter implements AccountRepository {
     }
 
     @Override
-    public Account create(final Account account) {
+    public AccountNumber create(final Account account) {
         var accountEntity = accountMapper.toAccountEntity(account);
-        accountEntity = repository.save(accountEntity);
-        //TODO FIX DETACHED USER
-
-        return accountMapper.toAccount(accountEntity);
+        repository.save(accountEntity);
+        return account.getAccountNumber();
     }
 
     @Override
@@ -65,9 +68,4 @@ public class AccountPersistenceAdapter implements AccountRepository {
             repository.save(account);
         });
     }
-
-    private Optional<AccountEntity> findOneEntity(@NonNull final String accountNumber) {
-        return repository.findByAccountNumber(accountNumber);
-    }
-
 }

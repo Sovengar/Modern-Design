@@ -2,6 +2,7 @@ package com.jonathan.modern_design.account_module.infra.persistence;
 
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.model.Account;
+import com.jonathan.modern_design.account_module.domain.model.AccountNumber;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static java.util.Objects.requireNonNull;
 
-public class InMemoryAccountRepository implements AccountRepository {
+public class AccountInMemoryRepo implements AccountRepository {
     private final ConcurrentHashMap<String, Account> accounts = new ConcurrentHashMap<>();
 
     @Override
@@ -29,9 +30,9 @@ public class InMemoryAccountRepository implements AccountRepository {
     }
 
     @Override
-    public Account create(Account account) {
+    public AccountNumber create(Account account) {
         accounts.put(account.getAccountNumber().getValue(), account);
-        return account;
+        return account.getAccountNumber();
     }
 
     @Override

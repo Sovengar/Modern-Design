@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface SpringAccountRepository extends JpaRepository<AccountEntity, String> {
+public interface AccountSpringRepo extends JpaRepository<AccountEntity, String> {
     Optional<AccountEntity> findByAccountNumber(@NonNull String accountNumber);
 }

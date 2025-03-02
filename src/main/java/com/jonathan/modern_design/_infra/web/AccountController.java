@@ -5,6 +5,7 @@ import com.jonathan.modern_design.account_module.AccountFacade;
 import com.jonathan.modern_design.account_module.application.AccountResource;
 import com.jonathan.modern_design.account_module.application.CreateAccountUseCase;
 import com.jonathan.modern_design.account_module.application.TransferMoneyUseCase;
+import com.jonathan.modern_design.account_module.infra.query.AccountSearchCriteria;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,15 +15,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
+import java.util.List;
 
-import static org.springframework.http.ResponseEntity.created;
 import static org.springframework.http.ResponseEntity.ok;
-import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.fromMethodCall;
 import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.on;
 
 @Slf4j
@@ -54,15 +55,27 @@ class AccountController {
         return ok(accountFacade.findOne(accountNumber));
     }
 
-    @PostMapping(path = "", produces = {MediaType.APPLICATION_JSON_VALUE})
+    //@Operation(description = "Search Account")
+    @PostMapping("/search")
+    public List<AccountResource> search(@RequestBody AccountSearchCriteria searchCriteria) {
+        return accountFacade.search(searchCriteria);
+    }
+
+    @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
+    //OPENAPI @Operation(description = "Create Account")
     public ResponseEntity<AccountResource> createAccount(@RequestBody CreateAccountUseCase.CreateAccountCommand createAccountCommand) {
         log.info("START - Create account");
-        final var account = accountFacade.createAccount(createAccountCommand);
-        final var accountNumber = account.getAccountNumber().getValue();
-        log.info("END - Create account: {}", accountNumber);
+        final var accountNumber = accountFacade.createAccount(createAccountCommand).getValue();
+        log.info("END - Created account: {}", accountNumber);
 
-        var uri = fromMethodCall(on(this.getClass()).loadAccount(accountNumber)).build().toUri();
-        return created(uri).body(new AccountResource(account));
+        return on(this.getClass()).loadAccount(accountNumber);
+        //var uri = fromMethodCall(on(this.getClass()).loadAccount(accountNumber)).build().toUri();
+        //return created(uri).body(new AccountResource(account));
+    }
+
+    @PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
+    public void updateAccount(@RequestBody AccountResource dto) {
+        accountFacade.update(dto);
     }
 
 }

@@ -6,6 +6,7 @@ import com.jonathan.modern_design._shared.country.CountriesInventory;
 import com.jonathan.modern_design.account_module.application.CreateAccountUseCase;
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
 import com.jonathan.modern_design.account_module.domain.model.Account;
+import com.jonathan.modern_design.account_module.domain.model.AccountNumber;
 import com.jonathan.modern_design.user_module.UserFacade;
 import com.jonathan.modern_design.user_module.application.RegisterUserUseCase;
 import com.jonathan.modern_design.user_module.domain.model.User;
@@ -21,7 +22,7 @@ public class CreateAccountService implements CreateAccountUseCase {
     private final UserFacade userFacade;
     private final CountriesInventory countriesInventory;
 
-    public Account createAccount(final CreateAccountCommand command) {
+    public AccountNumber createAccount(final CreateAccountCommand command) {
         var user = registerUser(command);
         final var currency = Currency.fromCode(command.currency());
 

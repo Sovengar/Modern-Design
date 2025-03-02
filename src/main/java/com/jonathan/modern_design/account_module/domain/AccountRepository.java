@@ -2,6 +2,7 @@ package com.jonathan.modern_design.account_module.domain;
 
 import com.jonathan.modern_design.account_module.domain.exceptions.AccountNotFoundException;
 import com.jonathan.modern_design.account_module.domain.model.Account;
+import com.jonathan.modern_design.account_module.domain.model.AccountNumber;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -12,7 +13,7 @@ public interface AccountRepository {
 
     Page<Account> findAll(final Pageable pageable);
 
-    Account create(Account account);
+    AccountNumber create(Account account);
 
     void update(Account account);
 

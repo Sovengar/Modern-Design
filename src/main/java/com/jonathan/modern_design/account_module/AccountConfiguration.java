@@ -14,7 +14,8 @@ import com.jonathan.modern_design.account_module.domain.services.TransferMoneySe
 import com.jonathan.modern_design.account_module.infra.mapper.AccountMapper;
 import com.jonathan.modern_design.account_module.infra.mapper.AccountMapperAdapter;
 import com.jonathan.modern_design.account_module.infra.persistence.AccountPersistenceAdapter;
-import com.jonathan.modern_design.account_module.infra.persistence.SpringAccountRepository;
+import com.jonathan.modern_design.account_module.infra.persistence.AccountSpringRepo;
+import com.jonathan.modern_design.account_module.infra.query.AccountSearchRepo;
 import com.jonathan.modern_design.user_module.UserFacade;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -40,7 +41,7 @@ public class AccountConfiguration {
     }
 
     @Bean
-    public AccountRepository accountRepository(SpringAccountRepository repository, AccountMapper accountMapper) {
+    public AccountRepository accountRepository(AccountSpringRepo repository, AccountMapper accountMapper) {
         return new AccountPersistenceAdapter(repository, accountMapper);
     }
 
@@ -56,9 +57,10 @@ public class AccountConfiguration {
     }
 
     @Bean
-    public AccountFacade accountFacade(AccountRepository accountRepository, UserFacade userFacade, CountriesInventory countriesInventory) {
+    public AccountFacade accountFacade(AccountRepository accountRepository, AccountSearchRepo accountSearchRepo, UserFacade userFacade, CountriesInventory countriesInventory) {
         return new AccountFacade(
                 accountRepository,
+                accountSearchRepo,
                 transferMoneyUseCase(accountRepository),
                 createAccountUseCase(accountRepository, userFacade, countriesInventory),
                 accountMapper()

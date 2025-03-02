@@ -7,6 +7,6 @@ import java.math.BigDecimal;
 
 public record AccountResource(String accountNumber, BigDecimal amount, String currency, UserResource user) {
     public AccountResource(final Account account) {
-        this(account.getAccountNumber().getValue(), account.getMoney().getAmount(), account.getMoney().getCurrency().getCode(), new UserResource(account.getUser()));
+        this(account.getAccountNumber().getValue(), account.getMoney().getAmount(), account.getMoney().getCurrency().getCode(), UserResource.from(account.getUser()));
     }
 }

@@ -73,18 +73,14 @@ final class AccountAceptanceTest extends ITConfig {
 //    }
     private AccountsAfterTransfer getAccountsAfterTransfer(final double amount) {
         //Source
-        var source = accountFacade.createAccount(randomAccountWithCurrency(Currency.EURO));
-        var sourceNumber = source.getAccountNumber().getValue();
+        var sourceNumber = accountFacade.createAccount(randomAccountWithCurrency(Currency.EURO)).getValue();
         accountFacade.deposit(new DepositUseCase.DepositCommand(sourceNumber, BigDecimal.valueOf(100), Currency.EURO));
-
-        //Target
-        var target = accountFacade.createAccount(randomAccountWithCurrency(Currency.EURO));
-        var targetNumber = target.getAccountNumber().getValue();
+        var targetNumber = accountFacade.createAccount(randomAccountWithCurrency(Currency.EURO)).getValue();
 
         //Last
         accountFacade.transferMoney(fromAccountToAccountWithAmount(sourceNumber, targetNumber, 60.0));
-        source = repository.findOne(sourceNumber).orElseThrow();
-        target = repository.findOne(targetNumber).orElseThrow();
+        var source = repository.findOne(sourceNumber).orElseThrow();
+        var target = repository.findOne(targetNumber).orElseThrow();
 
         return new AccountsAfterTransfer(source, target);
     }
