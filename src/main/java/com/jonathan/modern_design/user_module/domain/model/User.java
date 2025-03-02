@@ -15,7 +15,6 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -25,7 +24,6 @@ import java.util.UUID;
 @Entity
 @Table(name = "users", schema = "md")
 @Getter
-@ToString
 @NoArgsConstructor(access = AccessLevel.PRIVATE) //For Hibernate
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @SQLRestriction("deleted <> true") //Make Hibernate ignore soft deleted entries

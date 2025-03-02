@@ -22,7 +22,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -33,7 +32,6 @@ import java.time.LocalDateTime;
 @Table(name = "accounts", schema = "md")
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
