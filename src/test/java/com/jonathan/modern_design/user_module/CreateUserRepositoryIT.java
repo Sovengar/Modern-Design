@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 
-import static com.jonathan.modern_design._fake_data.UserStub.CreateUserMother.createUserCommandWithValidData;
+import static com.jonathan.modern_design._fake_data.UserStub.CreateValidUser.createUserCommandWithValidData;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Import(UserConfiguration.class)
