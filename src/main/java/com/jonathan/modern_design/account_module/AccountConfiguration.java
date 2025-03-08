@@ -5,6 +5,7 @@ import com.jonathan.modern_design._infra.config.annotations.DomainService;
 import com.jonathan.modern_design._infra.config.annotations.PersistenceAdapter;
 import com.jonathan.modern_design._infra.config.annotations.WebAdapter;
 import com.jonathan.modern_design._shared.country.CountriesInventory;
+import com.jonathan.modern_design._shared.country.CountriesInventoryStub;
 import com.jonathan.modern_design.account_module.application.CreateAccountUseCase;
 import com.jonathan.modern_design.account_module.application.TransferMoneyUseCase;
 import com.jonathan.modern_design.account_module.domain.AccountRepository;
@@ -28,10 +29,10 @@ import org.springframework.context.annotation.FilterType;
         includeFilters = {
                 //Add Stub class for beta testing on pre-production
                 @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = {DomainService.class, WebAdapter.class, PersistenceAdapter.class, BeanClass.class})
-        },
-        excludeFilters = {
-                //@Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {someExternalAPIStub.class})
         }
+//        excludeFilters = {
+//                @Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {someExternalAPIStub.class})
+//        }
 )
 public class AccountConfiguration {
 
@@ -54,6 +55,11 @@ public class AccountConfiguration {
     @Bean
     public CreateAccountUseCase createAccountUseCase(AccountRepository accountRepository, UserFacade userFacade, CountriesInventory countriesInventory) {
         return new CreateAccountService(accountRepository, userFacade, countriesInventory);
+    }
+
+    @Bean //TODO REMOVE
+    public CountriesInventory countriesInventory() {
+        return new CountriesInventoryStub();
     }
 
     @Bean

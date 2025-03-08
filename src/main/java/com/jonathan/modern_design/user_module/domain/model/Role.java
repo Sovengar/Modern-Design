@@ -1,46 +1,47 @@
 package com.jonathan.modern_design.user_module.domain.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-enum Roles {
-    ADMIN("ADM", "Admin"),
-    TECHNICIAN("TEC", "Technician"),
-    USER("USER", "User");
+import java.io.Serializable;
 
-    private final String code;
-    private final String description;
-
-    Roles(String code, String description) {
-        this.code = code;
-        this.description = description;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-}
+import static lombok.AccessLevel.PRIVATE;
 
 @Entity
 @Table(name = "roles", schema = "md")
 @Getter
+@NoArgsConstructor(access = AccessLevel.PRIVATE) //For Hibernate
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-class Role {
-    private final String description;
-    @Id
-    private final String code;
+public class Role {
+    @EmbeddedId
+    private Role.Code code;
+    private String description;
 
-    public static Role of(String description, String code) {
-        return new Role(description, code);
+    public static Role of(String code) {
+        var rol = Roles.fromCode(code);
+        return new Role(new Code(rol.getCode()), rol.getDescription());
     }
 
     //Avoid indirect link with user
+
+    @Data //Not a record because ORM needs mutability
+    @Setter(PRIVATE)
+    @AllArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PROTECTED) //For Hibernate
+    @Embeddable
+    public static class Code implements Serializable {
+        @Column(name = "code", updatable = false)
+        @NotNull
+        private String roleCode;
+    }
 }

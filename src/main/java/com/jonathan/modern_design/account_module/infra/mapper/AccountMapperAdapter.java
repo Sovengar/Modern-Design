@@ -23,7 +23,7 @@ public class AccountMapperAdapter implements AccountMapper {
         return Account.builder()
                 .accountNumber(AccountNumber.of(accountResource.accountNumber()))
                 .money(AccountMoney.of(accountResource.amount(), Currency.valueOf(accountResource.currency())))
-                .user(null).build(); //TODO
+                .userId(accountResource.userId()).build();
     }
 
     @Override

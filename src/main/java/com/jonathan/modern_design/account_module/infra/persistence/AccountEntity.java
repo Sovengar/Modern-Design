@@ -2,17 +2,17 @@ package com.jonathan.modern_design.account_module.infra.persistence;
 
 import com.jonathan.modern_design._infra.config.database.BaseEntity;
 import com.jonathan.modern_design._shared.Currency;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.PostPersist;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,15 +34,14 @@ import java.time.LocalDateTime;
 @Slf4j
 @SQLRestriction("deleted <> true") //Make Hibernate ignore soft deleted entries
 public class AccountEntity extends BaseEntity {
-
+    @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ACCOUNTS_SQ")
-    @SequenceGenerator(name = "ACCOUNTS_SQ", sequenceName = "MD.ACCOUNTS_SQ", allocationSize = 1, initialValue = 1)
-    @EmbeddedId
-    private Long id;
-    @Column(name = "account_number")
+    @SequenceGenerator(name = "ACCOUNTS_SQ", sequenceName = "MD.ACCOUNTS_SQ", allocationSize = 1)
+    @Setter(AccessLevel.PRIVATE)
+    private Long accountId; //Cant use microType with sequence
     private String accountNumber;
     private BigDecimal balance;
-    @Enumerated(value = jakarta.persistence.EnumType.STRING)
+    @Enumerated(value = EnumType.STRING)
     private Currency currency;
     private String address;
     private LocalDateTime dateOfLastTransaction;
@@ -57,9 +56,5 @@ public class AccountEntity extends BaseEntity {
     @PostPersist
     public void postPersist() {
         log.info("postPersist");
-    }
-
-    @Embeddable
-    public record AccountId(Long value) {
     }
 }
