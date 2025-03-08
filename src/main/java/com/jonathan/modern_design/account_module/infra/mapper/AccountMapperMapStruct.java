@@ -3,6 +3,7 @@ package com.jonathan.modern_design.account_module.infra.mapper;
 import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountAddress;
+import com.jonathan.modern_design.account_module.domain.model.AccountId;
 import com.jonathan.modern_design.account_module.domain.model.AccountMoney;
 import com.jonathan.modern_design.account_module.domain.model.AccountNumber;
 import com.jonathan.modern_design.account_module.infra.persistence.AccountEntity;
@@ -64,11 +65,11 @@ public interface AccountMapperMapStruct {
         return AccountNumber.of(accountNumber);
     }
 
-    default Account.AccountId mapId(Long id) {
-        return new Account.AccountId(id);
+    default AccountId mapId(Long id) {
+        return new AccountId(id);
     }
 
-    default Long mapId(Account.AccountId id) {
-        return id == null ? null : id.value();
+    default Long mapId(AccountId id) {
+        return id == null ? null : id.getAccountId();
     }
 }

@@ -1,15 +1,16 @@
 package com.jonathan.modern_design._shared;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
 public enum Currency {
     US_DOLLAR("USD"),
     EURO("EUR"),
     BRITISH_POUND("GBP");
 
     private final String code;
-
-    Currency(String code) {
-        this.code = code;
-    }
 
     public static Currency fromCode(String code) {
         for (Currency currency : values()) {
@@ -20,14 +21,9 @@ public enum Currency {
         throw new CurrencyNotFoundException(code);
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    private static class CurrencyNotFoundException extends RuntimeException {
+    static class CurrencyNotFoundException extends RuntimeException {
         public CurrencyNotFoundException(String code) {
             super("Currency not found for code " + code);
         }
     }
 }
-

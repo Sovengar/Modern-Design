@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static org.springframework.http.ResponseEntity.ok;
+import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.fromMethodCall;
 import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.on;
 
 @Slf4j
@@ -68,9 +69,8 @@ class AccountController {
         final var accountNumber = accountFacade.createAccount(createAccountCommand).getValue();
         log.info("END - Created account: {}", accountNumber);
 
-        return on(this.getClass()).loadAccount(accountNumber);
-        //var uri = fromMethodCall(on(this.getClass()).loadAccount(accountNumber)).build().toUri();
-        //return created(uri).body(new AccountResource(account));
+        var uri = fromMethodCall(on(this.getClass()).loadAccount(accountNumber)).build().toUri();
+        return ResponseEntity.created(uri).body(accountFacade.findOne(accountNumber));
     }
 
     @PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE})

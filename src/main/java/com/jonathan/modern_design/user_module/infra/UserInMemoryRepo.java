@@ -20,7 +20,7 @@ public class UserInMemoryRepo implements UserRepository {
     }
 
     @Override
-    public Optional<User> findById(final UUID uuid) {
+    public Optional<User> findByUuid(final UUID uuid) {
         return Optional.ofNullable(users.get(uuid));
     }
 }

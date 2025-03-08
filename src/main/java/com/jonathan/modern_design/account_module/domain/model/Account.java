@@ -1,7 +1,6 @@
 package com.jonathan.modern_design.account_module.domain.model;
 
 import com.jonathan.modern_design._shared.Currency;
-import com.jonathan.modern_design.user_module.domain.model.User;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,19 +13,19 @@ import java.time.LocalDateTime;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class Account {
-    AccountId id;
+    AccountId accountId;
     AccountNumber accountNumber;
     AccountMoney money;
     AccountAddress address;
-    User user;
+    Long userId;
     LocalDateTime dateOfLastTransaction;
     boolean active;
 
-    public static Account create(String accountNumber, BigDecimal amount, Currency currency, String address, User user) {
+    public static Account create(String accountNumber, BigDecimal amount, Currency currency, String address, Long userId) {
         LocalDateTime dateOfLastTransaction = null;
         var isActive = true;
 
-        return new Account(null, AccountNumber.of(accountNumber), AccountMoney.of(amount, currency), AccountAddress.of(address), user, dateOfLastTransaction, isActive);
+        return new Account(null, AccountNumber.of(accountNumber), AccountMoney.of(amount, currency), AccountAddress.of(address), userId, dateOfLastTransaction, isActive);
     }
 
     public void add(BigDecimal amount, Currency currency) {
@@ -37,8 +36,5 @@ public class Account {
     public void substract(BigDecimal amount, Currency currency) {
         this.money = this.money.substract(AccountMoney.of(amount, currency));
         dateOfLastTransaction = LocalDateTime.now();
-    }
-
-    public record AccountId(Long value) {
     }
 }

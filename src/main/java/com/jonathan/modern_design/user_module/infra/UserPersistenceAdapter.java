@@ -19,7 +19,9 @@ public class UserPersistenceAdapter implements UserRepository {
     }
 
     @Override
-    public Optional<User> findById(final UUID uuid) {
-        return repository.findById(uuid);
+    public Optional<User> findByUuid(final UUID uuid) {
+        return repository.findByUuid(uuid);
     }
+
+
 }
