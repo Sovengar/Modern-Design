@@ -2,6 +2,8 @@ package com.jonathan.modern_design.account_module.infra.persistence;
 
 import com.jonathan.modern_design._infra.config.database.BaseEntity;
 import com.jonathan.modern_design._shared.Currency;
+import com.jonathan.modern_design.user_module.domain.model.User;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -46,7 +48,8 @@ public class AccountEntity extends BaseEntity {
     private String address;
     private LocalDateTime dateOfLastTransaction;
     private boolean active;
-    private Long userId;
+    @Embedded
+    private User.ID userId;
 
     @PrePersist
     public void prePersist() {

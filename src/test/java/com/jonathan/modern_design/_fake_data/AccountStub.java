@@ -57,7 +57,7 @@ public class AccountStub extends Stub {
                 .accountNumber(AccountNumber.of(accountId))
                 .money(AccountMoney.of(BigDecimal.valueOf(balance), currency))
                 .address(AccountAddress.of("street", "city", "state", "zipCode"))
-                .user(normalUser())
+                .userId(normalUser().getUuid())
                 .active(isActive).build();
     }
 

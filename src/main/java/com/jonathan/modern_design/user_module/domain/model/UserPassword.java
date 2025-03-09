@@ -2,8 +2,9 @@ package com.jonathan.modern_design.user_module.domain.model;
 
 import com.jonathan.modern_design._infra.config.exception.RootException;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -14,9 +15,10 @@ import java.util.function.Predicate;
 import static java.util.regex.Pattern.matches;
 
 @Getter
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserPassword {
-    private final String value;
+    private String password;
 
     public static UserPassword of(String password) {
         PasswordValidator.validatePassword(password);
@@ -26,19 +28,19 @@ public class UserPassword {
 
     @Override
     public String toString() {
-        return value;
+        return password;
     }
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return password.hashCode();
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof UserPassword passwordVO)) return false;
-        return value.equals(passwordVO.value);
+        return password.equals(passwordVO.password);
     }
 
     private static class InvalidUserPasswordException extends RootException {
@@ -47,7 +49,7 @@ public class UserPassword {
         }
     }
 
-    class PasswordValidator {
+    private static class PasswordValidator {
         private static final int MIN_LENGTH = 8;
         private static final int MAX_LENGTH = 50;
         private static final Map<Predicate<String>, String> errorMessages = new HashMap<>();

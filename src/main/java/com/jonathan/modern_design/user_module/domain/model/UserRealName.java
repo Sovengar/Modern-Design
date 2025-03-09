@@ -1,18 +1,20 @@
 package com.jonathan.modern_design.user_module.domain.model;
 
 import com.jonathan.modern_design._infra.config.exception.RootException;
+import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.util.Optional;
 
 import static java.util.Optional.ofNullable;
 
-@Getter
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Embeddable
 public class UserRealName {
-    private final String value;
+    private String realname;
 
     public static UserRealName of(String name) {
         if (name == null || name.isBlank()) {
@@ -28,23 +30,23 @@ public class UserRealName {
 
     @Override
     public String toString() {
-        return value;
+        return realname;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof UserRealName nameVO)) return false;
-        return value.equals(nameVO.value);
+        return realname.equals(nameVO.realname);
     }
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return realname.hashCode();
     }
 
-    public Optional<String> getValue() {
-        return ofNullable(value);
+    public Optional<String> getRealname() {
+        return ofNullable(realname);
     }
 
     private static class UserRealNameNotValidException extends RootException {

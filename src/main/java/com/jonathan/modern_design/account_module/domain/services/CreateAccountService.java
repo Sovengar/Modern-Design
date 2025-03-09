@@ -9,6 +9,7 @@ import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountNumber;
 import com.jonathan.modern_design.user_module.UserFacade;
 import com.jonathan.modern_design.user_module.application.RegisterUserUseCase;
+import com.jonathan.modern_design.user_module.domain.model.User;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
@@ -31,7 +32,7 @@ public class CreateAccountService implements CreateAccountUseCase {
         return repository.create(account);
     }
 
-    private Long registerUser(final CreateAccountCommand command) {
+    private User.ID registerUser(final CreateAccountCommand command) {
         var userCreateCommand = new RegisterUserUseCase.RegisterUserCommand(
                 UUID.randomUUID(),
                 ofNullable(command.realname()),
@@ -40,8 +41,7 @@ public class CreateAccountService implements CreateAccountUseCase {
                 command.password(),
                 countriesInventory.findByCodeOrElseThrow(command.country()));
 
-        var userIdentifiers = userFacade.registerUser(userCreateCommand);
-        return userIdentifiers.userId();
+        return userFacade.registerUser(userCreateCommand);
     }
 
     private static class AccountNumberGenerator {

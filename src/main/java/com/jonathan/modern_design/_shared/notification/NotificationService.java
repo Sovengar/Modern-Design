@@ -19,7 +19,7 @@ public class NotificationService {
 
     private Email getEmail(final User user) {
         final var from = "Welcome!";
-        final var subject = "Dear %s, welcome! Sincerely, %s".formatted(user.getUsername().getValue(), getCEOName());
+        final var subject = "Dear %s, welcome! Sincerely, %s".formatted(user.getUsername().getUsername(), getCEOName());
         final var realname = user.getRealNameOrPlaceHolder();
         final var email = user.getEmail().getValue();
         return new Email(email, getCcs(), from, subject, realname);

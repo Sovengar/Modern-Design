@@ -6,7 +6,6 @@ import com.jonathan.modern_design.user_module.domain.model.User;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @PersistenceAdapter
 @RequiredArgsConstructor
@@ -19,8 +18,8 @@ public class UserPersistenceAdapter implements UserRepository {
     }
 
     @Override
-    public Optional<User> findByUuid(final UUID uuid) {
-        return repository.findByUuid(uuid);
+    public Optional<User> findByUuid(final User.ID id) {
+        return repository.findByUuid(id);
     }
 
 

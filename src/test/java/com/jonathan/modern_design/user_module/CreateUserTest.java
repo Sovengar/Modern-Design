@@ -1,8 +1,6 @@
 package com.jonathan.modern_design.user_module;
 
 import com.jonathan.modern_design.__config.PrettyTestNames;
-import com.jonathan.modern_design.user_module.domain.UserRepository;
-import com.jonathan.modern_design.user_module.infra.UserInMemoryRepo;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -16,9 +14,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayNameGeneration(PrettyTestNames.class)
 class CreateUserTest {
-    private final UserConfiguration factory = new UserConfiguration();
-    private final UserRepository repository = new UserInMemoryRepo();
-    private final UserFacade userFacade = factory.userFacade(repository);
+    private final UserFacade userFacade = new UserConfiguration().userFacade();
 
     @Nested
     class ValidUser {

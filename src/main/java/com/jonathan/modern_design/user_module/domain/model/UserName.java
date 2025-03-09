@@ -1,13 +1,17 @@
 package com.jonathan.modern_design.user_module.domain.model;
 
+import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Embeddable
 public class UserName {
-    private final String value;
+    private String username;
 
     public static UserName of(String name) {
         return new UserName(name);
@@ -15,23 +19,19 @@ public class UserName {
 
     @Override
     public String toString() {
-        return value;
+        return username;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof UserName nameVO)) return false;
-        return value.equals(nameVO.value);
+        return username.equals(nameVO.username);
     }
 
     @Override
     public int hashCode() {
-        return value.hashCode();
-    }
-
-    public String getValue() {
-        return value;
+        return username.hashCode();
     }
 
 }

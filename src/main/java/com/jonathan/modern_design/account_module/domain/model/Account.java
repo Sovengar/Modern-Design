@@ -1,6 +1,7 @@
 package com.jonathan.modern_design.account_module.domain.model;
 
 import com.jonathan.modern_design._shared.Currency;
+import com.jonathan.modern_design.user_module.domain.model.User;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,11 +18,11 @@ public class Account {
     AccountNumber accountNumber;
     AccountMoney money;
     AccountAddress address;
-    Long userId;
+    User.ID userId;
     LocalDateTime dateOfLastTransaction;
     boolean active;
 
-    public static Account create(String accountNumber, BigDecimal amount, Currency currency, String address, Long userId) {
+    public static Account create(String accountNumber, BigDecimal amount, Currency currency, String address, User.ID userId) {
         LocalDateTime dateOfLastTransaction = null;
         var isActive = true;
 

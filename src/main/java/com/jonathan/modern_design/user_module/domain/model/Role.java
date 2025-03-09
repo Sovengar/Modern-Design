@@ -27,9 +27,8 @@ public class Role {
     private Role.Code code;
     private String description;
 
-    public static Role of(String code) {
-        var rol = Roles.fromCode(code);
-        return new Role(new Code(rol.getCode()), rol.getDescription());
+    public static Role of(Roles role) {
+        return new Role(new Code(role.getCode()), role.getDescription());
     }
 
     //Avoid indirect link with user

@@ -8,10 +8,11 @@ create TABLE MD.ROLES (
 create sequence MD.USERS_SQ start with 1;
 create TABLE MD.USERS (
     user_id BIGINT PRIMARY KEY,
-    uuid UUID DEFAULT gen_random_uuid(),
+    user_uuid UUID UNIQUE,
     realname VARCHAR(255),
     username VARCHAR(255),
     email VARCHAR(255),
+    internal_enterprise_email VARCHAR(255),
     password VARCHAR(255),
     status VARCHAR(255),
     country VARCHAR(255),
@@ -34,12 +35,12 @@ create TABLE MD.ACCOUNTS (
     address VARCHAR(255),
     date_of_last_transaction TIMESTAMP WITHOUT TIME ZONE,
     active BOOLEAN,
-    user_id BIGINT,
+    user_uuid UUID,
     version INTEGER,
     created_by VARCHAR(255),
     created_on TIMESTAMP WITHOUT TIME ZONE,
     modified_by VARCHAR(255),
     modified_on TIMESTAMP WITHOUT TIME ZONE,
     deleted BOOLEAN DEFAULT FALSE,
-    FOREIGN KEY (user_id) REFERENCES MD.USERS(user_id)
+    FOREIGN KEY (user_uuid) REFERENCES MD.USERS(user_uuid)
 );

@@ -1,10 +1,11 @@
 package com.jonathan.modern_design.user_module.domain.model;
 
-import com.jonathan.modern_design._infra.config.annotations.Optional;
+import com.jonathan.modern_design._infra.config.annotations.OptionalField;
 import com.jonathan.modern_design._infra.config.database.BaseEntity;
 import com.jonathan.modern_design._shared.country.Country;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
@@ -17,17 +18,23 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.SQLRestriction;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
+import static java.util.Optional.ofNullable;
 import static lombok.AccessLevel.PRIVATE;
 
 @Slf4j
@@ -42,19 +49,21 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USERS_SQ")
     @SequenceGenerator(name = "USERS_SQ", sequenceName = "MD.USERS_SQ", allocationSize = 1)
     private Long userId; //Cant use microType with sequence
-    private UUID uuid;
-    @Optional
     @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "realname"))
+    private ID uuid;
+    @OptionalField
+    @Embedded
     private UserRealName realname;
     @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "username"))
     private UserName username;
     @Embedded
     @AttributeOverride(name = "value", column = @Column(name = "email"))
     private UserEmail email;
     @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "password"))
+    @AttributeOverride(name = "value", column = @Column(name = "internal_enterprise_email"))
+    @OptionalField
+    private UserEmail internalEnterpriseEmail;
+    @Embedded
     private UserPassword password;
     private String country;
     @Enumerated(value = jakarta.persistence.EnumType.STRING)
@@ -66,20 +75,24 @@ public class User extends BaseEntity {
     @ManyToOne
     private Role role;
 
-    public static User register(UUID uuid, String realname, String username, String email, String password, Country country) {
-        return new User(null, uuid, UserRealName.of(realname), UserName.of(username), UserEmail.of(email), UserPassword.of(password), country.code(), Status.DRAFT, new ArrayList<>(), null);
+    public static User register(ID uuid, String realname, String username, String email, String password, Country country, Role role) {
+        return new User(null, uuid, UserRealName.of(realname), UserName.of(username), UserEmail.of(email), null, UserPassword.of(password), country.code(), Status.DRAFT, new ArrayList<>(), role);
     }
 
-    public static User registerAdmin(UUID uuid, String realname, String username, String email, String password, Country country) {
-        return new User(null, uuid, UserRealName.of(realname), UserName.of(username), UserEmail.of(email), UserPassword.of(password), country.code(), Status.ACTIVE, new ArrayList<>(), null); //TODO Roles.ADMIN
+    public static User registerAdmin(ID uuid, String realname, String username, String email, String internalEmail, String password, Country country) {
+        return new User(null, uuid, UserRealName.of(realname), UserName.of(username), UserEmail.of(email), UserEmail.of(internalEmail), UserPassword.of(password), country.code(), Status.ACTIVE, new ArrayList<>(), Role.of(Roles.ADMIN));
     }
 
     public String getRealNameOrPlaceHolder() {
-        return realname.getValue().orElse("Anonymous");
+        return realname.getRealname().orElse("Anonymous");
     }
 
     public List<String> getPhoneNumbers() {
         return Collections.unmodifiableList(phoneNumbers);
+    }
+
+    public Optional<String> getInternalEnterpriseEmail() {
+        return internalEnterpriseEmail != null ? ofNullable(internalEnterpriseEmail.getValue()) : Optional.empty();
     }
 
     @PrePersist
@@ -94,5 +107,14 @@ public class User extends BaseEntity {
 
     public enum Status {
         DRAFT, ACTIVE, DELETED
+    }
+
+    @Data //Not a record because ORM needs mutability
+    @Setter(PRIVATE)
+    @AllArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PROTECTED) //For Hibernate
+    @Embeddable
+    public static class ID implements Serializable {
+        private UUID userUuid;
     }
 }
