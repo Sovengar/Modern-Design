@@ -11,11 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 @BeanClass
 @RequiredArgsConstructor
-@Transactional
 public class UserFacade {
     private final UserRepo userRepo;
     private final UserRegister userRegister;
 
+    @Transactional
     public User.ID registerUser(UserRegisterCommand command) {
         return userRegister.registerUser(command);
     }
