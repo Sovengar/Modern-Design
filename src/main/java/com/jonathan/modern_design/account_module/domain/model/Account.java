@@ -22,11 +22,11 @@ public class Account {
     LocalDateTime dateOfLastTransaction;
     boolean active;
 
-    public static Account create(String accountNumber, BigDecimal amount, Currency currency, String address, User.ID userId) {
+    public static Account create(AccountNumber accountNumber, AccountMoney money, AccountAddress address, User.ID userId) {
         LocalDateTime dateOfLastTransaction = null;
         var isActive = true;
 
-        return new Account(null, AccountNumber.of(accountNumber), AccountMoney.of(amount, currency), AccountAddress.of(address), userId, dateOfLastTransaction, isActive);
+        return new Account(null, accountNumber, money, address, userId, dateOfLastTransaction, isActive);
     }
 
     public void add(BigDecimal amount, Currency currency) {
@@ -34,7 +34,7 @@ public class Account {
         dateOfLastTransaction = LocalDateTime.now();
     }
 
-    public void substract(BigDecimal amount, Currency currency) {
+    public void subtract(BigDecimal amount, Currency currency) {
         this.money = this.money.substract(AccountMoney.of(amount, currency));
         dateOfLastTransaction = LocalDateTime.now();
     }

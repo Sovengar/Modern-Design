@@ -15,58 +15,55 @@ import static com.jonathan.modern_design._fake_data.UserStub.DEFAULT_COUNTRY;
 import static com.jonathan.modern_design._fake_data.UserStub.VALID_PASSWORD;
 import static com.jonathan.modern_design._fake_data.UserStub.normalUser;
 import static com.jonathan.modern_design._shared.Currency.EURO;
+import static com.jonathan.modern_design._shared.Currency.US_DOLLAR;
 
 public class AccountStub extends Stub {
 
     public static String sourceAccountId = "1e95e7f2-1b5b-4049-a37e-44385b3533e3";
     public static String targetAccountId = "0db3c62f-c978-41ad-95a9-9230aa85593f";
 
-    public static Account sourceAccountwithBalance(double balance) {
-        return builder(sourceAccountId, balance, true);
-    }
+    public static class AccountMother {
+        public static Account sourceAccountWithBalance(double balance) {
+            return builder(sourceAccountId, AccountMoney.of(BigDecimal.valueOf(balance), EURO), true);
+        }
 
-    public static Account sourceAccountEmpty() {
-        return builder(sourceAccountId, 0.0, true);
-    }
+        public static Account targetAccountWithBalance(double balance) {
+            return builder(targetAccountId, AccountMoney.of(BigDecimal.valueOf(balance), EURO), true);
+        }
 
-    public static Account sourceAccountInactive() {
-        return builder(sourceAccountId, 0.0, false);
-    }
+        /// //////////////
 
-    public static Account targetAccountwithBalance(double balance) {
-        return builder(targetAccountId, balance, true);
-    }
+        public static Account sourceAccountEmpty() {
+            return builder(sourceAccountId, AccountMoney.of(BigDecimal.ZERO, EURO), true);
+        }
 
-    public static Account targetAccountEmpty() {
-        return builder(targetAccountId, 0.0, true);
-    }
+        public static Account sourceAccountInactive() {
+            return builder(sourceAccountId, AccountMoney.of(BigDecimal.ZERO, EURO), false);
+        }
 
-    public static Account targetAccountInactive() {
-        return builder(targetAccountId, 0.0, false);
-    }
+        public static Account targetAccountEmpty() {
+            return builder(targetAccountId, AccountMoney.of(BigDecimal.ZERO, EURO), true);
+        }
 
-    public static Account targetAccountWithDifferentCurrency() {
-        return builder(targetAccountId, 0.0, true, Currency.BRITISH_POUND);
-    }
+        public static Account targetAccountInactive() {
+            return builder(targetAccountId, AccountMoney.of(BigDecimal.ZERO, EURO), false);
+        }
 
-    private static Account builder(String accountId, double balance, boolean isActive) {
-        return builder(accountId, balance, isActive, EURO);
-    }
+        public static Account targetAccountWithDifferentCurrency() {
+            return builder(targetAccountId, AccountMoney.of(BigDecimal.ZERO, US_DOLLAR), true);
+        }
 
-    private static Account builder(String accountId, double balance, boolean isActive, Currency currency) {
-        return Account.builder()
-                .accountNumber(AccountNumber.of(accountId))
-                .money(AccountMoney.of(BigDecimal.valueOf(balance), currency))
-                .address(AccountAddress.of("street", "city", "state", "zipCode"))
-                .userId(normalUser().getUuid())
-                .active(isActive).build();
-    }
-
-    public record AccountsAfterTransfer(Account source, Account target) {
+        private static Account builder(String accountId, AccountMoney money, boolean isActive) {
+            return Account.builder()
+                    .accountNumber(AccountNumber.of(accountId))
+                    .money(money)
+                    .address(AccountAddress.of("street", "city", "state", "zipCode"))
+                    .userId(normalUser().getUuid())
+                    .active(isActive).build();
+        }
     }
 
     public static class CreateAccountMother extends Stub {
-
         public static CreateAccountUseCase.CreateAccountCommand createAccountCommandWithInvalidData() {
             return CreateAccountUseCase.CreateAccountCommand.builder()
                     .username("Account Name")

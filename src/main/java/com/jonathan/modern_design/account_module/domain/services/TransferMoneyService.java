@@ -45,7 +45,7 @@ public class TransferMoneyService implements TransferMoneyUseCase {
     }
 
     private void transferMoney(Account source, Account target, final BigDecimal amount, final Currency currency) {
-        source.substract(amount, currency);
+        source.subtract(amount, currency);
         target.add(amount, currency);
 
         repository.update(source);
