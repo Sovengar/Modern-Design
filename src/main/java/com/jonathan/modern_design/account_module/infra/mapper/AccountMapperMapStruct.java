@@ -72,7 +72,7 @@ public interface AccountMapperMapStruct {
     }
 
     default Long mapId(AccountId id) {
-        return id == null ? null : id.getAccountId();
+        return id == null ? null : id.id();
     }
 
     default User.ID mapUserId(UUID uuid) {
