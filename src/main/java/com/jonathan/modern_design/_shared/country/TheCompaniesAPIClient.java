@@ -44,7 +44,7 @@ class TheCompaniesAPIClient implements CountriesInventory {
 
     @Override
     public Optional<Country> findByCode(final String code) {
-        return Optional.empty(); //TODO: Implement this
+        return Optional.of(new Country(code, code)); //Here we should call the api to get the single country
     }
 
     private List<Country> convertTheCompaniesAPIResponseToCountries(TheCompaniesAPIWrapper.TheCompaniesAPIResponse response) {

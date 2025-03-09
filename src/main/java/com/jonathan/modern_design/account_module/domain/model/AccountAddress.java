@@ -19,13 +19,7 @@ public class AccountAddress {
     }
 
     public static AccountAddress of(String address) {
-        String[] parts = address.split("||");
-        String street = parts[0].trim();
-        String city = parts[1].trim();
-        String state = parts[2].trim();
-        String zipCode = parts[3].trim();
-        //TODO FIX
-        return new AccountAddress(street, city, state, zipCode);
+        return new AccountAddress(address, "", "", "");
     }
 
     @Override

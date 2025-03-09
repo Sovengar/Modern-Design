@@ -1,8 +1,3 @@
-insert into MD.ROLES (code, description) values
-('ADM', 'Administrator'),
-('TEC', 'Technician'),
-('USER', 'User');
-
 insert into MD.USERS (user_id, user_uuid, realname, username, email, internal_enterprise_email, password, country, status, role_code, version) values
 (nextval('MD.USERS_SQ'), 'f5e4e2a8-7f07-4b2e-9b7c-6c6b1fcd3c42', 'John Doe', 'johndoe', 'V4u0A@example.com', 'emailInBadState@ggg.com', 'password', 'ES', 'ACTIVE', 'ADM', 0);
 

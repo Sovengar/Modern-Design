@@ -13,9 +13,4 @@ public class RoleRepoAdapter implements RoleRepo {
     public Role findByCode(Role.Code code) {
         return repository.findById(code).orElseThrow(EntityNotFoundException::new);
     }
-
-    @Override
-    public Role findByCode(String bla) {
-        return repository.findByDescription(bla);
-    }
 }

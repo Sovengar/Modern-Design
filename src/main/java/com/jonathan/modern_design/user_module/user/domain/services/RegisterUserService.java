@@ -1,6 +1,7 @@
 package com.jonathan.modern_design.user_module.user.domain.services;
 
 import com.jonathan.modern_design._infra.config.annotations.DomainService;
+import com.jonathan.modern_design.user_module.role.Role;
 import com.jonathan.modern_design.user_module.role.RoleRepo;
 import com.jonathan.modern_design.user_module.role.Roles;
 import com.jonathan.modern_design.user_module.user.application.RegisterUserUseCase;
@@ -23,7 +24,8 @@ public class RegisterUserService implements RegisterUserUseCase {
         });
 
         //Begin of Complex logic to know the final role of the user
-        var role = roleRepo.findByCode(Roles.USER.getDescription()); //TODO VER SI PUEDES HACERLO FUNCIONAR CON EL MICROTYPE
+        var roleCode = new Role.Code(Roles.USER.getCode());
+        var role = roleRepo.findByCode(roleCode);
         //End of complex logic
 
         //Complex logic to decide the user
