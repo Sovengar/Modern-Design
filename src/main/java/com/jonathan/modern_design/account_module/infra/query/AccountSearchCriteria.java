@@ -2,7 +2,7 @@ package com.jonathan.modern_design.account_module.infra.query;
 
 import lombok.Builder;
 
-@Builder // For tests
+@Builder
 public record AccountSearchCriteria(
         String username,
         String email,

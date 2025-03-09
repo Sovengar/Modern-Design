@@ -65,38 +65,30 @@ public class AccountStub extends Stub {
 
     public static class CreateAccountMother extends Stub {
         public static AccountCreatorCommand createAccountCommandWithInvalidData() {
-            return AccountCreatorCommand.builder()
-                    .username("Account Name")
-                    .email("z3u1E@example.com")
-                    .realname("John Doe")
-                    .currency(EURO.getCode())
-                    .password("123456")
-                    .country("XXX")
-                    .build();
+            var username = "Account Name";
+            var email = "z3u1E@example.com";
+            var realname = "John Doe";
+            var currency = EURO.getCode();
+            var password = "123456";
+            var country = "XXX";
+            var address = "address";
+            return new AccountCreatorCommand(realname, email, username, address, password, country, currency);
         }
 
         public static AccountCreatorCommand createAccountCommandWithValidData() {
-            return AccountCreatorCommand.builder()
-                    .username(faker.name().username())
-                    .email(faker.internet().emailAddress())
-                    .realname(faker.name().fullName())
-                    .address("street, city, state, zipCode")
-                    .currency(EURO.getCode())
-                    .password(VALID_PASSWORD)
-                    .country(DEFAULT_COUNTRY.code())
-                    .build();
+            var username = faker.name().username();
+            var email = faker.internet().emailAddress();
+            var realname = faker.name().fullName();
+            var address = "street, city, state, zipCode";
+            return new AccountCreatorCommand(realname, email, username, address, VALID_PASSWORD, DEFAULT_COUNTRY.code(), EURO.getCode());
         }
 
         public static AccountCreatorCommand randomAccountWithCurrency(Currency currency) {
-            return AccountCreatorCommand.builder()
-                    .username(faker.name().username())
-                    .email(faker.internet().emailAddress())
-                    .realname(faker.name().fullName())
-                    .address("street, city, state, zipCode")
-                    .currency(currency.getCode())
-                    .password(VALID_PASSWORD)
-                    .country(DEFAULT_COUNTRY.code())
-                    .build();
+            var username = faker.name().username();
+            var email = faker.internet().emailAddress();
+            var realname = faker.name().fullName();
+            var address = "street, city, state, zipCode";
+            return new AccountCreatorCommand(realname, email, username, address, VALID_PASSWORD, DEFAULT_COUNTRY.code(), currency.getCode());
         }
     }
 
