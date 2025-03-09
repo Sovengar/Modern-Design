@@ -2,9 +2,9 @@ package com.jonathan.modern_design._infra.web;
 
 import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design.account_module.AccountFacade;
-import com.jonathan.modern_design.account_module.application.TransferMoneyUseCase;
 import com.jonathan.modern_design.account_module.dtos.AccountCreatorCommand;
 import com.jonathan.modern_design.account_module.dtos.AccountResource;
+import com.jonathan.modern_design.account_module.dtos.TransferMoneyCommand;
 import com.jonathan.modern_design.account_module.infra.query.AccountSearchCriteria;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +44,7 @@ class AccountController {
 
         log.info("BEGIN Transfer money from {} to {} with amount {}", sourceAccountId, targetAccountId, amount);
 
-        val command = new TransferMoneyUseCase.TransferMoneyCommand(sourceAccountId, targetAccountId, amount, Currency.fromCode(currency));
+        val command = new TransferMoneyCommand(sourceAccountId, targetAccountId, amount, Currency.fromCode(currency));
 
         accountFacade.transferMoney(command);
 

@@ -1,10 +1,10 @@
 package com.jonathan.modern_design.account_module;
 
 import com.jonathan.modern_design.__config.RepositoryITConfig;
-import com.jonathan.modern_design.account_module.application.DepositUseCase;
 import com.jonathan.modern_design.account_module.domain.AccountRepo;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountMoney;
+import com.jonathan.modern_design.account_module.dtos.DepositCommand;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -37,7 +37,7 @@ class TransferMoneyRepositoryIT extends RepositoryITConfig {
         var accountNumber = accountFacade.createAccount(randomAccountWithCurrency(money.getCurrency())).getValue();
 
         if (money.isPositive()) {
-            accountFacade.deposit(new DepositUseCase.DepositCommand(accountNumber, money.getAmount(), money.getCurrency()));
+            accountFacade.deposit(new DepositCommand(accountNumber, money.getAmount(), money.getCurrency()));
         }
 
         return repository.findOne(accountNumber).orElseThrow();

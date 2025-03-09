@@ -2,12 +2,12 @@ package com.jonathan.modern_design._fake_data;
 
 import com.jonathan.modern_design.__config.Stub;
 import com.jonathan.modern_design._shared.Currency;
-import com.jonathan.modern_design.account_module.application.TransferMoneyUseCase;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountAddress;
 import com.jonathan.modern_design.account_module.domain.model.AccountMoney;
 import com.jonathan.modern_design.account_module.domain.model.AccountNumber;
 import com.jonathan.modern_design.account_module.dtos.AccountCreatorCommand;
+import com.jonathan.modern_design.account_module.dtos.TransferMoneyCommand;
 
 import java.math.BigDecimal;
 
@@ -101,19 +101,19 @@ public class AccountStub extends Stub {
     }
 
     public static class TransferMoneyMother extends Stub {
-        public static TransferMoneyUseCase.TransferMoneyCommand fromAccountToAccountWithAmount(String sourceAccountId, String targetAccountId, AccountMoney money) {
-            return new TransferMoneyUseCase.TransferMoneyCommand(sourceAccountId, targetAccountId, money.getAmount(), money.getCurrency());
+        public static TransferMoneyCommand fromAccountToAccountWithAmount(String sourceAccountId, String targetAccountId, AccountMoney money) {
+            return new TransferMoneyCommand(sourceAccountId, targetAccountId, money.getAmount(), money.getCurrency());
         }
 
-        public static TransferMoneyUseCase.TransferMoneyCommand transactionWithAmount(AccountMoney money) {
+        public static TransferMoneyCommand transactionWithAmount(AccountMoney money) {
             return fromAccountToAccountWithAmount(sourceAccountId, targetAccountId, money);
         }
 
-        public static TransferMoneyUseCase.TransferMoneyCommand insufficientFundsTransaction() {
+        public static TransferMoneyCommand insufficientFundsTransaction() {
             return fromAccountToAccountWithAmount(sourceAccountId, targetAccountId, AccountMoney.of(BigDecimal.valueOf(100.0), EURO));
         }
 
-        public static TransferMoneyUseCase.TransferMoneyCommand negativeAmountTransaction() {
+        public static TransferMoneyCommand negativeAmountTransaction() {
             return fromAccountToAccountWithAmount(sourceAccountId, targetAccountId, AccountMoney.of(BigDecimal.valueOf(-100), EURO));
         }
     }

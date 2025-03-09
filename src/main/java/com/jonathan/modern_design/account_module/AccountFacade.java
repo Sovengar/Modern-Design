@@ -2,15 +2,14 @@ package com.jonathan.modern_design.account_module;
 
 import com.jonathan.modern_design._infra.config.annotations.BeanClass;
 import com.jonathan.modern_design.account_module.application.AccountCreator;
-import com.jonathan.modern_design.account_module.application.DepositUseCase;
-import com.jonathan.modern_design.account_module.application.FindAccountUseCase;
-import com.jonathan.modern_design.account_module.application.TransferMoneyUseCase;
-import com.jonathan.modern_design.account_module.application.UpdateAccountUseCase;
+import com.jonathan.modern_design.account_module.application.MoneyTransfer;
 import com.jonathan.modern_design.account_module.domain.AccountRepo;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountNumber;
 import com.jonathan.modern_design.account_module.dtos.AccountCreatorCommand;
 import com.jonathan.modern_design.account_module.dtos.AccountResource;
+import com.jonathan.modern_design.account_module.dtos.DepositCommand;
+import com.jonathan.modern_design.account_module.dtos.TransferMoneyCommand;
 import com.jonathan.modern_design.account_module.infra.mapper.AccountMapper;
 import com.jonathan.modern_design.account_module.infra.query.AccountSearchCriteria;
 import com.jonathan.modern_design.account_module.infra.query.AccountSearchRepo;
@@ -21,22 +20,19 @@ import java.util.List;
 
 @BeanClass
 @RequiredArgsConstructor
-
-public class AccountFacade implements TransferMoneyUseCase, FindAccountUseCase, UpdateAccountUseCase, DepositUseCase {
+public class AccountFacade {
     private final AccountRepo repository;
     private final AccountSearchRepo accountSearchRepo;
-    private final TransferMoneyUseCase transferMoneyUseCase;
+    private final MoneyTransfer moneyTransfer;
     private final AccountCreator accountCreator;
     private final AccountMapper accountMapper;
 
     @Transactional
-    @Override
     public void transferMoney(final TransferMoneyCommand command) {
-        transferMoneyUseCase.transferMoney(command);
+        moneyTransfer.transferMoney(command);
     }
 
     //region CQRS, we can skip service layer and access directly to repository
-    @Override
     public AccountResource findOne(final String accountNumber) {
         final var account = repository.findOneOrElseThrow(accountNumber);
         return new AccountResource(account);
@@ -49,7 +45,6 @@ public class AccountFacade implements TransferMoneyUseCase, FindAccountUseCase, 
     //endregion
 
     @Transactional
-    @Override
     public void update(AccountResource dto) {
         var account = accountMapper.toAccount(dto);
         update(account);
@@ -61,7 +56,6 @@ public class AccountFacade implements TransferMoneyUseCase, FindAccountUseCase, 
     }
 
     @Transactional
-    @Override
     public void deposit(final DepositCommand command) {
         var account = repository.findOne(command.accountNumber()).orElseThrow();
         account.add(command.amount(), command.currency());

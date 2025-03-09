@@ -3,9 +3,9 @@ package com.jonathan.modern_design.account_module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jonathan.modern_design.__config.ITConfig;
 import com.jonathan.modern_design._fake_data.AccountStub;
-import com.jonathan.modern_design.account_module.application.DepositUseCase;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountMoney;
+import com.jonathan.modern_design.account_module.dtos.DepositCommand;
 import com.jonathan.modern_design.account_module.infra.persistence.AccountRepoAdapter;
 import org.approvaltests.Approvals;
 import org.junit.jupiter.api.Test;
@@ -65,7 +65,7 @@ final class AccountAcceptanceTest extends ITConfig {
         var accountNumber = accountFacade.createAccount(randomAccountWithCurrency(money.getCurrency())).getValue();
 
         if (money.isPositive()) {
-            accountFacade.deposit(new DepositUseCase.DepositCommand(accountNumber, money.getAmount(), money.getCurrency()));
+            accountFacade.deposit(new DepositCommand(accountNumber, money.getAmount(), money.getCurrency()));
         }
 
         return repository.findOne(accountNumber).orElseThrow();

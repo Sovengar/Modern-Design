@@ -1,23 +1,23 @@
-package com.jonathan.modern_design.account_module.domain.services;
+package com.jonathan.modern_design.account_module.application;
 
 import com.jonathan.modern_design._infra.config.annotations.DomainService;
 import com.jonathan.modern_design._shared.Currency;
-import com.jonathan.modern_design.account_module.application.TransferMoneyUseCase;
 import com.jonathan.modern_design.account_module.domain.AccountRepo;
 import com.jonathan.modern_design.account_module.domain.exceptions.OperationForbiddenForSameAccount;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountNumber;
+import com.jonathan.modern_design.account_module.domain.services.AccountValidator;
+import com.jonathan.modern_design.account_module.dtos.TransferMoneyCommand;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
 
 @DomainService
 @RequiredArgsConstructor
-public class TransferMoneyService implements TransferMoneyUseCase {
+public class MoneyTransfer {
     private final AccountRepo repository;
     private final AccountValidator accountValidator;
-
-    @Override
+    
     public void transferMoney(final TransferMoneyCommand command) {
         Account source = getAccountValidated(command.sourceId());
         Account target = getAccountValidated(command.targetId());

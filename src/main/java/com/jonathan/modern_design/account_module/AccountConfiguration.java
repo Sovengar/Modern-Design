@@ -6,10 +6,9 @@ import com.jonathan.modern_design._infra.config.annotations.PersistenceAdapter;
 import com.jonathan.modern_design._infra.config.annotations.WebAdapter;
 import com.jonathan.modern_design._shared.country.CountriesInventory;
 import com.jonathan.modern_design.account_module.application.AccountCreator;
-import com.jonathan.modern_design.account_module.application.TransferMoneyUseCase;
+import com.jonathan.modern_design.account_module.application.MoneyTransfer;
 import com.jonathan.modern_design.account_module.domain.AccountRepo;
 import com.jonathan.modern_design.account_module.domain.services.AccountValidator;
-import com.jonathan.modern_design.account_module.domain.services.TransferMoneyService;
 import com.jonathan.modern_design.account_module.infra.mapper.AccountMapper;
 import com.jonathan.modern_design.account_module.infra.mapper.AccountMapperAdapter;
 import com.jonathan.modern_design.account_module.infra.persistence.AccountRepoAdapter;
@@ -43,9 +42,9 @@ public class AccountConfiguration {
     }
 
     @Bean
-    public TransferMoneyUseCase transferMoneyUseCase(AccountRepo accountRepo) {
+    public MoneyTransfer moneyTransfer(AccountRepo accountRepo) {
         AccountValidator accountValidator = new AccountValidator();
-        return new TransferMoneyService(accountRepo, accountValidator);
+        return new MoneyTransfer(accountRepo, accountValidator);
     }
 
     @Bean
@@ -58,7 +57,7 @@ public class AccountConfiguration {
         return new AccountFacade(
                 accountRepo,
                 accountSearchRepo,
-                transferMoneyUseCase(accountRepo),
+                moneyTransfer(accountRepo),
                 accountCreator(accountRepo, userFacade, countriesInventory),
                 accountMapper()
         );
