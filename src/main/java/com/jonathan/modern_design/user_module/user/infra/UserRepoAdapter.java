@@ -13,14 +13,12 @@ public class UserRepoAdapter implements UserRepo {
     private final UserSpringRepo repository;
 
     @Override
-    public User createUser(User user) {
-        return repository.save(user);
+    public void registerUser(User user) {
+        repository.save(user);
     }
 
     @Override
     public Optional<User> findByUuid(final User.ID id) {
         return repository.findByUuid(id);
     }
-
-
 }

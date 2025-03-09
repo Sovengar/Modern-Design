@@ -1,6 +1,7 @@
 package com.jonathan.modern_design.user_module;
 
 import com.jonathan.modern_design.__config.PrettyTestNames;
+import com.jonathan.modern_design.user_module.user.domain.model.User;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,10 @@ class CreateUserTest {
     class ValidUser {
         @Test
         void should_register_user() {
-            assertThat(userFacade.registerUser(createUserCommandWithValidData())).isNotNull();
+            var data = createUserCommandWithValidData();
+            userFacade.registerUser(data);
+            var user = userFacade.findUser(new User.ID(data.uuid()));
+            assertThat(user).isNotNull();
         }
     }
 

@@ -5,6 +5,10 @@ import com.jonathan.modern_design._shared.country.Country;
 import com.jonathan.modern_design.user_module.role.Role;
 import com.jonathan.modern_design.user_module.role.Roles;
 import com.jonathan.modern_design.user_module.user.domain.model.User;
+import com.jonathan.modern_design.user_module.user.domain.model.UserEmail;
+import com.jonathan.modern_design.user_module.user.domain.model.UserName;
+import com.jonathan.modern_design.user_module.user.domain.model.UserPassword;
+import com.jonathan.modern_design.user_module.user.domain.model.UserRealName;
 import com.jonathan.modern_design.user_module.user.dtos.UserRegisterCommand;
 
 import java.util.Optional;
@@ -17,11 +21,25 @@ public class UserStub extends Stub {
     public static final String VALID_PASSWORD = faker.internet().password(4, 12, true, true, true) + "1ºAa";
 
     public static User normalUser() {
-        return User.register(new User.ID(DEFAULT_UUID), faker.name().fullName(), faker.name().username(), faker.internet().emailAddress(), VALID_PASSWORD, DEFAULT_COUNTRY, Role.of(Roles.TECHNICIAN));
+        return User.register(
+                new User.ID(DEFAULT_UUID),
+                UserRealName.of(faker.name().fullName()),
+                UserName.of(faker.name().username()),
+                UserEmail.of(faker.internet().emailAddress()),
+                UserPassword.of(VALID_PASSWORD),
+                DEFAULT_COUNTRY,
+                Role.of(Roles.TECHNICIAN));
     }
 
     public static User adminUser() {
-        return User.registerAdmin(new User.ID(DEFAULT_UUID), faker.name().fullName(), faker.name().username(), faker.internet().emailAddress(), faker.internet().emailAddress(), VALID_PASSWORD, DEFAULT_COUNTRY);
+        return User.registerAdmin(
+                new User.ID(DEFAULT_UUID),
+                UserRealName.of(faker.name().fullName()),
+                UserName.of(faker.name().username()),
+                UserEmail.of(faker.internet().emailAddress()),
+                UserEmail.of(faker.internet().emailAddress()),
+                UserPassword.of(VALID_PASSWORD),
+                DEFAULT_COUNTRY);
     }
 
     public static class CreateValidUser extends Stub {

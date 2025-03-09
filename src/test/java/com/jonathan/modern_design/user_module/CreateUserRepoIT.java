@@ -2,7 +2,7 @@ package com.jonathan.modern_design.user_module;
 
 
 import com.jonathan.modern_design.__config.RepositoryITConfig;
-import com.jonathan.modern_design.user_module.user.infra.UserRepoAdapter;
+import com.jonathan.modern_design.user_module.user.domain.model.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
@@ -14,13 +14,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 class CreateUserRepoIT extends RepositoryITConfig {
 
     @Autowired
-    private UserRepoAdapter repository;
-
-    @Autowired
     private UserFacade userFacade;
 
     @Test
     void should_register_user() {
-        assertThat(userFacade.registerUser(createUserCommandWithValidData())).isNotNull();
+        var data = createUserCommandWithValidData();
+        userFacade.registerUser(data);
+        var user = userFacade.findUser(new User.ID(data.uuid()));
+        assertThat(user).isNotNull();
     }
 }

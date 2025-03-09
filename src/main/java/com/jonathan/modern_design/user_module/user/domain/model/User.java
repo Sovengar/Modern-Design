@@ -77,12 +77,12 @@ public class User extends BaseEntity {
     @ManyToOne
     private Role role;
 
-    public static User register(ID uuid, String realname, String username, String email, String password, Country country, Role role) {
-        return new User(null, uuid, UserRealName.of(realname), UserName.of(username), UserEmail.of(email), null, UserPassword.of(password), country.code(), Status.DRAFT, new ArrayList<>(), role);
+    public static User register(ID uuid, UserRealName realname, UserName username, UserEmail email, UserPassword password, Country country, Role role) {
+        return new User(null, uuid, realname, username, email, null, password, country.code(), Status.DRAFT, new ArrayList<>(), role);
     }
 
-    public static User registerAdmin(ID uuid, String realname, String username, String email, String internalEmail, String password, Country country) {
-        return new User(null, uuid, UserRealName.of(realname), UserName.of(username), UserEmail.of(email), UserEmail.of(internalEmail), UserPassword.of(password), country.code(), Status.ACTIVE, new ArrayList<>(), Role.of(Roles.ADMIN));
+    public static User registerAdmin(ID uuid, UserRealName realname, UserName username, UserEmail email, UserEmail internalEmail, UserPassword password, Country country) {
+        return new User(null, uuid, realname, username, email, internalEmail, password, country.code(), Status.ACTIVE, new ArrayList<>(), Role.of(Roles.ADMIN));
     }
 
     public String getRealNameOrPlaceHolder() {

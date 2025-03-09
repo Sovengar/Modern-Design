@@ -23,7 +23,7 @@ class UserConfiguration {
     }
 
     @Bean
-    public UserRepo userRepository(UserSpringRepo repository) {
+    public UserRepo userRepo(UserSpringRepo repository) {
         return new UserRepoAdapter(repository);
     }
 
@@ -33,14 +33,14 @@ class UserConfiguration {
     }
 
     @Bean
-    public UserFacade userFacade(UserRepo userRepo, RoleRepo roleRepo) {
-        UserRegister userRegister = createUserUseCase(userRepo, roleRepo);
-        return new UserFacade(userRepo, userRegister);
+    public RoleRepo roleRepo(RoleSpringRepo roleRepo) {
+        return new RoleRepoAdapter(roleRepo);
     }
 
     @Bean
-    public RoleRepo roleRepo(RoleSpringRepo roleRepo) {
-        return new RoleRepoAdapter(roleRepo);
+    public UserFacade userFacade(UserRepo userRepo, RoleRepo roleRepo) {
+        UserRegister userRegister = createUserUseCase(userRepo, roleRepo);
+        return new UserFacade(userRepo, userRegister);
     }
 
     public UserFacade userFacade() {

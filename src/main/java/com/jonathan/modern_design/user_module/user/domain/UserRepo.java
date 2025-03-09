@@ -6,7 +6,7 @@ import jakarta.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 public interface UserRepo {
-    User createUser(User user);
+    void registerUser(User user);
 
     Optional<User> findByUuid(User.ID id);
 

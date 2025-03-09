@@ -16,8 +16,8 @@ public class UserFacade {
     private final UserRegister userRegister;
 
     @Transactional
-    public User.ID registerUser(UserRegisterCommand command) {
-        return userRegister.registerUser(command);
+    public void registerUser(UserRegisterCommand command) {
+        userRegister.registerUser(command);
     }
 
     public UserResource findUser(User.ID id) {

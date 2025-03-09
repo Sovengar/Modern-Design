@@ -13,9 +13,8 @@ public class UserInMemoryRepo implements UserRepo {
     private final ConcurrentHashMap<User.ID, User> users = new ConcurrentHashMap<>();
 
     @Override
-    public User createUser(User user) {
+    public void registerUser(User user) {
         users.put(user.getUuid(), user);
-        return user;
     }
 
     @Override

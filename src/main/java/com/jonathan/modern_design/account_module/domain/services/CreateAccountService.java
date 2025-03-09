@@ -33,15 +33,17 @@ public class CreateAccountService implements CreateAccountUseCase {
     }
 
     private User.ID registerUser(final CreateAccountCommand command) {
+        var userId = UUID.randomUUID();
         var userCreateCommand = new UserRegisterCommand(
-                UUID.randomUUID(),
+                userId,
                 ofNullable(command.realname()),
                 command.username(),
                 command.email(),
                 command.password(),
                 countriesInventory.findByCodeOrElseThrow(command.country()));
 
-        return userFacade.registerUser(userCreateCommand);
+        userFacade.registerUser(userCreateCommand);
+        return new User.ID(userId);
     }
 
     private static class AccountNumberGenerator {
