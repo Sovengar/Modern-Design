@@ -4,12 +4,12 @@ import com.jonathan.modern_design._infra.config.annotations.DomainService;
 import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design._shared.country.CountriesInventory;
 import com.jonathan.modern_design.account_module.application.CreateAccountUseCase;
-import com.jonathan.modern_design.account_module.domain.AccountRepository;
+import com.jonathan.modern_design.account_module.domain.AccountRepo;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountNumber;
 import com.jonathan.modern_design.user_module.UserFacade;
-import com.jonathan.modern_design.user_module.application.RegisterUserUseCase;
-import com.jonathan.modern_design.user_module.domain.model.User;
+import com.jonathan.modern_design.user_module.user.application.RegisterUserUseCase;
+import com.jonathan.modern_design.user_module.user.domain.model.User;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
@@ -20,7 +20,7 @@ import static java.util.Optional.ofNullable;
 @DomainService
 @RequiredArgsConstructor
 public class CreateAccountService implements CreateAccountUseCase {
-    private final AccountRepository repository;
+    private final AccountRepo repository;
     private final UserFacade userFacade;
     private final CountriesInventory countriesInventory;
 

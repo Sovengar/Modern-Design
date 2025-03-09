@@ -1,6 +1,6 @@
 package com.jonathan.modern_design._infra.config.database;
 
-import com.jonathan.modern_design.user_module.infra.UserAuditListener;
+import com.jonathan.modern_design.user_module.user.infra.UserAuditListener;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;

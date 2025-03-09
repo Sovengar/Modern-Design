@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import static com.jonathan.modern_design._fake_data.UserStub.DEFAULT_COUNTRY;
 import static com.jonathan.modern_design._fake_data.UserStub.VALID_PASSWORD;
 import static com.jonathan.modern_design._fake_data.UserStub.normalUser;
+import static com.jonathan.modern_design._shared.Currency.EURO;
 
 public class AccountStub extends Stub {
 
@@ -49,7 +50,7 @@ public class AccountStub extends Stub {
     }
 
     private static Account builder(String accountId, double balance, boolean isActive) {
-        return builder(accountId, balance, isActive, Currency.EURO);
+        return builder(accountId, balance, isActive, EURO);
     }
 
     private static Account builder(String accountId, double balance, boolean isActive, Currency currency) {
@@ -61,6 +62,9 @@ public class AccountStub extends Stub {
                 .active(isActive).build();
     }
 
+    public record AccountsAfterTransfer(Account source, Account target) {
+    }
+
     public static class CreateAccountMother extends Stub {
 
         public static CreateAccountUseCase.CreateAccountCommand createAccountCommandWithInvalidData() {
@@ -68,7 +72,7 @@ public class AccountStub extends Stub {
                     .username("Account Name")
                     .email("z3u1E@example.com")
                     .realname("John Doe")
-                    .currency(Currency.EURO.getCode())
+                    .currency(EURO.getCode())
                     .password("123456")
                     .country("XXX")
                     .build();
@@ -80,7 +84,7 @@ public class AccountStub extends Stub {
                     .email(faker.internet().emailAddress())
                     .realname(faker.name().fullName())
                     .address("street, city, state, zipCode")
-                    .currency(Currency.EURO.getCode())
+                    .currency(EURO.getCode())
                     .password(VALID_PASSWORD)
                     .country(DEFAULT_COUNTRY.code())
                     .build();
@@ -100,20 +104,20 @@ public class AccountStub extends Stub {
     }
 
     public static class TransferMoneyMother extends Stub {
-        public static TransferMoneyUseCase.TransferMoneyCommand fromAccountToAccountWithAmount(String sourceAccountId, String targetAccountId, double amount) {
-            return new TransferMoneyUseCase.TransferMoneyCommand(sourceAccountId, targetAccountId, BigDecimal.valueOf(amount), Currency.EURO);
+        public static TransferMoneyUseCase.TransferMoneyCommand fromAccountToAccountWithAmount(String sourceAccountId, String targetAccountId, AccountMoney money) {
+            return new TransferMoneyUseCase.TransferMoneyCommand(sourceAccountId, targetAccountId, money.getAmount(), money.getCurrency());
         }
 
-        public static TransferMoneyUseCase.TransferMoneyCommand transactionWithAmount(double amount) {
-            return fromAccountToAccountWithAmount(sourceAccountId, targetAccountId, amount);
+        public static TransferMoneyUseCase.TransferMoneyCommand transactionWithAmount(AccountMoney money) {
+            return fromAccountToAccountWithAmount(sourceAccountId, targetAccountId, money);
         }
 
         public static TransferMoneyUseCase.TransferMoneyCommand insufficientFundsTransaction() {
-            return fromAccountToAccountWithAmount(sourceAccountId, targetAccountId, 1000);
+            return fromAccountToAccountWithAmount(sourceAccountId, targetAccountId, AccountMoney.of(BigDecimal.valueOf(100.0), EURO));
         }
 
         public static TransferMoneyUseCase.TransferMoneyCommand negativeAmountTransaction() {
-            return fromAccountToAccountWithAmount(sourceAccountId, targetAccountId, -100);
+            return fromAccountToAccountWithAmount(sourceAccountId, targetAccountId, AccountMoney.of(BigDecimal.valueOf(-100), EURO));
         }
     }
 }

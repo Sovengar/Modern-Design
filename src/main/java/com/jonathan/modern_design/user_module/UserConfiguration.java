@@ -1,17 +1,17 @@
 package com.jonathan.modern_design.user_module;
 
-import com.jonathan.modern_design.user_module.application.RegisterUserUseCase;
-import com.jonathan.modern_design.user_module.domain.UserRepository;
-import com.jonathan.modern_design.user_module.domain.services.RegisterUserService;
-import com.jonathan.modern_design.user_module.infra.UserInMemoryRepo;
-import com.jonathan.modern_design.user_module.infra.UserMapper;
-import com.jonathan.modern_design.user_module.infra.UserMapperAdapter;
-import com.jonathan.modern_design.user_module.infra.UserPersistenceAdapter;
-import com.jonathan.modern_design.user_module.infra.UserSpringRepo;
-import com.jonathan.modern_design.user_module.infra.role.RoleRepo;
-import com.jonathan.modern_design.user_module.infra.role.RoleRepoAdapter;
-import com.jonathan.modern_design.user_module.infra.role.RoleRepoInMemory;
-import com.jonathan.modern_design.user_module.infra.role.RoleSpringRepo;
+import com.jonathan.modern_design.user_module.role.RoleRepo;
+import com.jonathan.modern_design.user_module.role.RoleRepoAdapter;
+import com.jonathan.modern_design.user_module.role.RoleRepoInMemory;
+import com.jonathan.modern_design.user_module.role.RoleSpringRepo;
+import com.jonathan.modern_design.user_module.user.application.RegisterUserUseCase;
+import com.jonathan.modern_design.user_module.user.domain.UserRepo;
+import com.jonathan.modern_design.user_module.user.domain.services.RegisterUserService;
+import com.jonathan.modern_design.user_module.user.infra.UserInMemoryRepo;
+import com.jonathan.modern_design.user_module.user.infra.UserMapper;
+import com.jonathan.modern_design.user_module.user.infra.UserMapperAdapter;
+import com.jonathan.modern_design.user_module.user.infra.UserRepoAdapter;
+import com.jonathan.modern_design.user_module.user.infra.UserSpringRepo;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -24,19 +24,19 @@ class UserConfiguration {
     }
 
     @Bean
-    public UserRepository userRepository(UserSpringRepo repository) {
-        return new UserPersistenceAdapter(repository);
+    public UserRepo userRepository(UserSpringRepo repository) {
+        return new UserRepoAdapter(repository);
     }
 
     @Bean
-    public RegisterUserUseCase createUserUseCase(UserRepository userRepository, RoleRepo roleRepo) {
-        return new RegisterUserService(userRepository, roleRepo);
+    public RegisterUserUseCase createUserUseCase(UserRepo userRepo, RoleRepo roleRepo) {
+        return new RegisterUserService(userRepo, roleRepo);
     }
 
     @Bean
-    public UserFacade userFacade(UserRepository userRepository, RoleRepo roleRepo) {
-        RegisterUserUseCase registerUserUseCase = createUserUseCase(userRepository, roleRepo);
-        return new UserFacade(userRepository, registerUserUseCase);
+    public UserFacade userFacade(UserRepo userRepo, RoleRepo roleRepo) {
+        RegisterUserUseCase registerUserUseCase = createUserUseCase(userRepo, roleRepo);
+        return new UserFacade(userRepo, registerUserUseCase);
     }
 
     @Bean
@@ -45,8 +45,8 @@ class UserConfiguration {
     }
 
     public UserFacade userFacade() {
-        UserRepository userRepository = new UserInMemoryRepo();
+        UserRepo userRepo = new UserInMemoryRepo();
         RoleRepo roleRepo = new RoleRepoInMemory();
-        return userFacade(userRepository, roleRepo);
+        return userFacade(userRepo, roleRepo);
     }
 }

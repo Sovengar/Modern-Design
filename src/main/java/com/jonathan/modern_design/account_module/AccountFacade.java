@@ -7,7 +7,7 @@ import com.jonathan.modern_design.account_module.application.DepositUseCase;
 import com.jonathan.modern_design.account_module.application.FindAccountUseCase;
 import com.jonathan.modern_design.account_module.application.TransferMoneyUseCase;
 import com.jonathan.modern_design.account_module.application.UpdateAccountUseCase;
-import com.jonathan.modern_design.account_module.domain.AccountRepository;
+import com.jonathan.modern_design.account_module.domain.AccountRepo;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountNumber;
 import com.jonathan.modern_design.account_module.infra.mapper.AccountMapper;
@@ -22,7 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 
 public class AccountFacade implements TransferMoneyUseCase, FindAccountUseCase, UpdateAccountUseCase, CreateAccountUseCase, DepositUseCase {
-    private final AccountRepository repository;
+    private final AccountRepo repository;
     private final AccountSearchRepo accountSearchRepo;
     private final TransferMoneyUseCase transferMoneyUseCase;
     private final CreateAccountUseCase createAccountUseCase;

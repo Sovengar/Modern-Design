@@ -8,13 +8,13 @@ import com.jonathan.modern_design._shared.country.CountriesInventory;
 import com.jonathan.modern_design._shared.country.CountriesInventoryStub;
 import com.jonathan.modern_design.account_module.application.CreateAccountUseCase;
 import com.jonathan.modern_design.account_module.application.TransferMoneyUseCase;
-import com.jonathan.modern_design.account_module.domain.AccountRepository;
+import com.jonathan.modern_design.account_module.domain.AccountRepo;
 import com.jonathan.modern_design.account_module.domain.services.AccountValidator;
 import com.jonathan.modern_design.account_module.domain.services.CreateAccountService;
 import com.jonathan.modern_design.account_module.domain.services.TransferMoneyService;
 import com.jonathan.modern_design.account_module.infra.mapper.AccountMapper;
 import com.jonathan.modern_design.account_module.infra.mapper.AccountMapperAdapter;
-import com.jonathan.modern_design.account_module.infra.persistence.AccountPersistenceAdapter;
+import com.jonathan.modern_design.account_module.infra.persistence.AccountRepoAdapter;
 import com.jonathan.modern_design.account_module.infra.persistence.AccountSpringRepo;
 import com.jonathan.modern_design.account_module.infra.query.AccountSearchRepo;
 import com.jonathan.modern_design.user_module.UserFacade;
@@ -42,19 +42,19 @@ public class AccountConfiguration {
     }
 
     @Bean
-    public AccountRepository accountRepository(AccountSpringRepo repository, AccountMapper accountMapper) {
-        return new AccountPersistenceAdapter(repository, accountMapper);
+    public AccountRepo accountRepository(AccountSpringRepo repository, AccountMapper accountMapper) {
+        return new AccountRepoAdapter(repository, accountMapper);
     }
 
     @Bean
-    public TransferMoneyUseCase transferMoneyUseCase(AccountRepository accountRepository) {
+    public TransferMoneyUseCase transferMoneyUseCase(AccountRepo accountRepo) {
         AccountValidator accountValidator = new AccountValidator();
-        return new TransferMoneyService(accountRepository, accountValidator);
+        return new TransferMoneyService(accountRepo, accountValidator);
     }
 
     @Bean
-    public CreateAccountUseCase createAccountUseCase(AccountRepository accountRepository, UserFacade userFacade, CountriesInventory countriesInventory) {
-        return new CreateAccountService(accountRepository, userFacade, countriesInventory);
+    public CreateAccountUseCase createAccountUseCase(AccountRepo accountRepo, UserFacade userFacade, CountriesInventory countriesInventory) {
+        return new CreateAccountService(accountRepo, userFacade, countriesInventory);
     }
 
     @Bean //TODO REMOVE
@@ -63,12 +63,12 @@ public class AccountConfiguration {
     }
 
     @Bean
-    public AccountFacade accountFacade(AccountRepository accountRepository, AccountSearchRepo accountSearchRepo, UserFacade userFacade, CountriesInventory countriesInventory) {
+    public AccountFacade accountFacade(AccountRepo accountRepo, AccountSearchRepo accountSearchRepo, UserFacade userFacade, CountriesInventory countriesInventory) {
         return new AccountFacade(
-                accountRepository,
+                accountRepo,
                 accountSearchRepo,
-                transferMoneyUseCase(accountRepository),
-                createAccountUseCase(accountRepository, userFacade, countriesInventory),
+                transferMoneyUseCase(accountRepo),
+                createAccountUseCase(accountRepo, userFacade, countriesInventory),
                 accountMapper()
         );
     }

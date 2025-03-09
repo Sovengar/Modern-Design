@@ -2,10 +2,10 @@ package com.jonathan.modern_design._fake_data;
 
 import com.jonathan.modern_design.__config.Stub;
 import com.jonathan.modern_design._shared.country.Country;
-import com.jonathan.modern_design.user_module.application.RegisterUserUseCase;
-import com.jonathan.modern_design.user_module.domain.model.Role;
-import com.jonathan.modern_design.user_module.domain.model.Roles;
-import com.jonathan.modern_design.user_module.domain.model.User;
+import com.jonathan.modern_design.user_module.role.Role;
+import com.jonathan.modern_design.user_module.role.Roles;
+import com.jonathan.modern_design.user_module.user.application.RegisterUserUseCase;
+import com.jonathan.modern_design.user_module.user.domain.model.User;
 
 import java.util.Optional;
 import java.util.UUID;

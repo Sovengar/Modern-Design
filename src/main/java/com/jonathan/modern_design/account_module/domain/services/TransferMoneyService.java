@@ -3,7 +3,7 @@ package com.jonathan.modern_design.account_module.domain.services;
 import com.jonathan.modern_design._infra.config.annotations.DomainService;
 import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design.account_module.application.TransferMoneyUseCase;
-import com.jonathan.modern_design.account_module.domain.AccountRepository;
+import com.jonathan.modern_design.account_module.domain.AccountRepo;
 import com.jonathan.modern_design.account_module.domain.exceptions.OperationForbiddenForSameAccount;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountNumber;
@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @DomainService
 @RequiredArgsConstructor
 public class TransferMoneyService implements TransferMoneyUseCase {
-    private final AccountRepository repository;
+    private final AccountRepo repository;
     private final AccountValidator accountValidator;
 
     @Override

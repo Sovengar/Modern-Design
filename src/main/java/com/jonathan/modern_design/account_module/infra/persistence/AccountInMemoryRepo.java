@@ -1,6 +1,6 @@
 package com.jonathan.modern_design.account_module.infra.persistence;
 
-import com.jonathan.modern_design.account_module.domain.AccountRepository;
+import com.jonathan.modern_design.account_module.domain.AccountRepo;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountNumber;
 import org.springframework.data.domain.Page;
@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static java.util.Objects.requireNonNull;
 
-public class AccountInMemoryRepo implements AccountRepository {
+public class AccountInMemoryRepo implements AccountRepo {
     private final ConcurrentHashMap<String, Account> accounts = new ConcurrentHashMap<>();
 
     @Override
