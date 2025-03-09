@@ -2,9 +2,9 @@ package com.jonathan.modern_design._infra.web;
 
 import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design.account_module.AccountFacade;
-import com.jonathan.modern_design.account_module.application.AccountResource;
-import com.jonathan.modern_design.account_module.application.CreateAccountUseCase;
 import com.jonathan.modern_design.account_module.application.TransferMoneyUseCase;
+import com.jonathan.modern_design.account_module.dtos.AccountCreatorCommand;
+import com.jonathan.modern_design.account_module.dtos.AccountResource;
 import com.jonathan.modern_design.account_module.infra.query.AccountSearchCriteria;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -64,9 +64,9 @@ class AccountController {
 
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     //OPENAPI @Operation(description = "Create Account")
-    public ResponseEntity<AccountResource> createAccount(@RequestBody CreateAccountUseCase.CreateAccountCommand createAccountCommand) {
+    public ResponseEntity<AccountResource> createAccount(@RequestBody AccountCreatorCommand accountCreatorCommand) {
         log.info("START - Create account");
-        final var accountNumber = accountFacade.createAccount(createAccountCommand).getValue();
+        final var accountNumber = accountFacade.createAccount(accountCreatorCommand).getValue();
         log.info("END - Created account: {}", accountNumber);
 
         var uri = fromMethodCall(on(this.getClass()).loadAccount(accountNumber)).build().toUri();

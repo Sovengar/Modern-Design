@@ -1,6 +1,6 @@
 package com.jonathan.modern_design.account_module.infra.query;
 
-import com.jonathan.modern_design.account_module.application.AccountResource;
+import com.jonathan.modern_design.account_module.dtos.AccountResource;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -47,8 +47,8 @@ public class AccountSearchRepo {
 
         String whereCriteria = join(" AND ", jpqlParts);
         var query = entityManager.createQuery(jpql + whereCriteria, AccountResource.class);
-        for (String paramName : params.keySet()) {
-            query.setParameter(paramName, params.get(paramName));
+        for (var entry : params.entrySet()) {
+            query.setParameter(entry.getKey(), params.get(entry.getKey()));
         }
         return query.getResultList();
     }

@@ -1,8 +1,7 @@
 package com.jonathan.modern_design.account_module;
 
 import com.jonathan.modern_design._infra.config.annotations.BeanClass;
-import com.jonathan.modern_design.account_module.application.AccountResource;
-import com.jonathan.modern_design.account_module.application.CreateAccountUseCase;
+import com.jonathan.modern_design.account_module.application.AccountCreator;
 import com.jonathan.modern_design.account_module.application.DepositUseCase;
 import com.jonathan.modern_design.account_module.application.FindAccountUseCase;
 import com.jonathan.modern_design.account_module.application.TransferMoneyUseCase;
@@ -10,6 +9,8 @@ import com.jonathan.modern_design.account_module.application.UpdateAccountUseCas
 import com.jonathan.modern_design.account_module.domain.AccountRepo;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountNumber;
+import com.jonathan.modern_design.account_module.dtos.AccountCreatorCommand;
+import com.jonathan.modern_design.account_module.dtos.AccountResource;
 import com.jonathan.modern_design.account_module.infra.mapper.AccountMapper;
 import com.jonathan.modern_design.account_module.infra.query.AccountSearchCriteria;
 import com.jonathan.modern_design.account_module.infra.query.AccountSearchRepo;
@@ -21,11 +22,11 @@ import java.util.List;
 @BeanClass
 @RequiredArgsConstructor
 
-public class AccountFacade implements TransferMoneyUseCase, FindAccountUseCase, UpdateAccountUseCase, CreateAccountUseCase, DepositUseCase {
+public class AccountFacade implements TransferMoneyUseCase, FindAccountUseCase, UpdateAccountUseCase, DepositUseCase {
     private final AccountRepo repository;
     private final AccountSearchRepo accountSearchRepo;
     private final TransferMoneyUseCase transferMoneyUseCase;
-    private final CreateAccountUseCase createAccountUseCase;
+    private final AccountCreator accountCreator;
     private final AccountMapper accountMapper;
 
     @Transactional
@@ -55,9 +56,8 @@ public class AccountFacade implements TransferMoneyUseCase, FindAccountUseCase, 
     }
 
     @Transactional
-    @Override
-    public AccountNumber createAccount(final CreateAccountCommand command) {
-        return createAccountUseCase.createAccount(command);
+    public AccountNumber createAccount(final AccountCreatorCommand command) {
+        return accountCreator.createAccount(command);
     }
 
     @Transactional

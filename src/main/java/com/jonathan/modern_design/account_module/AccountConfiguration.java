@@ -5,11 +5,10 @@ import com.jonathan.modern_design._infra.config.annotations.DomainService;
 import com.jonathan.modern_design._infra.config.annotations.PersistenceAdapter;
 import com.jonathan.modern_design._infra.config.annotations.WebAdapter;
 import com.jonathan.modern_design._shared.country.CountriesInventory;
-import com.jonathan.modern_design.account_module.application.CreateAccountUseCase;
+import com.jonathan.modern_design.account_module.application.AccountCreator;
 import com.jonathan.modern_design.account_module.application.TransferMoneyUseCase;
 import com.jonathan.modern_design.account_module.domain.AccountRepo;
 import com.jonathan.modern_design.account_module.domain.services.AccountValidator;
-import com.jonathan.modern_design.account_module.domain.services.CreateAccountService;
 import com.jonathan.modern_design.account_module.domain.services.TransferMoneyService;
 import com.jonathan.modern_design.account_module.infra.mapper.AccountMapper;
 import com.jonathan.modern_design.account_module.infra.mapper.AccountMapperAdapter;
@@ -50,8 +49,8 @@ public class AccountConfiguration {
     }
 
     @Bean
-    public CreateAccountUseCase createAccountUseCase(AccountRepo accountRepo, UserFacade userFacade, CountriesInventory countriesInventory) {
-        return new CreateAccountService(accountRepo, userFacade, countriesInventory);
+    public AccountCreator accountCreator(AccountRepo accountRepo, UserFacade userFacade, CountriesInventory countriesInventory) {
+        return new AccountCreator(accountRepo, userFacade, countriesInventory);
     }
 
     @Bean
@@ -60,7 +59,7 @@ public class AccountConfiguration {
                 accountRepo,
                 accountSearchRepo,
                 transferMoneyUseCase(accountRepo),
-                createAccountUseCase(accountRepo, userFacade, countriesInventory),
+                accountCreator(accountRepo, userFacade, countriesInventory),
                 accountMapper()
         );
     }

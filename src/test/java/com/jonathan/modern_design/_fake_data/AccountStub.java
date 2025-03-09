@@ -2,12 +2,12 @@ package com.jonathan.modern_design._fake_data;
 
 import com.jonathan.modern_design.__config.Stub;
 import com.jonathan.modern_design._shared.Currency;
-import com.jonathan.modern_design.account_module.application.CreateAccountUseCase;
 import com.jonathan.modern_design.account_module.application.TransferMoneyUseCase;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountAddress;
 import com.jonathan.modern_design.account_module.domain.model.AccountMoney;
 import com.jonathan.modern_design.account_module.domain.model.AccountNumber;
+import com.jonathan.modern_design.account_module.dtos.AccountCreatorCommand;
 
 import java.math.BigDecimal;
 
@@ -64,8 +64,8 @@ public class AccountStub extends Stub {
     }
 
     public static class CreateAccountMother extends Stub {
-        public static CreateAccountUseCase.CreateAccountCommand createAccountCommandWithInvalidData() {
-            return CreateAccountUseCase.CreateAccountCommand.builder()
+        public static AccountCreatorCommand createAccountCommandWithInvalidData() {
+            return AccountCreatorCommand.builder()
                     .username("Account Name")
                     .email("z3u1E@example.com")
                     .realname("John Doe")
@@ -75,8 +75,8 @@ public class AccountStub extends Stub {
                     .build();
         }
 
-        public static CreateAccountUseCase.CreateAccountCommand createAccountCommandWithValidData() {
-            return CreateAccountUseCase.CreateAccountCommand.builder()
+        public static AccountCreatorCommand createAccountCommandWithValidData() {
+            return AccountCreatorCommand.builder()
                     .username(faker.name().username())
                     .email(faker.internet().emailAddress())
                     .realname(faker.name().fullName())
@@ -87,8 +87,8 @@ public class AccountStub extends Stub {
                     .build();
         }
 
-        public static CreateAccountUseCase.CreateAccountCommand randomAccountWithCurrency(Currency currency) {
-            return CreateAccountUseCase.CreateAccountCommand.builder()
+        public static AccountCreatorCommand randomAccountWithCurrency(Currency currency) {
+            return AccountCreatorCommand.builder()
                     .username(faker.name().username())
                     .email(faker.internet().emailAddress())
                     .realname(faker.name().fullName())
