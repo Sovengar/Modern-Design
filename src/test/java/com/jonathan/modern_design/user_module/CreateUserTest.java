@@ -23,7 +23,7 @@ class CreateUserTest {
         void should_register_user() {
             var data = createUserCommandWithValidData();
             userFacade.registerUser(data);
-            var user = userFacade.findUser(new User.ID(data.uuid()));
+            var user = userFacade.findUser(new User.UserId(data.uuid()));
             assertThat(user).isNotNull();
         }
     }

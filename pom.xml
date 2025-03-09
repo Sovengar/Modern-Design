@@ -182,7 +182,7 @@
 
             <!--                <executions>-->
             <!--                    <execution>-->
-            <!--                        <id>pit-report</id>-->
+            <!--                        <userId>pit-report</userId>-->
             <!--                        &lt;!&ndash; optional &ndash;&gt;-->
             <!--                        <phase>test</phase>-->
             <!--                        <goals>-->

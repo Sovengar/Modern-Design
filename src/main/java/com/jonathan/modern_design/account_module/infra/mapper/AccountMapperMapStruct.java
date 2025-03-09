@@ -75,7 +75,7 @@ public interface AccountMapperMapStruct {
         return id == null ? null : id.id();
     }
 
-    default User.ID mapUserId(UUID uuid) {
-        return new User.ID(uuid);
+    default User.UserId mapUserId(UUID uuid) {
+        return new User.UserId(uuid);
     }
 }

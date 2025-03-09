@@ -18,7 +18,7 @@ public class UserRepoAdapter implements UserRepo {
     }
 
     @Override
-    public Optional<User> findByUuid(final User.ID id) {
-        return repository.findByUuid(id);
+    public Optional<User> findByUuid(final User.UserId userId) {
+        return repository.findByUuid(userId);
     }
 }

@@ -33,7 +33,7 @@ public class CreateAccountService implements CreateAccountUseCase {
         return repository.create(account);
     }
 
-    private User.ID registerUser(final CreateAccountCommand command) {
+    private User.UserId registerUser(final CreateAccountCommand command) {
         var userId = UUID.randomUUID();
         var userCreateCommand = new UserRegisterCommand(
                 userId,
@@ -44,7 +44,7 @@ public class CreateAccountService implements CreateAccountUseCase {
                 countriesInventory.findByCodeOrElseThrow(command.country()));
 
         userFacade.registerUser(userCreateCommand);
-        return new User.ID(userId);
+        return new User.UserId(userId);
     }
 
     private static class AccountNumberGenerator {

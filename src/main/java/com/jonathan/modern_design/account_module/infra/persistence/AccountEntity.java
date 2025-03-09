@@ -49,7 +49,7 @@ public class AccountEntity extends BaseEntity {
     private LocalDateTime dateOfLastTransaction;
     private boolean active;
     @Embedded
-    private User.ID userId;
+    private User.UserId userId;
 
     @PrePersist
     public void prePersist() {

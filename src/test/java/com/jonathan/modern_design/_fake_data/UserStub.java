@@ -22,7 +22,7 @@ public class UserStub extends Stub {
 
     public static User normalUser() {
         return User.register(
-                new User.ID(DEFAULT_UUID),
+                new User.UserId(DEFAULT_UUID),
                 UserRealName.of(faker.name().fullName()),
                 UserName.of(faker.name().username()),
                 UserEmail.of(faker.internet().emailAddress()),
@@ -33,7 +33,7 @@ public class UserStub extends Stub {
 
     public static User adminUser() {
         return User.registerAdmin(
-                new User.ID(DEFAULT_UUID),
+                new User.UserId(DEFAULT_UUID),
                 UserRealName.of(faker.name().fullName()),
                 UserName.of(faker.name().username()),
                 UserEmail.of(faker.internet().emailAddress()),

@@ -52,7 +52,7 @@ public class User extends BaseEntity {
     @SequenceGenerator(name = "USERS_SQ", sequenceName = "MD.USERS_SQ", allocationSize = 1)
     private Long userId; //Cant use microType with sequence
     @Embedded
-    private ID uuid;
+    private UserId uuid;
     @OptionalField
     @Embedded
     private UserRealName realname;
@@ -77,11 +77,11 @@ public class User extends BaseEntity {
     @ManyToOne
     private Role role;
 
-    public static User register(ID uuid, UserRealName realname, UserName username, UserEmail email, UserPassword password, Country country, Role role) {
+    public static User register(UserId uuid, UserRealName realname, UserName username, UserEmail email, UserPassword password, Country country, Role role) {
         return new User(null, uuid, realname, username, email, null, password, country.code(), Status.DRAFT, new ArrayList<>(), role);
     }
 
-    public static User registerAdmin(ID uuid, UserRealName realname, UserName username, UserEmail email, UserEmail internalEmail, UserPassword password, Country country) {
+    public static User registerAdmin(UserId uuid, UserRealName realname, UserName username, UserEmail email, UserEmail internalEmail, UserPassword password, Country country) {
         return new User(null, uuid, realname, username, email, internalEmail, password, country.code(), Status.ACTIVE, new ArrayList<>(), Role.of(Roles.ADMIN));
     }
 
@@ -116,7 +116,7 @@ public class User extends BaseEntity {
     @AllArgsConstructor
     @NoArgsConstructor(access = AccessLevel.PROTECTED) //For Hibernate
     @Embeddable
-    public static class ID implements Serializable {
+    public static class UserId implements Serializable {
         private UUID userUuid;
     }
 }

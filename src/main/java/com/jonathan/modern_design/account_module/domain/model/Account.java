@@ -1,7 +1,6 @@
 package com.jonathan.modern_design.account_module.domain.model;
 
 import com.jonathan.modern_design._shared.Currency;
-import com.jonathan.modern_design.user_module.user.domain.model.User;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +8,8 @@ import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+import static com.jonathan.modern_design.user_module.user.domain.model.User.UserId;
 
 @Builder //For Mapper and testing, otherwise use the create factory method.
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -18,11 +19,11 @@ public class Account {
     AccountNumber accountNumber;
     AccountMoney money;
     AccountAddress address;
-    User.ID userId;
+    UserId userId;
     LocalDateTime dateOfLastTransaction;
     boolean active;
 
-    public static Account create(AccountNumber accountNumber, AccountMoney money, AccountAddress address, User.ID userId) {
+    public static Account create(AccountNumber accountNumber, AccountMoney money, AccountAddress address, UserId userId) {
         LocalDateTime dateOfLastTransaction = null;
         var isActive = true;
 

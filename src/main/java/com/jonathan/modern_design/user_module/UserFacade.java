@@ -20,8 +20,8 @@ public class UserFacade {
         userRegister.registerUser(command);
     }
 
-    public UserResource findUser(User.ID id) {
-        final var user = userRepo.findByUUIDOrElseThrow(id);
+    public UserResource findUser(User.UserId userId) {
+        final var user = userRepo.findByUUIDOrElseThrow(userId);
         return UserResource.from(user);
     }
 }
