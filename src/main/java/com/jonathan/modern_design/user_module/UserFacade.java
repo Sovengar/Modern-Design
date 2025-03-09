@@ -1,27 +1,25 @@
 package com.jonathan.modern_design.user_module;
 
 import com.jonathan.modern_design._infra.config.annotations.BeanClass;
-import com.jonathan.modern_design.user_module.user.application.FindUserUseCase;
-import com.jonathan.modern_design.user_module.user.application.RegisterUserUseCase;
-import com.jonathan.modern_design.user_module.user.application.UserResource;
+import com.jonathan.modern_design.user_module.user.application.UserRegister;
 import com.jonathan.modern_design.user_module.user.domain.UserRepo;
 import com.jonathan.modern_design.user_module.user.domain.model.User;
+import com.jonathan.modern_design.user_module.user.dtos.UserRegisterCommand;
+import com.jonathan.modern_design.user_module.user.dtos.UserResource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 @BeanClass
 @RequiredArgsConstructor
 @Transactional
-public class UserFacade implements RegisterUserUseCase, FindUserUseCase {
+public class UserFacade {
     private final UserRepo userRepo;
-    private final RegisterUserUseCase registerUserUseCase;
+    private final UserRegister userRegister;
 
-    @Override
-    public User.ID registerUser(RegisterUserCommand command) {
-        return registerUserUseCase.registerUser(command);
+    public User.ID registerUser(UserRegisterCommand command) {
+        return userRegister.registerUser(command);
     }
 
-    @Override
     public UserResource findUser(User.ID id) {
         final var user = userRepo.findByUUIDOrElseThrow(id);
         return UserResource.from(user);

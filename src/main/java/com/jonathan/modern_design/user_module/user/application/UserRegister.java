@@ -1,24 +1,23 @@
-package com.jonathan.modern_design.user_module.user.domain.services;
+package com.jonathan.modern_design.user_module.user.application;
 
 import com.jonathan.modern_design._infra.config.annotations.DomainService;
 import com.jonathan.modern_design.user_module.role.Role;
 import com.jonathan.modern_design.user_module.role.RoleRepo;
 import com.jonathan.modern_design.user_module.role.Roles;
-import com.jonathan.modern_design.user_module.user.application.RegisterUserUseCase;
 import com.jonathan.modern_design.user_module.user.domain.UserRepo;
 import com.jonathan.modern_design.user_module.user.domain.model.User;
+import com.jonathan.modern_design.user_module.user.dtos.UserRegisterCommand;
 import lombok.RequiredArgsConstructor;
 
 import static java.lang.String.format;
 
 @DomainService
 @RequiredArgsConstructor
-public class RegisterUserService implements RegisterUserUseCase {
+public class UserRegister {
     private final UserRepo repository;
     private final RoleRepo roleRepo;
 
-    @Override
-    public User.ID registerUser(RegisterUserCommand command) {
+    public User.ID registerUser(UserRegisterCommand command) {
         repository.findByUuid(new User.ID(command.uuid())).ifPresent(user -> {
             throw new UserAlreadyExistsException(format("User [%s] already exists", command.uuid()));
         });

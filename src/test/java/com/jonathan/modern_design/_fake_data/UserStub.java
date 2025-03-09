@@ -4,8 +4,8 @@ import com.jonathan.modern_design.__config.Stub;
 import com.jonathan.modern_design._shared.country.Country;
 import com.jonathan.modern_design.user_module.role.Role;
 import com.jonathan.modern_design.user_module.role.Roles;
-import com.jonathan.modern_design.user_module.user.application.RegisterUserUseCase;
 import com.jonathan.modern_design.user_module.user.domain.model.User;
+import com.jonathan.modern_design.user_module.user.dtos.UserRegisterCommand;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -25,22 +25,22 @@ public class UserStub extends Stub {
     }
 
     public static class CreateValidUser extends Stub {
-        public static RegisterUserUseCase.RegisterUserCommand createUserCommandWithValidData() {
-            return new RegisterUserUseCase.RegisterUserCommand(DEFAULT_UUID, Optional.ofNullable(faker.name().fullName()), faker.name().username(), faker.internet().emailAddress(), VALID_PASSWORD, DEFAULT_COUNTRY);
+        public static UserRegisterCommand createUserCommandWithValidData() {
+            return new UserRegisterCommand(DEFAULT_UUID, Optional.ofNullable(faker.name().fullName()), faker.name().username(), faker.internet().emailAddress(), VALID_PASSWORD, DEFAULT_COUNTRY);
         }
     }
 
     public static class CreateInvalidUser extends Stub {
-        public static RegisterUserUseCase.RegisterUserCommand createUserWithShortPassword() {
-            return new RegisterUserUseCase.RegisterUserCommand(DEFAULT_UUID, Optional.ofNullable(faker.name().fullName()), faker.name().username(), faker.internet().emailAddress(), faker.internet().password(3, 6), DEFAULT_COUNTRY);
+        public static UserRegisterCommand createUserWithShortPassword() {
+            return new UserRegisterCommand(DEFAULT_UUID, Optional.ofNullable(faker.name().fullName()), faker.name().username(), faker.internet().emailAddress(), faker.internet().password(3, 6), DEFAULT_COUNTRY);
         }
 
-        public static RegisterUserUseCase.RegisterUserCommand createUserWithTooLongPassword() {
-            return new RegisterUserUseCase.RegisterUserCommand(DEFAULT_UUID, Optional.ofNullable(faker.name().fullName()), faker.name().username(), faker.internet().emailAddress(), faker.internet().password(55, 55), DEFAULT_COUNTRY);
+        public static UserRegisterCommand createUserWithTooLongPassword() {
+            return new UserRegisterCommand(DEFAULT_UUID, Optional.ofNullable(faker.name().fullName()), faker.name().username(), faker.internet().emailAddress(), faker.internet().password(55, 55), DEFAULT_COUNTRY);
         }
 
-        public static RegisterUserUseCase.RegisterUserCommand createUserWithInvalidEmail() {
-            return new RegisterUserUseCase.RegisterUserCommand(DEFAULT_UUID, Optional.ofNullable(faker.name().fullName()), faker.name().username(), "invalid_email", VALID_PASSWORD, DEFAULT_COUNTRY);
+        public static UserRegisterCommand createUserWithInvalidEmail() {
+            return new UserRegisterCommand(DEFAULT_UUID, Optional.ofNullable(faker.name().fullName()), faker.name().username(), "invalid_email", VALID_PASSWORD, DEFAULT_COUNTRY);
         }
     }
 }

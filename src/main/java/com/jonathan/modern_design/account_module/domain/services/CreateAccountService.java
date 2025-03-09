@@ -8,8 +8,8 @@ import com.jonathan.modern_design.account_module.domain.AccountRepo;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountNumber;
 import com.jonathan.modern_design.user_module.UserFacade;
-import com.jonathan.modern_design.user_module.user.application.RegisterUserUseCase;
 import com.jonathan.modern_design.user_module.user.domain.model.User;
+import com.jonathan.modern_design.user_module.user.dtos.UserRegisterCommand;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
@@ -33,7 +33,7 @@ public class CreateAccountService implements CreateAccountUseCase {
     }
 
     private User.ID registerUser(final CreateAccountCommand command) {
-        var userCreateCommand = new RegisterUserUseCase.RegisterUserCommand(
+        var userCreateCommand = new UserRegisterCommand(
                 UUID.randomUUID(),
                 ofNullable(command.realname()),
                 command.username(),

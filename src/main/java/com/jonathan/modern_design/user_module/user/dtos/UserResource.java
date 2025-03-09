@@ -1,4 +1,4 @@
-package com.jonathan.modern_design.user_module.user.application;
+package com.jonathan.modern_design.user_module.user.dtos;
 
 import com.jonathan.modern_design.user_module.user.domain.model.User;
 
