@@ -3,7 +3,7 @@ package com.jonathan.modern_design.user_module;
 import com.jonathan.modern_design._infra.config.annotations.BeanClass;
 import com.jonathan.modern_design.user_module.user.application.UserRegister;
 import com.jonathan.modern_design.user_module.user.domain.UserRepo;
-import com.jonathan.modern_design.user_module.user.domain.model.User;
+import com.jonathan.modern_design.user_module.user.domain.model.User.UserId;
 import com.jonathan.modern_design.user_module.user.dtos.UserRegisterCommand;
 import com.jonathan.modern_design.user_module.user.dtos.UserResource;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class UserFacade {
         userRegister.registerUser(command);
     }
 
-    public UserResource findUser(User.UserId userId) {
+    public UserResource findUser(UserId userId) {
         final var user = userRepo.findByUUIDOrElseThrow(userId);
         return UserResource.from(user);
     }

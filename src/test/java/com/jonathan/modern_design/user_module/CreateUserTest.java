@@ -1,7 +1,7 @@
 package com.jonathan.modern_design.user_module;
 
 import com.jonathan.modern_design.__config.PrettyTestNames;
-import com.jonathan.modern_design.user_module.user.domain.model.User;
+import com.jonathan.modern_design.user_module.user.domain.model.User.UserId;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -23,7 +23,7 @@ class CreateUserTest {
         void should_register_user() {
             var data = createUserCommandWithValidData();
             userFacade.registerUser(data);
-            var user = userFacade.findUser(new User.UserId(data.uuid()));
+            var user = userFacade.findUser(new UserId(data.uuid()));
             assertThat(user).isNotNull();
         }
     }

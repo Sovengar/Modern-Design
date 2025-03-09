@@ -7,7 +7,7 @@ import com.jonathan.modern_design.account_module.domain.model.AccountId;
 import com.jonathan.modern_design.account_module.domain.model.AccountMoney;
 import com.jonathan.modern_design.account_module.domain.model.AccountNumber;
 import com.jonathan.modern_design.account_module.infra.persistence.AccountEntity;
-import com.jonathan.modern_design.user_module.user.domain.model.User;
+import com.jonathan.modern_design.user_module.user.domain.model.User.UserId;
 import com.jonathan.modern_design.user_module.user.infra.UserMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -75,7 +75,7 @@ public interface AccountMapperMapStruct {
         return id == null ? null : id.id();
     }
 
-    default User.UserId mapUserId(UUID uuid) {
-        return new User.UserId(uuid);
+    default UserId mapUserId(UUID uuid) {
+        return new UserId(uuid);
     }
 }

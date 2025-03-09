@@ -5,6 +5,7 @@ import com.jonathan.modern_design._shared.country.Country;
 import com.jonathan.modern_design.user_module.role.Role;
 import com.jonathan.modern_design.user_module.role.Roles;
 import com.jonathan.modern_design.user_module.user.domain.model.User;
+import com.jonathan.modern_design.user_module.user.domain.model.User.UserId;
 import com.jonathan.modern_design.user_module.user.domain.model.UserEmail;
 import com.jonathan.modern_design.user_module.user.domain.model.UserName;
 import com.jonathan.modern_design.user_module.user.domain.model.UserPassword;
@@ -22,7 +23,7 @@ public class UserStub extends Stub {
 
     public static User normalUser() {
         return User.register(
-                new User.UserId(DEFAULT_UUID),
+                new UserId(DEFAULT_UUID),
                 UserRealName.of(faker.name().fullName()),
                 UserName.of(faker.name().username()),
                 UserEmail.of(faker.internet().emailAddress()),
@@ -33,7 +34,7 @@ public class UserStub extends Stub {
 
     public static User adminUser() {
         return User.registerAdmin(
-                new User.UserId(DEFAULT_UUID),
+                new UserId(DEFAULT_UUID),
                 UserRealName.of(faker.name().fullName()),
                 UserName.of(faker.name().username()),
                 UserEmail.of(faker.internet().emailAddress()),

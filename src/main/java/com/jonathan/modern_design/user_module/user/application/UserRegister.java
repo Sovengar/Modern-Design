@@ -6,6 +6,7 @@ import com.jonathan.modern_design.user_module.role.RoleRepo;
 import com.jonathan.modern_design.user_module.role.Roles;
 import com.jonathan.modern_design.user_module.user.domain.UserRepo;
 import com.jonathan.modern_design.user_module.user.domain.model.User;
+import com.jonathan.modern_design.user_module.user.domain.model.User.UserId;
 import com.jonathan.modern_design.user_module.user.domain.model.UserEmail;
 import com.jonathan.modern_design.user_module.user.domain.model.UserName;
 import com.jonathan.modern_design.user_module.user.domain.model.UserPassword;
@@ -22,7 +23,7 @@ public class UserRegister {
     private final RoleRepo roleRepo;
 
     public void registerUser(UserRegisterCommand command) {
-        repository.findByUuid(new User.UserId(command.uuid())).ifPresent(user -> {
+        repository.findByUuid(new UserId(command.uuid())).ifPresent(user -> {
             throw new UserAlreadyExistsException(format("User [%s] already exists", command.uuid()));
         });
 
@@ -32,7 +33,7 @@ public class UserRegister {
         //End of complex logic
 
         //Complex logic to decide the user
-        var user = User.register(new User.UserId(command.uuid()), UserRealName.of(command.realname().orElse("")), UserName.of(command.username()), UserEmail.of(command.email()), UserPassword.of(command.password()), command.country(), role);
+        var user = User.register(new UserId(command.uuid()), UserRealName.of(command.realname().orElse("")), UserName.of(command.username()), UserEmail.of(command.email()), UserPassword.of(command.password()), command.country(), role);
         repository.registerUser(user);
     }
 

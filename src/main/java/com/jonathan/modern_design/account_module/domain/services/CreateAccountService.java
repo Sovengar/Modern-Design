@@ -11,6 +11,7 @@ import com.jonathan.modern_design.account_module.domain.model.AccountMoney;
 import com.jonathan.modern_design.account_module.domain.model.AccountNumber;
 import com.jonathan.modern_design.user_module.UserFacade;
 import com.jonathan.modern_design.user_module.user.domain.model.User;
+import com.jonathan.modern_design.user_module.user.domain.model.User.UserId;
 import com.jonathan.modern_design.user_module.user.dtos.UserRegisterCommand;
 import lombok.RequiredArgsConstructor;
 
@@ -44,7 +45,7 @@ public class CreateAccountService implements CreateAccountUseCase {
                 countriesInventory.findByCodeOrElseThrow(command.country()));
 
         userFacade.registerUser(userCreateCommand);
-        return new User.UserId(userId);
+        return new UserId(userId);
     }
 
     private static class AccountNumberGenerator {
