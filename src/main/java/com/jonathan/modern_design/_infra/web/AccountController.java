@@ -1,7 +1,7 @@
 package com.jonathan.modern_design._infra.web;
 
 import com.jonathan.modern_design._shared.Currency;
-import com.jonathan.modern_design.account_module.AccountFacade;
+import com.jonathan.modern_design.account_module.AccountApi;
 import com.jonathan.modern_design.account_module.dtos.AccountCreatorCommand;
 import com.jonathan.modern_design.account_module.dtos.AccountResource;
 import com.jonathan.modern_design.account_module.dtos.TransferMoneyCommand;
@@ -32,7 +32,7 @@ import static org.springframework.web.servlet.mvc.method.annotation.MvcUriCompon
 @RestController
 @RequestMapping("/api/v1/accounts")
 class AccountController {
-    private final AccountFacade accountFacade;
+    private final AccountApi accountFacade;
 
     @Transactional
     @PostMapping(path = "/transfer/{sourceAccountId}/{targetAccountId}/{amount}/{currency}")

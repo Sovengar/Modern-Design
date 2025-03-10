@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayNameGeneration(PrettyTestNames.class)
 class CreateUserTest {
-    private final UserFacade userFacade = new UserConfiguration().userFacade();
+    private final UserApi userFacade = new UserConfiguration().userFacade();
 
     @Nested
     class ValidUser {

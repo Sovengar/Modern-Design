@@ -14,7 +14,7 @@ import com.jonathan.modern_design.account_module.infra.mapper.AccountMapperAdapt
 import com.jonathan.modern_design.account_module.infra.persistence.AccountRepoAdapter;
 import com.jonathan.modern_design.account_module.infra.persistence.AccountSpringRepo;
 import com.jonathan.modern_design.account_module.infra.query.AccountSearchRepo;
-import com.jonathan.modern_design.user_module.UserFacade;
+import com.jonathan.modern_design.user_module.UserApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -48,12 +48,12 @@ public class AccountConfiguration {
     }
 
     @Bean
-    public AccountCreator accountCreator(AccountRepo accountRepo, UserFacade userFacade, CountriesInventory countriesInventory) {
+    public AccountCreator accountCreator(AccountRepo accountRepo, UserApi userFacade, CountriesInventory countriesInventory) {
         return new AccountCreator(accountRepo, userFacade, countriesInventory);
     }
 
     @Bean
-    public AccountFacade accountFacade(AccountRepo accountRepo, AccountSearchRepo accountSearchRepo, UserFacade userFacade, CountriesInventory countriesInventory) {
+    public AccountFacade accountFacade(AccountRepo accountRepo, AccountSearchRepo accountSearchRepo, UserApi userFacade, CountriesInventory countriesInventory) {
         return new AccountFacade(
                 accountRepo,
                 accountSearchRepo,

@@ -1,12 +1,25 @@
 package com.jonathan.modern_design.account_module;
 
 import com.jonathan.modern_design.__config.RepositoryITConfig;
+import com.jonathan.modern_design._shared.country.CountriesInventory;
+import com.jonathan.modern_design._shared.country.CountriesInventoryStub;
 import com.jonathan.modern_design.account_module.domain.AccountRepo;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountMoney;
 import com.jonathan.modern_design.account_module.dtos.DepositCommand;
+import com.jonathan.modern_design.account_module.infra.mapper.AccountMapper;
+import com.jonathan.modern_design.account_module.infra.mapper.AccountMapperAdapter;
+import com.jonathan.modern_design.account_module.infra.persistence.AccountRepoAdapter;
+import com.jonathan.modern_design.account_module.infra.persistence.AccountSpringRepo;
+import com.jonathan.modern_design.account_module.infra.query.AccountSearchRepo;
+import com.jonathan.modern_design.user_module.UserApi;
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 
 import java.math.BigDecimal;
 
@@ -16,12 +29,16 @@ import static com.jonathan.modern_design._shared.Currency.EURO;
 import static java.math.BigDecimal.ZERO;
 import static org.assertj.core.api.Assertions.assertThat;
 
-//@Import(AccountConfiguration.class)
+//I would like to avoid TestConfig, it """"works"""" with @MockBean here + @Import(AccountConfig.class)
+@Import(TransferMoneyRepositoryIT.TestConfig.class)
 class TransferMoneyRepositoryIT extends RepositoryITConfig {
     @Autowired
-    private AccountFacade accountFacade;
+    private AccountApi accountFacade;
+
     @Autowired
     private AccountRepo repository;
+
+    //when(userFacade.registerUser(any())).thenReturn(normalUser().getUuid());
 
     @Test
     void should_send_money_into_the_target_account() {
@@ -43,35 +60,31 @@ class TransferMoneyRepositoryIT extends RepositoryITConfig {
         return repository.findOne(accountNumber).orElseThrow();
     }
 
+    @TestConfiguration
+    static class TestConfig {
 
-    //Works with this + @Import(TransferMoneyRepositoryIT.TestConfig.class)
-//    @TestConfiguration
-//    static class TestConfig {
-//
-//        @MockBean
-//        private UserFacade userFacade;
-//
-//        @Bean
-//        public AccountMapper accountMapper() {
-//            return new AccountMapperAdapter();
-//        }
-//
-//        @Bean
-//        public AccountRepo accountRepository(AccountSpringRepo repository, AccountMapper accountMapper) {
-//            return new AccountRepoAdapter(repository, accountMapper);
-//        }
-//
-//        @Bean
-//        public AccountSearchRepo accountSearchRepo(EntityManager entityManager) {
-//            return new AccountSearchRepo(entityManager);
-//        }
-//
-//        @Bean
-//        public AccountFacade accountFacade(AccountRepoAdapter repository, AccountSearchRepo repoSearch) {
-//            CountriesInventory countriesInventory = new CountriesInventoryStub();
-//            AccountFacade accountFacade = new AccountConfiguration().accountFacade(repository, repoSearch, userFacade, countriesInventory);
-//            when(userFacade.registerUser(any())).thenReturn(normalUser().getUuid());
-//            return accountFacade;
-//        }
-//    }
+        @MockBean
+        private UserApi userFacade;
+
+        @Bean
+        public AccountMapper accountMapper() {
+            return new AccountMapperAdapter();
+        }
+
+        @Bean
+        public AccountRepo accountRepository(AccountSpringRepo repository, AccountMapper accountMapper) {
+            return new AccountRepoAdapter(repository, accountMapper);
+        }
+
+        @Bean
+        public AccountSearchRepo accountSearchRepo(EntityManager entityManager) {
+            return new AccountSearchRepo(entityManager);
+        }
+
+        @Bean
+        public AccountApi accountFacade(AccountRepoAdapter repository, AccountSearchRepo repoSearch) {
+            CountriesInventory countriesInventory = new CountriesInventoryStub();
+            return new AccountConfiguration().accountFacade(repository, repoSearch, userFacade, countriesInventory);
+        }
+    }
 }

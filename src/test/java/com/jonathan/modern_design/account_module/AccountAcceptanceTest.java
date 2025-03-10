@@ -28,7 +28,7 @@ final class AccountAcceptanceTest extends ITConfig {
     private AccountRepoAdapter repository;
 
     @Autowired
-    private AccountFacade accountFacade;
+    private AccountApi accountFacade;
 
     @Test
     void should_create_account() throws Exception {

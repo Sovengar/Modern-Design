@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @BeanClass
 @RequiredArgsConstructor
-public class UserFacade {
+class UserFacade implements UserApi {
     private final UserRepo userRepo;
     private final UserRegister userRegister;
 

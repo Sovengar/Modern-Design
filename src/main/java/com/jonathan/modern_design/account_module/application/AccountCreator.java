@@ -9,7 +9,7 @@ import com.jonathan.modern_design.account_module.domain.model.AccountAddress;
 import com.jonathan.modern_design.account_module.domain.model.AccountMoney;
 import com.jonathan.modern_design.account_module.domain.model.AccountNumber;
 import com.jonathan.modern_design.account_module.dtos.AccountCreatorCommand;
-import com.jonathan.modern_design.user_module.UserFacade;
+import com.jonathan.modern_design.user_module.UserApi;
 import com.jonathan.modern_design.user_module.user.domain.model.User;
 import com.jonathan.modern_design.user_module.user.domain.model.User.UserId;
 import com.jonathan.modern_design.user_module.user.dtos.UserRegisterCommand;
@@ -24,7 +24,7 @@ import static java.util.Optional.ofNullable;
 @RequiredArgsConstructor
 public class AccountCreator {
     private final AccountRepo repository;
-    private final UserFacade userFacade;
+    private final UserApi userFacade;
     private final CountriesInventory countriesInventory;
 
     public AccountNumber createAccount(final AccountCreatorCommand command) {

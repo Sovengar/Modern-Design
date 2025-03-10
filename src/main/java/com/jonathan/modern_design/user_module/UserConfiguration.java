@@ -38,12 +38,12 @@ class UserConfiguration {
     }
 
     @Bean
-    public UserFacade userFacade(UserRepo userRepo, RoleRepo roleRepo) {
+    public UserApi userFacade(UserRepo userRepo, RoleRepo roleRepo) {
         UserRegister userRegister = createUserUseCase(userRepo, roleRepo);
         return new UserFacade(userRepo, userRegister);
     }
 
-    public UserFacade userFacade() {
+    public UserApi userFacade() {
         UserRepo userRepo = new UserInMemoryRepo();
         RoleRepo roleRepo = new RoleRepoInMemory();
         return userFacade(userRepo, roleRepo);

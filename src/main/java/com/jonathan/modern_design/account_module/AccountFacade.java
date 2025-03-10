@@ -20,7 +20,7 @@ import java.util.List;
 
 @BeanClass
 @RequiredArgsConstructor
-public class AccountFacade {
+class AccountFacade implements AccountApi {
     private final AccountRepo repository;
     private final AccountSearchRepo accountSearchRepo;
     private final MoneyTransfer moneyTransfer;

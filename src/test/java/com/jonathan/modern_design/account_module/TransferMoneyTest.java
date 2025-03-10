@@ -11,7 +11,7 @@ import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountMoney;
 import com.jonathan.modern_design.account_module.infra.persistence.AccountInMemoryRepo;
 import com.jonathan.modern_design.account_module.infra.query.AccountSearchRepo;
-import com.jonathan.modern_design.user_module.UserFacade;
+import com.jonathan.modern_design.user_module.UserApi;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -42,10 +42,10 @@ class TransferMoneyTest {
     @RegisterExtension
     TimeExtension timeExtension = new TimeExtension(supposedToBeNow);
     @Mock
-    private UserFacade userFacade;
+    private UserApi userFacade;
     @Mock
     private AccountSearchRepo accountSearchRepo;
-    private final AccountFacade accountFacade = new AccountConfiguration().accountFacade(repository, accountSearchRepo, userFacade, countriesInventory);
+    private final AccountApi accountFacade = new AccountConfiguration().accountFacade(repository, accountSearchRepo, userFacade, countriesInventory);
 
     private void populatePersistenceLayer(Account source, Account target) {
         repository.create(source);
