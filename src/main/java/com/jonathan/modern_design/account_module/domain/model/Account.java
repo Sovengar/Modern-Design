@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 import static com.jonathan.modern_design.user_module.user.domain.model.User.UserId;
 
-@Builder //For Mapper and testing, otherwise use the create factory method.
+@Builder //For mapper and tests only
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class Account {

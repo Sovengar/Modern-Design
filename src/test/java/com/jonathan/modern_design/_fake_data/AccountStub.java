@@ -10,6 +10,7 @@ import com.jonathan.modern_design.account_module.dtos.AccountCreatorCommand;
 import com.jonathan.modern_design.account_module.dtos.TransferMoneyCommand;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import static com.jonathan.modern_design._fake_data.UserStub.DEFAULT_COUNTRY;
 import static com.jonathan.modern_design._fake_data.UserStub.VALID_PASSWORD;
@@ -55,11 +56,14 @@ public class AccountStub extends Stub {
 
         private static Account builder(String accountId, AccountMoney money, boolean isActive) {
             return Account.builder()
+                    .accountId(null)
                     .accountNumber(AccountNumber.of(accountId))
                     .money(money)
                     .address(AccountAddress.of("street", "city", "state", "zipCode"))
                     .userId(normalUser().getUuid())
-                    .active(isActive).build();
+                    .dateOfLastTransaction(LocalDateTime.now())
+                    .active(isActive)
+                    .build();
         }
     }
 

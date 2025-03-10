@@ -35,4 +35,11 @@ class BoundaryTest {
 
         sliceRule.check(classes);
     }
+
+    @Test
+    void enforceModules() {
+//        var sliceRule = slices().matching("..modern_design.(*)..*").should().notDependOnEachOther()
+//                .ignoreDependency(resideInAnyPackage("..shared..", "..api.."));
+//        sliceRule.check(classes);
+    }
 }

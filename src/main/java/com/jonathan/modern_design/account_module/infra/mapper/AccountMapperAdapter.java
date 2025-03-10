@@ -3,11 +3,15 @@ package com.jonathan.modern_design.account_module.infra.mapper;
 import com.jonathan.modern_design._infra.config.annotations.BeanClass;
 import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design.account_module.domain.model.Account;
+import com.jonathan.modern_design.account_module.domain.model.AccountAddress;
+import com.jonathan.modern_design.account_module.domain.model.AccountId;
 import com.jonathan.modern_design.account_module.domain.model.AccountMoney;
 import com.jonathan.modern_design.account_module.domain.model.AccountNumber;
 import com.jonathan.modern_design.account_module.dtos.AccountResource;
 import com.jonathan.modern_design.account_module.infra.persistence.AccountEntity;
 import org.mapstruct.factory.Mappers;
+
+import java.time.LocalDateTime;
 
 @BeanClass
 public class AccountMapperAdapter implements AccountMapper {
@@ -20,10 +24,23 @@ public class AccountMapperAdapter implements AccountMapper {
 
     @Override
     public Account toAccount(final AccountResource accountResource) {
+        AccountId accountId = null;
+        AccountNumber accountNumber = AccountNumber.of(accountResource.accountNumber());
+        AccountMoney money = AccountMoney.of(accountResource.amount(), Currency.valueOf(accountResource.currency()));
+        AccountAddress address = null;
+        com.jonathan.modern_design.user_module.user.domain.model.User.UserId userId = accountResource.userId();
+        LocalDateTime dateOfLastTransaction = null;
+        boolean active = true;
         return Account.builder()
-                .accountNumber(AccountNumber.of(accountResource.accountNumber()))
-                .money(AccountMoney.of(accountResource.amount(), Currency.valueOf(accountResource.currency())))
-                .userId(accountResource.userId()).build();
+                .accountId(accountId)
+                .accountNumber(accountNumber)
+                .money(money)
+                .address(address)
+                .userId(userId)
+                .dateOfLastTransaction(dateOfLastTransaction)
+                .active(active)
+                .build();
+        //TODO
     }
 
     @Override
