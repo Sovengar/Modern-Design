@@ -1,9 +1,9 @@
-Proyecto para mostrar practicas de diseño moderno.
+Project to show modern design practices.
 
 # Important
 
-Account es una version full clean architecture, mientras que User es una mas pragmatica.
-Por ejemplo, SpringJPA esta en el domain y el entity de db y del domain estan fusionados.
+Accounting module is a full clean architecture, while user module is a pragmatic one.
+I.e. Spring Data JPA is inside the domain and the entity DB and domain are fused.
 
 # Architecture
 
@@ -11,9 +11,9 @@ Por ejemplo, SpringJPA esta en el domain y el entity de db y del domain estan fu
 
 Domain centric application
 Adapter pattern for details (DB, Presenter view, external APIs, third party libraries)
-Application layer with usecases for orquestrating domainServices, logging and validation
+Application layer with use cases for orchestrating domainServices, logging and validation
 Avoiding pollution of domain with framework annotations (partially, pragmatically)
-*ORM is allowed since it doesnt pollute very much
+*ORM is allowed since it doesn't pollute very much
 Relaxed, calls to repository directly are allowed if no business logic is still present
 Evolutionary, the code is in the facade and extracted to domainServices when it grows
 *Sometimes overengineering just to see how the endgame will look and to see more design patterns
@@ -23,16 +23,17 @@ Evolutionary, the code is in the facade and extracted to domainServices when it 
 Bounded contexts to assemble modules
 Aggregates inside the modules
 Value Objects for domain objects
-Microtypes for ids
+Micro types for ids
 Domain centric application
 Ubiquitous language: create -> register, add -> transfer
 Repositories instead of DAOs
 
 ## Modules
 
-Facading usecases.
+Facading use cases.
 Not allowing internal calls between modules, only through facade.
 Preserving FK instead of object in the entity between modules.
+Not fully implemented, DB is still shared between modules, only access is restricted.
 
 # Testing
 
@@ -42,14 +43,14 @@ Preserving FK instead of object in the entity between modules.
 - TDD
 - BDD
 - Approval testing
-- Display Beatufil methods
+- Display Beautiful methods
 - Nested classes
 
 # Patterns
 
 - SOLID
 - Humble Object pattern
-- Facade pattern (Grouping usecases, one step closer to modules and microservices)
+- Facade pattern (Grouping use cases, one step closer to modules and microservices)
 - Adapter / Anti corruption layer for external services/APIs
 - Criteria / Specification
 
@@ -89,7 +90,7 @@ Commands in the normal facade.
 
 ## Docker
 
-Se ejecuta automaticamente la BD dentro de un container vinculado a Spring gracias a la dependencia Spring-Compose.
+It gets executed automatically with a DB inside a container linked in Spring thanks to the Spring-Compose dependency.
 
 # Testing
 
