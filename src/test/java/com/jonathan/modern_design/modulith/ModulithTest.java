@@ -21,6 +21,7 @@ class ModulithTest {
                 .writeIndividualModulesAsPlantUml();
         //new Documenter(modules).writeModuleCanvases();
         //Documenter.DiagramOptions.defaults().withStyle(Documenter.DiagramOptions.DiagramStyle.UML);
+        //new Documenter(modules).writeAggregatingDocument();
     }
 
     //Integration tests
