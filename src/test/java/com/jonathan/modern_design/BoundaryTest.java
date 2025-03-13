@@ -4,6 +4,7 @@ import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition;
 import org.junit.jupiter.api.Test;
+import org.springframework.modulith.core.ApplicationModules;
 
 class BoundaryTest {
     JavaClasses classes = new ClassFileImporter().importPackages("com.jonathan");
