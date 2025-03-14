@@ -1,10 +1,10 @@
 package com.jonathan.modern_design._shared.notification;
 
+import com.jonathan.modern_design._infra.config.annotations.Inyectable;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
 @Slf4j
-@Service
+@Inyectable
 class EmailSMTPSender implements EmailSender {
     @Override
     public void sendEmail(Email email) {

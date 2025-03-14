@@ -1,16 +1,16 @@
 package com.jonathan.modern_design._shared.notification;
 
+import com.jonathan.modern_design._infra.config.annotations.Inyectable;
 import com.jonathan.modern_design.user_module.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Slf4j
-@Service
+@Inyectable
 @RequiredArgsConstructor
-public class NotificationService {
+public class Notifier {
     private final EmailSender emailSender;
 
     public void sendWelcomeEmail(User user) {

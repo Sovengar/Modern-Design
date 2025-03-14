@@ -3,7 +3,7 @@ package com.jonathan.modern_design._shared.notification;
 import java.util.List;
 
 
-public record Email(
+record Email(
         String to,
         List<String> cc,
         String from,
