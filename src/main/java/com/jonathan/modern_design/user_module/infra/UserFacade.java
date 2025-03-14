@@ -1,6 +1,7 @@
-package com.jonathan.modern_design.user_module;
+package com.jonathan.modern_design.user_module.infra;
 
 import com.jonathan.modern_design._infra.config.annotations.Inyectable;
+import com.jonathan.modern_design.user_module.UserApi;
 import com.jonathan.modern_design.user_module.application.UserRegister;
 import com.jonathan.modern_design.user_module.domain.User.UserId;
 import com.jonathan.modern_design.user_module.domain.UserRepo;

@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 //This class is for unit tests, also, don't evaluate his state, pointless, rather evaluate the state of the objects
 @Fake
-public class UserInMemoryRepo implements UserRepo {
+class UserInMemoryRepo implements UserRepo {
     private final ConcurrentHashMap<UserId, User> users = new ConcurrentHashMap<>();
 
     @Override

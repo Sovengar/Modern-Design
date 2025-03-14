@@ -1,4 +1,4 @@
-package com.jonathan.modern_design.user_module.infra;
+package com.jonathan.modern_design._infra.config.security;
 
 import com.jonathan.modern_design._infra.config.database.BaseEntity;
 import jakarta.persistence.PrePersist;

@@ -11,13 +11,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 class CreateUserRepoIT extends ITConfig {
 
     @Autowired
-    private UserFacade userFacade;
+    private UserApi userApi;
 
     @Test
     void should_register_user() {
         var data = createUserCommandWithValidData();
-        userFacade.registerUser(data);
-        var user = userFacade.findUser(new UserId(data.uuid()));
+        userApi.registerUser(data);
+        var user = userApi.findUser(new UserId(data.uuid()));
         assertThat(user).isNotNull();
     }
 }

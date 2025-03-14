@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @PersistenceAdapter
 @RequiredArgsConstructor
-public class UserRepoAdapter implements UserRepo {
+class UserRepoAdapter implements UserRepo {
     private final UserSpringRepo repository;
 
     @Override

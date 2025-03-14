@@ -2,6 +2,7 @@ package com.jonathan.modern_design.user_module;
 
 import com.jonathan.modern_design.__config.PrettyTestNames;
 import com.jonathan.modern_design.user_module.domain.User.UserId;
+import com.jonathan.modern_design.user_module.infra.UserConfiguration;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

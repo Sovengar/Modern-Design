@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface UserSpringRepo extends JpaRepository<User, Long> {
+interface UserSpringRepo extends JpaRepository<User, Long> {
     Optional<User> findByUuid(UserId userId);
 }

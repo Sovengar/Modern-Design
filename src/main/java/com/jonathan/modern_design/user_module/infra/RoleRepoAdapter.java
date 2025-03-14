@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 @PersistenceAdapter
 @RequiredArgsConstructor
-public class RoleRepoAdapter implements RoleRepo {
+class RoleRepoAdapter implements RoleRepo {
     private final RoleSpringRepo repository;
 
     @Override

@@ -8,7 +8,6 @@ import com.jonathan.modern_design.account_module.domain.model.AccountMoney;
 import com.jonathan.modern_design.account_module.domain.model.AccountNumber;
 import com.jonathan.modern_design.account_module.infra.persistence.AccountEntity;
 import com.jonathan.modern_design.user_module.domain.User.UserId;
-import com.jonathan.modern_design.user_module.infra.UserMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -17,7 +16,7 @@ import org.mapstruct.Named;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-@Mapper(uses = {UserMapper.class})
+@Mapper
 public interface AccountMapperMapStruct {
     @Mapping(source = "address", target = "address", qualifiedByName = "mapAddress")
     @Mapping(target = "money", expression = "java(mapMoney(accountEntity.getBalance(), accountEntity.getCurrency()))")
