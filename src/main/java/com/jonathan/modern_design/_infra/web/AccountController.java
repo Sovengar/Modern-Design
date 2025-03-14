@@ -1,5 +1,6 @@
 package com.jonathan.modern_design._infra.web;
 
+import com.jonathan.modern_design._infra.config.annotations.WebAdapter;
 import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design.account_module.AccountApi;
 import com.jonathan.modern_design.account_module.dtos.AccountCreatorCommand;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -29,7 +29,7 @@ import static org.springframework.web.servlet.mvc.method.annotation.MvcUriCompon
 
 @Slf4j
 @RequiredArgsConstructor
-@RestController
+@WebAdapter
 @RequestMapping("/api/v1/accounts")
 class AccountController {
     private final AccountApi accountFacade;

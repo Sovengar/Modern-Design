@@ -1,48 +1,21 @@
 package com.jonathan.modern_design.user_module;
 
 import com.jonathan.modern_design.user_module.role.RoleRepo;
-import com.jonathan.modern_design.user_module.role.RoleRepoAdapter;
 import com.jonathan.modern_design.user_module.role.RoleRepoInMemory;
-import com.jonathan.modern_design.user_module.role.RoleSpringRepo;
 import com.jonathan.modern_design.user_module.user.application.UserRegister;
 import com.jonathan.modern_design.user_module.user.domain.UserRepo;
 import com.jonathan.modern_design.user_module.user.infra.UserInMemoryRepo;
-import com.jonathan.modern_design.user_module.user.infra.UserMapper;
-import com.jonathan.modern_design.user_module.user.infra.UserMapperAdapter;
-import com.jonathan.modern_design.user_module.user.infra.UserRepoAdapter;
-import com.jonathan.modern_design.user_module.user.infra.UserSpringRepo;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 @Configuration
 class UserConfiguration {
-
-    @Bean
-    public UserMapper userMapper() {
-        return new UserMapperAdapter();
-    }
-
-    @Bean
-    public UserRepo userRepo(UserSpringRepo repository) {
-        return new UserRepoAdapter(repository);
-    }
-
-    @Bean
-    public UserRegister createUserUseCase(UserRepo userRepo, RoleRepo roleRepo) {
-        return new UserRegister(userRepo, roleRepo);
-    }
-
-    @Bean
-    public RoleRepo roleRepo(RoleSpringRepo roleRepo) {
-        return new RoleRepoAdapter(roleRepo);
-    }
-
-    @Bean
     public UserApi userFacade(UserRepo userRepo, RoleRepo roleRepo) {
-        UserRegister userRegister = createUserUseCase(userRepo, roleRepo);
+        UserRegister userRegister = new UserRegister(userRepo, roleRepo);
         return new UserFacade(userRepo, userRegister);
     }
 
+    @Profile("test")
     public UserApi userFacade() {
         UserRepo userRepo = new UserInMemoryRepo();
         RoleRepo roleRepo = new RoleRepoInMemory();

@@ -1,6 +1,6 @@
 package com.jonathan.modern_design.account_module;
 
-import com.jonathan.modern_design._infra.config.annotations.BeanClass;
+import com.jonathan.modern_design._infra.config.annotations.Inyectable;
 import com.jonathan.modern_design.account_module.application.AccountCreator;
 import com.jonathan.modern_design.account_module.application.MoneyTransfer;
 import com.jonathan.modern_design.account_module.domain.AccountRepo;
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@BeanClass
+@Inyectable
 @RequiredArgsConstructor
 class AccountFacade implements AccountApi {
     private final AccountRepo repository;
@@ -27,34 +27,40 @@ class AccountFacade implements AccountApi {
     private final AccountCreator accountCreator;
     private final AccountMapper accountMapper;
 
+    @Override
     @Transactional
     public void transferMoney(final TransferMoneyCommand command) {
         moneyTransfer.transferMoney(command);
     }
 
     //region CQRS, we can skip service layer and access directly to repository
+    @Override
     public AccountResource findOne(final String accountNumber) {
         final var account = repository.findOneOrElseThrow(accountNumber);
         return new AccountResource(account);
     }
 
+    @Override
     public List<AccountResource> search(final AccountSearchCriteria filters) {
         return accountSearchRepo.search(filters);
         //TODO Tener varios search por caso de uso y n mappers, n projections, ...
     }
     //endregion
 
+    @Override
     @Transactional
     public void update(AccountResource dto) {
         var account = accountMapper.toAccount(dto);
         update(account);
     }
 
+    @Override
     @Transactional
     public AccountNumber createAccount(final AccountCreatorCommand command) {
         return accountCreator.createAccount(command);
     }
 
+    @Override
     @Transactional
     public void deposit(final DepositCommand command) {
         var account = repository.findOne(command.accountNumber()).orElseThrow();

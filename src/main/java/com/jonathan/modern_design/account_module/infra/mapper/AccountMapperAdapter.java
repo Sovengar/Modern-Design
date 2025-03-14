@@ -1,6 +1,6 @@
 package com.jonathan.modern_design.account_module.infra.mapper;
 
-import com.jonathan.modern_design._infra.config.annotations.BeanClass;
+import com.jonathan.modern_design._infra.config.annotations.Inyectable;
 import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountAddress;
@@ -13,7 +13,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.time.LocalDateTime;
 
-@BeanClass
+@Inyectable
 public class AccountMapperAdapter implements AccountMapper {
     AccountMapperMapStruct mapStructInstance = Mappers.getMapper(AccountMapperMapStruct.class);
 

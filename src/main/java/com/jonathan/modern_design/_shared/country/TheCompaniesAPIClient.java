@@ -1,6 +1,6 @@
 package com.jonathan.modern_design._shared.country;
 
-import com.jonathan.modern_design._infra.config.annotations.BeanClass;
+import com.jonathan.modern_design._infra.config.annotations.Inyectable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.client.RestTemplate;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-@BeanClass
+@Inyectable
 class TheCompaniesAPIClient implements CountriesInventory {
     private final RestTemplate restTemplate;
 

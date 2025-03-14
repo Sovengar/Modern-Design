@@ -1,6 +1,6 @@
 package com.jonathan.modern_design.user_module.user.application;
 
-import com.jonathan.modern_design._infra.config.annotations.DomainService;
+import com.jonathan.modern_design._infra.config.annotations.Inyectable;
 import com.jonathan.modern_design.user_module.role.Role;
 import com.jonathan.modern_design.user_module.role.RoleRepo;
 import com.jonathan.modern_design.user_module.role.Roles;
@@ -14,9 +14,11 @@ import com.jonathan.modern_design.user_module.user.domain.model.UserRealName;
 import com.jonathan.modern_design.user_module.user.dtos.UserRegisterCommand;
 import lombok.RequiredArgsConstructor;
 
+import java.io.Serial;
+
 import static java.lang.String.format;
 
-@DomainService
+@Inyectable
 @RequiredArgsConstructor
 public class UserRegister {
     private final UserRepo repository;
@@ -38,6 +40,8 @@ public class UserRegister {
     }
 
     private static class UserAlreadyExistsException extends RuntimeException {
+        @Serial private static final long serialVersionUID = 1604523616703390261L;
+
         public UserAlreadyExistsException(String message) {
             super(message);
         }

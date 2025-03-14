@@ -2,21 +2,18 @@ package com.jonathan.modern_design.account_module;
 
 import com.jonathan.modern_design.__config.PrettyTestNames;
 import com.jonathan.modern_design.__config.TimeExtension;
-import com.jonathan.modern_design._shared.country.CountriesInventory;
-import com.jonathan.modern_design._shared.country.CountriesInventoryStub;
 import com.jonathan.modern_design.account_module.domain.AccountRepo;
 import com.jonathan.modern_design.account_module.domain.exceptions.AccountIsInactiveException;
 import com.jonathan.modern_design.account_module.domain.exceptions.OperationWithDifferentCurrenciesException;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountMoney;
 import com.jonathan.modern_design.account_module.infra.persistence.AccountInMemoryRepo;
-import com.jonathan.modern_design.account_module.infra.query.AccountSearchRepo;
 import com.jonathan.modern_design.user_module.UserApi;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
-import org.mockito.Mock;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -36,20 +33,17 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 @DisplayNameGeneration(PrettyTestNames.class)
 class TransferMoneyTest {
-    private final AccountRepo repository = new AccountInMemoryRepo();
     private final LocalDateTime supposedToBeNow = LocalDate.of(2020, 12, 25).atStartOfDay();
-    private final CountriesInventory countriesInventory = new CountriesInventoryStub();
+    private final AccountRepo accountRepo = new AccountInMemoryRepo();
     @RegisterExtension
     TimeExtension timeExtension = new TimeExtension(supposedToBeNow);
-    @Mock
-    private UserApi userFacade;
-    @Mock
-    private AccountSearchRepo accountSearchRepo;
-    private final AccountApi accountFacade = new AccountConfiguration().accountFacade(repository, accountSearchRepo, userFacade, countriesInventory);
+    @MockitoBean
+    private UserApi userApi;
+    private final AccountApi accountFacade = new AccountConfig().accountApi(accountRepo, userApi);
 
     private void populatePersistenceLayer(Account source, Account target) {
-        repository.create(source);
-        repository.create(target);
+        accountRepo.create(source);
+        accountRepo.create(target);
     }
 
     @Nested

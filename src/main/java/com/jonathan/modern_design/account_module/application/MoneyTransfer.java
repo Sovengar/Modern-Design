@@ -1,6 +1,6 @@
 package com.jonathan.modern_design.account_module.application;
 
-import com.jonathan.modern_design._infra.config.annotations.DomainService;
+import com.jonathan.modern_design._infra.config.annotations.Inyectable;
 import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design.account_module.domain.AccountRepo;
 import com.jonathan.modern_design.account_module.domain.exceptions.OperationForbiddenForSameAccount;
@@ -12,12 +12,12 @@ import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
 
-@DomainService
+@Inyectable
 @RequiredArgsConstructor
 public class MoneyTransfer {
     private final AccountRepo repository;
     private final AccountValidator accountValidator;
-    
+
     public void transferMoney(final TransferMoneyCommand command) {
         Account source = getAccountValidated(command.sourceId());
         Account target = getAccountValidated(command.targetId());

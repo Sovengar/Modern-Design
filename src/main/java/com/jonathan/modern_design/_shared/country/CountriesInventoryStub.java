@@ -1,6 +1,7 @@
 package com.jonathan.modern_design._shared.country;
 
 import com.jonathan.modern_design._infra.config.annotations.Stub;
+import org.springframework.context.annotation.Primary;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,6 +9,7 @@ import java.util.Optional;
 import static java.util.Arrays.asList;
 
 @Stub
+@Primary
 public final class CountriesInventoryStub implements CountriesInventory {
     private static final List<Country> DEFAULT_COUNTRIES = asList(
             new Country("ES", "Spain"),

@@ -1,6 +1,6 @@
 package com.jonathan.modern_design.account_module.application;
 
-import com.jonathan.modern_design._infra.config.annotations.DomainService;
+import com.jonathan.modern_design._infra.config.annotations.Inyectable;
 import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design._shared.country.CountriesInventory;
 import com.jonathan.modern_design.account_module.domain.AccountRepo;
@@ -20,7 +20,7 @@ import java.util.UUID;
 
 import static java.util.Optional.ofNullable;
 
-@DomainService
+@Inyectable
 @RequiredArgsConstructor
 public class AccountCreator {
     private final AccountRepo repository;

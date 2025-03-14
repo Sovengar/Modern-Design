@@ -1,17 +1,17 @@
 package com.jonathan.modern_design._infra.web.internal;
 
+import com.jonathan.modern_design._infra.config.annotations.WebAdapter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.LocaleResolver;
 
 import java.util.Locale;
 
-@RestController
+@WebAdapter
 @RequestMapping("/internal/changeLanguage")
 @RequiredArgsConstructor
 public class ChangeLanguageController {
