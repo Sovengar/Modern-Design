@@ -87,6 +87,8 @@ Commands in the normal facade.
 - Internal classes (exception classes,records, micro types, ...)
 - Wrapper classes (For external services to map his json to our POJOs)
 - Tell Don't Ask (Have getters for mapper but not setters to avoid mutable objects and business logic leaking)
+- UUIDs on error logs
+- UUIDs set from the client
 
 # Configuration
 
