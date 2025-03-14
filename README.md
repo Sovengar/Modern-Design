@@ -35,7 +35,7 @@ Not allowing internal calls between modules, only through facade.
 Preserving FK instead of object in the entity between modules.
 Not fully implemented, DB is still shared between modules, only access is restricted.
 
-Not all classes are private because we are packaging, we use ArchUnit and Spring Modulith to compensate langueage deficiences.
+Not all classes are private because we are packaging, we use ArchUnit and Spring Modulith to compensate language deficiences.
 
 # Testing
 
