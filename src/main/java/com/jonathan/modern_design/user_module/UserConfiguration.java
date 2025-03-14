@@ -10,15 +10,15 @@ import org.springframework.context.annotation.Profile;
 
 @Configuration
 class UserConfiguration {
-    public UserApi userFacade(UserRepo userRepo, RoleRepo roleRepo) {
+    public UserApi userApi(UserRepo userRepo, RoleRepo roleRepo) {
         UserRegister userRegister = new UserRegister(userRepo, roleRepo);
         return new UserFacade(userRepo, userRegister);
     }
 
     @Profile("test")
-    public UserApi userFacade() {
+    public UserApi userApi() {
         UserRepo userRepo = new UserInMemoryRepo();
         RoleRepo roleRepo = new RoleRepoInMemory();
-        return userFacade(userRepo, roleRepo);
+        return userApi(userRepo, roleRepo);
     }
 }
