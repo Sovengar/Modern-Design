@@ -2,12 +2,11 @@ package com.jonathan.modern_design.account_module;
 
 import com.jonathan.modern_design.__config.PrettyTestNames;
 import com.jonathan.modern_design.__config.TimeExtension;
-import com.jonathan.modern_design.account_module.domain.AccountRepo;
 import com.jonathan.modern_design.account_module.domain.exceptions.AccountIsInactiveException;
 import com.jonathan.modern_design.account_module.domain.exceptions.OperationWithDifferentCurrenciesException;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountMoney;
-import com.jonathan.modern_design.account_module.infra.persistence.AccountInMemoryRepo;
+import com.jonathan.modern_design.account_module.infra.AccountConfig;
 import com.jonathan.modern_design.user_module.UserApi;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Nested;
@@ -34,14 +33,15 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 @DisplayNameGeneration(PrettyTestNames.class)
 class TransferMoneyTest {
     private final LocalDateTime supposedToBeNow = LocalDate.of(2020, 12, 25).atStartOfDay();
-    private final AccountRepo accountRepo = new AccountInMemoryRepo();
+    private final AccountConfig accountConfig = new AccountConfig();
     @RegisterExtension
     TimeExtension timeExtension = new TimeExtension(supposedToBeNow);
     @MockitoBean
     private UserApi userApi;
-    private final AccountApi accountFacade = new AccountConfig().accountApi(accountRepo, userApi);
+    private final AccountApi accountFacade = accountConfig.accountApi(userApi);
 
     private void populatePersistenceLayer(Account source, Account target) {
+        final var accountRepo = accountConfig.getAccountRepo();
         accountRepo.create(source);
         accountRepo.create(target);
     }

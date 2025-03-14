@@ -1,4 +1,4 @@
-package com.jonathan.modern_design.account_module.infra.persistence;
+package com.jonathan.modern_design.account_module.infra;
 
 import com.jonathan.modern_design._infra.config.database.BaseEntity;
 import com.jonathan.modern_design._shared.Currency;

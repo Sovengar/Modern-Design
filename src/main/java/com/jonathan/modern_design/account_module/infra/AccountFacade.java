@@ -1,6 +1,7 @@
-package com.jonathan.modern_design.account_module;
+package com.jonathan.modern_design.account_module.infra;
 
 import com.jonathan.modern_design._infra.config.annotations.Inyectable;
+import com.jonathan.modern_design.account_module.AccountApi;
 import com.jonathan.modern_design.account_module.application.AccountCreator;
 import com.jonathan.modern_design.account_module.application.MoneyTransfer;
 import com.jonathan.modern_design.account_module.domain.AccountRepo;
@@ -10,7 +11,6 @@ import com.jonathan.modern_design.account_module.dtos.AccountCreatorCommand;
 import com.jonathan.modern_design.account_module.dtos.AccountResource;
 import com.jonathan.modern_design.account_module.dtos.DepositCommand;
 import com.jonathan.modern_design.account_module.dtos.TransferMoneyCommand;
-import com.jonathan.modern_design.account_module.infra.mapper.AccountMapper;
 import com.jonathan.modern_design.account_module.infra.query.AccountSearchCriteria;
 import com.jonathan.modern_design.account_module.infra.query.AccountSearchRepo;
 import lombok.RequiredArgsConstructor;

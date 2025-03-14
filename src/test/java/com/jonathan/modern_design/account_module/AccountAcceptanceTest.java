@@ -3,10 +3,10 @@ package com.jonathan.modern_design.account_module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jonathan.modern_design.__config.ITConfig;
 import com.jonathan.modern_design._fake_data.AccountStub;
+import com.jonathan.modern_design.account_module.domain.AccountRepo;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountMoney;
 import com.jonathan.modern_design.account_module.dtos.DepositCommand;
-import com.jonathan.modern_design.account_module.infra.persistence.AccountRepoAdapter;
 import org.approvaltests.Approvals;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ final class AccountAcceptanceTest extends ITConfig {
     ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
-    private AccountRepoAdapter repository;
+    private AccountRepo repository;
 
     @Autowired
     private AccountApi accountFacade;

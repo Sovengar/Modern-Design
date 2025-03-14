@@ -1,24 +1,33 @@
-package com.jonathan.modern_design.account_module.infra.persistence;
+package com.jonathan.modern_design.account_module.infra;
 
+import com.jonathan.modern_design._infra.config.annotations.Fake;
 import com.jonathan.modern_design._infra.config.annotations.PersistenceAdapter;
 import com.jonathan.modern_design.account_module.domain.AccountRepo;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountNumber;
-import com.jonathan.modern_design.account_module.infra.mapper.AccountMapper;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+
+import static java.util.Objects.requireNonNull;
+
+interface AccountSpringRepo extends JpaRepository<AccountEntity, String> {
+    Optional<AccountEntity> findByAccountNumber(@NonNull String accountNumber);
+}
 
 @PersistenceAdapter
 @Primary //When Spring finds AccountRepository but creates AccountSpringRepo, it will use AccountRepositorySpringAdapter
 @RequiredArgsConstructor
-public class AccountRepoAdapter implements AccountRepo {
+class AccountRepoAdapter implements AccountRepo {
     private final AccountSpringRepo repository;
     private final AccountMapper accountMapper;
 
@@ -68,4 +77,43 @@ public class AccountRepoAdapter implements AccountRepo {
             repository.save(account);
         });
     }
+}
+
+@Fake //This class is for unit tests, also, don't evaluate his state, pointless, rather evaluate the state of the objects
+class AccountInMemoryRepo implements AccountRepo {
+    private final ConcurrentHashMap<String, Account> accounts = new ConcurrentHashMap<>();
+
+    @Override
+    public Optional<Account> findOne(String accountNumber) {
+        Account account = accounts.get(accountNumber);
+        return Optional.ofNullable(account);
+    }
+
+    @Override
+    public Page<Account> findAll(Pageable pageable) {
+        List<Account> accountsList = new ArrayList<>(accounts.values());
+        return new PageImpl<>(accountsList, pageable, accountsList.size());
+    }
+
+    @Override
+    public AccountNumber create(Account account) {
+        accounts.put(account.getAccountNumber().getValue(), account);
+        return account.getAccountNumber();
+    }
+
+    @Override
+    public void update(Account account) {
+        requireNonNull(account);
+    }
+
+    @Override
+    public void delete(final String accountNumber) {
+        accounts.remove(accountNumber);
+    }
+
+    @Override
+    public void softDelete(final String accountNumber) {
+        accounts.remove(accountNumber);
+    }
+
 }

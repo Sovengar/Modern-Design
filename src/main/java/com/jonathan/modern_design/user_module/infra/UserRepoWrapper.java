@@ -30,8 +30,8 @@ class UserRepoAdapter implements UserRepo {
     }
 }
 
-//This class is for unit tests, also, don't evaluate his state, pointless, rather evaluate the state of the objects
-@Fake
+
+@Fake //This class is for unit tests, also, don't evaluate his state, pointless, rather evaluate the state of the objects
 class UserInMemoryRepo implements UserRepo {
     private final ConcurrentHashMap<User.UserId, User> users = new ConcurrentHashMap<>();
 
