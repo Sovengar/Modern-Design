@@ -9,6 +9,7 @@ import com.jonathan.modern_design.account_module.domain.model.AccountMoney;
 import com.jonathan.modern_design.account_module.domain.model.AccountNumber;
 import com.jonathan.modern_design.account_module.dtos.AccountResource;
 import com.jonathan.modern_design.account_module.infra.persistence.AccountEntity;
+import com.jonathan.modern_design.user_module.domain.User;
 import org.mapstruct.factory.Mappers;
 
 import java.time.LocalDateTime;
@@ -28,7 +29,7 @@ public class AccountMapperAdapter implements AccountMapper {
         AccountNumber accountNumber = AccountNumber.of(accountResource.accountNumber());
         AccountMoney money = AccountMoney.of(accountResource.amount(), Currency.valueOf(accountResource.currency()));
         AccountAddress address = null;
-        com.jonathan.modern_design.user_module.user.domain.model.User.UserId userId = accountResource.userId();
+        User.UserId userId = accountResource.userId();
         LocalDateTime dateOfLastTransaction = null;
         boolean active = true;
         return Account.builder()

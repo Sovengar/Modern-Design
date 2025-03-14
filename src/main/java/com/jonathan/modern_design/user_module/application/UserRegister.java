@@ -1,17 +1,17 @@
-package com.jonathan.modern_design.user_module.user.application;
+package com.jonathan.modern_design.user_module.application;
 
 import com.jonathan.modern_design._infra.config.annotations.Inyectable;
-import com.jonathan.modern_design.user_module.role.Role;
-import com.jonathan.modern_design.user_module.role.RoleRepo;
-import com.jonathan.modern_design.user_module.role.Roles;
-import com.jonathan.modern_design.user_module.user.domain.UserRepo;
-import com.jonathan.modern_design.user_module.user.domain.model.User;
-import com.jonathan.modern_design.user_module.user.domain.model.User.UserId;
-import com.jonathan.modern_design.user_module.user.domain.model.UserEmail;
-import com.jonathan.modern_design.user_module.user.domain.model.UserName;
-import com.jonathan.modern_design.user_module.user.domain.model.UserPassword;
-import com.jonathan.modern_design.user_module.user.domain.model.UserRealName;
-import com.jonathan.modern_design.user_module.user.dtos.UserRegisterCommand;
+import com.jonathan.modern_design.user_module.domain.Role;
+import com.jonathan.modern_design.user_module.domain.RoleRepo;
+import com.jonathan.modern_design.user_module.domain.Roles;
+import com.jonathan.modern_design.user_module.domain.User;
+import com.jonathan.modern_design.user_module.domain.User.UserId;
+import com.jonathan.modern_design.user_module.domain.UserRepo;
+import com.jonathan.modern_design.user_module.domain.vo.UserEmail;
+import com.jonathan.modern_design.user_module.domain.vo.UserName;
+import com.jonathan.modern_design.user_module.domain.vo.UserPassword;
+import com.jonathan.modern_design.user_module.domain.vo.UserRealName;
+import com.jonathan.modern_design.user_module.dtos.UserRegisterCommand;
 import lombok.RequiredArgsConstructor;
 
 import java.io.Serial;

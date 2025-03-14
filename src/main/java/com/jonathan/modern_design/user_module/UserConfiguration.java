@@ -1,10 +1,10 @@
 package com.jonathan.modern_design.user_module;
 
-import com.jonathan.modern_design.user_module.role.RoleRepo;
-import com.jonathan.modern_design.user_module.role.RoleRepoInMemory;
-import com.jonathan.modern_design.user_module.user.application.UserRegister;
-import com.jonathan.modern_design.user_module.user.domain.UserRepo;
-import com.jonathan.modern_design.user_module.user.infra.UserInMemoryRepo;
+import com.jonathan.modern_design.user_module.application.UserRegister;
+import com.jonathan.modern_design.user_module.domain.RoleRepo;
+import com.jonathan.modern_design.user_module.domain.UserRepo;
+import com.jonathan.modern_design.user_module.infra.RoleRepoInMemory;
+import com.jonathan.modern_design.user_module.infra.UserInMemoryRepo;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 

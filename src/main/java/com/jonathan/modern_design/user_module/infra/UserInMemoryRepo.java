@@ -1,9 +1,9 @@
-package com.jonathan.modern_design.user_module.user.infra;
+package com.jonathan.modern_design.user_module.infra;
 
 import com.jonathan.modern_design._infra.config.annotations.Fake;
-import com.jonathan.modern_design.user_module.user.domain.UserRepo;
-import com.jonathan.modern_design.user_module.user.domain.model.User;
-import com.jonathan.modern_design.user_module.user.domain.model.User.UserId;
+import com.jonathan.modern_design.user_module.domain.User;
+import com.jonathan.modern_design.user_module.domain.User.UserId;
+import com.jonathan.modern_design.user_module.domain.UserRepo;
 
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;

@@ -1,6 +1,5 @@
-package com.jonathan.modern_design.user_module.user.domain;
+package com.jonathan.modern_design.user_module.domain;
 
-import com.jonathan.modern_design.user_module.user.domain.model.User;
 import jakarta.persistence.EntityNotFoundException;
 
 import java.util.Optional;

@@ -1,7 +1,7 @@
 package com.jonathan.modern_design._infra.web.internal;
 
 import com.jonathan.modern_design._infra.config.annotations.WebAdapter;
-import com.jonathan.modern_design.user_module.role.RoleRepo;
+import com.jonathan.modern_design.user_module.domain.RoleRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

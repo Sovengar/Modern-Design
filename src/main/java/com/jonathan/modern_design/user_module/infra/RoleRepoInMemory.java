@@ -1,6 +1,9 @@
-package com.jonathan.modern_design.user_module.role;
+package com.jonathan.modern_design.user_module.infra;
 
 import com.jonathan.modern_design._infra.config.annotations.Fake;
+import com.jonathan.modern_design.user_module.domain.Role;
+import com.jonathan.modern_design.user_module.domain.RoleRepo;
+import com.jonathan.modern_design.user_module.domain.Roles;
 
 import java.util.concurrent.ConcurrentHashMap;
 

@@ -1,7 +1,7 @@
 package com.jonathan.modern_design.account_module.dtos;
 
 import com.jonathan.modern_design.account_module.domain.model.Account;
-import com.jonathan.modern_design.user_module.user.domain.model.User.UserId;
+import com.jonathan.modern_design.user_module.domain.User.UserId;
 
 import java.math.BigDecimal;
 

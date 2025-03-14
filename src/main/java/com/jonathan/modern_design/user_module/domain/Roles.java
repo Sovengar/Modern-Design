@@ -1,4 +1,4 @@
-package com.jonathan.modern_design.user_module.role;
+package com.jonathan.modern_design.user_module.domain;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

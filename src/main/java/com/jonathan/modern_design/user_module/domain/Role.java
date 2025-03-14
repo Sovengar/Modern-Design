@@ -1,4 +1,4 @@
-package com.jonathan.modern_design.user_module.role;
+package com.jonathan.modern_design.user_module.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -13,6 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -39,6 +40,7 @@ public class Role {
     @NoArgsConstructor(access = AccessLevel.PROTECTED) //For Hibernate
     @Embeddable
     public static class Code implements Serializable {
+        @Serial private static final long serialVersionUID = -491353586550215623L;
         @Column(name = "code", updatable = false)
         @NotNull
         private String roleCode;

@@ -9,7 +9,7 @@ import lombok.Getter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import static com.jonathan.modern_design.user_module.user.domain.model.User.UserId;
+import static com.jonathan.modern_design.user_module.domain.User.UserId;
 
 @Builder //For mapper and tests only
 @AllArgsConstructor(access = AccessLevel.PRIVATE)

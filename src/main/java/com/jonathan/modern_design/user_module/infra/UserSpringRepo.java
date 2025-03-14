@@ -1,7 +1,7 @@
-package com.jonathan.modern_design.user_module.user.infra;
+package com.jonathan.modern_design.user_module.infra;
 
-import com.jonathan.modern_design.user_module.user.domain.model.User;
-import com.jonathan.modern_design.user_module.user.domain.model.User.UserId;
+import com.jonathan.modern_design.user_module.domain.User;
+import com.jonathan.modern_design.user_module.domain.User.UserId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

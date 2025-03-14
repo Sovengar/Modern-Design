@@ -1,4 +1,4 @@
-package com.jonathan.modern_design.user_module.user.domain.model;
+package com.jonathan.modern_design.user_module.domain.vo;
 
 import com.jonathan.modern_design._infra.config.exception.RootException;
 import lombok.AccessLevel;
@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.io.Serial;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -44,6 +45,8 @@ public class UserPassword {
     }
 
     private static class InvalidUserPasswordException extends RootException {
+        @Serial private static final long serialVersionUID = -1086391050070749416L;
+
         public InvalidUserPasswordException(String message) {
             super(message);
         }

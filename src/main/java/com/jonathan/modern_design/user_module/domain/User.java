@@ -1,10 +1,12 @@
-package com.jonathan.modern_design.user_module.user.domain.model;
+package com.jonathan.modern_design.user_module.domain;
 
 import com.jonathan.modern_design._infra.config.annotations.OptionalField;
 import com.jonathan.modern_design._infra.config.database.BaseEntity;
 import com.jonathan.modern_design._shared.country.Country;
-import com.jonathan.modern_design.user_module.role.Role;
-import com.jonathan.modern_design.user_module.role.Roles;
+import com.jonathan.modern_design.user_module.domain.vo.UserEmail;
+import com.jonathan.modern_design.user_module.domain.vo.UserName;
+import com.jonathan.modern_design.user_module.domain.vo.UserPassword;
+import com.jonathan.modern_design.user_module.domain.vo.UserRealName;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -29,6 +31,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.SQLRestriction;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -117,6 +120,7 @@ public class User extends BaseEntity {
     @NoArgsConstructor(access = AccessLevel.PROTECTED) //For Hibernate
     @Embeddable
     public static class UserId implements Serializable {
+        @Serial private static final long serialVersionUID = -2753108705494085826L;
         private UUID userUuid;
     }
 }

@@ -1,4 +1,4 @@
-package com.jonathan.modern_design.user_module.user.domain.model;
+package com.jonathan.modern_design.user_module.domain.vo;
 
 import com.jonathan.modern_design._infra.config.exception.RootException;
 import jakarta.persistence.Embeddable;
@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import java.io.Serial;
 import java.util.Optional;
 
 import static java.util.Optional.ofNullable;
@@ -50,6 +51,8 @@ public class UserRealName {
     }
 
     private static class UserRealNameNotValidException extends RootException {
+        @Serial private static final long serialVersionUID = -6239696180800018814L;
+
         public UserRealNameNotValidException(String message) {
             super(message);
         }

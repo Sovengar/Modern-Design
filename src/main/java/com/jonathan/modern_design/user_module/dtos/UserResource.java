@@ -1,6 +1,6 @@
-package com.jonathan.modern_design.user_module.user.dtos;
+package com.jonathan.modern_design.user_module.dtos;
 
-import com.jonathan.modern_design.user_module.user.domain.model.User;
+import com.jonathan.modern_design.user_module.domain.User;
 
 import java.util.Map;
 

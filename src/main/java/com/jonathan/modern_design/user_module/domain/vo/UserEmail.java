@@ -1,4 +1,4 @@
-package com.jonathan.modern_design.user_module.user.domain.model;
+package com.jonathan.modern_design.user_module.domain.vo;
 
 import com.jonathan.modern_design._infra.config.exception.RootException;
 import jakarta.persistence.Embeddable;
@@ -6,6 +6,8 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.io.Serial;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -50,6 +52,8 @@ public class UserEmail {
     }
 
     private static class InvalidEmailException extends RootException {
+        @Serial private static final long serialVersionUID = 4728200511269608142L;
+
         public InvalidEmailException(String message) {
             super(message);
         }
