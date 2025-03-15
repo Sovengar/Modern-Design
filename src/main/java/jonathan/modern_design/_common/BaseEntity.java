@@ -18,23 +18,26 @@ import java.time.LocalDateTime;
 @Setter
 @SuperBuilder
 @NoArgsConstructor
-@EntityListeners(UserAuditListener.class)
+@EntityListeners(UserAuditListener.class) //AuditingEntityListener.class from springframework
 public abstract class BaseEntity {
     @Column(name = "version")
     @Version
     protected Integer version;
 
+    //@CreatedBy
     @Column(name = "created_by")
     protected String createdBy;
 
-    @CreationTimestamp //@CreatedDate
+    //@CreatedDate
+    @CreationTimestamp
     @Column(name = "created_on")
     protected LocalDateTime createdOn;
 
-    //@CreatedBy
+    //@LastModifiedBy
     @Column(name = "modified_by")
     protected String modifiedBy;
 
+    //@LastModifiedDate
     @UpdateTimestamp
     @Column(name = "modified_on")
     protected LocalDateTime modifiedOn;
@@ -42,3 +45,4 @@ public abstract class BaseEntity {
     @Column(name = "deleted", nullable = false)
     protected Boolean deleted = false;
 }
+

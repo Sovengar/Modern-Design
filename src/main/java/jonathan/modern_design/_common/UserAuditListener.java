@@ -7,6 +7,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDateTime;
+
 public class UserAuditListener {
 
     @Value("${application.name}")
@@ -18,6 +20,7 @@ public class UserAuditListener {
         final var userCreatingEntity = baseEntity.getCreatedBy();
         final var finalUser = StringUtils.hasText(userCreatingEntity) ? userCreatingEntity : currentUser;
 
+        baseEntity.setCreatedOn(LocalDateTime.now());
         baseEntity.setCreatedBy(finalUser);
         baseEntity.setModifiedBy(finalUser);
     }
@@ -26,6 +29,7 @@ public class UserAuditListener {
     public void setUpdatedBy(BaseEntity baseEntity) {
         String currentUser = getCurrentUser();
         baseEntity.setModifiedBy(currentUser);
+        baseEntity.setModifiedOn(LocalDateTime.now());
     }
 
     private String getCurrentUser() {
@@ -40,5 +44,3 @@ public class UserAuditListener {
         }
     }
 }
-
-
