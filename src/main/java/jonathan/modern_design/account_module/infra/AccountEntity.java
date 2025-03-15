@@ -11,7 +11,7 @@ import jakarta.persistence.PostPersist;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jonathan.modern_design._internal.config.database.BaseEntity;
+import jonathan.modern_design._common.BaseEntity;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design.user_module.domain.User.UserId;
 import lombok.AccessLevel;

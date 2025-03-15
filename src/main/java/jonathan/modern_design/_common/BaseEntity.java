@@ -1,10 +1,9 @@
-package jonathan.modern_design._internal.config.database;
+package jonathan.modern_design._common;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Version;
-import jonathan.modern_design._internal.config.security.UserAuditListener;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -1,8 +1,7 @@
-package jonathan.modern_design._internal.config.security;
+package jonathan.modern_design._common;
 
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
-import jonathan.modern_design._internal.config.database.BaseEntity;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
