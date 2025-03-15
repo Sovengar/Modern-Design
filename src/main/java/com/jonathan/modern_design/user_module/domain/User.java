@@ -36,6 +36,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -81,10 +82,21 @@ public class User extends BaseEntity {
     private Role role;
 
     public static User register(UserId uuid, UserRealName realname, UserName username, UserEmail email, UserPassword password, Country country, Role role) {
+        Objects.requireNonNull(username);
+        Objects.requireNonNull(email);
+        Objects.requireNonNull(password);
+        Objects.requireNonNull(country);
+        Objects.requireNonNull(role);
+
         return new User(null, uuid, realname, username, email, null, password, country.code(), Status.DRAFT, new ArrayList<>(), role);
     }
 
     public static User registerAdmin(UserId uuid, UserRealName realname, UserName username, UserEmail email, UserEmail internalEmail, UserPassword password, Country country) {
+        Objects.requireNonNull(username);
+        Objects.requireNonNull(email);
+        Objects.requireNonNull(password);
+        Objects.requireNonNull(country);
+        
         return new User(null, uuid, realname, username, email, internalEmail, password, country.code(), Status.ACTIVE, new ArrayList<>(), Role.of(Roles.ADMIN));
     }
 
