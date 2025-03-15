@@ -1,6 +1,7 @@
 package com.jonathan.modern_design.user_module.infra;
 
 import com.jonathan.modern_design.user_module.UserApi;
+import com.jonathan.modern_design.user_module.application.UserFacade;
 import com.jonathan.modern_design.user_module.application.UserRegister;
 import com.jonathan.modern_design.user_module.domain.RoleRepo;
 import com.jonathan.modern_design.user_module.domain.UserRepo;

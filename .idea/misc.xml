@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="EntryPointsManager">
-    <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="org.springframework.context.annotation.Bean" />
-      <item index="1" class="java.lang.String" itemvalue="org.springframework.context.annotation.ComponentScan" />
-      <item index="2" class="java.lang.String" itemvalue="org.springframework.test.context.bean.override.mockito.MockitoBean" />
-      <item index="3" class="java.lang.String" itemvalue="org.springframework.web.bind.annotation.PostMapping" />
-      <item index="4" class="java.lang.String" itemvalue="org.springframework.web.bind.annotation.PutMapping" />
+    <list size="7">
+      <item index="0" class="java.lang.String" itemvalue="com.jonathan.modern_design._infra.config.annotations.WebAdapter" />
+      <item index="1" class="java.lang.String" itemvalue="org.springframework.context.annotation.Bean" />
+      <item index="2" class="java.lang.String" itemvalue="org.springframework.context.annotation.ComponentScan" />
+      <item index="3" class="java.lang.String" itemvalue="org.springframework.test.context.bean.override.mockito.MockitoBean" />
+      <item index="4" class="java.lang.String" itemvalue="org.springframework.web.bind.annotation.GetMapping" />
+      <item index="5" class="java.lang.String" itemvalue="org.springframework.web.bind.annotation.PostMapping" />
+      <item index="6" class="java.lang.String" itemvalue="org.springframework.web.bind.annotation.PutMapping" />
     </list>
     <writeAnnotations>
       <writeAnnotation name="org.springframework.beans.factory.annotation.Autowired" />

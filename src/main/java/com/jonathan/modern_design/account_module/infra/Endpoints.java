@@ -1,12 +1,12 @@
-package com.jonathan.modern_design._infra.web;
+package com.jonathan.modern_design.account_module.infra;
 
 import com.jonathan.modern_design._infra.config.annotations.WebAdapter;
 import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design.account_module.AccountApi;
+import com.jonathan.modern_design.account_module.application.AccountSearcher;
 import com.jonathan.modern_design.account_module.dtos.AccountCreatorCommand;
 import com.jonathan.modern_design.account_module.dtos.AccountResource;
 import com.jonathan.modern_design.account_module.dtos.TransferMoneyCommand;
-import com.jonathan.modern_design.account_module.infra.query.AccountSearchCriteria;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -58,7 +58,7 @@ class AccountController {
 
     //@Operation(description = "Search Account")
     @PostMapping("/search")
-    public List<AccountResource> search(@RequestBody AccountSearchCriteria searchCriteria) {
+    public List<AccountResource> search(@RequestBody AccountSearcher.AccountSearchCriteria searchCriteria) {
         return accountFacade.search(searchCriteria);
     }
 
