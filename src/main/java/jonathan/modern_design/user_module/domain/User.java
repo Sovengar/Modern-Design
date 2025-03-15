@@ -6,6 +6,7 @@ import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -80,7 +81,7 @@ public class User extends BaseEntity {
     @Transient //TODO pasar a tabla
     private List<String> phoneNumbers = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Role role;
 
     public static User register(UserId uuid, UserRealName realname, UserName username, UserEmail email, UserPassword password, Country country, Role role) {
