@@ -1,9 +1,7 @@
-package com.jonathan.modern_design.account_module.infra;
+package com.jonathan.modern_design.account_module.application;
 
 import com.jonathan.modern_design._infra.config.annotations.Inyectable;
 import com.jonathan.modern_design.account_module.AccountApi;
-import com.jonathan.modern_design.account_module.application.AccountCreator;
-import com.jonathan.modern_design.account_module.application.MoneyTransfer;
 import com.jonathan.modern_design.account_module.domain.AccountRepo;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountNumber;
@@ -11,18 +9,19 @@ import com.jonathan.modern_design.account_module.dtos.AccountCreatorCommand;
 import com.jonathan.modern_design.account_module.dtos.AccountResource;
 import com.jonathan.modern_design.account_module.dtos.DepositCommand;
 import com.jonathan.modern_design.account_module.dtos.TransferMoneyCommand;
-import com.jonathan.modern_design.account_module.infra.query.AccountSearchCriteria;
-import com.jonathan.modern_design.account_module.infra.query.AccountSearchRepo;
+import com.jonathan.modern_design.account_module.infra.AccountMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Inyectable
 @RequiredArgsConstructor
-class AccountFacade implements AccountApi {
+@Slf4j
+public class AccountFacade implements AccountApi, AccountSearcher {
     private final AccountRepo repository;
-    private final AccountSearchRepo accountSearchRepo;
+    private final AccountSearcher accountSearcher;
     private final MoneyTransfer moneyTransfer;
     private final AccountCreator accountCreator;
     private final AccountMapper accountMapper;
@@ -30,19 +29,29 @@ class AccountFacade implements AccountApi {
     @Override
     @Transactional
     public void transferMoney(final TransferMoneyCommand command) {
+        log.info("BEGIN TransferMoney");
         moneyTransfer.transferMoney(command);
+        log.info("END TransferMoney");
     }
 
     //region CQRS, we can skip service layer and access directly to repository
     @Override
     public AccountResource findOne(final String accountNumber) {
+        log.debug("BEGIN FindOne");
         final var account = repository.findOneOrElseThrow(accountNumber);
+
+        log.debug("END FindOne");
         return new AccountResource(account);
     }
 
+    //I think this should be moved to another facade
     @Override
     public List<AccountResource> search(final AccountSearchCriteria filters) {
-        return accountSearchRepo.search(filters);
+        log.info("BEGIN Search");
+        var accounts = accountSearcher.search(filters);
+
+        log.info("END Search");
+        return accounts;
         //TODO Tener varios search por caso de uso y n mappers, n projections, ...
     }
     //endregion
@@ -50,22 +59,30 @@ class AccountFacade implements AccountApi {
     @Override
     @Transactional
     public void update(AccountResource dto) {
+        log.info("BEGIN Update");
         var account = accountMapper.toAccount(dto);
         update(account);
+        log.info("END Update");
     }
 
     @Override
     @Transactional
     public AccountNumber createAccount(final AccountCreatorCommand command) {
-        return accountCreator.createAccount(command);
+        log.info("BEGIN CreateAccount");
+        var accountNumber = accountCreator.createAccount(command);
+
+        log.info("END CreateAccount");
+        return accountNumber;
     }
 
     @Override
     @Transactional
     public void deposit(final DepositCommand command) {
+        log.info("BEGIN Deposit");
         var account = repository.findOne(command.accountNumber()).orElseThrow();
         account.add(command.amount(), command.currency());
         update(account);
+        log.info("END Deposit");
     }
 
     private void update(Account account) {
