@@ -49,6 +49,7 @@ public class AccountCreator {
     }
 
     private static class AccountNumberGenerator {
+        //Complex logic here... If it grows too big move to a domainService
         public static String generate() {
             return UUID.randomUUID().toString();
         }

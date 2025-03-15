@@ -28,10 +28,11 @@ public abstract class BaseEntity {
     @Column(name = "created_by")
     protected String createdBy;
 
-    @CreationTimestamp
+    @CreationTimestamp //@CreatedDate
     @Column(name = "created_on")
     protected LocalDateTime createdOn;
 
+    //@CreatedBy
     @Column(name = "modified_by")
     protected String modifiedBy;
 
