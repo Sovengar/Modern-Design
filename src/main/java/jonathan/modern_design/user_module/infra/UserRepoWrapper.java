@@ -1,7 +1,7 @@
 package jonathan.modern_design.user_module.infra;
 
-import jonathan.modern_design._internal.config.annotations.Fake;
-import jonathan.modern_design._internal.config.annotations.PersistenceAdapter;
+import jonathan.modern_design._common.annotations.Fake;
+import jonathan.modern_design._common.annotations.PersistenceAdapter;
 import jonathan.modern_design.user_module.domain.User;
 import jonathan.modern_design.user_module.domain.UserRepo;
 import lombok.RequiredArgsConstructor;

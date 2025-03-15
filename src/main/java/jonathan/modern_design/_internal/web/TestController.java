@@ -1,6 +1,6 @@
 package jonathan.modern_design._internal.web;
 
-import jonathan.modern_design._internal.config.annotations.WebAdapter;
+import jonathan.modern_design._common.annotations.WebAdapter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

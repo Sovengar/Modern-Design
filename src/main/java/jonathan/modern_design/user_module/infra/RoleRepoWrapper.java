@@ -1,8 +1,8 @@
 package jonathan.modern_design.user_module.infra;
 
 import jakarta.persistence.EntityNotFoundException;
-import jonathan.modern_design._internal.config.annotations.Fake;
-import jonathan.modern_design._internal.config.annotations.PersistenceAdapter;
+import jonathan.modern_design._common.annotations.Fake;
+import jonathan.modern_design._common.annotations.PersistenceAdapter;
 import jonathan.modern_design.user_module.domain.Role;
 import jonathan.modern_design.user_module.domain.RoleRepo;
 import jonathan.modern_design.user_module.domain.Roles;

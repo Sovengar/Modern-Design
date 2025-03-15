@@ -1,6 +1,6 @@
 package jonathan.modern_design.account_module.application;
 
-import jonathan.modern_design._internal.config.annotations.Inyectable;
+import jonathan.modern_design._common.annotations.Inyectable;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design.account_module.domain.AccountRepo;
 import jonathan.modern_design.account_module.domain.exceptions.OperationForbiddenForSameAccount;

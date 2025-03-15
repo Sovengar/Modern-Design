@@ -1,6 +1,6 @@
 package jonathan.modern_design.user_module.infra;
 
-import jonathan.modern_design._internal.config.annotations.WebAdapter;
+import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design.user_module.UserApi;
 import jonathan.modern_design.user_module.domain.User;
 import jonathan.modern_design.user_module.dtos.UserResource;

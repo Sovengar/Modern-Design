@@ -1,6 +1,6 @@
 package jonathan.modern_design._shared.country;
 
-import jonathan.modern_design._internal.config.annotations.Stub;
+import jonathan.modern_design._common.annotations.Stub;
 import org.springframework.context.annotation.Primary;
 
 import java.util.List;

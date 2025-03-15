@@ -1,7 +1,7 @@
 package jonathan.modern_design.account_module.infra;
 
 import jakarta.transaction.Transactional;
-import jonathan.modern_design._internal.config.annotations.WebAdapter;
+import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design.account_module.AccountApi;
 import jonathan.modern_design.account_module.application.AccountSearcher;

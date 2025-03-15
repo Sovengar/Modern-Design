@@ -16,7 +16,7 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-import jonathan.modern_design._internal.config.annotations.OptionalField;
+import jonathan.modern_design._common.annotations.OptionalField;
 import jonathan.modern_design._internal.config.database.BaseEntity;
 import jonathan.modern_design._shared.country.Country;
 import jonathan.modern_design.user_module.domain.vo.UserEmail;

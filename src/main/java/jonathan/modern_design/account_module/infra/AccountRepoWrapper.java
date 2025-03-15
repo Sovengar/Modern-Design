@@ -1,8 +1,8 @@
 package jonathan.modern_design.account_module.infra;
 
 import jakarta.persistence.EntityManager;
-import jonathan.modern_design._internal.config.annotations.Fake;
-import jonathan.modern_design._internal.config.annotations.PersistenceAdapter;
+import jonathan.modern_design._common.annotations.Fake;
+import jonathan.modern_design._common.annotations.PersistenceAdapter;
 import jonathan.modern_design.account_module.application.AccountSearcher;
 import jonathan.modern_design.account_module.domain.AccountRepo;
 import jonathan.modern_design.account_module.domain.model.Account;

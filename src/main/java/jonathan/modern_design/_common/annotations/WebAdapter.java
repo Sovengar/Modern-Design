@@ -1,7 +1,7 @@
-package jonathan.modern_design._internal.config.annotations;
+package jonathan.modern_design._common.annotations;
 
 import org.springframework.core.annotation.AliasFor;
-import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -12,9 +12,10 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Component
-public @interface Inyectable {
+@RestController
+public @interface WebAdapter {
 
-    @AliasFor(annotation = Component.class)
+    @AliasFor(annotation = RestController.class)
     String value() default "";
+
 }

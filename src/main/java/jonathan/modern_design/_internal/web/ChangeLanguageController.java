@@ -2,7 +2,7 @@ package jonathan.modern_design._internal.web;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jonathan.modern_design._internal.config.annotations.WebAdapter;
+import jonathan.modern_design._common.annotations.WebAdapter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

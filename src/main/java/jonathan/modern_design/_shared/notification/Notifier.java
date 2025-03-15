@@ -1,6 +1,6 @@
 package jonathan.modern_design._shared.notification;
 
-import jonathan.modern_design._internal.config.annotations.Inyectable;
+import jonathan.modern_design._common.annotations.Inyectable;
 import jonathan.modern_design.user_module.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

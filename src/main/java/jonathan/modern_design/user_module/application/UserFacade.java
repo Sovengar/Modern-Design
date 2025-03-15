@@ -1,6 +1,6 @@
 package jonathan.modern_design.user_module.application;
 
-import jonathan.modern_design._internal.config.annotations.Inyectable;
+import jonathan.modern_design._common.annotations.Inyectable;
 import jonathan.modern_design.user_module.UserApi;
 import jonathan.modern_design.user_module.domain.User.UserId;
 import jonathan.modern_design.user_module.domain.UserRepo;
@@ -32,7 +32,7 @@ public class UserFacade implements UserApi {
 
         //TODO var userResource = UserResource.from(user);
         var userResource = new UserResource("a", "a", "a", "a", null);
-        
+
         log.info("END FindUser");
         return userResource;
     }
