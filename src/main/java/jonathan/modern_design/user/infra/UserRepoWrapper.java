@@ -1,9 +1,9 @@
-package jonathan.modern_design.user_module.infra;
+package jonathan.modern_design.user.infra;
 
 import jonathan.modern_design._common.annotations.Fake;
 import jonathan.modern_design._common.annotations.PersistenceAdapter;
-import jonathan.modern_design.user_module.domain.User;
-import jonathan.modern_design.user_module.domain.UserRepo;
+import jonathan.modern_design.user.domain.User;
+import jonathan.modern_design.user.domain.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -5,7 +5,7 @@ import jonathan.modern_design.account_module.domain.AccountRepo;
 import jonathan.modern_design.account_module.domain.model.Account;
 import jonathan.modern_design.account_module.domain.model.AccountMoney;
 import jonathan.modern_design.account_module.dtos.DepositCommand;
-import jonathan.modern_design.user_module.UserApi;
+import jonathan.modern_design.user.UserApi;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;

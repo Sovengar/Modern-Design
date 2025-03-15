@@ -1,8 +1,8 @@
-package jonathan.modern_design.user_module;
+package jonathan.modern_design.user;
 
 import jonathan.modern_design.__config.PrettyTestNames;
-import jonathan.modern_design.user_module.domain.User.UserId;
-import jonathan.modern_design.user_module.infra.UsersConfig;
+import jonathan.modern_design.user.domain.User.UserId;
+import jonathan.modern_design.user.infra.UsersConfig;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

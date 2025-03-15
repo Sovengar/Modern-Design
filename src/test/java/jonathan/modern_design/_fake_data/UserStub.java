@@ -2,15 +2,15 @@ package jonathan.modern_design._fake_data;
 
 import jonathan.modern_design.__config.Stub;
 import jonathan.modern_design._shared.country.Country;
-import jonathan.modern_design.user_module.domain.Role;
-import jonathan.modern_design.user_module.domain.Roles;
-import jonathan.modern_design.user_module.domain.User;
-import jonathan.modern_design.user_module.domain.User.UserId;
-import jonathan.modern_design.user_module.domain.vo.UserEmail;
-import jonathan.modern_design.user_module.domain.vo.UserName;
-import jonathan.modern_design.user_module.domain.vo.UserPassword;
-import jonathan.modern_design.user_module.domain.vo.UserRealName;
-import jonathan.modern_design.user_module.dtos.UserRegisterCommand;
+import jonathan.modern_design.user.domain.Role;
+import jonathan.modern_design.user.domain.Roles;
+import jonathan.modern_design.user.domain.User;
+import jonathan.modern_design.user.domain.User.UserId;
+import jonathan.modern_design.user.domain.vo.UserEmail;
+import jonathan.modern_design.user.domain.vo.UserName;
+import jonathan.modern_design.user.domain.vo.UserPassword;
+import jonathan.modern_design.user.domain.vo.UserRealName;
+import jonathan.modern_design.user.dtos.UserRegisterCommand;
 
 import java.util.Optional;
 import java.util.UUID;

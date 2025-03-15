@@ -1,4 +1,4 @@
-package jonathan.modern_design.user_module.domain;
+package jonathan.modern_design.user.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

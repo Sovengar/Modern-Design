@@ -9,7 +9,7 @@ import jonathan.modern_design.account_module.application.AccountSearcher;
 import jonathan.modern_design.account_module.application.MoneyTransfer;
 import jonathan.modern_design.account_module.domain.AccountRepo;
 import jonathan.modern_design.account_module.domain.services.AccountValidator;
-import jonathan.modern_design.user_module.UserApi;
+import jonathan.modern_design.user.UserApi;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 

@@ -1,4 +1,4 @@
-package jonathan.modern_design.user_module.domain.vo;
+package jonathan.modern_design.user.domain.vo;
 
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;

@@ -1,4 +1,4 @@
-package jonathan.modern_design.user_module.domain;
+package jonathan.modern_design.user.domain;
 
 public interface RoleRepo {
     Role findByCode(Role.Code code);

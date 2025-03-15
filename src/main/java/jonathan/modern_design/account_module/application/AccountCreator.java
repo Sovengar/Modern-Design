@@ -9,10 +9,10 @@ import jonathan.modern_design.account_module.domain.model.AccountAddress;
 import jonathan.modern_design.account_module.domain.model.AccountMoney;
 import jonathan.modern_design.account_module.domain.model.AccountNumber;
 import jonathan.modern_design.account_module.dtos.AccountCreatorCommand;
-import jonathan.modern_design.user_module.UserApi;
-import jonathan.modern_design.user_module.domain.User;
-import jonathan.modern_design.user_module.domain.User.UserId;
-import jonathan.modern_design.user_module.dtos.UserRegisterCommand;
+import jonathan.modern_design.user.UserApi;
+import jonathan.modern_design.user.domain.User;
+import jonathan.modern_design.user.domain.User.UserId;
+import jonathan.modern_design.user.dtos.UserRegisterCommand;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;

@@ -8,7 +8,7 @@ import jonathan.modern_design.account_module.domain.model.AccountId;
 import jonathan.modern_design.account_module.domain.model.AccountMoney;
 import jonathan.modern_design.account_module.domain.model.AccountNumber;
 import jonathan.modern_design.account_module.dtos.AccountResource;
-import jonathan.modern_design.user_module.domain.User;
+import jonathan.modern_design.user.domain.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;

@@ -1,9 +1,9 @@
-package jonathan.modern_design.user_module.infra;
+package jonathan.modern_design.user.infra;
 
 import jonathan.modern_design._common.annotations.WebAdapter;
-import jonathan.modern_design.user_module.UserApi;
-import jonathan.modern_design.user_module.domain.User;
-import jonathan.modern_design.user_module.dtos.UserResource;
+import jonathan.modern_design.user.UserApi;
+import jonathan.modern_design.user.domain.User;
+import jonathan.modern_design.user.dtos.UserResource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

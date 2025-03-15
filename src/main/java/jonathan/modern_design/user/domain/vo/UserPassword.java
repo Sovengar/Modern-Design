@@ -1,4 +1,4 @@
-package jonathan.modern_design.user_module.domain.vo;
+package jonathan.modern_design.user.domain.vo;
 
 import jonathan.modern_design._internal.config.exception.RootException;
 import lombok.AccessLevel;

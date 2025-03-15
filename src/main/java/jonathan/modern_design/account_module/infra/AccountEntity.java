@@ -13,7 +13,7 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jonathan.modern_design._common.BaseEntity;
 import jonathan.modern_design._shared.Currency;
-import jonathan.modern_design.user_module.domain.User.UserId;
+import jonathan.modern_design.user.domain.User.UserId;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

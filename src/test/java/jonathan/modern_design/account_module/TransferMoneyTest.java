@@ -7,7 +7,7 @@ import jonathan.modern_design.account_module.domain.exceptions.OperationWithDiff
 import jonathan.modern_design.account_module.domain.model.Account;
 import jonathan.modern_design.account_module.domain.model.AccountMoney;
 import jonathan.modern_design.account_module.infra.AccountingConfig;
-import jonathan.modern_design.user_module.UserApi;
+import jonathan.modern_design.user.UserApi;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

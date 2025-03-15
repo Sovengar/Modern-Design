@@ -1,4 +1,4 @@
-package jonathan.modern_design.user_module.dtos;
+package jonathan.modern_design.user.dtos;
 
 import jonathan.modern_design._shared.country.Country;
 

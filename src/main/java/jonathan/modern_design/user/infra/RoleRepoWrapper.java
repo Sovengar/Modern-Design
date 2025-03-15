@@ -1,11 +1,11 @@
-package jonathan.modern_design.user_module.infra;
+package jonathan.modern_design.user.infra;
 
 import jakarta.persistence.EntityNotFoundException;
 import jonathan.modern_design._common.annotations.Fake;
 import jonathan.modern_design._common.annotations.PersistenceAdapter;
-import jonathan.modern_design.user_module.domain.Role;
-import jonathan.modern_design.user_module.domain.RoleRepo;
-import jonathan.modern_design.user_module.domain.Roles;
+import jonathan.modern_design.user.domain.Role;
+import jonathan.modern_design.user.domain.RoleRepo;
+import jonathan.modern_design.user.domain.Roles;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 

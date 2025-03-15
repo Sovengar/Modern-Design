@@ -1,11 +1,11 @@
-package jonathan.modern_design.user_module.application;
+package jonathan.modern_design.user.application;
 
 import jonathan.modern_design._common.annotations.Inyectable;
-import jonathan.modern_design.user_module.UserApi;
-import jonathan.modern_design.user_module.domain.User.UserId;
-import jonathan.modern_design.user_module.domain.UserRepo;
-import jonathan.modern_design.user_module.dtos.UserRegisterCommand;
-import jonathan.modern_design.user_module.dtos.UserResource;
+import jonathan.modern_design.user.UserApi;
+import jonathan.modern_design.user.domain.User.UserId;
+import jonathan.modern_design.user.domain.UserRepo;
+import jonathan.modern_design.user.dtos.UserRegisterCommand;
+import jonathan.modern_design.user.dtos.UserResource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;

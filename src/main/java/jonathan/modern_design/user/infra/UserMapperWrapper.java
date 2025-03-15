@@ -1,12 +1,12 @@
-package jonathan.modern_design.user_module.infra;
+package jonathan.modern_design.user.infra;
 
 import jonathan.modern_design._common.annotations.Inyectable;
-import jonathan.modern_design.user_module.domain.User;
-import jonathan.modern_design.user_module.domain.vo.UserEmail;
-import jonathan.modern_design.user_module.domain.vo.UserName;
-import jonathan.modern_design.user_module.domain.vo.UserPassword;
-import jonathan.modern_design.user_module.domain.vo.UserRealName;
-import jonathan.modern_design.user_module.dtos.UserResource;
+import jonathan.modern_design.user.domain.User;
+import jonathan.modern_design.user.domain.vo.UserEmail;
+import jonathan.modern_design.user.domain.vo.UserName;
+import jonathan.modern_design.user.domain.vo.UserPassword;
+import jonathan.modern_design.user.domain.vo.UserRealName;
+import jonathan.modern_design.user.dtos.UserResource;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
