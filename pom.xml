@@ -8,7 +8,7 @@
         <version>3.4.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.jonathan.modern-design</groupId>
+    <groupId>jonathan.modern-design</groupId>
     <artifactId>md</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>ModernDesign</name>
@@ -237,8 +237,8 @@
             <!--                            <inputSpec>clean-application/ldap-api-docs.yaml</inputSpec>-->
             <!--                            <generatorName>java</generatorName>-->
             <!--                            <library>resttemplate</library>-->
-            <!--                            <apiPackage>com.jonathan.modern-design</apiPackage>-->
-            <!--                            <modelPackage>com.jonathan.modern-design</modelPackage>-->
+            <!--                            <apiPackage>jonathan.modern-design</apiPackage>-->
+            <!--                            <modelPackage>jonathan.modern-design</modelPackage>-->
             <!--                            <generateApiTests>false</generateApiTests>-->
             <!--                            <generateModelTests>false</generateModelTests>-->
             <!--                            <modelNameSuffix>Dto</modelNameSuffix>-->
