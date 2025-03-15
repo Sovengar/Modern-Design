@@ -1,4 +1,4 @@
-package com.jonathan.modern_design._infra.config.annotations;
+package com.jonathan.modern_design._internal.config.annotations;
 
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.web.bind.annotation.RestController;

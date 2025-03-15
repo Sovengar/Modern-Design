@@ -1,6 +1,6 @@
-package com.jonathan.modern_design._infra.config.exception;
+package com.jonathan.modern_design._internal.config.exception;
 
-import com.jonathan.modern_design._infra.config.i18n.I18nUtils;
+import com.jonathan.modern_design._internal.config.i18n.I18nUtils;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,6 +1,6 @@
 package com.jonathan.modern_design.user_module.domain.vo;
 
-import com.jonathan.modern_design._infra.config.exception.RootException;
+import com.jonathan.modern_design._internal.config.exception.RootException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

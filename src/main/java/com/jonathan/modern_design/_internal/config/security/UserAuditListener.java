@@ -1,6 +1,6 @@
-package com.jonathan.modern_design._infra.config.security;
+package com.jonathan.modern_design._internal.config.security;
 
-import com.jonathan.modern_design._infra.config.database.BaseEntity;
+import com.jonathan.modern_design._internal.config.database.BaseEntity;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import org.springframework.beans.factory.annotation.Value;

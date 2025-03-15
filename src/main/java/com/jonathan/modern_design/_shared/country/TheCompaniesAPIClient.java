@@ -1,6 +1,6 @@
 package com.jonathan.modern_design._shared.country;
 
-import com.jonathan.modern_design._infra.config.annotations.Inyectable;
+import com.jonathan.modern_design._internal.config.annotations.Inyectable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.client.RestTemplate;

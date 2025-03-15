@@ -1,4 +1,4 @@
-package com.jonathan.modern_design._infra.config.database;
+package com.jonathan.modern_design._internal.config.database;
 
 import lombok.RequiredArgsConstructor;
 import org.flywaydb.core.Flyway;

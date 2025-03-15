@@ -1,7 +1,7 @@
 package com.jonathan.modern_design.user_module.domain;
 
-import com.jonathan.modern_design._infra.config.annotations.OptionalField;
-import com.jonathan.modern_design._infra.config.database.BaseEntity;
+import com.jonathan.modern_design._internal.config.annotations.OptionalField;
+import com.jonathan.modern_design._internal.config.database.BaseEntity;
 import com.jonathan.modern_design._shared.country.Country;
 import com.jonathan.modern_design.user_module.domain.vo.UserEmail;
 import com.jonathan.modern_design.user_module.domain.vo.UserName;
@@ -96,7 +96,7 @@ public class User extends BaseEntity {
         Objects.requireNonNull(email);
         Objects.requireNonNull(password);
         Objects.requireNonNull(country);
-        
+
         return new User(null, uuid, realname, username, email, internalEmail, password, country.code(), Status.ACTIVE, new ArrayList<>(), Role.of(Roles.ADMIN));
     }
 

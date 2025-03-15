@@ -1,9 +1,11 @@
 package com.jonathan.modern_design.account_module.domain.model;
 
-import com.jonathan.modern_design._infra.config.exception.RootException;
+import com.jonathan.modern_design._internal.config.exception.RootException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+import java.io.Serial;
 
 import static java.util.regex.Pattern.matches;
 
@@ -29,6 +31,8 @@ public class AccountNumber {
     }
 
     private static class InvalidAccountNumberException extends RootException {
+        @Serial private static final long serialVersionUID = 4910707570010059158L;
+
         public InvalidAccountNumberException(String message) {
             super(message);
         }

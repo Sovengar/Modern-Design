@@ -1,6 +1,6 @@
 package com.jonathan.modern_design.user_module.application;
 
-import com.jonathan.modern_design._infra.config.annotations.Inyectable;
+import com.jonathan.modern_design._internal.config.annotations.Inyectable;
 import com.jonathan.modern_design.user_module.domain.Role;
 import com.jonathan.modern_design.user_module.domain.RoleRepo;
 import com.jonathan.modern_design.user_module.domain.Roles;

@@ -1,4 +1,4 @@
-package com.jonathan.modern_design._infra.config.security;
+package com.jonathan.modern_design._internal.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

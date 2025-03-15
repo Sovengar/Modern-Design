@@ -1,12 +1,13 @@
 package com.jonathan.modern_design.account_module.domain.model;
 
-import com.jonathan.modern_design._infra.config.exception.RootException;
+import com.jonathan.modern_design._internal.config.exception.RootException;
 import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design.account_module.domain.exceptions.OperationWithDifferentCurrenciesException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.io.Serial;
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -87,6 +88,8 @@ public class AccountMoney {
 
 
     public static class InsufficientFundsException extends RootException {
+        @Serial private static final long serialVersionUID = 4577125702505726581L;
+
         public InsufficientFundsException() {
             super("Account doesnt have enough money");
         }

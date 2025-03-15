@@ -1,8 +1,8 @@
-package com.jonathan.modern_design._infra.config.annotations;
+package com.jonathan.modern_design._internal.config.annotations;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Fake {
+public @interface Stub {
 }

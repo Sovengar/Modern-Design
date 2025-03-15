@@ -1,4 +1,4 @@
-package com.jonathan.modern_design._infra.config.i18n;
+package com.jonathan.modern_design._internal.config.i18n;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;

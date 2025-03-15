@@ -1,6 +1,6 @@
 package com.jonathan.modern_design.user_module.infra;
 
-import com.jonathan.modern_design._infra.config.annotations.Inyectable;
+import com.jonathan.modern_design._internal.config.annotations.Inyectable;
 import com.jonathan.modern_design.user_module.domain.User;
 import com.jonathan.modern_design.user_module.dtos.UserResource;
 import org.mapstruct.Mapper;
@@ -15,7 +15,7 @@ interface UserMapper {
 @Mapper
 interface UserMapperStruct {
 }
-    
+
 @Inyectable
 class UserMapperAdapter implements UserMapper {
     private final UserMapper mapStructInstance = Mappers.getMapper(UserMapper.class);

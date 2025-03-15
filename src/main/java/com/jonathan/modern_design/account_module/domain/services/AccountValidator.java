@@ -1,6 +1,6 @@
 package com.jonathan.modern_design.account_module.domain.services;
 
-import com.jonathan.modern_design._infra.config.annotations.Inyectable;
+import com.jonathan.modern_design._internal.config.annotations.Inyectable;
 import com.jonathan.modern_design.account_module.domain.exceptions.AccountIsInactiveException;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 

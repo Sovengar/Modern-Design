@@ -1,4 +1,4 @@
-package com.jonathan.modern_design._infra.config.exception;
+package com.jonathan.modern_design._internal.config.exception;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;

@@ -1,6 +1,6 @@
 package com.jonathan.modern_design.account_module.infra;
 
-import com.jonathan.modern_design._infra.config.annotations.WebAdapter;
+import com.jonathan.modern_design._internal.config.annotations.WebAdapter;
 import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design.account_module.AccountApi;
 import com.jonathan.modern_design.account_module.application.AccountSearcher;

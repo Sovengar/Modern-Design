@@ -1,6 +1,6 @@
-package com.jonathan.modern_design._infra.web.internal;
+package com.jonathan.modern_design._internal.web;
 
-import com.jonathan.modern_design._infra.config.annotations.WebAdapter;
+import com.jonathan.modern_design._internal.config.annotations.WebAdapter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

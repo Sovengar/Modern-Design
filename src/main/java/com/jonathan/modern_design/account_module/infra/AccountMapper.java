@@ -1,6 +1,6 @@
 package com.jonathan.modern_design.account_module.infra;
 
-import com.jonathan.modern_design._infra.config.annotations.Inyectable;
+import com.jonathan.modern_design._internal.config.annotations.Inyectable;
 import com.jonathan.modern_design._shared.Currency;
 import com.jonathan.modern_design.account_module.domain.model.Account;
 import com.jonathan.modern_design.account_module.domain.model.AccountAddress;

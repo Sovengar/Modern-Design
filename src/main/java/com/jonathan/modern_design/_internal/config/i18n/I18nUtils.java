@@ -1,4 +1,4 @@
-package com.jonathan.modern_design._infra.config.i18n;
+package com.jonathan.modern_design._internal.config.i18n;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
