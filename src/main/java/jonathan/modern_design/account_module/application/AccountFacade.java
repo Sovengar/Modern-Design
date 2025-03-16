@@ -2,9 +2,9 @@ package jonathan.modern_design.account_module.application;
 
 import jonathan.modern_design._common.annotations.Inyectable;
 import jonathan.modern_design.account_module.AccountApi;
+import jonathan.modern_design.account_module.domain.Account;
 import jonathan.modern_design.account_module.domain.AccountRepo;
-import jonathan.modern_design.account_module.domain.model.Account;
-import jonathan.modern_design.account_module.domain.model.AccountNumber;
+import jonathan.modern_design.account_module.domain.vo.AccountNumber;
 import jonathan.modern_design.account_module.dtos.AccountCreatorCommand;
 import jonathan.modern_design.account_module.dtos.AccountResource;
 import jonathan.modern_design.account_module.dtos.DepositCommand;
@@ -15,11 +15,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Inyectable
 @RequiredArgsConstructor
 @Slf4j
-public class AccountFacade implements AccountApi, AccountSearcher {
+public class AccountFacade implements AccountApi {
     private final AccountRepo repository;
     private final AccountSearcher accountSearcher;
     private final MoneyTransfer moneyTransfer;
@@ -33,28 +34,6 @@ public class AccountFacade implements AccountApi, AccountSearcher {
         moneyTransfer.transferMoney(command);
         log.info("END TransferMoney");
     }
-
-    //region CQRS, we can skip service layer and access directly to repository
-    @Override
-    public AccountResource findOne(final String accountNumber) {
-        log.debug("BEGIN FindOne");
-        final var account = repository.findOneOrElseThrow(accountNumber);
-
-        log.debug("END FindOne");
-        return new AccountResource(account);
-    }
-
-    //I think this should be moved to another facade
-    @Override
-    public List<AccountResource> search(final AccountSearchCriteria filters) {
-        log.info("BEGIN Search");
-        var accounts = accountSearcher.search(filters);
-
-        log.info("END Search");
-        return accounts;
-        //TODO Tener varios search por caso de uso y n mappers, n projections, ...
-    }
-    //endregion
 
     @Override
     @Transactional
@@ -89,4 +68,32 @@ public class AccountFacade implements AccountApi, AccountSearcher {
         //If update ends up with more logic, extract to a service and make other services depend on it, i.e. transferMoney
         repository.update(account);
     }
+
+    //region Queries applying soft CQRS, we can skip service layer and access directly to repository
+    @Override
+    public AccountResource findOne(final String accountNumber) {
+        log.debug("BEGIN FindOne");
+
+        final var account = repository.findOneOrElseThrow(accountNumber);
+
+        log.debug("END FindOne");
+        return new AccountResource(account);
+    }
+
+    //I think this should be moved to another facade
+    @Override
+    public List<AccountResource> search(final AccountSearchCriteria filters) {
+        log.info("BEGIN Search");
+        var accounts = accountSearcher.search(filters);
+
+        log.info("END Search");
+        return accounts;
+        //TODO Tener varios search por caso de uso y n mappers, n projections, ...
+    }
+
+    @Override
+    public Optional<AccountResource> findByUserPassword(final String password) {
+        return accountSearcher.findByUserPassword("password");
+    }
+    //endregion
 }

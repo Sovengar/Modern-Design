@@ -29,7 +29,7 @@ public class AccountCreator {
 
     public AccountNumber createAccount(final AccountCreatorCommand command) {
         var userId = registerUser(command);
-        final var currency = Currency.fromCode(command.currency());
+        final var currency = Currency.fromDesc(command.currency());
         final var account = Account.create(AccountNumber.of(AccountNumberGenerator.generate()), AccountMoney.of(BigDecimal.ZERO, currency), AccountAddress.of(command.address()), userId);
         return repository.create(account);
     }

@@ -1,5 +1,6 @@
 package jonathan.modern_design.account_module.infra;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design._shared.Currency;
@@ -35,20 +36,20 @@ class AccountController {
     private final AccountApi accountFacade;
 
     @Transactional
-    @PostMapping(path = "/transfer/{sourceAccountId}/{targetAccountId}/{amount}/{currency}")
+    @PostMapping(path = "/transfer/{sourceAccountId}/{targetAccountId}/{balance}/{currency}")
     void transferMoney(
             @PathVariable("sourceAccountId") String sourceAccountId,
             @PathVariable("targetAccountId") String targetAccountId,
-            @PathVariable("amount") BigDecimal amount,
+            @PathVariable("balance") BigDecimal amount,
             @PathVariable("currency") String currency) {
 
-        log.info("BEGIN Transfer money from {} to {} with amount {}", sourceAccountId, targetAccountId, amount);
+        log.info("BEGIN Transfer money from {} to {} with balance {}", sourceAccountId, targetAccountId, amount);
 
-        val command = new TransferMoneyCommand(sourceAccountId, targetAccountId, amount, Currency.fromCode(currency));
+        val command = new TransferMoneyCommand(sourceAccountId, targetAccountId, amount, Currency.fromDesc(currency));
 
         accountFacade.transferMoney(command);
 
-        log.info("END Transfer money from {} to {} with amount {}", sourceAccountId, targetAccountId, amount);
+        log.info("END Transfer money from {} to {} with balance {}", sourceAccountId, targetAccountId, amount);
     }
 
     @GetMapping(path = "/{accountNumber}")
@@ -78,4 +79,13 @@ class AccountController {
         accountFacade.update(dto);
     }
 
+    @GetMapping(path = "/{accountNumber}/balance")
+    public BigDecimal getBalance(@PathVariable String accountNumber) {
+        return accountFacade.findOne(accountNumber).balance();
+    }
+
+    @GetMapping(path = "/{password}/user")
+    public AccountResource getAcc(@PathVariable String password) {
+        return accountFacade.findByUserPassword(password).orElseThrow(EntityNotFoundException::new);
+    }
 }

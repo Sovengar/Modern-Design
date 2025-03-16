@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 import static java.math.BigDecimal.ZERO;
 import static jonathan.modern_design._fake_data.AccountStub.CreateAccountMother.randomAccountWithCurrency;
 import static jonathan.modern_design._fake_data.AccountStub.TransferMoneyMother.fromAccountToAccountWithAmount;
-import static jonathan.modern_design._shared.Currency.EURO;
+import static jonathan.modern_design._shared.Currency.EUR;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class TransferMoneyRepositoryIT extends ITConfig {
@@ -41,9 +41,9 @@ class TransferMoneyRepositoryIT extends ITConfig {
     class WithValidAccountsShould {
         @Test
         void transfer_money_into_the_target_account() {
-            var source = getAccountWithMoney(AccountMoney.of(BigDecimal.valueOf(100.0), EURO));
-            var target = getAccountWithMoney(AccountMoney.of(ZERO, EURO));
-            accountFacade.transferMoney(fromAccountToAccountWithAmount(source.getAccountNumber().getValue(), target.getAccountNumber().getValue(), AccountMoney.of(BigDecimal.valueOf(60.0), EURO)));
+            var source = getAccountWithMoney(AccountMoney.of(BigDecimal.valueOf(100.0), EUR));
+            var target = getAccountWithMoney(AccountMoney.of(ZERO, EUR));
+            accountFacade.transferMoney(fromAccountToAccountWithAmount(source.getAccountNumber().getValue(), target.getAccountNumber().getValue(), AccountMoney.of(BigDecimal.valueOf(60.0), EUR)));
 
             assertThat(source.getMoney().getAmount()).isEqualTo(BigDecimal.valueOf(40.0));
             assertThat(target.getMoney().getAmount()).isEqualTo(BigDecimal.valueOf(60.0));

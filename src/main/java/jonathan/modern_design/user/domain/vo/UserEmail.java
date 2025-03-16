@@ -16,10 +16,10 @@ import java.io.Serial;
 public class UserEmail {
     private static final int MAX_LENGTH = 254;
     private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
-    private String value;
+    private String email;
 
     public static UserEmail of(String email) {
-        if (email == null || email.isEmpty() || email.isBlank()) {
+        if (email == null || email.isBlank()) {
             throw new InvalidEmailException("Email cannot be null.");
         }
 
@@ -38,17 +38,17 @@ public class UserEmail {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof UserEmail emailVO)) return false;
-        return value.equals(emailVO.value);
+        return email.equals(emailVO.email);
     }
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return email.hashCode();
     }
 
     @Override
     public String toString() {
-        return value;
+        return email;
     }
 
     private static class InvalidEmailException extends RootException {

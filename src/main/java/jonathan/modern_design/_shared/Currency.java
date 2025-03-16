@@ -8,19 +8,19 @@ import java.io.Serial;
 @Getter
 @RequiredArgsConstructor
 public enum Currency {
-    US_DOLLAR("USD"),
-    EURO("EUR"),
-    BRITISH_POUND("GBP");
+    USD("US_DOLLAR"),
+    EUR("EURO"),
+    GBP("BRITISH_POUND");
 
-    private final String code;
+    private final String description;
 
-    public static Currency fromCode(String code) {
+    public static Currency fromDesc(String desc) {
         for (Currency currency : values()) {
-            if (currency.getCode().equalsIgnoreCase(code)) {
+            if (currency.getDescription().equalsIgnoreCase(desc)) {
                 return currency;
             }
         }
-        throw new CurrencyNotFoundException(code);
+        throw new CurrencyNotFoundException(desc);
     }
 
     static class CurrencyNotFoundException extends RuntimeException {

@@ -21,7 +21,7 @@ public class Notifier {
         final var from = "Welcome!";
         final var subject = "Dear %s, welcome! Sincerely, %s".formatted(user.getUsername().getUsername(), getCEOName());
         final var realname = user.getRealNameOrPlaceHolder();
-        final var email = user.getEmail().getValue();
+        final var email = user.getEmail().getEmail();
         return new Email(email, getCcs(), from, subject, realname);
     }
 

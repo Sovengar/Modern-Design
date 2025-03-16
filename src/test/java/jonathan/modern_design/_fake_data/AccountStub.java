@@ -15,8 +15,8 @@ import java.time.LocalDateTime;
 import static jonathan.modern_design._fake_data.UserStub.DEFAULT_COUNTRY;
 import static jonathan.modern_design._fake_data.UserStub.VALID_PASSWORD;
 import static jonathan.modern_design._fake_data.UserStub.normalUser;
-import static jonathan.modern_design._shared.Currency.EURO;
-import static jonathan.modern_design._shared.Currency.US_DOLLAR;
+import static jonathan.modern_design._shared.Currency.EUR;
+import static jonathan.modern_design._shared.Currency.USD;
 
 public class AccountStub extends Stub {
 
@@ -25,33 +25,33 @@ public class AccountStub extends Stub {
 
     public static class AccountMother {
         public static Account sourceAccountWithBalance(double balance) {
-            return builder(sourceAccountId, AccountMoney.of(BigDecimal.valueOf(balance), EURO), true);
+            return builder(sourceAccountId, AccountMoney.of(BigDecimal.valueOf(balance), EUR), true);
         }
 
         public static Account targetAccountWithBalance(double balance) {
-            return builder(targetAccountId, AccountMoney.of(BigDecimal.valueOf(balance), EURO), true);
+            return builder(targetAccountId, AccountMoney.of(BigDecimal.valueOf(balance), EUR), true);
         }
 
         /// //////////////
 
         public static Account sourceAccountEmpty() {
-            return builder(sourceAccountId, AccountMoney.of(BigDecimal.ZERO, EURO), true);
+            return builder(sourceAccountId, AccountMoney.of(BigDecimal.ZERO, EUR), true);
         }
 
         public static Account sourceAccountInactive() {
-            return builder(sourceAccountId, AccountMoney.of(BigDecimal.ZERO, EURO), false);
+            return builder(sourceAccountId, AccountMoney.of(BigDecimal.ZERO, EUR), false);
         }
 
         public static Account targetAccountEmpty() {
-            return builder(targetAccountId, AccountMoney.of(BigDecimal.ZERO, EURO), true);
+            return builder(targetAccountId, AccountMoney.of(BigDecimal.ZERO, EUR), true);
         }
 
         public static Account targetAccountInactive() {
-            return builder(targetAccountId, AccountMoney.of(BigDecimal.ZERO, EURO), false);
+            return builder(targetAccountId, AccountMoney.of(BigDecimal.ZERO, EUR), false);
         }
 
         public static Account targetAccountWithDifferentCurrency() {
-            return builder(targetAccountId, AccountMoney.of(BigDecimal.ZERO, US_DOLLAR), true);
+            return builder(targetAccountId, AccountMoney.of(BigDecimal.ZERO, USD), true);
         }
 
         private static Account builder(String accountId, AccountMoney money, boolean isActive) {
@@ -72,7 +72,7 @@ public class AccountStub extends Stub {
             var username = "Account Name";
             var email = "z3u1E@example.com";
             var realname = "John Doe";
-            var currency = EURO.getCode();
+            var currency = EUR.getDescription();
             var password = "123456";
             var country = "XXX";
             var address = "address";
@@ -84,7 +84,7 @@ public class AccountStub extends Stub {
             var email = faker.internet().emailAddress();
             var realname = faker.name().fullName();
             var address = "street, city, state, zipCode";
-            return new AccountCreatorCommand(realname, email, username, address, VALID_PASSWORD, DEFAULT_COUNTRY.code(), EURO.getCode());
+            return new AccountCreatorCommand(realname, email, username, address, VALID_PASSWORD, DEFAULT_COUNTRY.code(), EUR.getDescription());
         }
 
         public static AccountCreatorCommand randomAccountWithCurrency(Currency currency) {
@@ -92,7 +92,7 @@ public class AccountStub extends Stub {
             var email = faker.internet().emailAddress();
             var realname = faker.name().fullName();
             var address = "street, city, state, zipCode";
-            return new AccountCreatorCommand(realname, email, username, address, VALID_PASSWORD, DEFAULT_COUNTRY.code(), currency.getCode());
+            return new AccountCreatorCommand(realname, email, username, address, VALID_PASSWORD, DEFAULT_COUNTRY.code(), currency.getDescription());
         }
     }
 
@@ -106,11 +106,11 @@ public class AccountStub extends Stub {
         }
 
         public static TransferMoneyCommand insufficientFundsTransaction() {
-            return fromAccountToAccountWithAmount(sourceAccountId, targetAccountId, AccountMoney.of(BigDecimal.valueOf(100.0), EURO));
+            return fromAccountToAccountWithAmount(sourceAccountId, targetAccountId, AccountMoney.of(BigDecimal.valueOf(100.0), EUR));
         }
 
         public static TransferMoneyCommand negativeAmountTransaction() {
-            return fromAccountToAccountWithAmount(sourceAccountId, targetAccountId, AccountMoney.of(BigDecimal.valueOf(-100), EURO));
+            return fromAccountToAccountWithAmount(sourceAccountId, targetAccountId, AccountMoney.of(BigDecimal.valueOf(-100), EUR));
         }
     }
 }

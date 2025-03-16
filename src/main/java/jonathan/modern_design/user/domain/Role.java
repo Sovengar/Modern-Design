@@ -21,7 +21,7 @@ import static lombok.AccessLevel.PRIVATE;
 @Entity
 @Table(name = "roles", schema = "md")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE) //For Hibernate
+@NoArgsConstructor(access = AccessLevel.PACKAGE) //For Hibernate
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Role {
     @EmbeddedId

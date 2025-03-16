@@ -1,5 +1,6 @@
 package jonathan.modern_design.user.domain.vo;
 
+import jakarta.persistence.Embeddable;
 import jonathan.modern_design._internal.config.exception.RootException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,7 @@ import static java.util.regex.Pattern.matches;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Embeddable
 public class UserPassword {
     private String password;
 

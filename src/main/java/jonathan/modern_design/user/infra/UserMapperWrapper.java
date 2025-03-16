@@ -61,7 +61,7 @@ interface UserMapperStruct {
     }
 
     default String mapEmail(final UserEmail email) {
-        return email.getValue();
+        return email.getEmail();
     }
 
     default UserEmail mapEmail(final String email) {

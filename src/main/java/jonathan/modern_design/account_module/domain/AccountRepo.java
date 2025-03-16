@@ -8,10 +8,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 public interface AccountRepo {
-    Optional<Account> findOne(final String accountNumber);
-
-    Page<Account> findAll(final Pageable pageable);
-
+    //Commands
     AccountNumber create(Account account);
 
     void update(Account account);
@@ -19,6 +16,11 @@ public interface AccountRepo {
     void delete(final String accountNumber);
 
     void softDelete(final String accountNumber);
+
+    //Queries
+    Optional<Account> findOne(final String accountNumber);
+
+    Page<Account> findAll(final Pageable pageable);
 
     default Account findOneOrElseThrow(final String accountNumber) {
         return findOne(accountNumber).orElseThrow(() -> new AccountNotFoundException(accountNumber));

@@ -43,13 +43,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static java.util.Optional.ofNullable;
+import static lombok.AccessLevel.PACKAGE;
 import static lombok.AccessLevel.PRIVATE;
 
 @Slf4j
 @Entity
 @Table(name = "users", schema = "md")
 @Getter
-@NoArgsConstructor(access = PRIVATE) //For Hibernate
+@NoArgsConstructor(access = PACKAGE) //For Hibernate
 @AllArgsConstructor(access = PRIVATE)
 @SQLRestriction("deleted <> true") //Make Hibernate ignore soft deleted entries
 @Builder //For mapping and testing only!!!!!
@@ -66,10 +67,9 @@ public class User extends BaseEntity {
     @Embedded
     private UserName username;
     @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "email"))
     private UserEmail email;
     @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "internal_enterprise_email"))
+    @AttributeOverride(name = "email", column = @Column(name = "internal_enterprise_email"))
     @OptionalField
     private UserEmail internalEnterpriseEmail;
     @Embedded
@@ -112,7 +112,7 @@ public class User extends BaseEntity {
     }
 
     public Optional<String> getInternalEnterpriseEmail() {
-        return internalEnterpriseEmail != null ? ofNullable(internalEnterpriseEmail.getValue()) : Optional.empty();
+        return internalEnterpriseEmail != null ? ofNullable(internalEnterpriseEmail.getEmail()) : Optional.empty();
     }
 
     @PrePersist
