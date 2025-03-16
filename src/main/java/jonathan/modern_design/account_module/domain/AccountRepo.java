@@ -1,8 +1,7 @@
 package jonathan.modern_design.account_module.domain;
 
 import jonathan.modern_design.account_module.domain.exceptions.AccountNotFoundException;
-import jonathan.modern_design.account_module.domain.model.Account;
-import jonathan.modern_design.account_module.domain.model.AccountNumber;
+import jonathan.modern_design.account_module.domain.vo.AccountNumber;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
