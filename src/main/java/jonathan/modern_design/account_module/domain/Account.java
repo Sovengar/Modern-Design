@@ -1,6 +1,10 @@
-package jonathan.modern_design.account_module.domain.model;
+package jonathan.modern_design.account_module.domain;
 
 import jonathan.modern_design._shared.Currency;
+import jonathan.modern_design.account_module.domain.vo.AccountAddress;
+import jonathan.modern_design.account_module.domain.vo.AccountId;
+import jonathan.modern_design.account_module.domain.vo.AccountMoney;
+import jonathan.modern_design.account_module.domain.vo.AccountNumber;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

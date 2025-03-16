@@ -2,11 +2,11 @@ package jonathan.modern_design.account_module.infra;
 
 import jonathan.modern_design._common.annotations.Inyectable;
 import jonathan.modern_design._shared.Currency;
-import jonathan.modern_design.account_module.domain.model.Account;
-import jonathan.modern_design.account_module.domain.model.AccountAddress;
-import jonathan.modern_design.account_module.domain.model.AccountId;
-import jonathan.modern_design.account_module.domain.model.AccountMoney;
-import jonathan.modern_design.account_module.domain.model.AccountNumber;
+import jonathan.modern_design.account_module.domain.Account;
+import jonathan.modern_design.account_module.domain.vo.AccountAddress;
+import jonathan.modern_design.account_module.domain.vo.AccountId;
+import jonathan.modern_design.account_module.domain.vo.AccountMoney;
+import jonathan.modern_design.account_module.domain.vo.AccountNumber;
 import jonathan.modern_design.account_module.dtos.AccountResource;
 import jonathan.modern_design.user.domain.User;
 import org.mapstruct.Mapper;
@@ -107,7 +107,7 @@ class AccountMapperAdapter implements AccountMapper {
     public Account toAccount(final AccountResource accountResource) {
         AccountId accountId = null;
         AccountNumber accountNumber = AccountNumber.of(accountResource.accountNumber());
-        AccountMoney money = AccountMoney.of(accountResource.amount(), Currency.valueOf(accountResource.currency()));
+        AccountMoney money = AccountMoney.of(accountResource.balance(), Currency.valueOf(accountResource.currency()));
         AccountAddress address = null;
         User.UserId userId = accountResource.userId();
         LocalDateTime dateOfLastTransaction = null;

@@ -2,10 +2,10 @@ package jonathan.modern_design._fake_data;
 
 import jonathan.modern_design.__config.Stub;
 import jonathan.modern_design._shared.Currency;
-import jonathan.modern_design.account_module.domain.model.Account;
-import jonathan.modern_design.account_module.domain.model.AccountAddress;
-import jonathan.modern_design.account_module.domain.model.AccountMoney;
-import jonathan.modern_design.account_module.domain.model.AccountNumber;
+import jonathan.modern_design.account_module.domain.Account;
+import jonathan.modern_design.account_module.domain.vo.AccountAddress;
+import jonathan.modern_design.account_module.domain.vo.AccountMoney;
+import jonathan.modern_design.account_module.domain.vo.AccountNumber;
 import jonathan.modern_design.account_module.dtos.AccountCreatorCommand;
 import jonathan.modern_design.account_module.dtos.TransferMoneyCommand;
 

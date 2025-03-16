@@ -2,11 +2,11 @@ package jonathan.modern_design.account_module.application;
 
 import jonathan.modern_design._common.annotations.Inyectable;
 import jonathan.modern_design._shared.Currency;
+import jonathan.modern_design.account_module.domain.Account;
 import jonathan.modern_design.account_module.domain.AccountRepo;
 import jonathan.modern_design.account_module.domain.exceptions.OperationForbiddenForSameAccount;
-import jonathan.modern_design.account_module.domain.model.Account;
-import jonathan.modern_design.account_module.domain.model.AccountNumber;
 import jonathan.modern_design.account_module.domain.services.AccountValidator;
+import jonathan.modern_design.account_module.domain.vo.AccountNumber;
 import jonathan.modern_design.account_module.dtos.TransferMoneyCommand;
 import lombok.RequiredArgsConstructor;
 

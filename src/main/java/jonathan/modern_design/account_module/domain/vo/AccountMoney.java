@@ -1,4 +1,4 @@
-package jonathan.modern_design.account_module.domain.model;
+package jonathan.modern_design.account_module.domain.vo;
 
 import jonathan.modern_design._internal.config.exception.RootException;
 import jonathan.modern_design._shared.Currency;
