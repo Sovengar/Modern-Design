@@ -19,9 +19,9 @@ class CreateUserTest {
     private final UserApi userFacade = new UsersConfig().userApi();
 
     @Nested
-    class ValidUser {
+    class WithValidUserShould {
         @Test
-        void should_register_user() {
+        void register_user() {
             var data = createUserCommandWithValidData();
             userFacade.registerUser(data);
             var user = userFacade.findUser(new UserId(data.uuid()));
@@ -30,21 +30,21 @@ class CreateUserTest {
     }
 
     @Nested
-    class InvalidUser {
+    class WithInvalidUserShouldFailIf {
         @Test
-        void should_fail_when_password_is_too_short() {
+        void password_is_too_short() {
             assertThatThrownBy(() -> userFacade.registerUser(createUserWithShortPassword()))
                     .isInstanceOf(RuntimeException.class);
         }
 
         @Test
-        void should_fail_when_password_is_too_long() {
+        void password_is_too_long() {
             assertThatThrownBy(() -> userFacade.registerUser(createUserWithTooLongPassword()))
                     .isInstanceOf(RuntimeException.class);
         }
 
         @Test
-        void should_fail_when_email_is_invalid() {
+        void email_is_invalid() {
             assertThatThrownBy(() -> userFacade.registerUser(createUserWithInvalidEmail()))
                     .isInstanceOf(RuntimeException.class);
         }
