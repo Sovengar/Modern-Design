@@ -6,7 +6,7 @@ import jonathan.modern_design.user.domain.vo.UserEmail;
 import jonathan.modern_design.user.domain.vo.UserName;
 import jonathan.modern_design.user.domain.vo.UserPassword;
 import jonathan.modern_design.user.domain.vo.UserRealName;
-import jonathan.modern_design.user.dtos.UserResource;
+import jonathan.modern_design.user.dtos.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -14,9 +14,9 @@ import org.mapstruct.Mapping;
 import java.util.Map;
 
 interface UserMapper {
-    UserResource toResource(final User user);
+    UserDto toResource(final User user);
 
-    User toDomain(final UserResource userResource);
+    User toDomain(final UserDto userDto);
 }
 
 @Mapper(componentModel = "spring")
@@ -24,9 +24,9 @@ interface UserMapperStruct {
     Map<String, String> DEPRECATIONS = Map.of("name", "realname");
 
     @Mapping(target = "deprecations", expression = "java(DEPRECATIONS)")
-    UserResource toResource(final User user);
+    UserDto toResource(final User user);
 
-    User toDomain(final UserResource userResource);
+    User toDomain(final UserDto userDto);
 
     default String mapPassword(final UserPassword password) {
         return password.getPassword();
@@ -75,12 +75,12 @@ class UserMapperAdapter implements UserMapper {
     private final UserMapperStruct mapStructInstance; //Mappers.getMapper(UserMapperStruct.class)
 
     @Override
-    public UserResource toResource(final User user) {
+    public UserDto toResource(final User user) {
         return mapStructInstance.toResource(user);
     }
 
     @Override
-    public User toDomain(final UserResource userResource) {
-        return mapStructInstance.toDomain(userResource);
+    public User toDomain(final UserDto userDto) {
+        return mapStructInstance.toDomain(userDto);
     }
 }

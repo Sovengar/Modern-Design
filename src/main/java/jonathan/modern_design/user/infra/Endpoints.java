@@ -3,7 +3,7 @@ package jonathan.modern_design.user.infra;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design.user.UserApi;
 import jonathan.modern_design.user.domain.User;
-import jonathan.modern_design.user.dtos.UserResource;
+import jonathan.modern_design.user.dtos.UserDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +22,7 @@ class UserController {
     private final UserApi userApi;
 
     @GetMapping("/{id}")
-    private UserResource getUser(@PathVariable UUID id) {
+    private UserDto getUser(@PathVariable UUID id) {
         return userApi.findUser(new User.UserId(id));
     }
 }
@@ -35,7 +35,7 @@ class RoleController {
     private final UserApi userApi;
 
     @GetMapping
-    private UserResource getAll() {
+    private UserDto getAll() {
         //return userApi.findRoles();
         return null; //TODO
     }

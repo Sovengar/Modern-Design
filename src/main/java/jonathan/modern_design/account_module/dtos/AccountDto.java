@@ -5,8 +5,8 @@ import jonathan.modern_design.user.domain.User.UserId;
 
 import java.math.BigDecimal;
 
-public record AccountResource(String accountNumber, BigDecimal balance, String currency, UserId userId) {
-    public AccountResource(final Account account) {
+public record AccountDto(String accountNumber, BigDecimal balance, String currency, UserId userId) {
+    public AccountDto(final Account account) {
         this(account.getAccountNumber().getValue(), account.getMoney().getAmount(), account.getMoney().getCurrency().getDescription(), account.getUserId());
     }
 }

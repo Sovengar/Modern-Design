@@ -5,7 +5,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jonathan.modern_design._common.annotations.Repo;
-import jonathan.modern_design.account_module.dtos.AccountResource;
+import jonathan.modern_design.account_module.dtos.AccountDto;
 import jonathan.modern_design.user.domain.QUser;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +21,9 @@ import static java.lang.String.join;
 import static java.util.Optional.ofNullable;
 
 public interface AccountSearchRepo {
-    Optional<AccountResource> findByUserPassword(final String password);
+    Optional<AccountDto> findByUserPassword(final String password);
 
-    List<AccountResource> search(AccountSearchCriteria filters);
+    List<AccountDto> search(AccountSearchCriteria filters);
 
     @Builder
     record AccountSearchCriteria(
@@ -44,7 +44,7 @@ class AccountSearchRepoImpl implements AccountSearchRepo {
     private final AccountMapper accountMapper;
 
     @Override
-    public List<AccountResource> search(AccountSearchCriteria filters) {
+    public List<AccountDto> search(AccountSearchCriteria filters) {
         // Alternative: Spring Specifications https://docs.spring.io/spring-data/jpa/reference/jpa/specifications.html
         String jpql = "SELECT new com.jonathan.modern_design.account_module.application.FindAccountUseCase.AccountSearchResult(c.id, c.name)" +
                 " FROM Customer c " +
@@ -72,7 +72,7 @@ class AccountSearchRepoImpl implements AccountSearchRepo {
                 });
 
         String whereCriteria = join(" AND ", jpqlParts);
-        var query = entityManager.createQuery(jpql + whereCriteria, AccountResource.class);
+        var query = entityManager.createQuery(jpql + whereCriteria, AccountDto.class);
         for (var entry : params.entrySet()) {
             query.setParameter(entry.getKey(), params.get(entry.getKey()));
         }
@@ -80,7 +80,7 @@ class AccountSearchRepoImpl implements AccountSearchRepo {
     }
 
     @Override
-    public Optional<AccountResource> findByUserPassword(final String password) {
+    public Optional<AccountDto> findByUserPassword(final String password) {
         final JPAQueryFactory queryFactory = new JPAQueryFactory(JPQLTemplates.DEFAULT, entityManager);
 
         QUser user = QUser.user;
@@ -95,7 +95,7 @@ class AccountSearchRepoImpl implements AccountSearchRepo {
                 .where(account.userId.eq(userFound.getUuid()))
                 .fetchOne();
 //TODO
-        return Optional.ofNullable(accountFound).map(accountEntity -> new AccountResource("a", BigDecimal.ZERO, "c", null));
+        return Optional.ofNullable(accountFound).map(accountEntity -> new AccountDto("a", BigDecimal.ZERO, "c", null));
     }
 }
 

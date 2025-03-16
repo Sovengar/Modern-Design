@@ -6,7 +6,7 @@ import jonathan.modern_design.account_module.domain.Account;
 import jonathan.modern_design.account_module.domain.AccountRepo;
 import jonathan.modern_design.account_module.domain.vo.AccountNumber;
 import jonathan.modern_design.account_module.dtos.AccountCreatorCommand;
-import jonathan.modern_design.account_module.dtos.AccountResource;
+import jonathan.modern_design.account_module.dtos.AccountDto;
 import jonathan.modern_design.account_module.dtos.DepositCommand;
 import jonathan.modern_design.account_module.dtos.TransferMoneyCommand;
 import jonathan.modern_design.account_module.infra.AccountMapper;
@@ -38,7 +38,7 @@ public class AccountFacade implements AccountApi {
 
     @Override
     @Transactional
-    public void update(AccountResource dto) {
+    public void update(AccountDto dto) {
         log.info("BEGIN Update");
         var account = accountMapper.toAccount(dto);
         update(account);
@@ -72,18 +72,18 @@ public class AccountFacade implements AccountApi {
 
     //region Queries applying soft CQRS, we can skip service layer and access directly to repository
     @Override
-    public AccountResource findOne(final String accountNumber) {
+    public AccountDto findOne(final String accountNumber) {
         log.debug("BEGIN FindOne");
 
         final var account = repository.findOneOrElseThrow(accountNumber);
 
         log.debug("END FindOne");
-        return new AccountResource(account);
+        return new AccountDto(account);
     }
 
     //I think this should be moved to another facade
     @Override
-    public List<AccountResource> search(final AccountSearchCriteria filters) {
+    public List<AccountDto> search(final AccountSearchCriteria filters) {
         log.info("BEGIN Search");
         var accounts = accountSearcher.search(filters);
 
@@ -93,7 +93,7 @@ public class AccountFacade implements AccountApi {
     }
 
     @Override
-    public Optional<AccountResource> findByUserPassword(final String password) {
+    public Optional<AccountDto> findByUserPassword(final String password) {
         return accountSearcher.findByUserPassword("password");
     }
     //endregion

@@ -7,7 +7,7 @@ import jonathan.modern_design.account_module.domain.vo.AccountAddress;
 import jonathan.modern_design.account_module.domain.vo.AccountId;
 import jonathan.modern_design.account_module.domain.vo.AccountMoney;
 import jonathan.modern_design.account_module.domain.vo.AccountNumber;
-import jonathan.modern_design.account_module.dtos.AccountResource;
+import jonathan.modern_design.account_module.dtos.AccountDto;
 import jonathan.modern_design.user.domain.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -22,7 +22,7 @@ import java.util.UUID;
 public interface AccountMapper {
     Account toAccount(final AccountEntity accountEntity);
 
-    Account toAccount(final AccountResource accountResource);
+    Account toAccount(final AccountDto accountDto);
 
     Iterable<Account> toAccounts(Iterable<AccountEntity> accountEntity);
 
@@ -104,12 +104,12 @@ class AccountMapperAdapter implements AccountMapper {
     }
 
     @Override
-    public Account toAccount(final AccountResource accountResource) {
+    public Account toAccount(final AccountDto accountDto) {
         AccountId accountId = null;
-        AccountNumber accountNumber = AccountNumber.of(accountResource.accountNumber());
-        AccountMoney money = AccountMoney.of(accountResource.balance(), Currency.valueOf(accountResource.currency()));
+        AccountNumber accountNumber = AccountNumber.of(accountDto.accountNumber());
+        AccountMoney money = AccountMoney.of(accountDto.balance(), Currency.valueOf(accountDto.currency()));
         AccountAddress address = null;
-        User.UserId userId = accountResource.userId();
+        User.UserId userId = accountDto.userId();
         LocalDateTime dateOfLastTransaction = null;
         boolean active = true;
         return Account.builder()
