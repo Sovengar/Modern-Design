@@ -5,7 +5,6 @@ import jakarta.transaction.Transactional;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design.account_module.AccountApi;
-import jonathan.modern_design.account_module.application.AccountSearcher;
 import jonathan.modern_design.account_module.dtos.AccountCreatorCommand;
 import jonathan.modern_design.account_module.dtos.AccountResource;
 import jonathan.modern_design.account_module.dtos.TransferMoneyCommand;
@@ -59,7 +58,7 @@ class AccountController {
 
     //@Operation(description = "Search Account")
     @PostMapping("/search")
-    public List<AccountResource> search(@RequestBody AccountSearcher.AccountSearchCriteria searchCriteria) {
+    public List<AccountResource> search(@RequestBody AccountSearchRepo.AccountSearchCriteria searchCriteria) {
         return accountFacade.search(searchCriteria);
     }
 

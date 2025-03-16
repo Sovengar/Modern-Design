@@ -4,11 +4,11 @@ import com.querydsl.jpa.JPQLTemplates;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jonathan.modern_design.account_module.application.AccountSearcher;
+import jonathan.modern_design._common.annotations.Repo;
 import jonathan.modern_design.account_module.dtos.AccountResource;
 import jonathan.modern_design.user.domain.QUser;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -22,19 +22,29 @@ import static java.util.Optional.ofNullable;
 
 public interface AccountSearchRepo {
     Optional<AccountResource> findByUserPassword(final String password);
+
+    List<AccountResource> search(AccountSearchCriteria filters);
+
+    @Builder
+    record AccountSearchCriteria(
+            String username,
+            String email,
+            String countryCode
+    ) {
+    }
 }
 
-@Repository
+@Repo
 @RequiredArgsConstructor
 //Has to have Impl in the name to avoid Spring mapping to JPARepository
-class AccountSearchRepoImpl implements AccountSearcher {
+class AccountSearchRepoImpl implements AccountSearchRepo {
 
     @PersistenceContext
     private final EntityManager entityManager;
     private final AccountMapper accountMapper;
 
     @Override
-    public List<AccountResource> search(AccountSearcher.AccountSearchCriteria filters) {
+    public List<AccountResource> search(AccountSearchCriteria filters) {
         // Alternative: Spring Specifications https://docs.spring.io/spring-data/jpa/reference/jpa/specifications.html
         String jpql = "SELECT new com.jonathan.modern_design.account_module.application.FindAccountUseCase.AccountSearchResult(c.id, c.name)" +
                 " FROM Customer c " +

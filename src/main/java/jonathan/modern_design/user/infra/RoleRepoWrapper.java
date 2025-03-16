@@ -2,7 +2,7 @@ package jonathan.modern_design.user.infra;
 
 import jakarta.persistence.EntityNotFoundException;
 import jonathan.modern_design._common.annotations.Fake;
-import jonathan.modern_design._common.annotations.PersistenceAdapter;
+import jonathan.modern_design._common.annotations.Repo;
 import jonathan.modern_design.user.domain.Role;
 import jonathan.modern_design.user.domain.RoleRepo;
 import jonathan.modern_design.user.domain.Roles;
@@ -32,7 +32,7 @@ class RoleRepoInMemory implements RoleRepo {
     }
 }
 
-@PersistenceAdapter
+@Repo
 @RequiredArgsConstructor
 class RoleRepoAdapter implements RoleRepo {
     private final RoleSpringRepo repository;

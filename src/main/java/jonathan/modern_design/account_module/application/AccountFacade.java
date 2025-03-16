@@ -10,6 +10,7 @@ import jonathan.modern_design.account_module.dtos.AccountResource;
 import jonathan.modern_design.account_module.dtos.DepositCommand;
 import jonathan.modern_design.account_module.dtos.TransferMoneyCommand;
 import jonathan.modern_design.account_module.infra.AccountMapper;
+import jonathan.modern_design.account_module.infra.AccountSearchRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +23,7 @@ import java.util.Optional;
 @Slf4j
 public class AccountFacade implements AccountApi {
     private final AccountRepo repository;
-    private final AccountSearcher accountSearcher;
+    private final AccountSearchRepo accountSearcher;
     private final MoneyTransfer moneyTransfer;
     private final AccountCreator accountCreator;
     private final AccountMapper accountMapper;

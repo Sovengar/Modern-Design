@@ -1,7 +1,7 @@
 package jonathan.modern_design.account_module.infra;
 
 import jonathan.modern_design._common.annotations.Fake;
-import jonathan.modern_design._common.annotations.PersistenceAdapter;
+import jonathan.modern_design._common.annotations.Repo;
 import jonathan.modern_design.account_module.domain.Account;
 import jonathan.modern_design.account_module.domain.AccountRepo;
 import jonathan.modern_design.account_module.domain.vo.AccountNumber;
@@ -20,11 +20,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static java.util.Objects.requireNonNull;
 
-interface AccountSpringRepo extends JpaRepository<AccountEntity, String>, AccountSearchRepo {
+interface AccountSpringRepo extends JpaRepository<AccountEntity, String> {
     Optional<AccountEntity> findByAccountNumber(@NonNull String accountNumber);
 }
 
-@PersistenceAdapter
+@Repo
 @Primary //When Spring finds AccountRepository but creates AccountSpringRepo, it will use AccountRepositorySpringAdapter
 @RequiredArgsConstructor
 class AccountRepoAdapter implements AccountRepo {

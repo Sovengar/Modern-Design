@@ -1,7 +1,7 @@
 package jonathan.modern_design._common.annotations;
 
 import org.springframework.core.annotation.AliasFor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -12,10 +12,10 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Component
-public @interface PersistenceAdapter {
+@Repository
+public @interface Repo {
 
-    @AliasFor(annotation = Component.class)
+    @AliasFor(annotation = Repository.class)
     String value() default "";
 
 }

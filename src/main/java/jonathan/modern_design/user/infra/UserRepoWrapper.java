@@ -1,7 +1,7 @@
 package jonathan.modern_design.user.infra;
 
 import jonathan.modern_design._common.annotations.Fake;
-import jonathan.modern_design._common.annotations.PersistenceAdapter;
+import jonathan.modern_design._common.annotations.Repo;
 import jonathan.modern_design.user.domain.User;
 import jonathan.modern_design.user.domain.UserRepo;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ interface UserSpringRepo extends JpaRepository<User, Long> {
     Optional<User> findByUuid(User.UserId userId);
 }
 
-@PersistenceAdapter
+@Repo
 @RequiredArgsConstructor
 class UserRepoAdapter implements UserRepo {
     private final UserSpringRepo repository;
