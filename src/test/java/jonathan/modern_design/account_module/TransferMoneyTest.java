@@ -47,9 +47,9 @@ class TransferMoneyTest {
     }
 
     @Nested
-    class ValidAccount {
+    class WithValidAccountShould {
         @Test
-        void should_transfer_money_into_the_target_account() {
+        void transfer_money_into_the_target_account() {
             var source = sourceAccountWithBalance(100.0);
             var target = targetAccountEmpty();
             populatePersistenceLayer(source, target);
@@ -60,7 +60,7 @@ class TransferMoneyTest {
         }
 
         @Test
-        void should_update_date_of_last_transaction() {
+        void update_date_of_last_transaction() {
             var source = sourceAccountWithBalance(100.0);
             var target = targetAccountEmpty();
             populatePersistenceLayer(source, target);
@@ -72,9 +72,9 @@ class TransferMoneyTest {
     }
 
     @Nested
-    class InvalidAccounts {
+    class WithInvalidAccountShouldFailIf {
         @Test
-        void should_fail_transference_when_not_enough_money() {
+        void transference_with_insufficient_money() {
             var source = sourceAccountEmpty();
             var target = targetAccountWithBalance(100.0);
             populatePersistenceLayer(source, target);
@@ -84,7 +84,7 @@ class TransferMoneyTest {
         }
 
         @Test
-        void should_fail_transference_when_source_account_is_inactive() {
+        void transference_with_inactive_source_account() {
             var source = sourceAccountInactive();
             var target = targetAccountEmpty();
             populatePersistenceLayer(source, target);
@@ -94,7 +94,7 @@ class TransferMoneyTest {
         }
 
         @Test
-        void should_fail_transference_when_target_account_is_inactive() {
+        void transference_with_inactive_target_account() {
             var source = sourceAccountWithBalance(100.0);
             var target = targetAccountInactive();
             populatePersistenceLayer(source, target);
@@ -104,7 +104,7 @@ class TransferMoneyTest {
         }
 
         @Test
-        void should_fail_when_accounts_have_distinct_currencies() {
+        void accounts_have_distinct_currencies() {
             var source = sourceAccountWithBalance(100.0);
             var target = targetAccountWithDifferentCurrency();
             populatePersistenceLayer(source, target);

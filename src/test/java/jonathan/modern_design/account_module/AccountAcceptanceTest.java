@@ -8,6 +8,7 @@ import jonathan.modern_design.account_module.domain.AccountRepo;
 import jonathan.modern_design.account_module.domain.vo.AccountMoney;
 import jonathan.modern_design.account_module.dtos.DepositCommand;
 import org.approvaltests.Approvals;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -30,37 +31,6 @@ final class AccountAcceptanceTest extends ITConfig {
     @Autowired
     private AccountApi accountFacade;
 
-    @Test
-    void should_create_account() throws Exception {
-        String json = mapper.writeValueAsString(AccountStub.CreateAccountMother.createAccountCommandWithValidData());
-        //Use jsonPath("$.starships") ?
-
-        mockMvc.perform(post("/api/v1/accounts")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(json))
-                .andExpect(status().isCreated());
-    }
-
-    @Test
-    void approval_test_transfer_money_into_the_target_account_check_source() {
-        var source = getAccountWithMoney(AccountMoney.of(BigDecimal.valueOf(100.0), EURO));
-        var target = getAccountWithMoney(AccountMoney.of(ZERO, EURO));
-        accountFacade.transferMoney(fromAccountToAccountWithAmount(source.getAccountNumber().getValue(), target.getAccountNumber().getValue(), AccountMoney.of(BigDecimal.valueOf(50.0), EURO)));
-
-        source = repository.findOne(source.getAccountNumber().getValue()).orElseThrow();
-        Approvals.verify(source.getMoney().getAmount());
-    }
-
-    @Test
-    void approval_test_transfer_money_into_the_target_account_check_target() {
-        var source = getAccountWithMoney(AccountMoney.of(BigDecimal.valueOf(100.0), EURO));
-        var target = getAccountWithMoney(AccountMoney.of(ZERO, EURO));
-        accountFacade.transferMoney(fromAccountToAccountWithAmount(source.getAccountNumber().getValue(), target.getAccountNumber().getValue(), AccountMoney.of(BigDecimal.valueOf(50.0), EURO)));
-
-        target = repository.findOne(target.getAccountNumber().getValue()).orElseThrow();
-        Approvals.verify(target.getMoney().getAmount());
-    }
-
     private Account getAccountWithMoney(final AccountMoney money) {
         var accountNumber = accountFacade.createAccount(randomAccountWithCurrency(money.getCurrency())).getValue();
 
@@ -69,6 +39,43 @@ final class AccountAcceptanceTest extends ITConfig {
         }
 
         return repository.findOne(accountNumber).orElseThrow();
+    }
+
+    @Nested
+    class WithValidDataForCreatingAccountShould {
+        @Test
+        void create_account() throws Exception {
+            String json = mapper.writeValueAsString(AccountStub.CreateAccountMother.createAccountCommandWithValidData());
+            //Use jsonPath("$.starships") ?
+
+            mockMvc.perform(post("/api/v1/accounts")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(json))
+                    .andExpect(status().isCreated());
+        }
+    }
+
+    @Nested
+    class WithValidAccountsShould {
+        @Test
+        void transfer_money_into_the_target_account_check_source_approval() {
+            var source = getAccountWithMoney(AccountMoney.of(BigDecimal.valueOf(100.0), EURO));
+            var target = getAccountWithMoney(AccountMoney.of(ZERO, EURO));
+            accountFacade.transferMoney(fromAccountToAccountWithAmount(source.getAccountNumber().getValue(), target.getAccountNumber().getValue(), AccountMoney.of(BigDecimal.valueOf(50.0), EURO)));
+
+            source = repository.findOne(source.getAccountNumber().getValue()).orElseThrow();
+            Approvals.verify(source.getMoney().getAmount());
+        }
+
+        @Test
+        void transfer_money_into_the_target_account_check_target_approval() {
+            var source = getAccountWithMoney(AccountMoney.of(BigDecimal.valueOf(100.0), EURO));
+            var target = getAccountWithMoney(AccountMoney.of(ZERO, EURO));
+            accountFacade.transferMoney(fromAccountToAccountWithAmount(source.getAccountNumber().getValue(), target.getAccountNumber().getValue(), AccountMoney.of(BigDecimal.valueOf(50.0), EURO)));
+
+            target = repository.findOne(target.getAccountNumber().getValue()).orElseThrow();
+            Approvals.verify(target.getMoney().getAmount());
+        }
     }
 }
 
