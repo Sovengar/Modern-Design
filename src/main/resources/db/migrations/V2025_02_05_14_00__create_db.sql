@@ -16,6 +16,7 @@ create TABLE MD.USERS (
     password VARCHAR(255),
     status VARCHAR(255),
     country VARCHAR(255),
+    phone_numbers VARCHAR(500),
     role_code VARCHAR(25),
     version INTEGER,
     created_by VARCHAR(255),

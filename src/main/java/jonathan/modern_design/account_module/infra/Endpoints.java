@@ -44,7 +44,7 @@ class AccountController {
 
         log.info("BEGIN Transfer money from {} to {} with balance {}", sourceAccountId, targetAccountId, amount);
 
-        val command = new TransferMoneyCommand(sourceAccountId, targetAccountId, amount, Currency.fromDesc(currency));
+        val command = new TransferMoneyCommand(sourceAccountId, targetAccountId, amount, Currency.fromCode(currency));
 
         accountFacade.transferMoney(command);
 

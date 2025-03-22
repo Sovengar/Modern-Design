@@ -15,13 +15,13 @@ import jakarta.persistence.PostPersist;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import jonathan.modern_design._common.BaseEntity;
 import jonathan.modern_design._common.annotations.OptionalField;
 import jonathan.modern_design._shared.country.Country;
 import jonathan.modern_design.user.domain.vo.UserEmail;
 import jonathan.modern_design.user.domain.vo.UserName;
 import jonathan.modern_design.user.domain.vo.UserPassword;
+import jonathan.modern_design.user.domain.vo.UserPhoneNumbers;
 import jonathan.modern_design.user.domain.vo.UserRealName;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -35,9 +35,6 @@ import org.hibernate.annotations.SQLRestriction;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
@@ -78,37 +75,33 @@ public class User extends BaseEntity {
     @Enumerated(value = jakarta.persistence.EnumType.STRING)
     private Status status;
 
-    @Transient //TODO pasar a tabla
-    private List<String> phoneNumbers = new ArrayList<>();
+    @Embedded
+    private UserPhoneNumbers userPhoneNumbers;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Role role;
 
-    public static User register(UserId uuid, UserRealName realname, UserName username, UserEmail email, UserPassword password, Country country, Role role) {
+    public static User register(UserId uuid, UserRealName realname, UserName username, UserEmail email, UserPassword password, Country country, UserPhoneNumbers phoneNumbers, Role role) {
         Objects.requireNonNull(username);
         Objects.requireNonNull(email);
         Objects.requireNonNull(password);
         Objects.requireNonNull(country);
         Objects.requireNonNull(role);
 
-        return new User(null, uuid, realname, username, email, null, password, country.code(), Status.DRAFT, new ArrayList<>(), role);
+        return new User(null, uuid, realname, username, email, null, password, country.code(), Status.DRAFT, phoneNumbers, role);
     }
 
-    public static User registerAdmin(UserId uuid, UserRealName realname, UserName username, UserEmail email, UserEmail internalEmail, UserPassword password, Country country) {
+    public static User registerAdmin(UserId uuid, UserRealName realname, UserName username, UserEmail email, UserEmail internalEmail, UserPassword password, UserPhoneNumbers phoneNumbers, Country country) {
         Objects.requireNonNull(username);
         Objects.requireNonNull(email);
         Objects.requireNonNull(password);
         Objects.requireNonNull(country);
 
-        return new User(null, uuid, realname, username, email, internalEmail, password, country.code(), Status.ACTIVE, new ArrayList<>(), Role.of(Roles.ADMIN));
+        return new User(null, uuid, realname, username, email, internalEmail, password, country.code(), Status.ACTIVE, phoneNumbers, Role.of(Roles.ADMIN));
     }
 
     public String getRealNameOrPlaceHolder() {
         return realname.getRealname().orElse("Anonymous");
-    }
-
-    public List<String> getPhoneNumbers() {
-        return Collections.unmodifiableList(phoneNumbers);
     }
 
     public Optional<String> getInternalEnterpriseEmail() {

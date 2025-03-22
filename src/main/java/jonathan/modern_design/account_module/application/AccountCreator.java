@@ -16,6 +16,7 @@ import jonathan.modern_design.user.dtos.UserRegisterCommand;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 import static java.util.Optional.ofNullable;
@@ -29,7 +30,7 @@ public class AccountCreator {
 
     public AccountNumber createAccount(final AccountCreatorCommand command) {
         var userId = registerUser(command);
-        final var currency = Currency.fromDesc(command.currency());
+        final var currency = Currency.fromCode(command.currency());
         final var account = Account.create(AccountNumber.of(AccountNumberGenerator.generate()), AccountMoney.of(BigDecimal.ZERO, currency), AccountAddress.of(command.address()), userId);
         return repository.create(account);
     }
@@ -42,7 +43,8 @@ public class AccountCreator {
                 command.username(),
                 command.email(),
                 command.password(),
-                countriesInventory.findByCodeOrElseThrow(command.country()));
+                countriesInventory.findByCodeOrElseThrow(command.country()),
+                List.of("+34123456789")); //TODO
 
         userFacade.registerUser(userCreateCommand);
         return new UserId(userId);
