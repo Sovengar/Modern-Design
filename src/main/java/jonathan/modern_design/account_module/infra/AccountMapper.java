@@ -55,12 +55,12 @@ interface AccountMapperMapStruct {
 
     @Named("mapBalance")
     default BigDecimal mapBalance(AccountMoney money) {
-        return money.getAmount();
+        return money.amount();
     }
 
     @Named("mapCurrency")
     default Currency mapCurrency(AccountMoney money) {
-        return money.getCurrency();
+        return money.currency();
     }
 
     @Named("mapAddress")
@@ -74,7 +74,7 @@ interface AccountMapperMapStruct {
     }
 
     default String mapAccountNumber(AccountNumber accountNumber) {
-        return accountNumber.getValue();
+        return accountNumber.accountNumber();
     }
 
     default AccountNumber mapAccountNumber(String accountNumber) {

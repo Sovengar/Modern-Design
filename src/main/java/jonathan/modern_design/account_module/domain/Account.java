@@ -18,7 +18,7 @@ import static jonathan.modern_design.user.domain.User.UserId;
 @Builder //For mapper and tests only
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-public class Account {
+public final class Account {
     AccountId accountId;
     AccountNumber accountNumber;
     AccountMoney money;

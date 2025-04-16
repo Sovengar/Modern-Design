@@ -3,20 +3,11 @@ package jonathan.modern_design.account_module.domain.vo;
 import jonathan.modern_design._internal.config.exception.RootException;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design.account_module.domain.exceptions.OperationWithDifferentCurrenciesException;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import java.io.Serial;
 import java.math.BigDecimal;
-import java.util.Objects;
 
-@Getter
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class AccountMoney {
-    private final BigDecimal amount;
-    private final Currency currency;
-
+public record AccountMoney(BigDecimal amount, Currency currency) {
     public static AccountMoney of(BigDecimal amount, Currency currency) {
         return new AccountMoney(amount, currency);
     }
@@ -65,25 +56,6 @@ public class AccountMoney {
 
     public boolean isLowerThan(BigDecimal anotherAmount) {
         return this.amount.compareTo(anotherAmount) < 0;
-    }
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AccountMoney money = (AccountMoney) o;
-        return amount.equals(money.amount) && currency.equals(money.currency);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(amount, currency);
-    }
-
-    @Override
-    public String toString() {
-        return amount + " " + currency;
     }
 
 

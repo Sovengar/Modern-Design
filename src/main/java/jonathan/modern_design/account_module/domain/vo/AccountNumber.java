@@ -1,19 +1,12 @@
 package jonathan.modern_design.account_module.domain.vo;
 
 import jonathan.modern_design._internal.config.exception.RootException;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 import java.io.Serial;
 
 import static java.util.regex.Pattern.matches;
 
-@Getter
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class AccountNumber {
-    private final String value;
-
+public record AccountNumber(String accountNumber) {
     public static AccountNumber of(String accountNumber) {
         if (accountNumber == null || accountNumber.isEmpty()) {
             throw new InvalidAccountNumberException("Account number cannot be empty or null.");

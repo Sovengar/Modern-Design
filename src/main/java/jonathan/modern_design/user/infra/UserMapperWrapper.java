@@ -29,7 +29,7 @@ interface UserMapperStruct {
     User toDomain(final UserDto userDto);
 
     default String mapPassword(final UserPassword password) {
-        return password.getPassword();
+        return password.password();
     }
 
     default UserPassword mapPassword(final String password) {
@@ -53,7 +53,7 @@ interface UserMapperStruct {
     }
 
     default String mapUsername(final UserName username) {
-        return username.getUsername();
+        return username.username();
     }
 
     default UserName mapUsername(final String username) {
@@ -61,7 +61,7 @@ interface UserMapperStruct {
     }
 
     default String mapEmail(final UserEmail email) {
-        return email.getEmail();
+        return email.email();
     }
 
     default UserEmail mapEmail(final String email) {

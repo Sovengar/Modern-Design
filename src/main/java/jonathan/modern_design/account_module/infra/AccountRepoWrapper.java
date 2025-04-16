@@ -60,7 +60,7 @@ class AccountRepoAdapter implements AccountRepo {
 
     @Override
     public void update(final Account account) {
-        var accountEntity = findOneEntity(account.getAccountNumber().getValue()).orElseThrow();
+        var accountEntity = findOneEntity(account.getAccountNumber().accountNumber()).orElseThrow();
         accountMapper.updateAccountEntity(account, accountEntity);
         repository.save(accountEntity);
     }
@@ -97,7 +97,7 @@ class AccountInMemoryRepo implements AccountRepo {
 
     @Override
     public AccountNumber create(Account account) {
-        accounts.put(account.getAccountNumber().getValue(), account);
+        accounts.put(account.getAccountNumber().accountNumber(), account);
         return account.getAccountNumber();
     }
 

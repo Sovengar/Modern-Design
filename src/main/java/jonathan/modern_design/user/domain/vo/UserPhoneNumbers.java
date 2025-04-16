@@ -49,6 +49,7 @@ public class UserPhoneNumbers {
         return String.join(SEPARATOR, phoneNumbers);
     }
 
+    //If this logic grows, for example based on the role allowing more phones, move to a domain Service
     private boolean hasMoreThanTwoPhoneNumbers() {
         return phoneNumbersSet.size() > 2;
     }

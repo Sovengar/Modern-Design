@@ -1,22 +1,15 @@
 package jonathan.modern_design.user.domain.vo;
 
+
 import jakarta.persistence.Embeddable;
 import jonathan.modern_design._internal.config.exception.RootException;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 
-@Getter
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Embeddable
-public class UserEmail {
+public record UserEmail(String email) {
     private static final int MAX_LENGTH = 254;
     private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
-    private String email;
 
     public static UserEmail of(String email) {
         if (email == null || email.isBlank()) {
@@ -33,29 +26,12 @@ public class UserEmail {
 
         return new UserEmail(email);
     }
+}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof UserEmail emailVO)) return false;
-        return email.equals(emailVO.email);
-    }
+class InvalidEmailException extends RootException {
+    @Serial private static final long serialVersionUID = 4728200511269608142L;
 
-    @Override
-    public int hashCode() {
-        return email.hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return email;
-    }
-
-    private static class InvalidEmailException extends RootException {
-        @Serial private static final long serialVersionUID = 4728200511269608142L;
-
-        public InvalidEmailException(String message) {
-            super(message);
-        }
+    public InvalidEmailException(String message) {
+        super(message);
     }
 }

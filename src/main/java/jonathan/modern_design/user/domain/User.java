@@ -105,7 +105,7 @@ public class User extends BaseEntity {
     }
 
     public Optional<String> getInternalEnterpriseEmail() {
-        return internalEnterpriseEmail != null ? ofNullable(internalEnterpriseEmail.getEmail()) : Optional.empty();
+        return internalEnterpriseEmail != null ? ofNullable(internalEnterpriseEmail.email()) : Optional.empty();
     }
 
     @PrePersist

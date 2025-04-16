@@ -66,7 +66,7 @@ class AccountController {
     //OPENAPI @Operation(description = "Create Account")
     public ResponseEntity<AccountDto> createAccount(@RequestBody AccountCreatorCommand accountCreatorCommand) {
         log.info("START - Create account");
-        final var accountNumber = accountFacade.createAccount(accountCreatorCommand).getValue();
+        final var accountNumber = accountFacade.createAccount(accountCreatorCommand).accountNumber();
         log.info("END - Created account: {}", accountNumber);
 
         var uri = fromMethodCall(on(this.getClass()).loadAccount(accountNumber)).build().toUri();

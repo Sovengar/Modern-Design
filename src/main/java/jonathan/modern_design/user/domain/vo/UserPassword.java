@@ -2,10 +2,6 @@ package jonathan.modern_design.user.domain.vo;
 
 import jakarta.persistence.Embeddable;
 import jonathan.modern_design._internal.config.exception.RootException;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.util.Arrays;
@@ -16,34 +12,11 @@ import java.util.function.Predicate;
 
 import static java.util.regex.Pattern.matches;
 
-@Getter
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Embeddable
-public class UserPassword {
-    private String password;
-
+public record UserPassword(String password) {
     public static UserPassword of(String password) {
         PasswordValidator.validatePassword(password);
-
         return new UserPassword(password);
-    }
-
-    @Override
-    public String toString() {
-        return password;
-    }
-
-    @Override
-    public int hashCode() {
-        return password.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof UserPassword passwordVO)) return false;
-        return password.equals(passwordVO.password);
     }
 
     private static class InvalidUserPasswordException extends RootException {
