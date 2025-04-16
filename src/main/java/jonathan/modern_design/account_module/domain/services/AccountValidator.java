@@ -1,10 +1,10 @@
 package jonathan.modern_design.account_module.domain.services;
 
-import jonathan.modern_design._common.annotations.Inyectable;
+import jonathan.modern_design._common.annotations.Injectable;
 import jonathan.modern_design.account_module.domain.Account;
 import jonathan.modern_design.account_module.domain.exceptions.AccountIsInactiveException;
 
-@Inyectable
+@Injectable
 public class AccountValidator {
 
     public void validateAccount(Account account) {

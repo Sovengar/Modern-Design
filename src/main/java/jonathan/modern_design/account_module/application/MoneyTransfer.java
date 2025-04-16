@@ -1,6 +1,6 @@
 package jonathan.modern_design.account_module.application;
 
-import jonathan.modern_design._common.annotations.Inyectable;
+import jonathan.modern_design._common.annotations.Injectable;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design.account_module.domain.Account;
 import jonathan.modern_design.account_module.domain.AccountRepo;
@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
 
-@Inyectable
+@Injectable
 @RequiredArgsConstructor
 public class MoneyTransfer {
     private final AccountRepo repository;

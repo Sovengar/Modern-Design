@@ -1,6 +1,6 @@
 package jonathan.modern_design.account_module.application;
 
-import jonathan.modern_design._common.annotations.Inyectable;
+import jonathan.modern_design._common.annotations.Injectable;
 import jonathan.modern_design.account_module.AccountApi;
 import jonathan.modern_design.account_module.domain.Account;
 import jonathan.modern_design.account_module.domain.AccountRepo;
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-@Inyectable
+@Injectable
 @RequiredArgsConstructor
 @Slf4j
 public class AccountFacade implements AccountApi {

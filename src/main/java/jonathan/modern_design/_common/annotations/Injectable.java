@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Component
-public @interface Inyectable {
+public @interface Injectable {
 
     @AliasFor(annotation = Component.class)
     String value() default "";

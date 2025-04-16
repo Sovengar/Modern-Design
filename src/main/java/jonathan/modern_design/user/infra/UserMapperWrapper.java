@@ -1,6 +1,6 @@
 package jonathan.modern_design.user.infra;
 
-import jonathan.modern_design._common.annotations.Inyectable;
+import jonathan.modern_design._common.annotations.Injectable;
 import jonathan.modern_design.user.domain.User;
 import jonathan.modern_design.user.domain.vo.UserEmail;
 import jonathan.modern_design.user.domain.vo.UserName;
@@ -69,7 +69,7 @@ interface UserMapperStruct {
     }
 }
 
-@Inyectable
+@Injectable
 @RequiredArgsConstructor
 class UserMapperAdapter implements UserMapper {
     private final UserMapperStruct mapStructInstance; //Mappers.getMapper(UserMapperStruct.class)

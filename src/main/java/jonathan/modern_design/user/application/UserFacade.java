@@ -1,6 +1,6 @@
 package jonathan.modern_design.user.application;
 
-import jonathan.modern_design._common.annotations.Inyectable;
+import jonathan.modern_design._common.annotations.Injectable;
 import jonathan.modern_design.user.UserApi;
 import jonathan.modern_design.user.domain.User.UserId;
 import jonathan.modern_design.user.domain.UserRepo;
@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
-@Inyectable
+@Injectable
 @RequiredArgsConstructor
 @Slf4j
 public class UserFacade implements UserApi {

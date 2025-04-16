@@ -1,6 +1,6 @@
 package jonathan.modern_design.user.application;
 
-import jonathan.modern_design._common.annotations.Inyectable;
+import jonathan.modern_design._common.annotations.Injectable;
 import jonathan.modern_design.user.domain.Role;
 import jonathan.modern_design.user.domain.RoleRepo;
 import jonathan.modern_design.user.domain.Roles;
@@ -19,7 +19,7 @@ import java.io.Serial;
 
 import static java.lang.String.format;
 
-@Inyectable
+@Injectable
 @RequiredArgsConstructor
 public class UserRegister {
     private final UserRepo repository;
