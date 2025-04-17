@@ -169,12 +169,12 @@ class ExceptionHandler extends ResponseEntityExceptionHandler {
         // }
 
         Locale currentLocale = LocaleContextHolder.getLocale();
-        String message = org.springframework.util.StringUtils.hasText(ex.getMessageToBeDisplayed()) ?
-                i18nUtils.getMessage(ex.getMessageToBeDisplayed(), null, currentLocale) :
+        String message = org.springframework.util.StringUtils.hasText(ex.messageToBeDisplayed()) ?
+                i18nUtils.getMessage(ex.messageToBeDisplayed(), null, currentLocale) :
                 i18nUtils.getMessage(API_DEFAULT_REQUEST_FAILED_MESSAGE, null, currentLocale);
 
-        final ProblemDetail problemDetail = this.buildProblemDetail(ex.getHttpStatus(), message, ex.getErrors());
-        return ResponseEntity.status(ex.getHttpStatus()).body(problemDetail);
+        final ProblemDetail problemDetail = this.buildProblemDetail(ex.httpStatus(), message, ex.errors());
+        return ResponseEntity.status(ex.httpStatus()).body(problemDetail);
     }
 
     //Fallback, catch all unknown exceptions

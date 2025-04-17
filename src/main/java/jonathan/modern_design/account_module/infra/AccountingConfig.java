@@ -4,7 +4,6 @@ import jonathan.modern_design._shared.country.CountriesInventory;
 import jonathan.modern_design._shared.country.CountriesInventoryStub;
 import jonathan.modern_design.account_module.AccountApi;
 import jonathan.modern_design.account_module.application.AccountCreator;
-import jonathan.modern_design.account_module.application.AccountFacade;
 import jonathan.modern_design.account_module.application.MoneyTransfer;
 import jonathan.modern_design.account_module.domain.AccountRepo;
 import jonathan.modern_design.account_module.domain.services.AccountValidator;

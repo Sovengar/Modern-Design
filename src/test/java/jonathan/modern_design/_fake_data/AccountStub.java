@@ -3,10 +3,10 @@ package jonathan.modern_design._fake_data;
 import jonathan.modern_design.__config.Stub;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design.account_module.domain.Account;
+import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
 import jonathan.modern_design.account_module.domain.vo.AccountAddress;
 import jonathan.modern_design.account_module.domain.vo.AccountMoney;
-import jonathan.modern_design.account_module.domain.vo.AccountNumber;
-import jonathan.modern_design.account_module.dtos.AccountCreatorCommand;
+import jonathan.modern_design.account_module.dtos.CreateAccountCommand;
 import jonathan.modern_design.account_module.dtos.TransferMoneyCommand;
 
 import java.math.BigDecimal;
@@ -57,10 +57,10 @@ public class AccountStub extends Stub {
         private static Account builder(String accountId, AccountMoney money, boolean isActive) {
             return Account.builder()
                     .accountId(null)
-                    .accountNumber(AccountNumber.of(accountId))
+                    .accountAccountNumber(AccountAccountNumber.of(accountId))
                     .money(money)
                     .address(AccountAddress.of("street", "city", "state", "zipCode"))
-                    .userId(normalUser().getUuid())
+                    .userId(normalUser().uuid())
                     .dateOfLastTransaction(LocalDateTime.now())
                     .active(isActive)
                     .build();
@@ -68,37 +68,37 @@ public class AccountStub extends Stub {
     }
 
     public static class CreateAccountMother extends Stub {
-        public static AccountCreatorCommand createAccountCommandWithInvalidData() {
+        public static CreateAccountCommand createAccountCommandWithInvalidData() {
             var username = "Account Name";
             var email = "z3u1E@example.com";
             var realname = "John Doe";
-            var currency = EUR.getDescription();
+            var currency = EUR.description();
             var password = "123456";
             var country = "XXX";
             var address = "address";
-            return new AccountCreatorCommand(realname, email, username, address, password, country, currency);
+            return new CreateAccountCommand(realname, email, username, address, password, country, currency);
         }
 
-        public static AccountCreatorCommand createAccountCommandWithValidData() {
+        public static CreateAccountCommand createAccountCommandWithValidData() {
             var username = faker.name().username();
             var email = faker.internet().emailAddress();
             var realname = faker.name().fullName();
             var address = "street, city, state, zipCode";
-            return new AccountCreatorCommand(realname, email, username, address, VALID_PASSWORD, DEFAULT_COUNTRY.code(), EUR.getDescription());
+            return new CreateAccountCommand(realname, email, username, address, VALID_PASSWORD, DEFAULT_COUNTRY.code(), EUR.description());
         }
 
-        public static AccountCreatorCommand randomAccountWithCurrency(Currency currency) {
+        public static CreateAccountCommand randomAccountWithCurrency(Currency currency) {
             var username = faker.name().username();
             var email = faker.internet().emailAddress();
             var realname = faker.name().fullName();
             var address = "street, city, state, zipCode";
-            return new AccountCreatorCommand(realname, email, username, address, VALID_PASSWORD, DEFAULT_COUNTRY.code(), currency.getDescription());
+            return new CreateAccountCommand(realname, email, username, address, VALID_PASSWORD, DEFAULT_COUNTRY.code(), currency.description());
         }
     }
 
     public static class TransferMoneyMother extends Stub {
         public static TransferMoneyCommand fromAccountToAccountWithAmount(String sourceAccountId, String targetAccountId, AccountMoney money) {
-            return new TransferMoneyCommand(sourceAccountId, targetAccountId, money.getAmount(), money.getCurrency());
+            return new TransferMoneyCommand(sourceAccountId, targetAccountId, money.amount(), money.currency());
         }
 
         public static TransferMoneyCommand transactionWithAmount(AccountMoney money) {

@@ -28,13 +28,13 @@ class TransferMoneyRepositoryIT extends ITConfig {
     private UserApi userApi;
 
     private Account getAccountWithMoney(final AccountMoney money) {
-        var accountNumber = accountFacade.createAccount(randomAccountWithCurrency(money.getCurrency())).getValue();
+        var accountNumber = accountFacade.createAccount(randomAccountWithCurrency(money.currency())).accountNumber();
 
         if (money.isPositive()) {
-            accountFacade.deposit(new DepositCommand(accountNumber, money.getAmount(), money.getCurrency()));
+            accountFacade.deposit(new DepositCommand(accountNumber, money.amount(), money.currency()));
         }
 
-        return repository.findOne(accountNumber).orElseThrow();
+        return repository.findOneOrElseThrow(accountNumber);
     }
 
     @Nested
@@ -43,10 +43,10 @@ class TransferMoneyRepositoryIT extends ITConfig {
         void transfer_money_into_the_target_account() {
             var source = getAccountWithMoney(AccountMoney.of(BigDecimal.valueOf(100.0), EUR));
             var target = getAccountWithMoney(AccountMoney.of(ZERO, EUR));
-            accountFacade.transferMoney(fromAccountToAccountWithAmount(source.getAccountNumber().getValue(), target.getAccountNumber().getValue(), AccountMoney.of(BigDecimal.valueOf(60.0), EUR)));
+            accountFacade.transferMoney(fromAccountToAccountWithAmount(source.accountAccountNumber().accountNumber(), target.accountAccountNumber().accountNumber(), AccountMoney.of(BigDecimal.valueOf(60.0), EUR)));
 
-            assertThat(source.getMoney().getAmount()).isEqualTo(BigDecimal.valueOf(40.0));
-            assertThat(target.getMoney().getAmount()).isEqualTo(BigDecimal.valueOf(60.0));
+            assertThat(source.money().amount()).isEqualTo(BigDecimal.valueOf(40.0));
+            assertThat(target.money().amount()).isEqualTo(BigDecimal.valueOf(60.0));
         }
     }
 }

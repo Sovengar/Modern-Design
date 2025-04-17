@@ -1,7 +1,7 @@
 package jonathan.modern_design.account_module.domain;
 
 import jonathan.modern_design.account_module.domain.exceptions.AccountNotFoundException;
-import jonathan.modern_design.account_module.domain.vo.AccountNumber;
+import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface AccountRepo {
     //Commands
-    AccountNumber create(Account account);
+    AccountAccountNumber create(Account account);
 
     void update(Account account);
 

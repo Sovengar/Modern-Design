@@ -3,9 +3,9 @@ package jonathan.modern_design.user.infra;
 import jonathan.modern_design._common.annotations.Injectable;
 import jonathan.modern_design.user.domain.User;
 import jonathan.modern_design.user.domain.vo.UserEmail;
-import jonathan.modern_design.user.domain.vo.UserName;
 import jonathan.modern_design.user.domain.vo.UserPassword;
 import jonathan.modern_design.user.domain.vo.UserRealName;
+import jonathan.modern_design.user.domain.vo.UserUserName;
 import jonathan.modern_design.user.dtos.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.Mapper;
@@ -52,12 +52,12 @@ interface UserMapperStruct {
         return UserRealName.of(realname);
     }
 
-    default String mapUsername(final UserName username) {
+    default String mapUsername(final UserUserName username) {
         return username.username();
     }
 
-    default UserName mapUsername(final String username) {
-        return UserName.of(username);
+    default UserUserName mapUsername(final String username) {
+        return UserUserName.of(username);
     }
 
     default String mapEmail(final UserEmail email) {

@@ -21,9 +21,9 @@ class RoleRepoInMemory implements RoleRepo {
     private final ConcurrentHashMap<Role.Code, Role> codes = new ConcurrentHashMap<>();
 
     public RoleRepoInMemory() {
-        codes.put(new Role.Code(Roles.ADMIN.getCode()), Role.of(Roles.ADMIN));
-        codes.put(new Role.Code(Roles.USER.getCode()), Role.of(Roles.USER));
-        codes.put(new Role.Code(Roles.TECHNICIAN.getCode()), Role.of(Roles.TECHNICIAN));
+        codes.put(new Role.Code(Roles.ADMIN.code()), Role.of(Roles.ADMIN));
+        codes.put(new Role.Code(Roles.USER.code()), Role.of(Roles.USER));
+        codes.put(new Role.Code(Roles.TECHNICIAN.code()), Role.of(Roles.TECHNICIAN));
     }
 
     @Override

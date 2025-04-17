@@ -1,13 +1,24 @@
 package jonathan.modern_design.account_module.domain.vo;
 
+import jakarta.persistence.Embeddable;
 import jonathan.modern_design._internal.config.exception.RootException;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Value;
 
 import java.io.Serial;
 
 import static java.util.regex.Pattern.matches;
 
-public record AccountNumber(String accountNumber) {
-    public static AccountNumber of(String accountNumber) {
+@Embeddable
+@Value //No record for Hibernate
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE) //For Hibernate
+public class AccountAccountNumber {
+    String accountNumber;
+
+    public static AccountAccountNumber of(String accountNumber) {
         if (accountNumber == null || accountNumber.isEmpty()) {
             throw new InvalidAccountNumberException("Account number cannot be empty or null.");
         }
@@ -20,7 +31,7 @@ public record AccountNumber(String accountNumber) {
             throw new InvalidAccountNumberException("Account number must contain at least one digit.");
         }
 
-        return new AccountNumber(accountNumber);
+        return new AccountAccountNumber(accountNumber);
     }
 
     private static class InvalidAccountNumberException extends RootException {

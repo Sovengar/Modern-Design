@@ -5,7 +5,6 @@ import jakarta.transaction.Transactional;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design.account_module.AccountApi;
-import jonathan.modern_design.account_module.dtos.AccountCreatorCommand;
 import jonathan.modern_design.account_module.dtos.AccountDto;
 import jonathan.modern_design.account_module.dtos.TransferMoneyCommand;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +23,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static org.springframework.http.ResponseEntity.ok;
-import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.fromMethodCall;
-import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.on;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -62,16 +59,6 @@ class AccountController {
         return accountFacade.search(searchCriteria);
     }
 
-    @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
-    //OPENAPI @Operation(description = "Create Account")
-    public ResponseEntity<AccountDto> createAccount(@RequestBody AccountCreatorCommand accountCreatorCommand) {
-        log.info("START - Create account");
-        final var accountNumber = accountFacade.createAccount(accountCreatorCommand).accountNumber();
-        log.info("END - Created account: {}", accountNumber);
-
-        var uri = fromMethodCall(on(this.getClass()).loadAccount(accountNumber)).build().toUri();
-        return ResponseEntity.created(uri).body(accountFacade.findOne(accountNumber));
-    }
 
     @PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public void updateAccount(@RequestBody AccountDto dto) {

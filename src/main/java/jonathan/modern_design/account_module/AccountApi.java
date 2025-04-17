@@ -1,8 +1,8 @@
 package jonathan.modern_design.account_module;
 
-import jonathan.modern_design.account_module.domain.vo.AccountNumber;
-import jonathan.modern_design.account_module.dtos.AccountCreatorCommand;
+import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
 import jonathan.modern_design.account_module.dtos.AccountDto;
+import jonathan.modern_design.account_module.dtos.CreateAccountCommand;
 import jonathan.modern_design.account_module.dtos.DepositCommand;
 import jonathan.modern_design.account_module.dtos.TransferMoneyCommand;
 import jonathan.modern_design.account_module.infra.AccountSearchRepo;
@@ -13,7 +13,7 @@ public interface AccountApi extends AccountSearchRepo {
 
     void update(AccountDto dto);
 
-    AccountNumber createAccount(final AccountCreatorCommand command);
+    AccountAccountNumber createAccount(final CreateAccountCommand command);
 
     void deposit(final DepositCommand command);
 

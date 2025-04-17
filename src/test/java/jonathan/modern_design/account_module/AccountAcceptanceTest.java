@@ -32,13 +32,13 @@ final class AccountAcceptanceTest extends ITConfig {
     private AccountApi accountFacade;
 
     private Account getAccountWithMoney(final AccountMoney money) {
-        var accountNumber = accountFacade.createAccount(randomAccountWithCurrency(money.getCurrency())).getValue();
+        var accountNumber = accountFacade.createAccount(randomAccountWithCurrency(money.currency())).accountNumber();
 
         if (money.isPositive()) {
-            accountFacade.deposit(new DepositCommand(accountNumber, money.getAmount(), money.getCurrency()));
+            accountFacade.deposit(new DepositCommand(accountNumber, money.amount(), money.currency()));
         }
 
-        return repository.findOne(accountNumber).orElseThrow();
+        return repository.findOneOrElseThrow(accountNumber);
     }
 
     @Nested
@@ -61,20 +61,20 @@ final class AccountAcceptanceTest extends ITConfig {
         void transfer_money_into_the_target_account_check_source_approval() {
             var source = getAccountWithMoney(AccountMoney.of(BigDecimal.valueOf(100.0), EUR));
             var target = getAccountWithMoney(AccountMoney.of(ZERO, EUR));
-            accountFacade.transferMoney(fromAccountToAccountWithAmount(source.getAccountNumber().getValue(), target.getAccountNumber().getValue(), AccountMoney.of(BigDecimal.valueOf(50.0), EUR)));
+            accountFacade.transferMoney(fromAccountToAccountWithAmount(source.accountAccountNumber().accountNumber(), target.accountAccountNumber().accountNumber(), AccountMoney.of(BigDecimal.valueOf(50.0), EUR)));
 
-            source = repository.findOne(source.getAccountNumber().getValue()).orElseThrow();
-            Approvals.verify(source.getMoney().getAmount());
+            source = repository.findOneOrElseThrow(source.accountAccountNumber().accountNumber());
+            Approvals.verify(source.money().amount());
         }
 
         @Test
         void transfer_money_into_the_target_account_check_target_approval() {
             var source = getAccountWithMoney(AccountMoney.of(BigDecimal.valueOf(100.0), EUR));
             var target = getAccountWithMoney(AccountMoney.of(ZERO, EUR));
-            accountFacade.transferMoney(fromAccountToAccountWithAmount(source.getAccountNumber().getValue(), target.getAccountNumber().getValue(), AccountMoney.of(BigDecimal.valueOf(50.0), EUR)));
+            accountFacade.transferMoney(fromAccountToAccountWithAmount(source.accountAccountNumber().accountNumber(), target.accountAccountNumber().accountNumber(), AccountMoney.of(BigDecimal.valueOf(50.0), EUR)));
 
-            target = repository.findOne(target.getAccountNumber().getValue()).orElseThrow();
-            Approvals.verify(target.getMoney().getAmount());
+            target = repository.findOneOrElseThrow(target.accountAccountNumber().accountNumber());
+            Approvals.verify(target.money().amount());
         }
     }
 }

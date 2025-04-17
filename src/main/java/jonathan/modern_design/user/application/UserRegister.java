@@ -8,10 +8,10 @@ import jonathan.modern_design.user.domain.User;
 import jonathan.modern_design.user.domain.User.UserId;
 import jonathan.modern_design.user.domain.UserRepo;
 import jonathan.modern_design.user.domain.vo.UserEmail;
-import jonathan.modern_design.user.domain.vo.UserName;
 import jonathan.modern_design.user.domain.vo.UserPassword;
 import jonathan.modern_design.user.domain.vo.UserPhoneNumbers;
 import jonathan.modern_design.user.domain.vo.UserRealName;
+import jonathan.modern_design.user.domain.vo.UserUserName;
 import jonathan.modern_design.user.dtos.UserRegisterCommand;
 import lombok.RequiredArgsConstructor;
 
@@ -31,12 +31,12 @@ public class UserRegister {
         });
 
         //Begin of Complex logic to know the final role of the user
-        var roleCode = new Role.Code(Roles.USER.getCode());
+        var roleCode = new Role.Code(Roles.USER.code());
         var role = roleRepo.findByCode(roleCode);
         //End of complex logic
 
         //Complex logic to decide the user
-        var user = User.register(new UserId(command.uuid()), UserRealName.of(command.realname().orElse("")), UserName.of(command.username()), UserEmail.of(command.email()), UserPassword.of(command.password()), command.country(), UserPhoneNumbers.of(command.phoneNumbers()), role);
+        var user = User.register(new UserId(command.uuid()), UserRealName.of(command.realname().orElse("")), UserUserName.of(command.username()), UserEmail.of(command.email()), UserPassword.of(command.password()), command.country(), UserPhoneNumbers.of(command.phoneNumbers()), role);
         repository.registerUser(user);
     }
 

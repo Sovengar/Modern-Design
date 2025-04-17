@@ -19,10 +19,10 @@ import jonathan.modern_design._common.BaseEntity;
 import jonathan.modern_design._common.annotations.OptionalField;
 import jonathan.modern_design._shared.country.Country;
 import jonathan.modern_design.user.domain.vo.UserEmail;
-import jonathan.modern_design.user.domain.vo.UserName;
 import jonathan.modern_design.user.domain.vo.UserPassword;
 import jonathan.modern_design.user.domain.vo.UserPhoneNumbers;
 import jonathan.modern_design.user.domain.vo.UserRealName;
+import jonathan.modern_design.user.domain.vo.UserUserName;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -62,7 +62,7 @@ public class User extends BaseEntity {
     @Embedded
     private UserRealName realname;
     @Embedded
-    private UserName username;
+    private UserUserName username;
     @Embedded
     private UserEmail email;
     @Embedded
@@ -81,7 +81,7 @@ public class User extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Role role;
 
-    public static User register(UserId uuid, UserRealName realname, UserName username, UserEmail email, UserPassword password, Country country, UserPhoneNumbers phoneNumbers, Role role) {
+    public static User register(UserId uuid, UserRealName realname, UserUserName username, UserEmail email, UserPassword password, Country country, UserPhoneNumbers phoneNumbers, Role role) {
         Objects.requireNonNull(username);
         Objects.requireNonNull(email);
         Objects.requireNonNull(password);
@@ -91,7 +91,7 @@ public class User extends BaseEntity {
         return new User(null, uuid, realname, username, email, null, password, country.code(), Status.DRAFT, phoneNumbers, role);
     }
 
-    public static User registerAdmin(UserId uuid, UserRealName realname, UserName username, UserEmail email, UserEmail internalEmail, UserPassword password, UserPhoneNumbers phoneNumbers, Country country) {
+    public static User registerAdmin(UserId uuid, UserRealName realname, UserUserName username, UserEmail email, UserEmail internalEmail, UserPassword password, UserPhoneNumbers phoneNumbers, Country country) {
         Objects.requireNonNull(username);
         Objects.requireNonNull(email);
         Objects.requireNonNull(password);

@@ -29,7 +29,7 @@ public class Role {
     private String description;
 
     public static Role of(Roles role) {
-        return new Role(new Code(role.getCode()), role.getDescription());
+        return new Role(new Code(role.code()), role.description());
     }
 
     //Avoid indirect link with user

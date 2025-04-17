@@ -10,7 +10,6 @@ import jonathan.modern_design.user.domain.QUser;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -92,10 +91,10 @@ class AccountSearchRepoImpl implements AccountSearchRepo {
 
         assert userFound != null;
         var accountFound = queryFactory.selectFrom(account)
-                .where(account.userId.eq(userFound.getUuid()))
+                .where(account.userId.eq(userFound.uuid()))
                 .fetchOne();
-//TODO
-        return Optional.ofNullable(accountFound).map(accountEntity -> new AccountDto("a", BigDecimal.ZERO, "c", null));
+
+        return ofNullable(accountFound).map(AccountDto::new);
     }
 }
 

@@ -5,17 +5,19 @@ import jonathan.modern_design._internal.config.exception.RootException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.Value;
 
 import java.io.Serial;
 import java.util.Optional;
 
 import static java.util.Optional.ofNullable;
 
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Embeddable
+@Value //No record for Hibernate
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE) //For Hibernate
 public class UserRealName {
-    private String realname;
+    String realname;
 
     public static UserRealName of(String name) {
         if (name == null || name.isBlank()) {
@@ -27,23 +29,6 @@ public class UserRealName {
         }
 
         return new UserRealName(name);
-    }
-
-    @Override
-    public String toString() {
-        return realname;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof UserRealName nameVO)) return false;
-        return realname.equals(nameVO.realname);
-    }
-
-    @Override
-    public int hashCode() {
-        return realname.hashCode();
     }
 
     public Optional<String> getRealname() {

@@ -17,19 +17,19 @@ public class UserAuditListener {
     @PrePersist
     public void setCreatedBy(BaseEntity baseEntity) {
         final var currentUser = getCurrentUser();
-        final var userCreatingEntity = baseEntity.getCreatedBy();
+        final var userCreatingEntity = baseEntity.createdBy();
         final var finalUser = StringUtils.hasText(userCreatingEntity) ? userCreatingEntity : currentUser;
 
-        baseEntity.setCreatedOn(LocalDateTime.now());
-        baseEntity.setCreatedBy(finalUser);
-        baseEntity.setModifiedBy(finalUser);
+        baseEntity.createdOn(LocalDateTime.now());
+        baseEntity.createdBy(finalUser);
+        baseEntity.modifiedBy(finalUser);
     }
 
     @PreUpdate
     public void setUpdatedBy(BaseEntity baseEntity) {
         String currentUser = getCurrentUser();
-        baseEntity.setModifiedBy(currentUser);
-        baseEntity.setModifiedOn(LocalDateTime.now());
+        baseEntity.modifiedBy(currentUser);
+        baseEntity.modifiedOn(LocalDateTime.now());
     }
 
     private String getCurrentUser() {

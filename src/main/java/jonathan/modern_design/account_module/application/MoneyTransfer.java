@@ -6,7 +6,7 @@ import jonathan.modern_design.account_module.domain.Account;
 import jonathan.modern_design.account_module.domain.AccountRepo;
 import jonathan.modern_design.account_module.domain.exceptions.OperationForbiddenForSameAccount;
 import jonathan.modern_design.account_module.domain.services.AccountValidator;
-import jonathan.modern_design.account_module.domain.vo.AccountNumber;
+import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
 import jonathan.modern_design.account_module.dtos.TransferMoneyCommand;
 import lombok.RequiredArgsConstructor;
 
@@ -22,7 +22,7 @@ public class MoneyTransfer {
         Account source = getAccountValidated(command.sourceId());
         Account target = getAccountValidated(command.targetId());
 
-        validateDifferentAccounts(source.getAccountNumber(), target.getAccountNumber());
+        validateDifferentAccounts(source.accountAccountNumber(), target.accountAccountNumber());
 
         final var amount = command.amount();
         final var currency = command.currency();
@@ -36,7 +36,7 @@ public class MoneyTransfer {
         return account;
     }
 
-    private void validateDifferentAccounts(final AccountNumber source, final AccountNumber target) {
+    private void validateDifferentAccounts(final AccountAccountNumber source, final AccountAccountNumber target) {
         var isSameAccount = source.equals(target);
 
         if (isSameAccount) {

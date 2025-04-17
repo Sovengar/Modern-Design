@@ -37,7 +37,7 @@ class UserInMemoryRepo implements UserRepo {
 
     @Override
     public void registerUser(User user) {
-        users.put(user.getUuid(), user);
+        users.put(user.uuid(), user);
     }
 
     @Override

@@ -12,8 +12,8 @@ public class AccountValidator {
     }
 
     private void validateActive(Account account) {
-        if (!account.isActive()) {
-            throw new AccountIsInactiveException(account.getAccountNumber().accountNumber());
+        if (!account.active()) {
+            throw new AccountIsInactiveException(account.accountAccountNumber().accountNumber());
         }
     }
 }

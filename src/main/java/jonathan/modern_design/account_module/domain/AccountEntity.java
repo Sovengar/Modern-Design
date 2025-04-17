@@ -1,4 +1,4 @@
-package jonathan.modern_design.account_module.infra;
+package jonathan.modern_design.account_module.domain;
 
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -13,6 +13,10 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jonathan.modern_design._common.BaseEntity;
 import jonathan.modern_design._shared.Currency;
+import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
+import jonathan.modern_design.account_module.domain.vo.AccountAddress;
+import jonathan.modern_design.account_module.domain.vo.AccountId;
+import jonathan.modern_design.account_module.domain.vo.AccountMoney;
 import jonathan.modern_design.user.domain.User.UserId;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -48,6 +52,10 @@ public class AccountEntity extends BaseEntity {
     private boolean active;
     @Embedded
     private UserId userId;
+
+    public Account toDomain() {
+        return new Account(new AccountId(accountId), AccountAccountNumber.of(accountNumber), AccountMoney.of(balance, currency), AccountAddress.of(address), userId, dateOfLastTransaction, active);
+    }
 
     @PrePersist
     public void prePersist() {

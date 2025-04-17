@@ -3,8 +3,9 @@ package jonathan.modern_design.account_module.infra;
 import jonathan.modern_design._common.annotations.Fake;
 import jonathan.modern_design._common.annotations.Repo;
 import jonathan.modern_design.account_module.domain.Account;
+import jonathan.modern_design.account_module.domain.AccountEntity;
 import jonathan.modern_design.account_module.domain.AccountRepo;
-import jonathan.modern_design.account_module.domain.vo.AccountNumber;
+import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
@@ -33,7 +34,7 @@ class AccountRepoAdapter implements AccountRepo {
 
     @Override
     public Optional<Account> findOne(final String accountNumber) {
-        return findOneEntity(accountNumber).map(accountMapper::toAccount);
+        return findOneEntity(accountNumber).map(AccountEntity::toDomain);
     }
 
     private Optional<AccountEntity> findOneEntity(@NonNull final String accountNumber) {
@@ -45,23 +46,23 @@ class AccountRepoAdapter implements AccountRepo {
         List<Account> accounts = repository.findAll(pageable)
                 .getContent()
                 .stream()
-                .map(accountMapper::toAccount)
+                .map(AccountEntity::toDomain)
                 .toList();
 
         return new PageImpl<>(accounts, pageable, accounts.size());
     }
 
     @Override
-    public AccountNumber create(final Account account) {
-        var accountEntity = accountMapper.toAccountEntity(account);
+    public AccountAccountNumber create(final Account account) {
+        var accountEntity = account.toEntity();
         repository.save(accountEntity);
-        return account.getAccountNumber();
+        return account.accountAccountNumber();
     }
 
     @Override
     public void update(final Account account) {
-        var accountEntity = findOneEntity(account.getAccountNumber().accountNumber()).orElseThrow();
-        accountMapper.updateAccountEntity(account, accountEntity);
+        //var accountEntity = findOneEntity(account.accountAccountNumber().accountNumber()).orElseThrow();
+        var accountEntity = account.toEntity();
         repository.save(accountEntity);
     }
 
@@ -73,7 +74,7 @@ class AccountRepoAdapter implements AccountRepo {
     @Override
     public void softDelete(final String accountNumber) {
         this.findOneEntity(accountNumber).ifPresent(account -> {
-            account.setDeleted(true);
+            account.deleted(true);
             repository.save(account);
         });
     }
@@ -96,9 +97,9 @@ class AccountInMemoryRepo implements AccountRepo {
     }
 
     @Override
-    public AccountNumber create(Account account) {
-        accounts.put(account.getAccountNumber().accountNumber(), account);
-        return account.getAccountNumber();
+    public AccountAccountNumber create(Account account) {
+        accounts.put(account.accountAccountNumber().accountNumber(), account);
+        return account.accountAccountNumber();
     }
 
     @Override

@@ -7,10 +7,10 @@ import jonathan.modern_design.user.domain.Roles;
 import jonathan.modern_design.user.domain.User;
 import jonathan.modern_design.user.domain.User.UserId;
 import jonathan.modern_design.user.domain.vo.UserEmail;
-import jonathan.modern_design.user.domain.vo.UserName;
 import jonathan.modern_design.user.domain.vo.UserPassword;
 import jonathan.modern_design.user.domain.vo.UserPhoneNumbers;
 import jonathan.modern_design.user.domain.vo.UserRealName;
+import jonathan.modern_design.user.domain.vo.UserUserName;
 import jonathan.modern_design.user.dtos.UserRegisterCommand;
 
 import java.util.List;
@@ -27,7 +27,7 @@ public class UserStub extends Stub {
         return User.register(
                 new UserId(DEFAULT_UUID),
                 UserRealName.of(faker.name().fullName()),
-                UserName.of(faker.name().username()),
+                UserUserName.of(faker.name().username()),
                 UserEmail.of(faker.internet().emailAddress()),
                 UserPassword.of(VALID_PASSWORD),
                 DEFAULT_COUNTRY,
@@ -39,7 +39,7 @@ public class UserStub extends Stub {
         return User.registerAdmin(
                 new UserId(DEFAULT_UUID),
                 UserRealName.of(faker.name().fullName()),
-                UserName.of(faker.name().username()),
+                UserUserName.of(faker.name().username()),
                 UserEmail.of(faker.internet().emailAddress()),
                 UserEmail.of(faker.internet().emailAddress()),
                 UserPassword.of(VALID_PASSWORD),

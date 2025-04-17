@@ -3,6 +3,8 @@ package jonathan.modern_design.user.domain.vo;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Transient;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serial;
@@ -12,14 +14,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED) //For Hibernate
 @Embeddable
+@Data //No record for Hibernate
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE) //For Hibernate
 public class UserPhoneNumbers {
     private static final String SEPARATOR = ";";
     private static final String PHONE_NUMBER_REGEX = "^\\+?[1-9]\\d{0,2}[- ]?\\d{3,12}$";
     @Transient
-    private Set<String> phoneNumbersSet = new HashSet<>();
-    private String phoneNumbers;
+    Set<String> phoneNumbersSet = new HashSet<>();
+    String phoneNumbers;
 
     private UserPhoneNumbers(List<String> phoneNumbers) {
         this.phoneNumbersSet = transformStringToSet(transformListToString(phoneNumbers));
