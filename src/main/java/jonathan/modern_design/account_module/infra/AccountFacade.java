@@ -9,7 +9,6 @@ import jonathan.modern_design.account_module.application.MoneyTransfer;
 import jonathan.modern_design.account_module.domain.AccountRepo;
 import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
 import jonathan.modern_design.account_module.dtos.AccountDto;
-import jonathan.modern_design.account_module.dtos.TransferMoneyCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +30,7 @@ class AccountFacade implements AccountApi {
 
     @Override
     @Transactional
-    public void transferMoney(final TransferMoneyCommand message) {
+    public void transferMoney(final MoneyTransfer.Command message) {
         moneyTransfer.transferMoney(message);
     }
 

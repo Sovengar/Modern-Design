@@ -10,7 +10,6 @@ import jonathan.modern_design.account_module.domain.AccountRepo;
 import jonathan.modern_design.account_module.domain.exceptions.OperationForbiddenForSameAccount;
 import jonathan.modern_design.account_module.domain.services.AccountValidator;
 import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
-import jonathan.modern_design.account_module.dtos.TransferMoneyCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -37,7 +36,7 @@ class MoneyTransferController {
 
         log.info("BEGIN Controller - Transfer money from {} to {} with balance {}", sourceAccountId, targetAccountId, amount);
 
-        val command = new TransferMoneyCommand(sourceAccountId, targetAccountId, amount, Currency.fromCode(currency));
+        val command = new MoneyTransfer.Command(sourceAccountId, targetAccountId, amount, Currency.fromCode(currency));
 
         moneyTransfer.transferMoney(command);
 
@@ -54,16 +53,16 @@ public class MoneyTransfer {
     private final AccountValidator accountValidator;
 
     @Transactional
-    public void transferMoney(final @Valid TransferMoneyCommand command) {
+    public void transferMoney(final @Valid Command message) {
         log.info("BEGIN TransferMoney");
 
-        Account source = getAccountValidated(command.sourceId());
-        Account target = getAccountValidated(command.targetId());
+        Account source = getAccountValidated(message.sourceId());
+        Account target = getAccountValidated(message.targetId());
 
         validateDifferentAccounts(source.accountAccountNumber(), target.accountAccountNumber());
 
-        final var amount = command.amount();
-        final var currency = command.currency();
+        final var amount = message.amount();
+        final var currency = message.currency();
 
         transferMoney(source, target, amount, currency);
         log.info("END TransferMoney");
@@ -91,4 +90,6 @@ public class MoneyTransfer {
         repository.update(target);
     }
 
+    public record Command(String sourceId, String targetId, BigDecimal amount, Currency currency) {
+    }
 }
