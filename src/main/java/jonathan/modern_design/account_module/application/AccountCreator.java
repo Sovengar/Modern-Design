@@ -11,7 +11,6 @@ import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
 import jonathan.modern_design.account_module.domain.vo.AccountAddress;
 import jonathan.modern_design.account_module.domain.vo.AccountMoney;
 import jonathan.modern_design.account_module.dtos.AccountDto;
-import jonathan.modern_design.account_module.dtos.CreateAccountCommand;
 import jonathan.modern_design.user.UserApi;
 import jonathan.modern_design.user.domain.User;
 import jonathan.modern_design.user.domain.User.UserId;
@@ -46,7 +45,7 @@ class AccountCreatorController {
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     //OPENAPI @Operation(description = "Create Account")
     @Transactional
-    public ResponseEntity<AccountDto> createAccount(@RequestBody @Valid final CreateAccountCommand message) {
+    public ResponseEntity<AccountDto> createAccount(@RequestBody @Valid final AccountCreator.Command message) {
         log.info("START Controller - Creating account with command: {}", message);
         final var accountNumber = accountCreator.createAccount(message).accountNumber();
 
@@ -66,7 +65,7 @@ public class AccountCreator {
     private final UserApi userFacade;
     private final CountriesInventory countriesInventory;
 
-    public AccountAccountNumber createAccount(final CreateAccountCommand message) {
+    public AccountAccountNumber createAccount(final Command message) {
         log.info("START - Creating account with command: {}", message);
 
         var userId = registerUser(message);
@@ -78,15 +77,15 @@ public class AccountCreator {
         return accountNumber;
     }
 
-    private User.UserId registerUser(final CreateAccountCommand command) {
+    private User.UserId registerUser(final Command message) {
         var userId = UUID.randomUUID();
         var userCreateCommand = new UserRegisterCommand(
                 userId,
-                ofNullable(command.realname()),
-                command.username(),
-                command.email(),
-                command.password(),
-                countriesInventory.findByCodeOrElseThrow(command.country()),
+                ofNullable(message.realname()),
+                message.username(),
+                message.email(),
+                message.password(),
+                countriesInventory.findByCodeOrElseThrow(message.country()),
                 List.of("+34123456789")); //TODO
 
         userFacade.registerUser(userCreateCommand);
@@ -98,6 +97,15 @@ public class AccountCreator {
         public static String generate() {
             return UUID.randomUUID().toString();
         }
+    }
+
+    public record Command(String realname,
+                          String email,
+                          String username,
+                          String address,
+                          String password,
+                          String country,
+                          String currency) {
     }
 }
 

@@ -2,11 +2,11 @@ package jonathan.modern_design._fake_data;
 
 import jonathan.modern_design.__config.Stub;
 import jonathan.modern_design._shared.Currency;
+import jonathan.modern_design.account_module.application.AccountCreator;
 import jonathan.modern_design.account_module.domain.Account;
 import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
 import jonathan.modern_design.account_module.domain.vo.AccountAddress;
 import jonathan.modern_design.account_module.domain.vo.AccountMoney;
-import jonathan.modern_design.account_module.dtos.CreateAccountCommand;
 import jonathan.modern_design.account_module.dtos.TransferMoneyCommand;
 
 import java.math.BigDecimal;
@@ -68,7 +68,7 @@ public class AccountStub extends Stub {
     }
 
     public static class CreateAccountMother extends Stub {
-        public static CreateAccountCommand createAccountCommandWithInvalidData() {
+        public static AccountCreator.Command createAccountCommandWithInvalidData() {
             var username = "Account Name";
             var email = "z3u1E@example.com";
             var realname = "John Doe";
@@ -76,23 +76,23 @@ public class AccountStub extends Stub {
             var password = "123456";
             var country = "XXX";
             var address = "address";
-            return new CreateAccountCommand(realname, email, username, address, password, country, currency);
+            return new AccountCreator.Command(realname, email, username, address, password, country, currency);
         }
 
-        public static CreateAccountCommand createAccountCommandWithValidData() {
+        public static AccountCreator.Command createAccountCommandWithValidData() {
             var username = faker.name().username();
             var email = faker.internet().emailAddress();
             var realname = faker.name().fullName();
             var address = "street, city, state, zipCode";
-            return new CreateAccountCommand(realname, email, username, address, VALID_PASSWORD, DEFAULT_COUNTRY.code(), EUR.description());
+            return new AccountCreator.Command(realname, email, username, address, VALID_PASSWORD, DEFAULT_COUNTRY.code(), EUR.description());
         }
 
-        public static CreateAccountCommand randomAccountWithCurrency(Currency currency) {
+        public static AccountCreator.Command randomAccountWithCurrency(Currency currency) {
             var username = faker.name().username();
             var email = faker.internet().emailAddress();
             var realname = faker.name().fullName();
             var address = "street, city, state, zipCode";
-            return new CreateAccountCommand(realname, email, username, address, VALID_PASSWORD, DEFAULT_COUNTRY.code(), currency.description());
+            return new AccountCreator.Command(realname, email, username, address, VALID_PASSWORD, DEFAULT_COUNTRY.code(), currency.description());
         }
     }
 

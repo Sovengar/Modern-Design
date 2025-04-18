@@ -9,7 +9,6 @@ import jonathan.modern_design.account_module.application.MoneyTransfer;
 import jonathan.modern_design.account_module.domain.AccountRepo;
 import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
 import jonathan.modern_design.account_module.dtos.AccountDto;
-import jonathan.modern_design.account_module.dtos.CreateAccountCommand;
 import jonathan.modern_design.account_module.dtos.TransferMoneyCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +43,7 @@ class AccountFacade implements AccountApi {
 
     @Override
     @Transactional
-    public AccountAccountNumber createAccount(final CreateAccountCommand message) {
+    public AccountAccountNumber createAccount(final AccountCreator.Command message) {
         return accountCreator.createAccount(message);
     }
 
