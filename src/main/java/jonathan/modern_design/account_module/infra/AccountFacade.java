@@ -49,7 +49,7 @@ class AccountFacade implements AccountApi {
 
     @Override
     @Transactional
-    public void deposit(final Deposit.DepositCommand message) {
+    public void deposit(final Deposit.Command message) {
         deposit.deposit(message);
     }
 

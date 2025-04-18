@@ -15,7 +15,7 @@ public interface AccountApi extends AccountSearchRepo {
 
     AccountAccountNumber createAccount(final AccountCreator.Command command);
 
-    void deposit(final Deposit.DepositCommand command);
+    void deposit(final Deposit.Command command);
 
     //Queries
     AccountDto findOne(final String accountNumber);

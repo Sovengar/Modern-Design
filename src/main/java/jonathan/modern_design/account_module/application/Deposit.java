@@ -29,7 +29,7 @@ class DepositController {
             @PathVariable("currency") String currency
     ) {
         log.info("BEGIN Controller - Deposit");
-        final var command = new Deposit.DepositCommand(accountNumber, amount, Currency.fromCode(currency));
+        final var command = new Deposit.Command(accountNumber, amount, Currency.fromCode(currency));
         deposit.deposit(command);
         log.info("END Controller - Deposit");
         return ResponseEntity.ok().build();
@@ -43,15 +43,15 @@ class DepositController {
 public class Deposit {
     private final AccountRepo repository;
 
-    public void deposit(final @Valid DepositCommand command) {
+    public void deposit(final @Valid Command message) {
         log.info("BEGIN Deposit");
-        var account = repository.findOne(command.accountNumber()).orElseThrow();
-        account.add(command.amount(), command.currency());
+        var account = repository.findOne(message.accountNumber()).orElseThrow();
+        account.add(message.amount(), message.currency());
         repository.update(account);
         log.info("END Deposit");
     }
 
-    public record DepositCommand(String accountNumber, BigDecimal amount, Currency currency) {
+    public record Command(String accountNumber, BigDecimal amount, Currency currency) {
     }
 }
 

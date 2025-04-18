@@ -31,7 +31,7 @@ class TransferMoneyRepositoryIT extends ITConfig {
         var accountNumber = accountFacade.createAccount(randomAccountWithCurrency(money.currency())).accountNumber();
 
         if (money.isPositive()) {
-            accountFacade.deposit(new Deposit.DepositCommand(accountNumber, money.amount(), money.currency()));
+            accountFacade.deposit(new Deposit.Command(accountNumber, money.amount(), money.currency()));
         }
 
         return repository.findOneOrElseThrow(accountNumber);
