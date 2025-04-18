@@ -1,0 +1,17 @@
+meta {
+  name: search projection
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://localhost:8080/api/v1/accounts/search/xxxPage
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "V4u0A@example.com"
+  }
+}

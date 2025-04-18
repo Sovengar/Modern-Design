@@ -4,21 +4,14 @@ import jonathan.modern_design._common.annotations.Injectable;
 import jonathan.modern_design.account_module.domain.Account;
 import jonathan.modern_design.account_module.domain.AccountEntity;
 
-//This mapper is unsued, just to show how it can be used together with mapStruct
-//private final AccountMapperStruct mapStructInstance; with componentModel="spring" or Mappers.getMapper(AccountMapperStruct.class)
 public interface AccountMapper {
-    Account toDomain(final AccountEntity accountEntity);
-
     void updateEntity(AccountEntity accountEntity, Account account);
 }
 
 @Injectable
 class AccountMapperAdapter implements AccountMapper {
-
-    @Override
-    public Account toDomain(AccountEntity accountEntity) {
-        return accountEntity.toDomain();
-    }
+    //You can add mapStruct to help mapping
+    //private final AccountMapperStruct mapStructInstance; with componentModel="spring" or Mappers.getMapper(AccountMapperStruct.class)
 
     @Override
     public void updateEntity(AccountEntity accountEntity, Account account) {

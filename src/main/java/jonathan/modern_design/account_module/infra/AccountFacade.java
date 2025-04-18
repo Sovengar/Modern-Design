@@ -6,6 +6,7 @@ import jonathan.modern_design.account_module.application.AccountCRUDUpdater;
 import jonathan.modern_design.account_module.application.AccountCreator;
 import jonathan.modern_design.account_module.application.Deposit;
 import jonathan.modern_design.account_module.application.MoneyTransfer;
+import jonathan.modern_design.account_module.application.SearchAccount;
 import jonathan.modern_design.account_module.domain.AccountRepo;
 import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ import java.util.Optional;
 @Slf4j
 class AccountFacade implements AccountApi {
     private final AccountRepo repository;
-    private final AccountSearchRepo accountSearcher;
+    private final SearchAccount searchAccount;
     private final MoneyTransfer moneyTransfer;
     private final AccountCreator accountCreator;
     private final AccountCRUDUpdater accountCRUDUpdater;
@@ -52,30 +53,30 @@ class AccountFacade implements AccountApi {
     }
 
     //region Queries applying soft CQRS, we can skip service layer and access directly to repository
-    @Override
-    public AccountDto findOne(final String accountNumber) {
-        log.debug("BEGIN FindOne");
-
-        final var account = repository.findOneOrElseThrow(accountNumber);
-
-        log.debug("END FindOne");
-        return new AccountDto(account);
-    }
-
     //I think this should be moved to another facade
     @Override
-    public List<AccountDto> search(final AccountSearchCriteria filters) {
-        log.info("BEGIN Search");
-        var accounts = accountSearcher.search(filters);
+    public AccountDto findOne(final String accountNumber) {
+        return new AccountDto(repository.findOneOrElseThrow(accountNumber));
+    }
 
-        log.info("END Search");
-        return accounts;
-        //TODO Tener varios search por caso de uso y n mappers, n projections, ...
+    @Override
+    public List<AccountSearchResult> searchWithJPQL(final Criteria filters) {
+        return searchAccount.searchWithJPQL(filters);
+    }
+
+    @Override
+    public List<AccountSearchResult> searchWithQueryDSL(final Criteria filters) {
+        return searchAccount.searchWithQueryDSL(filters);
     }
 
     @Override
     public Optional<AccountDto> findByUserPassword(final String password) {
-        return accountSearcher.findByUserPassword("password");
+        return searchAccount.findByUserPassword(password);
+    }
+
+    @Override
+    public List<AccountDto> searchForXXXPage(final Criteria filters) {
+        return searchAccount.searchForXXXPage(filters);
     }
     //endregion
 }

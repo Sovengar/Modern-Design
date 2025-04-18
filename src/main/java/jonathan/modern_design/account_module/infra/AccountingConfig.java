@@ -7,6 +7,7 @@ import jonathan.modern_design.account_module.application.AccountCRUDUpdater;
 import jonathan.modern_design.account_module.application.AccountCreator;
 import jonathan.modern_design.account_module.application.Deposit;
 import jonathan.modern_design.account_module.application.MoneyTransfer;
+import jonathan.modern_design.account_module.application.SearchAccount;
 import jonathan.modern_design.account_module.domain.AccountRepo;
 import jonathan.modern_design.account_module.domain.services.AccountValidator;
 import jonathan.modern_design.user.UserApi;
@@ -17,12 +18,12 @@ import org.springframework.context.annotation.Profile;
 public class AccountingConfig {
     final AccountRepo accountRepo = new AccountInMemoryRepo();
 
-    public AccountApi accountApi(AccountRepo accountRepo, AccountSearchRepo accountSearcher, UserApi userFacade, CountriesInventory countriesInventory) {
+    public AccountApi accountApi(AccountRepo accountRepo, SearchAccount searchAccount, UserApi userFacade, CountriesInventory countriesInventory) {
         AccountValidator accountValidator = new AccountValidator();
 
         return new AccountFacade(
                 accountRepo,
-                accountSearcher,
+                searchAccount,
                 new MoneyTransfer(accountRepo, accountValidator),
                 new AccountCreator(accountRepo, userFacade, countriesInventory),
                 new AccountCRUDUpdater(accountRepo),
@@ -34,10 +35,10 @@ public class AccountingConfig {
     @Profile("test")
     public AccountApi accountApi(UserApi userApi) {
         //For Unit testing
-        AccountSearchRepo accountSearcher = null;
+        SearchAccount searchAccount = null;
         final CountriesInventory countriesInventory = new CountriesInventoryStub();
 
-        return accountApi(accountRepo, accountSearcher, userApi, countriesInventory);
+        return accountApi(accountRepo, searchAccount, userApi, countriesInventory);
     }
 
     @Profile("test")

@@ -9,7 +9,7 @@ import lombok.Value;
 @Embeddable
 @Value //No record for Hibernate
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE) //For Hibernate
+@NoArgsConstructor(force = true, access = AccessLevel.PUBLIC) //For Hibernate
 public class UserUserName {
     String username;
 
