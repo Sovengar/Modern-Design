@@ -3,7 +3,6 @@ package jonathan.modern_design.account_module.infra;
 import jakarta.persistence.EntityNotFoundException;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design.account_module.AccountApi;
-import jonathan.modern_design.account_module.dtos.AccountDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

@@ -10,7 +10,7 @@ import jonathan.modern_design.account_module.domain.AccountRepo;
 import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
 import jonathan.modern_design.account_module.domain.vo.AccountAddress;
 import jonathan.modern_design.account_module.domain.vo.AccountMoney;
-import jonathan.modern_design.account_module.dtos.AccountDto;
+import jonathan.modern_design.account_module.infra.AccountDto;
 import jonathan.modern_design.user.UserApi;
 import jonathan.modern_design.user.domain.User;
 import jonathan.modern_design.user.domain.User.UserId;

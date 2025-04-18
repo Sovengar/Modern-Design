@@ -5,7 +5,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jonathan.modern_design._common.annotations.Query;
-import jonathan.modern_design.account_module.dtos.AccountDto;
 import jonathan.modern_design.user.domain.QUser;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
