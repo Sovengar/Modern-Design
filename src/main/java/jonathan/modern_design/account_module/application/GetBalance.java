@@ -4,7 +4,7 @@ import com.querydsl.jpa.JPQLTemplates;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jonathan.modern_design._common.annotations.Repo;
+import jonathan.modern_design._common.annotations.Query;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ class GetBalance {
     }
 }
 
-@Repo
+@Query
 @RequiredArgsConstructor
 class GetBalanceQuery {
     @PersistenceContext

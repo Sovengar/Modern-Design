@@ -3,7 +3,9 @@ package jonathan.modern_design.account_module.infra;
 import jonathan.modern_design._shared.country.CountriesInventory;
 import jonathan.modern_design._shared.country.CountriesInventoryStub;
 import jonathan.modern_design.account_module.AccountApi;
+import jonathan.modern_design.account_module.application.AccountCRUDUpdater;
 import jonathan.modern_design.account_module.application.AccountCreator;
+import jonathan.modern_design.account_module.application.Deposit;
 import jonathan.modern_design.account_module.application.MoneyTransfer;
 import jonathan.modern_design.account_module.domain.AccountRepo;
 import jonathan.modern_design.account_module.domain.services.AccountValidator;
@@ -23,6 +25,8 @@ public class AccountingConfig {
                 accountSearcher,
                 new MoneyTransfer(accountRepo, accountValidator),
                 new AccountCreator(accountRepo, userFacade, countriesInventory),
+                new AccountCRUDUpdater(accountRepo),
+                new Deposit(accountRepo),
                 new AccountMapperAdapter()
         );
     }

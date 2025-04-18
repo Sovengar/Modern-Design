@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Repository
-public @interface Repo {
+public @interface Query {
 
     @AliasFor(annotation = Repository.class)
     String value() default "";

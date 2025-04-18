@@ -6,12 +6,10 @@ import jonathan.modern_design.account_module.AccountApi;
 import jonathan.modern_design.account_module.dtos.AccountDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -41,11 +39,6 @@ class AccountController {
     @GetMapping(path = "/{password}/user")
     public AccountDto getAcc(@PathVariable String password) {
         return accountFacade.findByUserPassword(password).orElseThrow(EntityNotFoundException::new);
-    }
-
-    @PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
-    public void updateAccount(@RequestBody AccountDto dto) {
-        accountFacade.update(dto);
     }
 
 

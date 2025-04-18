@@ -53,6 +53,17 @@ public class AccountEntity extends BaseEntity {
     @Embedded
     private UserId userId;
 
+    public AccountEntity(Account account) {
+        this.accountId = account.accountId().id();
+        this.accountNumber = account.accountAccountNumber().accountNumber();
+        this.balance = account.money().amount();
+        this.currency = account.money().currency();
+        this.address = account.address().toString();
+        this.userId = account.userId();
+        this.dateOfLastTransaction = account.dateOfLastTransaction();
+        this.active = account.active();
+    }
+
     public Account toDomain() {
         return new Account(new AccountId(accountId), AccountAccountNumber.of(accountNumber), AccountMoney.of(balance, currency), AccountAddress.of(address), userId, dateOfLastTransaction, active);
     }

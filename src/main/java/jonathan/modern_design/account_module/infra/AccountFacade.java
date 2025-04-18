@@ -1,15 +1,13 @@
 package jonathan.modern_design.account_module.infra;
 
 import jonathan.modern_design._common.annotations.Injectable;
-import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design.account_module.AccountApi;
+import jonathan.modern_design.account_module.application.AccountCRUDUpdater;
 import jonathan.modern_design.account_module.application.AccountCreator;
+import jonathan.modern_design.account_module.application.Deposit;
 import jonathan.modern_design.account_module.application.MoneyTransfer;
-import jonathan.modern_design.account_module.domain.Account;
 import jonathan.modern_design.account_module.domain.AccountRepo;
 import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
-import jonathan.modern_design.account_module.domain.vo.AccountAddress;
-import jonathan.modern_design.account_module.domain.vo.AccountMoney;
 import jonathan.modern_design.account_module.dtos.AccountDto;
 import jonathan.modern_design.account_module.dtos.CreateAccountCommand;
 import jonathan.modern_design.account_module.dtos.DepositCommand;
@@ -29,49 +27,32 @@ class AccountFacade implements AccountApi {
     private final AccountSearchRepo accountSearcher;
     private final MoneyTransfer moneyTransfer;
     private final AccountCreator accountCreator;
+    private final AccountCRUDUpdater accountCRUDUpdater;
+    private final Deposit deposit;
     private final AccountMapper accountMapper;
 
     @Override
     @Transactional
-    public void transferMoney(final TransferMoneyCommand command) {
-        log.info("BEGIN TransferMoney");
-        moneyTransfer.transferMoney(command);
-        log.info("END TransferMoney");
+    public void transferMoney(final TransferMoneyCommand message) {
+        moneyTransfer.transferMoney(message);
     }
 
-    //CRUD-Like method, prefer usecase methods like moveToAnotherPlace to update the address
-    //If update ends up with more logic, extract to a service and make other services depend on it, i.e. transferMoney
     @Override
     @Transactional
     public void update(AccountDto dto) {
-        log.info("BEGIN Update");
-        var account = repository.findOneOrElseThrow(dto.accountNumber());
-        account = Account.updateCRUD(
-                account,
-                AccountAccountNumber.of(dto.accountNumber()),
-                AccountMoney.of(dto.balance(), Currency.valueOf(dto.currency())),
-                AccountAddress.of(dto.address()),
-                dto.active(),
-                dto.userId());
-        repository.update(account);
-
-        log.info("END Update");
+        accountCRUDUpdater.update(dto);
     }
 
     @Override
     @Transactional
-    public AccountAccountNumber createAccount(final CreateAccountCommand command) {
-        return accountCreator.createAccount(command);
+    public AccountAccountNumber createAccount(final CreateAccountCommand message) {
+        return accountCreator.createAccount(message);
     }
 
     @Override
     @Transactional
-    public void deposit(final DepositCommand command) {
-        log.info("BEGIN Deposit");
-        var account = repository.findOne(command.accountNumber()).orElseThrow();
-        account.add(command.amount(), command.currency());
-        repository.update(account);
-        log.info("END Deposit");
+    public void deposit(final DepositCommand message) {
+        deposit.deposit(message);
     }
 
     //region Queries applying soft CQRS, we can skip service layer and access directly to repository

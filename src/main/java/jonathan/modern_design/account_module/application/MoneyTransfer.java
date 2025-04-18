@@ -35,16 +35,17 @@ class MoneyTransferController {
             @PathVariable("balance") BigDecimal amount,
             @PathVariable("currency") String currency) {
 
-        log.info("BEGIN Transfer money from {} to {} with balance {}", sourceAccountId, targetAccountId, amount);
+        log.info("BEGIN Controller - Transfer money from {} to {} with balance {}", sourceAccountId, targetAccountId, amount);
 
         val command = new TransferMoneyCommand(sourceAccountId, targetAccountId, amount, Currency.fromCode(currency));
 
         moneyTransfer.transferMoney(command);
 
-        log.info("END Transfer money from {} to {} with balance {}", sourceAccountId, targetAccountId, amount);
+        log.info("END Controller - Transfer money from {} to {} with balance {}", sourceAccountId, targetAccountId, amount);
     }
 }
 
+@Slf4j
 @Injectable
 @RequiredArgsConstructor
 @Validated
@@ -54,6 +55,8 @@ public class MoneyTransfer {
 
     @Transactional
     public void transferMoney(final @Valid TransferMoneyCommand command) {
+        log.info("BEGIN TransferMoney");
+
         Account source = getAccountValidated(command.sourceId());
         Account target = getAccountValidated(command.targetId());
 
@@ -63,6 +66,7 @@ public class MoneyTransfer {
         final var currency = command.currency();
 
         transferMoney(source, target, amount, currency);
+        log.info("END TransferMoney");
     }
 
     private Account getAccountValidated(final String accountNumber) {

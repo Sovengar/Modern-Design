@@ -1,10 +1,11 @@
 package jonathan.modern_design.account_module.infra;
 
 import jonathan.modern_design._common.annotations.Fake;
-import jonathan.modern_design._common.annotations.Repo;
+import jonathan.modern_design._common.annotations.Query;
 import jonathan.modern_design.account_module.domain.Account;
 import jonathan.modern_design.account_module.domain.AccountEntity;
 import jonathan.modern_design.account_module.domain.AccountRepo;
+import jonathan.modern_design.account_module.domain.exceptions.AccountNotFoundException;
 import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ interface AccountSpringRepo extends JpaRepository<AccountEntity, String> {
     Optional<AccountEntity> findByAccountNumber(@NonNull String accountNumber);
 }
 
-@Repo
+@Query
 @Primary //When Spring finds AccountRepository but creates AccountSpringRepo, it will use AccountRepositorySpringAdapter
 @RequiredArgsConstructor
 class AccountRepoAdapter implements AccountRepo {
@@ -41,6 +42,10 @@ class AccountRepoAdapter implements AccountRepo {
         return repository.findByAccountNumber(accountNumber);
     }
 
+    private AccountEntity findOneEntityOrElseThrow(@NonNull final String accountNumber) {
+        return findOneEntity(accountNumber).orElseThrow(() -> new AccountNotFoundException(accountNumber));
+    }
+
     @Override
     public Page<Account> findAll(final Pageable pageable) {
         List<Account> accounts = repository.findAll(pageable)
@@ -54,15 +59,15 @@ class AccountRepoAdapter implements AccountRepo {
 
     @Override
     public AccountAccountNumber create(final Account account) {
-        var accountEntity = account.toEntity();
+        var accountEntity = new AccountEntity(account);
         repository.save(accountEntity);
         return account.accountAccountNumber();
     }
 
     @Override
     public void update(final Account account) {
-        //var accountEntity = findOneEntity(account.accountAccountNumber().accountNumber()).orElseThrow();
-        var accountEntity = account.toEntity();
+        var accountEntity = findOneEntityOrElseThrow(account.accountAccountNumber().accountNumber());
+        accountMapper.updateEntity(accountEntity, account);
         repository.save(accountEntity);
     }
 

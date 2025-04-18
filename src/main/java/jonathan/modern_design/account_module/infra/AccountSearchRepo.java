@@ -4,7 +4,7 @@ import com.querydsl.jpa.JPQLTemplates;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jonathan.modern_design._common.annotations.Repo;
+import jonathan.modern_design._common.annotations.Query;
 import jonathan.modern_design.account_module.dtos.AccountDto;
 import jonathan.modern_design.user.domain.QUser;
 import lombok.Builder;
@@ -33,7 +33,7 @@ public interface AccountSearchRepo {
     }
 }
 
-@Repo
+@Query
 @RequiredArgsConstructor
 //Has to have Impl in the name to avoid Spring mapping to JPARepository
 class AccountSearchRepoImpl implements AccountSearchRepo {
