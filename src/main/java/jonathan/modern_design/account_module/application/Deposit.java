@@ -5,9 +5,9 @@ import jonathan.modern_design._common.annotations.Injectable;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design.account_module.domain.AccountRepo;
-import jonathan.modern_design.account_module.dtos.DepositCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -23,15 +23,16 @@ class DepositController {
     private final Deposit deposit;
 
     @PutMapping("/{accountNumber}/deposit/{amount}/{currency}")
-    public void deposit(
+    public ResponseEntity<Void> deposit(
             @PathVariable("accountNumber") String accountNumber,
             @PathVariable("amount") BigDecimal amount,
             @PathVariable("currency") String currency
     ) {
         log.info("BEGIN Controller - Deposit");
-        final var command = new DepositCommand(accountNumber, amount, Currency.fromCode(currency));
+        final var command = new Deposit.DepositCommand(accountNumber, amount, Currency.fromCode(currency));
         deposit.deposit(command);
         log.info("END Controller - Deposit");
+        return ResponseEntity.ok().build();
     }
 }
 
@@ -49,4 +50,9 @@ public class Deposit {
         repository.update(account);
         log.info("END Deposit");
     }
+
+    public record DepositCommand(String accountNumber, BigDecimal amount, Currency currency) {
+    }
 }
+
+
