@@ -7,14 +7,14 @@ import jonathan.modern_design.user.domain.repos.RoleRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-interface RoleSpringRepo extends JpaRepository<Role, Role.Code> {
+interface RoleRepoSpringDataJPA extends JpaRepository<Role, Role.Code> {
     Role findByDescription(String desc);
 }
 
 @Query
 @RequiredArgsConstructor
 class RoleRepoAdapter implements RoleRepo {
-    private final RoleSpringRepo repository;
+    private final RoleRepoSpringDataJPA repository;
 
     @Override
     public Role findByCode(Role.Code code) {

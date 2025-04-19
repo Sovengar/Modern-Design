@@ -8,14 +8,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-interface UserSpringRepo extends JpaRepository<User, Long> {
+interface UserRepoSpringDataJPA extends JpaRepository<User, Long> {
     Optional<User> findByUuid(User.UserId userId);
 }
 
 @Query
 @RequiredArgsConstructor
 class UserRepoAdapter implements UserRepo {
-    private final UserSpringRepo repository;
+    private final UserRepoSpringDataJPA repository;
 
     @Override
     public void registerUser(User user) {
