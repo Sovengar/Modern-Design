@@ -1,4 +1,4 @@
-package jonathan.modern_design.user.infra;
+package jonathan.modern_design.user.alternatives;
 
 import jonathan.modern_design._common.annotations.Injectable;
 import jonathan.modern_design.user.domain.User;
