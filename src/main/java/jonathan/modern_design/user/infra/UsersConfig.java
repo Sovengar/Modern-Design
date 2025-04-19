@@ -3,8 +3,10 @@ package jonathan.modern_design.user.infra;
 import jonathan.modern_design.user.UserApi;
 import jonathan.modern_design.user.application.UserFacade;
 import jonathan.modern_design.user.application.UserRegister;
-import jonathan.modern_design.user.domain.RoleRepo;
-import jonathan.modern_design.user.domain.UserRepo;
+import jonathan.modern_design.user.domain.repos.RoleInMemoryRepo;
+import jonathan.modern_design.user.domain.repos.RoleRepo;
+import jonathan.modern_design.user.domain.repos.UserInMemoryRepo;
+import jonathan.modern_design.user.domain.repos.UserRepo;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
@@ -20,7 +22,7 @@ public class UsersConfig {
     @Profile("test")
     public UserApi userApi() {
         //For Unit testing
-        RoleRepo roleRepo = new RoleRepoInMemory();
+        RoleRepo roleRepo = new RoleInMemoryRepo();
         return userApi(userRepo, roleRepo);
     }
 

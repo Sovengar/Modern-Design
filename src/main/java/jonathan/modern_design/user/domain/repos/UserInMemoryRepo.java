@@ -1,0 +1,22 @@
+package jonathan.modern_design.user.domain.repos;
+
+import jonathan.modern_design._common.annotations.Fake;
+import jonathan.modern_design.user.domain.User;
+
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+
+@Fake //This class is for unit tests, also, don't evaluate his state, pointless, rather evaluate the state of the objects
+public class UserInMemoryRepo implements UserRepo {
+    private final ConcurrentHashMap<User.UserId, User> users = new ConcurrentHashMap<>();
+
+    @Override
+    public void registerUser(User user) {
+        users.put(user.uuid(), user);
+    }
+
+    @Override
+    public Optional<User> findByUuid(final User.UserId userId) {
+        return Optional.ofNullable(users.get(userId));
+    }
+}

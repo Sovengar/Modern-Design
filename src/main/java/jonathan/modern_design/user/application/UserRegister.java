@@ -2,11 +2,11 @@ package jonathan.modern_design.user.application;
 
 import jonathan.modern_design._common.annotations.Injectable;
 import jonathan.modern_design.user.domain.Role;
-import jonathan.modern_design.user.domain.RoleRepo;
-import jonathan.modern_design.user.domain.Roles;
 import jonathan.modern_design.user.domain.User;
 import jonathan.modern_design.user.domain.User.UserId;
-import jonathan.modern_design.user.domain.UserRepo;
+import jonathan.modern_design.user.domain.catalogs.Roles;
+import jonathan.modern_design.user.domain.repos.RoleRepo;
+import jonathan.modern_design.user.domain.repos.UserRepo;
 import jonathan.modern_design.user.domain.vo.UserEmail;
 import jonathan.modern_design.user.domain.vo.UserPassword;
 import jonathan.modern_design.user.domain.vo.UserPhoneNumbers;

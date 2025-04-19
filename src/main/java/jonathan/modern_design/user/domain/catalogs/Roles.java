@@ -1,4 +1,4 @@
-package jonathan.modern_design.user.domain;
+package jonathan.modern_design.user.domain.catalogs;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

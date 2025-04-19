@@ -18,6 +18,7 @@ import jakarta.persistence.Table;
 import jonathan.modern_design._common.BaseEntity;
 import jonathan.modern_design._common.annotations.OptionalField;
 import jonathan.modern_design._shared.country.Country;
+import jonathan.modern_design.user.domain.catalogs.Roles;
 import jonathan.modern_design.user.domain.vo.UserEmail;
 import jonathan.modern_design.user.domain.vo.UserPassword;
 import jonathan.modern_design.user.domain.vo.UserPhoneNumbers;

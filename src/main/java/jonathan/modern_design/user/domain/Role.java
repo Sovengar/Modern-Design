@@ -6,6 +6,7 @@ import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import jonathan.modern_design.user.domain.catalogs.Roles;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
