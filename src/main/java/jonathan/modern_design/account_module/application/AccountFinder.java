@@ -4,6 +4,7 @@ import com.querydsl.jpa.JPQLTemplates;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jonathan.modern_design._common.annotations.Injectable;
 import jonathan.modern_design._common.annotations.Query;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design.account_module.infra.AccountDto;
@@ -17,16 +18,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import static jonathan.modern_design.account_module.infra.QAccountEntity.accountEntity;
 import static org.springframework.http.ResponseEntity.ok;
 
+
 @Slf4j
 @RequiredArgsConstructor
 @WebAdapter
 @RequestMapping("/api/v1/accounts")
-class AccountFinder {
-    private final GetAccountQuery querier;
+class AccountFinderController {
+    private final AccountFinder accountFinder;
 
     @GetMapping(path = "/{accountNumber}")
     ResponseEntity<AccountDto> loadAccount(@PathVariable String accountNumber) {
-        return ok(querier.getAccount(accountNumber));
+        return ok(accountFinder.queryWith(accountNumber));
+    }
+}
+
+@Injectable
+@RequiredArgsConstructor
+public class AccountFinder {
+    private final GetAccountQuery querier;
+
+    public AccountDto queryWith(final String accountNumber) {
+        return querier.getAccount(accountNumber);
     }
 }
 

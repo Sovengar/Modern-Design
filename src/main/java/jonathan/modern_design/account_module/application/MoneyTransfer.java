@@ -38,7 +38,7 @@ class MoneyTransferController {
 
         val command = new MoneyTransfer.Command(sourceAccountId, targetAccountId, amount, Currency.fromCode(currency));
 
-        moneyTransfer.transferMoney(command);
+        moneyTransfer.handle(command);
 
         log.info("END Controller - Transfer money from {} to {} with balance {}", sourceAccountId, targetAccountId, amount);
     }
@@ -53,7 +53,7 @@ public class MoneyTransfer {
     private final AccountValidator accountValidator;
 
     @Transactional
-    public void transferMoney(final @Valid Command message) {
+    public void handle(final @Valid Command message) {
         log.info("BEGIN TransferMoney");
 
         Account source = getAccountValidated(message.sourceId());
@@ -64,7 +64,7 @@ public class MoneyTransfer {
         final var amount = message.amount();
         final var currency = message.currency();
 
-        transferMoney(source, target, amount, currency);
+        handle(source, target, amount, currency);
         log.info("END TransferMoney");
     }
 
@@ -82,7 +82,7 @@ public class MoneyTransfer {
         }
     }
 
-    private void transferMoney(Account source, Account target, final BigDecimal amount, final Currency currency) {
+    private void handle(Account source, Account target, final BigDecimal amount, final Currency currency) {
         source.subtract(amount, currency);
         target.add(amount, currency);
 

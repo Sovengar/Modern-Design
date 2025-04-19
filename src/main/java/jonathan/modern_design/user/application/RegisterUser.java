@@ -16,6 +16,7 @@ import jonathan.modern_design.user.domain.vo.UserUserName;
 import jonathan.modern_design.user.dtos.UserRegisterCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import java.io.Serial;
@@ -26,6 +27,7 @@ import static java.lang.String.format;
 @Injectable
 @RequiredArgsConstructor
 @Validated
+@Transactional
 public class RegisterUser {
     private final UserRepo repository;
     private final RoleRepo roleRepo;

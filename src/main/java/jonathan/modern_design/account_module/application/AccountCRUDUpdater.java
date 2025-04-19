@@ -33,7 +33,7 @@ public class AccountCRUDUpdater {
 
     //CRUD-Like method, prefer usecase methods like moveToAnotherPlace to update the address
     @Transactional
-    public void update(AccountDto dto) {
+    public void handle(AccountDto dto) {
         log.info("BEGIN Update");
         var account = repository.findOneOrElseThrow(dto.accountNumber());
         account = Account.updateCRUD(
@@ -76,15 +76,14 @@ public class AccountCRUDUpdater {
 @RequiredArgsConstructor
 @WebAdapter
 @RequestMapping("/api/v1/accounts")
-class Controller {
+class AccountCRUDUpdaterController {
     private final AccountCRUDUpdater updater;
 
     @PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public void updateAccount(@RequestBody AccountDto dto) {
-        updater.update(dto);
+        updater.handle(dto);
     }
 }
-
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 class Mapper {

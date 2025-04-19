@@ -69,6 +69,7 @@ public class AccountCreator {
     private final UserApi userFacade;
     private final CountriesInventory countriesInventory;
 
+    @Transactional
     public AccountAccountNumber handle(final Command message) {
         log.info("START - Creating account with command: {}", message);
 

@@ -8,6 +8,7 @@ import jonathan.modern_design.account_module.domain.repos.AccountRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -30,7 +31,7 @@ class DepositController {
     ) {
         log.info("BEGIN Controller - Deposit");
         final var command = new Deposit.Command(accountNumber, amount, Currency.fromCode(currency));
-        deposit.deposit(command);
+        deposit.handle(command);
         log.info("END Controller - Deposit");
         return ResponseEntity.ok().build();
     }
@@ -43,7 +44,8 @@ class DepositController {
 public class Deposit {
     private final AccountRepo repository;
 
-    public void deposit(final @Valid Command message) {
+    @Transactional
+    public void handle(final @Valid Command message) {
         log.info("BEGIN Deposit");
         var account = repository.findOne(message.accountNumber()).orElseThrow();
         account.add(message.amount(), message.currency());

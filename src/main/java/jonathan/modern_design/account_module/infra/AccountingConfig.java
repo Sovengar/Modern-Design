@@ -5,6 +5,7 @@ import jonathan.modern_design._shared.country.CountriesInventoryStub;
 import jonathan.modern_design.account_module.AccountApi;
 import jonathan.modern_design.account_module.application.AccountCRUDUpdater;
 import jonathan.modern_design.account_module.application.AccountCreator;
+import jonathan.modern_design.account_module.application.AccountFinder;
 import jonathan.modern_design.account_module.application.Deposit;
 import jonathan.modern_design.account_module.application.MoneyTransfer;
 import jonathan.modern_design.account_module.application.search.SearchAccount;
@@ -26,17 +27,16 @@ public class AccountingConfig {
         this.accountRepoSpringDataJDBC = accountRepoSpringDataJDBC;
     }
 
-    public AccountApi accountApi(AccountRepo accountRepo, SearchAccount searchAccount, UserApi userFacade, CountriesInventory countriesInventory) {
+    public AccountApi accountApi(AccountRepo accountRepo, AccountFinder accountFinder, SearchAccount searchAccount, UserApi userFacade, CountriesInventory countriesInventory) {
         AccountValidator accountValidator = new AccountValidator();
 
         return new AccountFacade(
-                accountRepo,
+                accountFinder,
                 searchAccount,
                 new MoneyTransfer(accountRepo, accountValidator),
                 new AccountCreator(new AccountCreator.Storer(accountRepoSpringDataJPA), userFacade, countriesInventory),
                 new AccountCRUDUpdater(new AccountCRUDUpdater.Storer(accountRepoSpringDataJDBC)),
-                new Deposit(accountRepo),
-                new AccountMapperAdapter()
+                new Deposit(accountRepo)
         );
     }
 
@@ -44,9 +44,10 @@ public class AccountingConfig {
     public AccountApi accountApi(UserApi userApi) {
         //For Unit testing
         SearchAccount searchAccount = null;
+        AccountFinder accountFinder = null;
         final CountriesInventory countriesInventory = new CountriesInventoryStub();
 
-        return accountApi(accountRepo, searchAccount, userApi, countriesInventory);
+        return accountApi(accountRepo, accountFinder, searchAccount, userApi, countriesInventory);
     }
 
     @Profile("test")
