@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import jonathan.modern_design._common.annotations.Injectable;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design._shared.Currency;
-import jonathan.modern_design.account_module.domain.AccountRepoRepo;
+import jonathan.modern_design.account_module.domain.AccountRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +37,7 @@ class WithdrawMoneyController {
 @RequiredArgsConstructor
 @Validated
 class WithdrawMoney {
-    private final AccountRepoRepo repository;
+    private final AccountRepo repository;
 
     public void withdraw(final @Valid WithdrawMoneyCommand message) {
         log.info("BEGIN WithdrawMoney");

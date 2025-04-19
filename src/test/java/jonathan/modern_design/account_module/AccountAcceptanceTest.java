@@ -5,7 +5,7 @@ import jonathan.modern_design.__config.ITConfig;
 import jonathan.modern_design._fake_data.AccountStub;
 import jonathan.modern_design.account_module.application.Deposit;
 import jonathan.modern_design.account_module.domain.Account;
-import jonathan.modern_design.account_module.domain.AccountRepoRepo;
+import jonathan.modern_design.account_module.domain.AccountRepo;
 import jonathan.modern_design.account_module.domain.vo.AccountMoney;
 import org.approvaltests.Approvals;
 import org.junit.jupiter.api.Nested;
@@ -26,7 +26,7 @@ final class AccountAcceptanceTest extends ITConfig {
     ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
-    private AccountRepoRepo repository;
+    private AccountRepo repository;
 
     @Autowired
     private AccountApi accountFacade;

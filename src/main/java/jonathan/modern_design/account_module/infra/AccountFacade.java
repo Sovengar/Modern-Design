@@ -8,7 +8,7 @@ import jonathan.modern_design.account_module.application.Deposit;
 import jonathan.modern_design.account_module.application.MoneyTransfer;
 import jonathan.modern_design.account_module.application.search.SearchAccount;
 import jonathan.modern_design.account_module.domain.Account;
-import jonathan.modern_design.account_module.domain.AccountRepoRepo;
+import jonathan.modern_design.account_module.domain.AccountRepo;
 import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 class AccountFacade implements AccountApi {
-    private final AccountRepoRepo repository;
+    private final AccountRepo repository;
     private final SearchAccount searchAccount;
     private final MoneyTransfer moneyTransfer;
     private final AccountCreator accountCreator;

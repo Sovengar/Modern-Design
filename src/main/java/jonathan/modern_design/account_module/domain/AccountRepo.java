@@ -11,7 +11,7 @@ import static java.util.Objects.requireNonNull;
 import static java.util.Optional.of;
 import static java.util.Optional.ofNullable;
 
-public interface AccountRepoRepo extends FindAccountRepo {
+public interface AccountRepo extends FindAccountRepo {
     AccountAccountNumber create(Account account);
 
     void update(Account account);
@@ -21,7 +21,7 @@ public interface AccountRepoRepo extends FindAccountRepo {
     void softDelete(final String accountNumber);
 
     @Fake //This class is for unit tests, also, don't evaluate his state, pointless, rather evaluate the state of the objects
-    class InMemory implements AccountRepoRepo {
+    class InMemory implements AccountRepo {
         private final ConcurrentHashMap<String, Account> accounts = new ConcurrentHashMap<>();
 
         @Override

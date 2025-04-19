@@ -8,7 +8,7 @@ import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design._shared.country.CountriesInventory;
 import jonathan.modern_design.account_module.domain.Account;
 import jonathan.modern_design.account_module.domain.AccountEntity;
-import jonathan.modern_design.account_module.domain.AccountRepoRepo;
+import jonathan.modern_design.account_module.domain.AccountRepo;
 import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
 import jonathan.modern_design.account_module.domain.vo.AccountAddress;
 import jonathan.modern_design.account_module.domain.vo.AccountMoney;
@@ -44,7 +44,7 @@ import static java.util.Optional.ofNullable;
 @Validated
 class AccountCreatorController {
     private final AccountCreator accountCreator;
-    private final AccountRepoRepo repository;
+    private final AccountRepo repository;
 
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     //OPENAPI @Operation(description = "Create Account")

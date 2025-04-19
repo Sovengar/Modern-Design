@@ -6,7 +6,7 @@ import jonathan.modern_design._common.annotations.Injectable;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design.account_module.domain.Account;
-import jonathan.modern_design.account_module.domain.AccountRepoRepo;
+import jonathan.modern_design.account_module.domain.AccountRepo;
 import jonathan.modern_design.account_module.domain.exceptions.OperationForbiddenForSameAccount;
 import jonathan.modern_design.account_module.domain.services.AccountValidator;
 import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
@@ -49,7 +49,7 @@ class MoneyTransferController {
 @RequiredArgsConstructor
 @Validated
 public class MoneyTransfer {
-    private final AccountRepoRepo repository;
+    private final AccountRepo repository;
     private final AccountValidator accountValidator;
 
     @Transactional

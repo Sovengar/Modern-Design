@@ -3,7 +3,7 @@ package jonathan.modern_design.account_module.infra;
 import jonathan.modern_design._common.annotations.Query;
 import jonathan.modern_design.account_module.domain.Account;
 import jonathan.modern_design.account_module.domain.AccountEntity;
-import jonathan.modern_design.account_module.domain.AccountRepoRepo;
+import jonathan.modern_design.account_module.domain.AccountRepo;
 import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.Optional;
 @Query
 @Primary //When Spring finds AccountRepository but creates AccountSpringRepo, it will use AccountRepositorySpringAdapter
 @RequiredArgsConstructor
-class AccountRepoRepoImpl implements AccountRepoRepo {
+class AccountRepoImpl implements AccountRepo {
     private final AccountRepoSpringDataJPA repository;
     private final AccountMapper accountMapper;
 

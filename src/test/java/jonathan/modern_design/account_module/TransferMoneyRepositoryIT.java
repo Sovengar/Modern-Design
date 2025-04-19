@@ -3,7 +3,7 @@ package jonathan.modern_design.account_module;
 import jonathan.modern_design.__config.ITConfig;
 import jonathan.modern_design.account_module.application.Deposit;
 import jonathan.modern_design.account_module.domain.Account;
-import jonathan.modern_design.account_module.domain.AccountRepoRepo;
+import jonathan.modern_design.account_module.domain.AccountRepo;
 import jonathan.modern_design.account_module.domain.vo.AccountMoney;
 import jonathan.modern_design.user.UserApi;
 import org.junit.jupiter.api.Nested;
@@ -23,7 +23,7 @@ class TransferMoneyRepositoryIT extends ITConfig {
     @Autowired
     private AccountApi accountFacade;
     @Autowired
-    private AccountRepoRepo repository;
+    private AccountRepo repository;
     @MockitoBean
     private UserApi userApi;
 

@@ -8,7 +8,7 @@ import jonathan.modern_design.account_module.application.AccountCreator;
 import jonathan.modern_design.account_module.application.Deposit;
 import jonathan.modern_design.account_module.application.MoneyTransfer;
 import jonathan.modern_design.account_module.application.search.SearchAccount;
-import jonathan.modern_design.account_module.domain.AccountRepoRepo;
+import jonathan.modern_design.account_module.domain.AccountRepo;
 import jonathan.modern_design.account_module.domain.services.AccountValidator;
 import jonathan.modern_design.user.UserApi;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Profile;
 
 @Configuration
 public class AccountingConfig {
-    final AccountRepoRepo accountRepo = new AccountRepoRepo.InMemory();
+    final AccountRepo accountRepo = new AccountRepo.InMemory();
     private final AccountRepoSpringDataJPA accountRepoSpringDataJPA;
     private final AccountRepoSpringDataJDBC accountRepoSpringDataJDBC;
 
@@ -25,7 +25,7 @@ public class AccountingConfig {
         this.accountRepoSpringDataJDBC = accountRepoSpringDataJDBC;
     }
 
-    public AccountApi accountApi(AccountRepoRepo accountRepo, SearchAccount searchAccount, UserApi userFacade, CountriesInventory countriesInventory) {
+    public AccountApi accountApi(AccountRepo accountRepo, SearchAccount searchAccount, UserApi userFacade, CountriesInventory countriesInventory) {
         AccountValidator accountValidator = new AccountValidator();
 
         return new AccountFacade(
@@ -49,7 +49,7 @@ public class AccountingConfig {
     }
 
     @Profile("test")
-    public AccountRepoRepo getAccountRepo() {
+    public AccountRepo getAccountRepo() {
         //For Unit testing
         return accountRepo;
     }
