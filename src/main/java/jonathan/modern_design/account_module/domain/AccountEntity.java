@@ -29,6 +29,8 @@ import org.hibernate.annotations.SQLRestriction;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import static java.util.Objects.nonNull;
+
 @Entity
 @Table(name = "accounts", schema = "md")
 @Getter
@@ -54,7 +56,7 @@ public class AccountEntity extends BaseEntity {
     private UserId userId;
 
     public AccountEntity(Account account) {
-        this.accountId = account.accountId().id();
+        this.accountId = nonNull(account.accountId()) ? account.accountId().id() : null;
         this.accountNumber = account.accountAccountNumber().accountNumber();
         this.balance = account.money().amount();
         this.currency = account.money().currency();

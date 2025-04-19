@@ -21,7 +21,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequiredArgsConstructor
 @WebAdapter
 @RequestMapping("/api/v1/accounts")
-class GetAccount {
+class AccountFinder {
     private final GetAccountQuery querier;
 
     @GetMapping(path = "/{accountNumber}")

@@ -7,8 +7,8 @@ import jonathan.modern_design.account_module.application.AccountCRUDUpdater;
 import jonathan.modern_design.account_module.application.AccountCreator;
 import jonathan.modern_design.account_module.application.Deposit;
 import jonathan.modern_design.account_module.application.MoneyTransfer;
-import jonathan.modern_design.account_module.application.SearchAccount;
-import jonathan.modern_design.account_module.domain.AccountRepo;
+import jonathan.modern_design.account_module.application.search.SearchAccount;
+import jonathan.modern_design.account_module.domain.AccountRepoRepo;
 import jonathan.modern_design.account_module.domain.services.AccountValidator;
 import jonathan.modern_design.user.UserApi;
 import org.springframework.context.annotation.Configuration;
@@ -16,17 +16,24 @@ import org.springframework.context.annotation.Profile;
 
 @Configuration
 public class AccountingConfig {
-    final AccountRepo accountRepo = new AccountInMemoryRepo();
+    final AccountRepoRepo accountRepo = new AccountRepoRepo.InMemory();
+    private final AccountRepoSpringDataJPA accountRepoSpringDataJPA;
+    private final AccountRepoSpringDataJDBC accountRepoSpringDataJDBC;
 
-    public AccountApi accountApi(AccountRepo accountRepo, SearchAccount searchAccount, UserApi userFacade, CountriesInventory countriesInventory) {
+    public AccountingConfig(final AccountRepoSpringDataJPA accountRepoSpringDataJPA, final AccountRepoSpringDataJDBC accountRepoSpringDataJDBC) {
+        this.accountRepoSpringDataJPA = accountRepoSpringDataJPA;
+        this.accountRepoSpringDataJDBC = accountRepoSpringDataJDBC;
+    }
+
+    public AccountApi accountApi(AccountRepoRepo accountRepo, SearchAccount searchAccount, UserApi userFacade, CountriesInventory countriesInventory) {
         AccountValidator accountValidator = new AccountValidator();
 
         return new AccountFacade(
                 accountRepo,
                 searchAccount,
                 new MoneyTransfer(accountRepo, accountValidator),
-                new AccountCreator(accountRepo, userFacade, countriesInventory),
-                new AccountCRUDUpdater(accountRepo),
+                new AccountCreator(new AccountCreator.Storer(accountRepoSpringDataJPA), userFacade, countriesInventory),
+                new AccountCRUDUpdater(new AccountCRUDUpdater.Storer(accountRepoSpringDataJDBC)),
                 new Deposit(accountRepo),
                 new AccountMapperAdapter()
         );
@@ -42,7 +49,7 @@ public class AccountingConfig {
     }
 
     @Profile("test")
-    public AccountRepo getAccountRepo() {
+    public AccountRepoRepo getAccountRepo() {
         //For Unit testing
         return accountRepo;
     }

@@ -6,11 +6,14 @@ import jonathan.modern_design.account_module.application.AccountCRUDUpdater;
 import jonathan.modern_design.account_module.application.AccountCreator;
 import jonathan.modern_design.account_module.application.Deposit;
 import jonathan.modern_design.account_module.application.MoneyTransfer;
-import jonathan.modern_design.account_module.application.SearchAccount;
-import jonathan.modern_design.account_module.domain.AccountRepo;
+import jonathan.modern_design.account_module.application.search.SearchAccount;
+import jonathan.modern_design.account_module.domain.Account;
+import jonathan.modern_design.account_module.domain.AccountRepoRepo;
 import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -20,7 +23,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 class AccountFacade implements AccountApi {
-    private final AccountRepo repository;
+    private final AccountRepoRepo repository;
     private final SearchAccount searchAccount;
     private final MoneyTransfer moneyTransfer;
     private final AccountCreator accountCreator;
@@ -43,7 +46,7 @@ class AccountFacade implements AccountApi {
     @Override
     @Transactional
     public AccountAccountNumber createAccount(final AccountCreator.Command message) {
-        return accountCreator.createAccount(message);
+        return accountCreator.handle(message);
     }
 
     @Override
@@ -77,6 +80,11 @@ class AccountFacade implements AccountApi {
     @Override
     public List<AccountDto> searchForXXXPage(final Criteria filters) {
         return searchAccount.searchForXXXPage(filters);
+    }
+
+    @Override
+    public Page<Account> findAll(final Pageable pageable) {
+        return searchAccount.findAll(pageable);
     }
     //endregion
 }

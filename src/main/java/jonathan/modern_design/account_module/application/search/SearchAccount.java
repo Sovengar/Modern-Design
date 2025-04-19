@@ -1,4 +1,4 @@
-package jonathan.modern_design.account_module.application;
+package jonathan.modern_design.account_module.application.search;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
@@ -9,10 +9,16 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
 import jonathan.modern_design._common.annotations.Query;
 import jonathan.modern_design._common.annotations.WebAdapter;
+import jonathan.modern_design.account_module.domain.Account;
+import jonathan.modern_design.account_module.domain.AccountEntity;
 import jonathan.modern_design.account_module.infra.AccountDto;
+import jonathan.modern_design.account_module.infra.AccountRepoSpringDataJPA;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,6 +44,8 @@ public interface SearchAccount {
     Optional<AccountDto> findByUserPassword(final String password);
 
     List<AccountDto> searchForXXXPage(Criteria filters);
+
+    Page<Account> findAll(final Pageable pageable);
 
     @Builder
     record Criteria(
@@ -81,9 +89,11 @@ class SearchAccountController {
 class SearchAccountQueryImpl implements SearchAccount {
     @PersistenceContext
     private final EntityManager entityManager;
+    private final AccountRepoSpringDataJPA repository;
     private final JPAQueryFactory queryFactory;
 
-    public SearchAccountQueryImpl(EntityManager entityManager) {
+    public SearchAccountQueryImpl(EntityManager entityManager, AccountRepoSpringDataJPA repository) {
+        this.repository = repository;
         this.entityManager = entityManager;
         this.queryFactory = new JPAQueryFactory(JPQLTemplates.DEFAULT, entityManager);
     }
@@ -91,7 +101,7 @@ class SearchAccountQueryImpl implements SearchAccount {
     @Override
     public List<AccountSearchResult> searchWithJPQL(Criteria filters) {
         // Alternative: Spring Specifications https://docs.spring.io/spring-data/jpa/reference/jpa/specifications.html
-        String jpql = "SELECT new jonathan.modern_design.account_module.application.SearchAccount.AccountSearchResult(a.id, a.name)" +
+        String jpql = "SELECT new jonathan.modern_design.account_module.application.search.SearchAccount.AccountSearchResult(a.id, a.name)" +
                 " FROM Account a " +
                 " WHERE ";
         List<String> jpqlParts = new ArrayList<>();
@@ -145,6 +155,17 @@ class SearchAccountQueryImpl implements SearchAccount {
                 .fetch();
 
         return accounts.stream().map(AccountDto::new).toList();
+    }
+
+    @Override
+    public Page<Account> findAll(final Pageable pageable) {
+        List<Account> accounts = repository.findAll(pageable)
+                .getContent()
+                .stream()
+                .map(AccountEntity::toDomain)
+                .toList();
+
+        return new PageImpl<>(accounts, pageable, accounts.size());
     }
 
     @Override

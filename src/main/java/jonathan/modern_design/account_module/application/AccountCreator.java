@@ -2,15 +2,18 @@ package jonathan.modern_design.account_module.application;
 
 import jakarta.validation.Valid;
 import jonathan.modern_design._common.annotations.Injectable;
+import jonathan.modern_design._common.annotations.Repo;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design._shared.country.CountriesInventory;
 import jonathan.modern_design.account_module.domain.Account;
-import jonathan.modern_design.account_module.domain.AccountRepo;
+import jonathan.modern_design.account_module.domain.AccountEntity;
+import jonathan.modern_design.account_module.domain.AccountRepoRepo;
 import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
 import jonathan.modern_design.account_module.domain.vo.AccountAddress;
 import jonathan.modern_design.account_module.domain.vo.AccountMoney;
 import jonathan.modern_design.account_module.infra.AccountDto;
+import jonathan.modern_design.account_module.infra.AccountRepoSpringDataJPA;
 import jonathan.modern_design.user.UserApi;
 import jonathan.modern_design.user.domain.User;
 import jonathan.modern_design.user.domain.User.UserId;
@@ -33,6 +36,7 @@ import java.util.UUID;
 
 import static java.util.Optional.ofNullable;
 
+
 @Slf4j
 @RequiredArgsConstructor
 @WebAdapter
@@ -40,14 +44,14 @@ import static java.util.Optional.ofNullable;
 @Validated
 class AccountCreatorController {
     private final AccountCreator accountCreator;
-    private final AccountRepo repository;
+    private final AccountRepoRepo repository;
 
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     //OPENAPI @Operation(description = "Create Account")
     @Transactional
     public ResponseEntity<AccountDto> createAccount(@RequestBody @Valid final AccountCreator.Command message) {
         log.info("START Controller - Creating account with command: {}", message);
-        final var accountNumber = accountCreator.createAccount(message).accountNumber();
+        final var accountNumber = accountCreator.handle(message).accountNumber();
 
         var account = repository.findOneOrElseThrow(accountNumber);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{accountNumber}").buildAndExpand(accountNumber).toUri();
@@ -61,11 +65,11 @@ class AccountCreatorController {
 @RequiredArgsConstructor
 @Slf4j
 public class AccountCreator {
-    private final AccountRepo repository;
+    private final Storer repository;
     private final UserApi userFacade;
     private final CountriesInventory countriesInventory;
 
-    public AccountAccountNumber createAccount(final Command message) {
+    public AccountAccountNumber handle(final Command message) {
         log.info("START - Creating account with command: {}", message);
 
         var userId = registerUser(message);
@@ -107,5 +111,18 @@ public class AccountCreator {
                           String country,
                           String currency) {
     }
+
+    @Repo
+    @RequiredArgsConstructor
+    public static class Storer {
+        private final AccountRepoSpringDataJPA repository;
+
+        public AccountAccountNumber create(final Account account) {
+            var accountEntity = new AccountEntity(account);
+            repository.save(accountEntity);
+            return account.accountAccountNumber();
+        }
+    }
 }
+
 
