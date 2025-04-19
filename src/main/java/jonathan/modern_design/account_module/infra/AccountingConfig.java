@@ -8,7 +8,8 @@ import jonathan.modern_design.account_module.application.AccountCreator;
 import jonathan.modern_design.account_module.application.Deposit;
 import jonathan.modern_design.account_module.application.MoneyTransfer;
 import jonathan.modern_design.account_module.application.search.SearchAccount;
-import jonathan.modern_design.account_module.domain.AccountRepo;
+import jonathan.modern_design.account_module.domain.repos.AccountInMemoryRepo;
+import jonathan.modern_design.account_module.domain.repos.AccountRepo;
 import jonathan.modern_design.account_module.domain.services.AccountValidator;
 import jonathan.modern_design.user.UserApi;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +17,7 @@ import org.springframework.context.annotation.Profile;
 
 @Configuration
 public class AccountingConfig {
-    final AccountRepo accountRepo = new AccountRepo.InMemory();
+    final AccountRepo accountRepo = new AccountInMemoryRepo();
     private final AccountRepoSpringDataJPA accountRepoSpringDataJPA;
     private final AccountRepoSpringDataJDBC accountRepoSpringDataJDBC;
 

@@ -1,5 +1,7 @@
-package jonathan.modern_design.account_module.domain;
+package jonathan.modern_design.account_module.domain.repos;
 
+import jonathan.modern_design.account_module.domain.Account;
+import jonathan.modern_design.account_module.domain.AccountEntity;
 import jonathan.modern_design.account_module.domain.exceptions.AccountNotFoundException;
 import lombok.NonNull;
 

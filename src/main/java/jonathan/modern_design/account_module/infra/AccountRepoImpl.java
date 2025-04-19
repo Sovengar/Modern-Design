@@ -3,7 +3,7 @@ package jonathan.modern_design.account_module.infra;
 import jonathan.modern_design._common.annotations.Query;
 import jonathan.modern_design.account_module.domain.Account;
 import jonathan.modern_design.account_module.domain.AccountEntity;
-import jonathan.modern_design.account_module.domain.AccountRepo;
+import jonathan.modern_design.account_module.domain.repos.AccountRepo;
 import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

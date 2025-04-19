@@ -8,7 +8,7 @@ import jonathan.modern_design.account_module.application.Deposit;
 import jonathan.modern_design.account_module.application.MoneyTransfer;
 import jonathan.modern_design.account_module.application.search.SearchAccount;
 import jonathan.modern_design.account_module.domain.Account;
-import jonathan.modern_design.account_module.domain.AccountRepo;
+import jonathan.modern_design.account_module.domain.repos.AccountRepo;
 import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

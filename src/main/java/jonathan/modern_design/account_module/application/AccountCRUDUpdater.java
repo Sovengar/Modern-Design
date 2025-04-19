@@ -6,7 +6,7 @@ import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design.account_module.domain.Account;
 import jonathan.modern_design.account_module.domain.AccountEntity;
-import jonathan.modern_design.account_module.domain.FindAccountRepo;
+import jonathan.modern_design.account_module.domain.repos.FindAccountRepo;
 import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
 import jonathan.modern_design.account_module.domain.vo.AccountAddress;
 import jonathan.modern_design.account_module.domain.vo.AccountMoney;
