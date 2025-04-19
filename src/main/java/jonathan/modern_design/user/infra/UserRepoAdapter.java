@@ -27,5 +27,3 @@ class UserRepoAdapter implements UserRepo {
         return repository.findByUuid(userId);
     }
 }
-
-
