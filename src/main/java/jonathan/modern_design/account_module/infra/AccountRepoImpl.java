@@ -1,6 +1,6 @@
 package jonathan.modern_design.account_module.infra;
 
-import jonathan.modern_design._common.annotations.Query;
+import jonathan.modern_design._common.annotations.DataAdapter;
 import jonathan.modern_design.account_module.domain.Account;
 import jonathan.modern_design.account_module.domain.AccountEntity;
 import jonathan.modern_design.account_module.domain.repos.AccountRepo;
@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Primary;
 
 import java.util.Optional;
 
-@Query
+@DataAdapter
 @Primary //When Spring finds AccountRepository but creates AccountSpringRepo, it will use AccountRepositorySpringAdapter
 @RequiredArgsConstructor
 class AccountRepoImpl implements AccountRepo {

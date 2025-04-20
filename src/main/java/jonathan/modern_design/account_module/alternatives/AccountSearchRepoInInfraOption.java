@@ -2,7 +2,7 @@ package jonathan.modern_design.account_module.alternatives;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jonathan.modern_design._common.annotations.Query;
+import jonathan.modern_design._common.annotations.DataAdapter;
 import jonathan.modern_design.account_module.infra.AccountDto;
 import jonathan.modern_design.account_module.infra.AccountMapper;
 import lombok.Builder;
@@ -25,7 +25,7 @@ public interface AccountSearchRepoInInfraOption {
     }
 }
 
-@Query
+@DataAdapter
 @RequiredArgsConstructor
 //Has to have Impl in the name to avoid Spring mapping to JPARepository
 class AccountSearchRepoImpl implements AccountSearchRepoInInfraOption {

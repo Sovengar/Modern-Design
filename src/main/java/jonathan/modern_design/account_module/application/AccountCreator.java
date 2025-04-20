@@ -1,8 +1,8 @@
 package jonathan.modern_design.account_module.application;
 
 import jakarta.validation.Valid;
+import jonathan.modern_design._common.annotations.DataAdapter;
 import jonathan.modern_design._common.annotations.Injectable;
-import jonathan.modern_design._common.annotations.Repo;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design._shared.country.CountriesInventory;
@@ -113,7 +113,7 @@ public class AccountCreator {
                           String currency) {
     }
 
-    @Repo
+    @DataAdapter
     @RequiredArgsConstructor
     public static class Storer {
         private final AccountRepoSpringDataJPA repository;

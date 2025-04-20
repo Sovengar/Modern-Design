@@ -1,7 +1,7 @@
 package jonathan.modern_design.user.infra;
 
 import jakarta.persistence.EntityNotFoundException;
-import jonathan.modern_design._common.annotations.Query;
+import jonathan.modern_design._common.annotations.DataAdapter;
 import jonathan.modern_design.user.domain.Role;
 import jonathan.modern_design.user.domain.repos.RoleRepo;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ interface RoleRepoSpringDataJPA extends JpaRepository<Role, Role.Code> {
     }
 }
 
-@Query
+@DataAdapter
 @RequiredArgsConstructor
 class RoleRepoAdapter implements RoleRepo {
     private final RoleRepoSpringDataJPA repository;

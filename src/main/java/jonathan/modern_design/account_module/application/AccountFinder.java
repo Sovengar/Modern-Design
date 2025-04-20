@@ -4,8 +4,8 @@ import com.querydsl.jpa.JPQLTemplates;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jonathan.modern_design._common.annotations.DataAdapter;
 import jonathan.modern_design._common.annotations.Injectable;
-import jonathan.modern_design._common.annotations.Query;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design.account_module.infra.AccountDto;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +42,7 @@ public class AccountFinder {
     }
 }
 
-@Query
+@DataAdapter
 @RequiredArgsConstructor
 class GetAccountQuery {
     @PersistenceContext

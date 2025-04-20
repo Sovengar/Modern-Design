@@ -7,7 +7,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
-import jonathan.modern_design._common.annotations.Query;
+import jonathan.modern_design._common.annotations.DataAdapter;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design.account_module.domain.Account;
 import jonathan.modern_design.account_module.domain.AccountEntity;
@@ -84,7 +84,7 @@ class SearchAccountController {
     }
 }
 
-@Query
+@DataAdapter
 //Has to have Impl in the name to avoid Spring mapping to JPARepository
 class SearchAccountQueryImpl implements SearchAccount {
     @PersistenceContext

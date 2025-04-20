@@ -1,17 +1,18 @@
 package jonathan.modern_design.account_module.application;
 
+import jonathan.modern_design._common.annotations.DataAdapter;
 import jonathan.modern_design._common.annotations.Injectable;
-import jonathan.modern_design._common.annotations.Repo;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design.account_module.domain.Account;
 import jonathan.modern_design.account_module.domain.AccountEntity;
-import jonathan.modern_design.account_module.domain.repos.FindAccountRepo;
+import jonathan.modern_design.account_module.domain.AccountJdbcEntity;
 import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
 import jonathan.modern_design.account_module.domain.vo.AccountAddress;
 import jonathan.modern_design.account_module.domain.vo.AccountMoney;
 import jonathan.modern_design.account_module.infra.AccountDto;
 import jonathan.modern_design.account_module.infra.AccountRepoSpringDataJDBC;
+import jonathan.modern_design.account_module.infra.AccountRepoSpringDataJPA;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -35,7 +36,17 @@ public class AccountCRUDUpdater {
     @Transactional
     public void handle(AccountDto dto) {
         log.info("BEGIN Update");
-        var account = repository.findOneOrElseThrow(dto.accountNumber());
+//        var account = repository.findOneJdbc(dto.accountNumber()).orElseThrow();
+//        account = Account.updateCRUD(
+//                account,
+//                AccountAccountNumber.of(dto.accountNumber()),
+//                AccountMoney.of(dto.balance(), Currency.valueOf(dto.currency())),
+//                AccountAddress.of(dto.address()),
+//                dto.active(),
+//                dto.userId());
+//        repository.updateWithJdbc(account);
+
+        var account = repository.findOneWithJpa(dto.accountNumber()).orElseThrow();
         account = Account.updateCRUD(
                 account,
                 AccountAccountNumber.of(dto.accountNumber()),
@@ -43,31 +54,37 @@ public class AccountCRUDUpdater {
                 AccountAddress.of(dto.address()),
                 dto.active(),
                 dto.userId());
-        repository.update(account);
+        repository.updateWithJPA(account);
 
         log.info("END Update");
     }
 
-    @Repo
+    @DataAdapter
     @RequiredArgsConstructor
-    public static class Storer implements FindAccountRepo {
-        private final AccountRepoSpringDataJDBC repository;
+    public static class Storer {
+        private final AccountRepoSpringDataJDBC repositoryJDBC;
+        private final AccountRepoSpringDataJPA repositoryJPA;
 
-        public void update(final Account account) {
-            var accountEntity = findOneEntityOrElseThrow(account.accountAccountNumber().accountNumber());
+        public void updateWithJdbc(final Account account) {
+            var accountEntity = repositoryJDBC.findByAccountNumber(account.accountAccountNumber().accountNumber()).orElseThrow();
+            accountEntity = new AccountJdbcEntity(accountEntity, account);
+            repositoryJDBC.save(accountEntity);
+        }
+
+        public Optional<Account> findOneJdbc(final @NonNull String accountNumber) {
+            var accountEntity = repositoryJDBC.findByAccountNumber(accountNumber);
+            return accountEntity.map(AccountJdbcEntity::toDomain);
+        }
+
+        public void updateWithJPA(final Account account) {
+            var accountEntity = repositoryJPA.findByAccountNumber(account.accountAccountNumber().accountNumber()).orElseThrow();
             Mapper.updateEntity(accountEntity, account);
-            repository.save(accountEntity);
+            repositoryJPA.save(accountEntity);
         }
 
-        @Override
-        public Optional<Account> findOne(final String accountNumber) {
-            var accountEntity = findOneEntity(accountNumber);
+        public Optional<Account> findOneWithJpa(final String accountNumber) {
+            var accountEntity = repositoryJPA.findByAccountNumber(accountNumber);
             return accountEntity.map(AccountEntity::toDomain);
-        }
-
-        @Override
-        public Optional<AccountEntity> findOneEntity(final @NonNull String accountNumber) {
-            return repository.findByAccountNumber(accountNumber);
         }
     }
 }

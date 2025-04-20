@@ -1,7 +1,7 @@
 package jonathan.modern_design.user.application.catalogs;
 
+import jonathan.modern_design._common.annotations.DataAdapter;
 import jonathan.modern_design._common.annotations.Injectable;
-import jonathan.modern_design._common.annotations.Query;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design._common.api.Response;
 import jonathan.modern_design.user.domain.Role;
@@ -64,7 +64,7 @@ class GetRoles {
 
 }
 
-@Query
+@DataAdapter
 class GetRolQuery {
 
     public List<Role> findAll() {

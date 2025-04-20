@@ -35,7 +35,7 @@ public class AccountingConfig {
                 searchAccount,
                 new MoneyTransfer(accountRepo, accountValidator),
                 new AccountCreator(new AccountCreator.Storer(accountRepoSpringDataJPA), userFacade, countriesInventory),
-                new AccountCRUDUpdater(new AccountCRUDUpdater.Storer(accountRepoSpringDataJDBC)),
+                new AccountCRUDUpdater(new AccountCRUDUpdater.Storer(accountRepoSpringDataJDBC, accountRepoSpringDataJPA)),
                 new Deposit(accountRepo)
         );
     }
