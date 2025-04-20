@@ -1,0 +1,3 @@
+Es un modulo que sigue Clean architecture y Vertical Slice Architecture.
+El domain model y data model estan fusionados.
+Las slices comparten la capa de persistencia.

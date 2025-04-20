@@ -7,6 +7,7 @@ import jonathan.modern_design.user.domain.repos.UserRepo;
 import jonathan.modern_design.user.dtos.UserDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,11 +22,11 @@ class UserFinderController {
     private final UserFinder querier;
 
     @GetMapping("/{id}")
-    private UserDto getUser(@PathVariable UUID id) {
+    public ResponseEntity<UserDto> getUser(@PathVariable UUID id) {
         log.info("BEGIN Controller - FindUser");
         var user = querier.queryWith(new User.UserId(id));
         log.info("END Controller - FindUser");
-        return user;
+        return ResponseEntity.ok().body(user);
     }
 }
 

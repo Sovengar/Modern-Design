@@ -2,7 +2,6 @@ package jonathan.modern_design.user.infra;
 
 import jonathan.modern_design.user.UserApi;
 import jonathan.modern_design.user.application.RegisterUser;
-import jonathan.modern_design.user.application.UserFacade;
 import jonathan.modern_design.user.application.UserFinder;
 import jonathan.modern_design.user.domain.repos.RoleInMemoryRepo;
 import jonathan.modern_design.user.domain.repos.RoleRepo;
@@ -18,7 +17,7 @@ public class UsersConfig {
     public UserApi userApi(UserRepo userRepo, RoleRepo roleRepo) {
         var registerUser = new RegisterUser(userRepo, roleRepo);
         var userFinder = new UserFinder(userRepo);
-        return new UserFacade(registerUser, userFinder);
+        return new UserApi.UserInternalApi(registerUser, userFinder);
     }
 
     @Profile("test")

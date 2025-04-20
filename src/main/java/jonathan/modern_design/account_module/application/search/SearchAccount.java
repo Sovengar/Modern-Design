@@ -41,11 +41,11 @@ public interface SearchAccount {
 
     List<AccountSearchResult> searchWithQueryDSL(Criteria filters);
 
-    Optional<AccountDto> findByUserPassword(final String password);
+    Optional<AccountDto> searchWithUserPassword(final String password);
 
     List<AccountDto> searchForXXXPage(Criteria filters);
 
-    Page<Account> findAll(final Pageable pageable);
+    Page<AccountDto> searchWithPagination(final Pageable pageable, final Criteria filters);
 
     @Builder
     record Criteria(
@@ -74,7 +74,7 @@ class SearchAccountController {
 
     @GetMapping(path = "/search/byuser/password/{password}")
     public AccountDto findAccount(@PathVariable String password) {
-        return querier.findByUserPassword(password).orElseThrow(EntityNotFoundException::new);
+        return querier.searchWithUserPassword(password).orElseThrow(EntityNotFoundException::new);
     }
 
     //@Operation(description = "Search Account")
@@ -158,18 +158,21 @@ class SearchAccountQueryImpl implements SearchAccount {
     }
 
     @Override
-    public Page<Account> findAll(final Pageable pageable) {
+    public Page<AccountDto> searchWithPagination(final Pageable pageable, final Criteria filters) {
         List<Account> accounts = repository.findAll(pageable)
                 .getContent()
                 .stream()
                 .map(AccountEntity::toDomain)
                 .toList();
 
-        return new PageImpl<>(accounts, pageable, accounts.size());
+        //This is bad, there is no filter, I am just showing findAll pageable from Spring Data JPA
+
+        var accountsDto = accounts.stream().map(AccountDto::new).toList();
+        return new PageImpl<>(accountsDto, pageable, accounts.size());
     }
 
     @Override
-    public Optional<AccountDto> findByUserPassword(final String password) {
+    public Optional<AccountDto> searchWithUserPassword(final String password) {
         var userFound = queryFactory.selectFrom(user)
                 .where(user.password.password.eq(password))
                 .fetchOne();

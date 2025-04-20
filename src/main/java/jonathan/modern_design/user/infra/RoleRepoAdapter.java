@@ -7,8 +7,12 @@ import jonathan.modern_design.user.domain.repos.RoleRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 interface RoleRepoSpringDataJPA extends JpaRepository<Role, Role.Code> {
-    Role findByDescription(String desc);
+    default Role findByIdOrElseThrow(Role.Code code) {
+        return findById(code).orElseThrow(EntityNotFoundException::new);
+    }
 }
 
 @Query
@@ -18,6 +22,11 @@ class RoleRepoAdapter implements RoleRepo {
 
     @Override
     public Role findByCode(Role.Code code) {
-        return repository.findById(code).orElseThrow(EntityNotFoundException::new);
+        return repository.findByIdOrElseThrow(code);
+    }
+
+    @Override
+    public List<Role> findAll() {
+        return repository.findAll();
     }
 }

@@ -1,0 +1,2 @@
+Este modulo se basa en una mezcla de Clean Architecture y Vertical Slice Architecture.
+Concretamente mas orientado a VSA que a Clean, ya que incluso cada slice tiene su infra, en vez de compartirla.

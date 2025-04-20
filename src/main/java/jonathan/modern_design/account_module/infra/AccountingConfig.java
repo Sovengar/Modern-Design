@@ -30,7 +30,7 @@ public class AccountingConfig {
     public AccountApi accountApi(AccountRepo accountRepo, AccountFinder accountFinder, SearchAccount searchAccount, UserApi userFacade, CountriesInventory countriesInventory) {
         AccountValidator accountValidator = new AccountValidator();
 
-        return new AccountFacade(
+        return new AccountApi.AccountInternalApi(
                 accountFinder,
                 searchAccount,
                 new MoneyTransfer(accountRepo, accountValidator),
