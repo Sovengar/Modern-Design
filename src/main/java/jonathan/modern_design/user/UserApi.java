@@ -4,12 +4,11 @@ import jonathan.modern_design._common.annotations.Injectable;
 import jonathan.modern_design.user.application.RegisterUser;
 import jonathan.modern_design.user.application.UserFinder;
 import jonathan.modern_design.user.domain.User;
-import jonathan.modern_design.user.dtos.UserDto;
-import jonathan.modern_design.user.dtos.UserRegisterCommand;
+import jonathan.modern_design.user.infra.UserDto;
 import lombok.RequiredArgsConstructor;
 
 public interface UserApi {
-    void registerUser(UserRegisterCommand command);
+    void registerUser(RegisterUser.Command command);
 
     UserDto findUser(User.UserId userId);
 
@@ -20,7 +19,7 @@ public interface UserApi {
         private final UserFinder userFinder;
 
         @Override
-        public void registerUser(UserRegisterCommand command) {
+        public void registerUser(RegisterUser.Command command) {
             registerUser.handle(command);
         }
 

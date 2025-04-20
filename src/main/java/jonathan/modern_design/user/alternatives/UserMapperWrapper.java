@@ -6,7 +6,7 @@ import jonathan.modern_design.user.domain.vo.UserEmail;
 import jonathan.modern_design.user.domain.vo.UserPassword;
 import jonathan.modern_design.user.domain.vo.UserRealName;
 import jonathan.modern_design.user.domain.vo.UserUserName;
-import jonathan.modern_design.user.dtos.UserDto;
+import jonathan.modern_design.user.infra.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

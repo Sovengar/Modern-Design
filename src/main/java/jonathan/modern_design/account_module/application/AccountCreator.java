@@ -15,9 +15,9 @@ import jonathan.modern_design.account_module.domain.vo.AccountMoney;
 import jonathan.modern_design.account_module.infra.AccountDto;
 import jonathan.modern_design.account_module.infra.AccountRepoSpringDataJPA;
 import jonathan.modern_design.user.UserApi;
+import jonathan.modern_design.user.application.RegisterUser;
 import jonathan.modern_design.user.domain.User;
 import jonathan.modern_design.user.domain.User.UserId;
-import jonathan.modern_design.user.dtos.UserRegisterCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -84,7 +84,7 @@ public class AccountCreator {
 
     private User.UserId registerUser(final Command message) {
         var userId = UUID.randomUUID();
-        var userCreateCommand = new UserRegisterCommand(
+        var userCreateCommand = new RegisterUser.Command(
                 userId,
                 ofNullable(message.realname()),
                 message.username(),

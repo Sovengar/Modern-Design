@@ -2,6 +2,7 @@ package jonathan.modern_design.user.application;
 
 import jakarta.validation.Valid;
 import jonathan.modern_design._common.annotations.Injectable;
+import jonathan.modern_design._shared.country.Country;
 import jonathan.modern_design.user.domain.Role;
 import jonathan.modern_design.user.domain.User;
 import jonathan.modern_design.user.domain.User.UserId;
@@ -13,13 +14,15 @@ import jonathan.modern_design.user.domain.vo.UserPassword;
 import jonathan.modern_design.user.domain.vo.UserPhoneNumbers;
 import jonathan.modern_design.user.domain.vo.UserRealName;
 import jonathan.modern_design.user.domain.vo.UserUserName;
-import jonathan.modern_design.user.dtos.UserRegisterCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import java.io.Serial;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import static java.lang.String.format;
 
@@ -32,7 +35,7 @@ public class RegisterUser {
     private final UserRepo repository;
     private final RoleRepo roleRepo;
 
-    public void handle(final @Valid UserRegisterCommand command) {
+    public void handle(final @Valid RegisterUser.Command command) {
         log.info("BEGIN RegisterUser");
 
         repository.findByUuid(new UserId(command.uuid())).ifPresent(user -> {
@@ -57,6 +60,10 @@ public class RegisterUser {
         public UserAlreadyExistsException(String message) {
             super(message);
         }
+    }
+
+    public record Command(UUID uuid, Optional<String> realname, String username, String email, String password,
+                          Country country, List<String> phoneNumbers) {
     }
 }
 
