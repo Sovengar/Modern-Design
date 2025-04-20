@@ -20,7 +20,7 @@ import java.util.Set;
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE) //For Hibernate
 public class UserPhoneNumbers {
     private static final String SEPARATOR = ";";
-    private static final String PHONE_NUMBER_REGEX = "^\\+?[1-9]\\d{0,2}[- ]?\\d{3,12}$";
+    private static final String PHONE_NUMBER_REGEX = "^(?:\\+?\\d{1,4}[\\s.-]?)?(?:\\(?\\d+\\)?[\\s.-]?)*\\d+(?:\\s?(?:x|ext\\.?)\\s?\\d{1,5})?$\n";
     @Transient
     Set<String> phoneNumbersSet = new HashSet<>();
     String phoneNumbers;
@@ -43,9 +43,9 @@ public class UserPhoneNumbers {
 
     private static void validatePhoneNumbers(Set<String> phoneNumbersSet) {
         phoneNumbersSet.forEach(userPhoneNumber -> {
-            if (!userPhoneNumber.matches(PHONE_NUMBER_REGEX)) {
-                throw new InvalidPhoneNumbersException();
-            }
+//            if (!userPhoneNumber.matches(PHONE_NUMBER_REGEX)) {
+//                throw new InvalidPhoneNumbersException();
+//            }
         });
     }
 
