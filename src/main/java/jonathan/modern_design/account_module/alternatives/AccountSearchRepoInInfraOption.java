@@ -4,7 +4,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jonathan.modern_design._common.annotations.DataAdapter;
 import jonathan.modern_design.account_module.infra.AccountDto;
-import jonathan.modern_design.account_module.infra.AccountMapper;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 
@@ -17,7 +16,7 @@ public interface AccountSearchRepoInInfraOption {
     List<AccountDto> search(Criteria filters);
 
     @Builder
-    public record Criteria(
+    record Criteria(
             String username,
             String email,
             String countryCode
@@ -32,7 +31,6 @@ class AccountSearchRepoImpl implements AccountSearchRepoInInfraOption {
 
     @PersistenceContext
     private final EntityManager entityManager;
-    private final AccountMapper accountMapper;
 
     @Override
     public List<AccountDto> search(Criteria filters) {
