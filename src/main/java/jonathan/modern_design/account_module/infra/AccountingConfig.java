@@ -8,16 +8,16 @@ import jonathan.modern_design.account_module.application.Deposit;
 import jonathan.modern_design.account_module.application.FindAccount;
 import jonathan.modern_design.account_module.application.TransferMoney;
 import jonathan.modern_design.account_module.application.UpdateAccountCRUD;
-import jonathan.modern_design.account_module.domain.repos.AccountInMemoryRepo;
-import jonathan.modern_design.account_module.domain.repos.AccountRepo;
 import jonathan.modern_design.account_module.domain.services.AccountValidator;
+import jonathan.modern_design.account_module.domain.store.AccountRepo;
+import jonathan.modern_design.account_module.domain.store.AccountRepoInMemory;
 import jonathan.modern_design.user.api.UserApi;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
 public class AccountingConfig {
-    final AccountRepo accountRepo = new AccountInMemoryRepo();
+    final AccountRepo accountRepo = new AccountRepoInMemory();
 
     public AccountApi accountApi(
             AccountRepo accountRepo,

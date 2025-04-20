@@ -5,7 +5,7 @@ import jonathan.modern_design._common.annotations.Injectable;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design._common.api.Response;
 import jonathan.modern_design.user.domain.Role;
-import jonathan.modern_design.user.domain.repos.RoleRepo;
+import jonathan.modern_design.user.domain.store.RoleStore;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -55,11 +55,11 @@ class RolFinderController {
 @Injectable
 class GetRoles {
     private final GetRolQuery querier;
-    private final RoleRepo roleRepo;
+    private final RoleStore roleStore;
 
     public List<Role> findAll() {
         var abc = querier.findAll();
-        return roleRepo.findAll();
+        return roleStore.findAll();
     }
 
 }

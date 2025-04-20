@@ -1,5 +1,6 @@
 package jonathan.modern_design.account_module.domain;
 
+import jonathan.modern_design._common.annotations.AggregateRoot;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design.account_module.domain.exceptions.AccountIsInactiveException;
 import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
@@ -19,6 +20,7 @@ import static jonathan.modern_design.user.domain.User.UserId;
 @Builder //For mapper and tests only
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@AggregateRoot
 public final class Account {
     AccountId accountId;
     AccountAccountNumber accountAccountNumber;

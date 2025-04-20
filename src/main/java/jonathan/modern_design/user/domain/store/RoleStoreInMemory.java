@@ -1,4 +1,4 @@
-package jonathan.modern_design.user.domain.repos;
+package jonathan.modern_design.user.domain.store;
 
 import jonathan.modern_design._common.annotations.Fake;
 import jonathan.modern_design.user.domain.Role;
@@ -10,11 +10,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 //This class is for unit tests, also, don't evaluate his state, pointless, rather evaluate the state of the objects
 @Fake
-public class RoleInMemoryRepo implements RoleRepo {
+public class RoleStoreInMemory implements RoleStore {
     private final ConcurrentHashMap<Role.Code, Role> codes = new ConcurrentHashMap<>();
     private final List<Role> list = new ArrayList<>();
 
-    public RoleInMemoryRepo() {
+    public RoleStoreInMemory() {
         list.add(Role.of(Roles.ADMIN));
         list.add(Role.of(Roles.USER));
         list.add(Role.of(Roles.TECHNICIAN));

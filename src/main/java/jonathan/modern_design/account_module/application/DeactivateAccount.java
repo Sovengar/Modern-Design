@@ -3,7 +3,7 @@ package jonathan.modern_design.account_module.application;
 import jakarta.validation.Valid;
 import jonathan.modern_design._common.annotations.Injectable;
 import jonathan.modern_design._common.annotations.WebAdapter;
-import jonathan.modern_design.account_module.domain.repos.AccountRepo;
+import jonathan.modern_design.account_module.domain.store.AccountRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

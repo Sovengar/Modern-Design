@@ -1,4 +1,4 @@
-package jonathan.modern_design.account_module.domain.repos;
+package jonathan.modern_design.account_module.domain.store;
 
 import jonathan.modern_design.account_module.domain.Account;
 import jonathan.modern_design.account_module.domain.exceptions.AccountNotFoundException;

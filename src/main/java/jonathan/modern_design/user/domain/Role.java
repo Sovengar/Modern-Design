@@ -24,6 +24,8 @@ import static lombok.AccessLevel.PRIVATE;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PACKAGE) //For Hibernate
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+//If Role gets usecases, like managing permissions, creating and deleting roles dynamically based on business rules
+//Then it will be an Aggregate Root
 public class Role {
     @EmbeddedId
     private Role.Code code;
@@ -33,7 +35,7 @@ public class Role {
         return new Role(new Code(role.code()), role.description());
     }
 
-    //Avoid indirect link with user
+    //IMPORTANT: Avoid indirect link with user
 
     @Data //Not a record because ORM needs mutability
     @Setter(PRIVATE)

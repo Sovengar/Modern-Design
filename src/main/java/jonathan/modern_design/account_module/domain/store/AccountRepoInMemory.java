@@ -1,4 +1,4 @@
-package jonathan.modern_design.account_module.domain.repos;
+package jonathan.modern_design.account_module.domain.store;
 
 import jonathan.modern_design._common.annotations.Fake;
 import jonathan.modern_design.account_module.domain.Account;
@@ -11,7 +11,7 @@ import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
 
 @Fake //This class is for unit tests, also, don't evaluate his state, pointless, rather evaluate the state of the objects
-public class AccountInMemoryRepo implements AccountRepo {
+public class AccountRepoInMemory implements AccountRepo {
     private final ConcurrentHashMap<String, Account> accounts = new ConcurrentHashMap<>();
 
     @Override

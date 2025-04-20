@@ -4,7 +4,7 @@ import jonathan.modern_design.__config.ITConfig;
 import jonathan.modern_design.account_module.api.AccountApi;
 import jonathan.modern_design.account_module.application.Deposit;
 import jonathan.modern_design.account_module.domain.Account;
-import jonathan.modern_design.account_module.domain.repos.AccountRepo;
+import jonathan.modern_design.account_module.domain.store.AccountRepo;
 import jonathan.modern_design.account_module.domain.vo.AccountMoney;
 import jonathan.modern_design.user.api.UserApi;
 import org.junit.jupiter.api.Nested;

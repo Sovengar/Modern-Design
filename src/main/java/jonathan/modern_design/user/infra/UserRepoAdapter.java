@@ -2,7 +2,7 @@ package jonathan.modern_design.user.infra;
 
 import jonathan.modern_design._common.annotations.DataAdapter;
 import jonathan.modern_design.user.domain.User;
-import jonathan.modern_design.user.domain.repos.UserRepo;
+import jonathan.modern_design.user.domain.store.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -19,6 +19,11 @@ class UserRepoAdapter implements UserRepo {
 
     @Override
     public void registerUser(User user) {
+        repository.save(user);
+    }
+
+    @Override
+    public void updateUser(final User user) {
         repository.save(user);
     }
 

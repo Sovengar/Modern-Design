@@ -16,6 +16,7 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jonathan.modern_design._common.AuditingColumns;
+import jonathan.modern_design._common.annotations.AggregateRoot;
 import jonathan.modern_design._common.annotations.OptionalField;
 import jonathan.modern_design._shared.country.Country;
 import jonathan.modern_design.user.domain.catalogs.Roles;
@@ -36,10 +37,10 @@ import org.hibernate.annotations.SQLRestriction;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
+import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
 import static lombok.AccessLevel.PACKAGE;
 import static lombok.AccessLevel.PRIVATE;
@@ -52,6 +53,7 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor(access = PRIVATE)
 @SQLRestriction("deleted <> true") //Make Hibernate ignore soft deleted entries
 @Builder //For mapping and testing only!!!!!
+@AggregateRoot
 public class User extends AuditingColumns {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USERS_SQ")
@@ -83,22 +85,37 @@ public class User extends AuditingColumns {
     private Role role;
 
     public static User register(UserId uuid, UserRealName realname, UserUserName username, UserEmail email, UserPassword password, Country country, UserPhoneNumbers phoneNumbers, Role role) {
-        Objects.requireNonNull(username);
-        Objects.requireNonNull(email);
-        Objects.requireNonNull(password);
-        Objects.requireNonNull(country);
-        Objects.requireNonNull(role);
+        requireNonNull(country);
 
-        return new User(null, uuid, realname, username, email, null, password, country.code(), Status.DRAFT, phoneNumbers, role);
+        return new User(
+                null,
+                uuid,
+                realname,
+                requireNonNull(username),
+                requireNonNull(email),
+                null,
+                requireNonNull(password),
+                country.code(),
+                Status.DRAFT,
+                phoneNumbers,
+                requireNonNull(role));
     }
 
     public static User registerAdmin(UserId uuid, UserRealName realname, UserUserName username, UserEmail email, UserEmail internalEmail, UserPassword password, UserPhoneNumbers phoneNumbers, Country country) {
-        Objects.requireNonNull(username);
-        Objects.requireNonNull(email);
-        Objects.requireNonNull(password);
-        Objects.requireNonNull(country);
+        requireNonNull(country);
 
-        return new User(null, uuid, realname, username, email, internalEmail, password, country.code(), Status.ACTIVE, phoneNumbers, Role.of(Roles.ADMIN));
+        return new User(
+                null,
+                uuid,
+                realname,
+                requireNonNull(username),
+                requireNonNull(email),
+                internalEmail,
+                requireNonNull(password),
+                country.code(),
+                Status.ACTIVE,
+                phoneNumbers,
+                Role.of(Roles.ADMIN));
     }
 
     public String getRealNameOrPlaceHolder() {
@@ -107,6 +124,24 @@ public class User extends AuditingColumns {
 
     public Optional<String> getInternalEnterpriseEmail() {
         return internalEnterpriseEmail != null ? ofNullable(internalEnterpriseEmail.email()) : Optional.empty();
+    }
+
+    public void changeRole(Role newRole) {
+        requireNonNull(newRole);
+
+        if (this.status == Status.DELETED) {
+            throw new IllegalStateException("Cannot change role of a deleted user.");
+        }
+
+        if (this.role.code().equals(newRole.code())) {
+            throw new IllegalStateException("Cannot change role to the same role.");
+        }
+
+        if (newRole.code().roleCode().equals(Roles.ADMIN.code())) {
+            throw new IllegalStateException("Cannot change the role of an ADMIN.");
+        }
+
+        this.role = newRole;
     }
 
     @PrePersist

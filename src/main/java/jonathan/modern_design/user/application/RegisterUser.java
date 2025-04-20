@@ -7,8 +7,8 @@ import jonathan.modern_design.user.domain.Role;
 import jonathan.modern_design.user.domain.User;
 import jonathan.modern_design.user.domain.User.UserId;
 import jonathan.modern_design.user.domain.catalogs.Roles;
-import jonathan.modern_design.user.domain.repos.RoleRepo;
-import jonathan.modern_design.user.domain.repos.UserRepo;
+import jonathan.modern_design.user.domain.store.RoleStore;
+import jonathan.modern_design.user.domain.store.UserRepo;
 import jonathan.modern_design.user.domain.vo.UserEmail;
 import jonathan.modern_design.user.domain.vo.UserPassword;
 import jonathan.modern_design.user.domain.vo.UserPhoneNumbers;
@@ -33,7 +33,7 @@ import static java.lang.String.format;
 @Transactional
 public class RegisterUser {
     private final UserRepo repository;
-    private final RoleRepo roleRepo;
+    private final RoleStore roleStore;
 
     public void handle(final @Valid RegisterUser.Command command) {
         log.info("BEGIN RegisterUser");
@@ -44,7 +44,7 @@ public class RegisterUser {
 
         //Begin of Complex logic to know the final role of the user
         var roleCode = new Role.Code(Roles.USER.code());
-        var role = roleRepo.findByCode(roleCode);
+        var role = roleStore.findByCode(roleCode);
         //End of complex logic
 
         //Complex logic to decide the user

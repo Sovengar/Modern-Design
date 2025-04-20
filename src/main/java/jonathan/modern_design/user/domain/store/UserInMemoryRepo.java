@@ -1,4 +1,4 @@
-package jonathan.modern_design.user.domain.repos;
+package jonathan.modern_design.user.domain.store;
 
 import jonathan.modern_design._common.annotations.Fake;
 import jonathan.modern_design.user.domain.User;
@@ -12,6 +12,11 @@ public class UserInMemoryRepo implements UserRepo {
 
     @Override
     public void registerUser(User user) {
+        users.put(user.uuid(), user);
+    }
+
+    @Override
+    public void updateUser(final User user) {
         users.put(user.uuid(), user);
     }
 

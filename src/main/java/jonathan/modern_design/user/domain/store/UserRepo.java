@@ -1,4 +1,4 @@
-package jonathan.modern_design.user.domain.repos;
+package jonathan.modern_design.user.domain.store;
 
 import jakarta.persistence.EntityNotFoundException;
 import jonathan.modern_design.user.domain.User;
@@ -7,6 +7,8 @@ import java.util.Optional;
 
 public interface UserRepo {
     void registerUser(User user);
+
+    void updateUser(User user);
 
     Optional<User> findByUuid(User.UserId userId);
 
