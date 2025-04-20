@@ -1,19 +1,16 @@
 package jonathan.modern_design.account_module.application;
 
 import jakarta.validation.Valid;
-import jonathan.modern_design._common.annotations.DataAdapter;
 import jonathan.modern_design._common.annotations.Injectable;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design._shared.country.CountriesInventory;
 import jonathan.modern_design.account_module.domain.Account;
-import jonathan.modern_design.account_module.domain.AccountEntity;
 import jonathan.modern_design.account_module.domain.repos.AccountRepo;
 import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
 import jonathan.modern_design.account_module.domain.vo.AccountAddress;
 import jonathan.modern_design.account_module.domain.vo.AccountMoney;
 import jonathan.modern_design.account_module.infra.AccountDto;
-import jonathan.modern_design.account_module.infra.AccountRepoSpringDataJPA;
 import jonathan.modern_design.user.UserApi;
 import jonathan.modern_design.user.application.RegisterUser;
 import jonathan.modern_design.user.domain.User;
@@ -65,7 +62,7 @@ class AccountCreatorController {
 @RequiredArgsConstructor
 @Slf4j
 public class AccountCreator {
-    private final Storer repository;
+    private final AccountRepo repository;
     private final UserApi userFacade;
     private final CountriesInventory countriesInventory;
 
@@ -111,18 +108,6 @@ public class AccountCreator {
                           String password,
                           String country,
                           String currency) {
-    }
-
-    @DataAdapter
-    @RequiredArgsConstructor
-    public static class Storer {
-        private final AccountRepoSpringDataJPA repository;
-
-        public AccountAccountNumber create(final Account account) {
-            var accountEntity = new AccountEntity(account);
-            repository.save(accountEntity);
-            return account.accountAccountNumber();
-        }
     }
 }
 

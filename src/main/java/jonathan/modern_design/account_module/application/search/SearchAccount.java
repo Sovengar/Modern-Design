@@ -12,7 +12,7 @@ import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design.account_module.domain.Account;
 import jonathan.modern_design.account_module.domain.AccountEntity;
 import jonathan.modern_design.account_module.infra.AccountDto;
-import jonathan.modern_design.account_module.infra.AccountRepoSpringDataJPA;
+import jonathan.modern_design.account_module.infra.AccountRepoImpl;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -89,10 +89,10 @@ class SearchAccountController {
 class SearchAccountQueryImpl implements SearchAccount {
     @PersistenceContext
     private final EntityManager entityManager;
-    private final AccountRepoSpringDataJPA repository;
+    private final AccountRepoImpl.AccountRepoSpringDataJPA repository;
     private final JPAQueryFactory queryFactory;
 
-    public SearchAccountQueryImpl(EntityManager entityManager, AccountRepoSpringDataJPA repository) {
+    public SearchAccountQueryImpl(EntityManager entityManager, AccountRepoImpl.AccountRepoSpringDataJPA repository) {
         this.repository = repository;
         this.entityManager = entityManager;
         this.queryFactory = new JPAQueryFactory(JPQLTemplates.DEFAULT, entityManager);

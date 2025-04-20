@@ -19,13 +19,6 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 public class AccountingConfig {
     final AccountRepo accountRepo = new AccountInMemoryRepo();
-    private final AccountRepoSpringDataJPA accountRepoSpringDataJPA;
-    private final AccountRepoSpringDataJDBC accountRepoSpringDataJDBC;
-
-    public AccountingConfig(final AccountRepoSpringDataJPA accountRepoSpringDataJPA, final AccountRepoSpringDataJDBC accountRepoSpringDataJDBC) {
-        this.accountRepoSpringDataJPA = accountRepoSpringDataJPA;
-        this.accountRepoSpringDataJDBC = accountRepoSpringDataJDBC;
-    }
 
     public AccountApi accountApi(
             AccountRepo accountRepo,
@@ -40,8 +33,8 @@ public class AccountingConfig {
                 accountFinder,
                 searchAccount,
                 new MoneyTransfer(accountRepo, accountValidator),
-                new AccountCreator(new AccountCreator.Storer(accountRepoSpringDataJPA), userFacade, countriesInventory),
-                new AccountCRUDUpdater(new AccountCRUDUpdater.Storer(accountRepoSpringDataJDBC, accountRepoSpringDataJPA)),
+                new AccountCreator(accountRepo, userFacade, countriesInventory),
+                new AccountCRUDUpdater(accountRepo),
                 new Deposit(accountRepo)
         );
     }
