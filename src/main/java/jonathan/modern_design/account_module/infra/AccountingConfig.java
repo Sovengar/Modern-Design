@@ -2,7 +2,7 @@ package jonathan.modern_design.account_module.infra;
 
 import jonathan.modern_design._shared.country.CountriesInventory;
 import jonathan.modern_design._shared.country.CountriesInventoryStub;
-import jonathan.modern_design.account_module.AccountApi;
+import jonathan.modern_design.account_module.api.AccountApi;
 import jonathan.modern_design.account_module.application.CreateAccount;
 import jonathan.modern_design.account_module.application.Deposit;
 import jonathan.modern_design.account_module.application.FindAccount;
@@ -11,7 +11,7 @@ import jonathan.modern_design.account_module.application.UpdateAccountCRUD;
 import jonathan.modern_design.account_module.domain.repos.AccountInMemoryRepo;
 import jonathan.modern_design.account_module.domain.repos.AccountRepo;
 import jonathan.modern_design.account_module.domain.services.AccountValidator;
-import jonathan.modern_design.user.UserApi;
+import jonathan.modern_design.user.api.UserApi;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 

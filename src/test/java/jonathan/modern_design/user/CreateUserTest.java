@@ -1,6 +1,7 @@
 package jonathan.modern_design.user;
 
 import jonathan.modern_design.__config.PrettyTestNames;
+import jonathan.modern_design.user.api.UserApi;
 import jonathan.modern_design.user.domain.User.UserId;
 import jonathan.modern_design.user.infra.UsersConfig;
 import org.junit.jupiter.api.DisplayNameGeneration;

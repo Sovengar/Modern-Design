@@ -2,12 +2,13 @@ package jonathan.modern_design.account_module;
 
 import jonathan.modern_design.__config.PrettyTestNames;
 import jonathan.modern_design.__config.TimeExtension;
+import jonathan.modern_design.account_module.api.AccountApi;
 import jonathan.modern_design.account_module.domain.Account;
 import jonathan.modern_design.account_module.domain.exceptions.AccountIsInactiveException;
 import jonathan.modern_design.account_module.domain.exceptions.OperationWithDifferentCurrenciesException;
 import jonathan.modern_design.account_module.domain.vo.AccountMoney;
 import jonathan.modern_design.account_module.infra.AccountingConfig;
-import jonathan.modern_design.user.UserApi;
+import jonathan.modern_design.user.api.UserApi;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

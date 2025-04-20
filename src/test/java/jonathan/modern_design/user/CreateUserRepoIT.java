@@ -1,6 +1,7 @@
 package jonathan.modern_design.user;
 
 import jonathan.modern_design.__config.ITConfig;
+import jonathan.modern_design.user.api.UserApi;
 import jonathan.modern_design.user.domain.User.UserId;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

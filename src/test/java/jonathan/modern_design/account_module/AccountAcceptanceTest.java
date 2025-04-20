@@ -3,6 +3,7 @@ package jonathan.modern_design.account_module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jonathan.modern_design.__config.ITConfig;
 import jonathan.modern_design._fake_data.AccountStub;
+import jonathan.modern_design.account_module.api.AccountApi;
 import jonathan.modern_design.account_module.application.Deposit;
 import jonathan.modern_design.account_module.domain.Account;
 import jonathan.modern_design.account_module.domain.repos.AccountRepo;

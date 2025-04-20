@@ -3,7 +3,7 @@ package jonathan.modern_design.account_module.alternatives;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jonathan.modern_design._common.annotations.DataAdapter;
-import jonathan.modern_design.account_module.dtos.AccountDto;
+import jonathan.modern_design.account_module.api.dtos.AccountDto;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 

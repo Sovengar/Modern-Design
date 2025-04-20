@@ -1,6 +1,6 @@
 package jonathan.modern_design.user.infra;
 
-import jonathan.modern_design.user.UserApi;
+import jonathan.modern_design.user.api.UserApi;
 import jonathan.modern_design.user.application.FindUser;
 import jonathan.modern_design.user.application.RegisterUser;
 import jonathan.modern_design.user.domain.repos.RoleInMemoryRepo;

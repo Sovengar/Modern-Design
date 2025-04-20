@@ -1,4 +1,4 @@
-package jonathan.modern_design.user.infra;
+package jonathan.modern_design.user.api.dtos;
 
 import jonathan.modern_design.user.domain.User;
 

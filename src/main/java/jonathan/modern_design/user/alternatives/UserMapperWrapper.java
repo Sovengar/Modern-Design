@@ -1,12 +1,12 @@
 package jonathan.modern_design.user.alternatives;
 
 import jonathan.modern_design._common.annotations.Injectable;
+import jonathan.modern_design.user.api.dtos.UserDto;
 import jonathan.modern_design.user.domain.User;
 import jonathan.modern_design.user.domain.vo.UserEmail;
 import jonathan.modern_design.user.domain.vo.UserPassword;
 import jonathan.modern_design.user.domain.vo.UserRealName;
 import jonathan.modern_design.user.domain.vo.UserUserName;
-import jonathan.modern_design.user.infra.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
