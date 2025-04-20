@@ -1,9 +1,12 @@
 package jonathan.modern_design.account_module.domain.repos;
 
 import jonathan.modern_design.account_module.domain.Account;
+import jonathan.modern_design.account_module.domain.exceptions.AccountNotFoundException;
 import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
 
-public interface AccountRepo extends FindAccountRepo {
+import java.util.Optional;
+
+public interface AccountRepo {
     AccountAccountNumber create(Account account);
 
     void update(Account account);
@@ -12,4 +15,9 @@ public interface AccountRepo extends FindAccountRepo {
 
     void softDelete(final String accountNumber);
 
+    Optional<Account> findOne(final String accountNumber);
+
+    default Account findOneOrElseThrow(final String accountNumber) {
+        return findOne(accountNumber).orElseThrow(() -> new AccountNotFoundException(accountNumber));
+    }
 }

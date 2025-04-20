@@ -27,7 +27,13 @@ public class AccountingConfig {
         this.accountRepoSpringDataJDBC = accountRepoSpringDataJDBC;
     }
 
-    public AccountApi accountApi(AccountRepo accountRepo, AccountFinder accountFinder, SearchAccount searchAccount, UserApi userFacade, CountriesInventory countriesInventory) {
+    public AccountApi accountApi(
+            AccountRepo accountRepo,
+            AccountFinder accountFinder,
+            SearchAccount searchAccount,
+            UserApi userFacade,
+            CountriesInventory countriesInventory
+    ) {
         AccountValidator accountValidator = new AccountValidator();
 
         return new AccountApi.AccountInternalApi(

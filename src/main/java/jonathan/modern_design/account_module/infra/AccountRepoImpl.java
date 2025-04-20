@@ -3,6 +3,7 @@ package jonathan.modern_design.account_module.infra;
 import jonathan.modern_design._common.annotations.DataAdapter;
 import jonathan.modern_design.account_module.domain.Account;
 import jonathan.modern_design.account_module.domain.AccountEntity;
+import jonathan.modern_design.account_module.domain.exceptions.AccountNotFoundException;
 import jonathan.modern_design.account_module.domain.repos.AccountRepo;
 import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
 import lombok.NonNull;
@@ -21,11 +22,6 @@ class AccountRepoImpl implements AccountRepo {
     @Override
     public Optional<Account> findOne(final String accountNumber) {
         return findOneEntity(accountNumber).map(AccountEntity::toDomain);
-    }
-
-    @Override
-    public Optional<AccountEntity> findOneEntity(@NonNull final String accountNumber) {
-        return repository.findByAccountNumber(accountNumber);
     }
 
     @Override
@@ -53,6 +49,14 @@ class AccountRepoImpl implements AccountRepo {
             account.deleted(true);
             repository.save(account);
         });
+    }
+
+    private Optional<AccountEntity> findOneEntity(@NonNull final String accountNumber) {
+        return repository.findByAccountNumber(accountNumber);
+    }
+
+    private AccountEntity findOneEntityOrElseThrow(@NonNull final String accountNumber) {
+        return findOneEntity(accountNumber).orElseThrow(() -> new AccountNotFoundException(accountNumber));
     }
 }
 
