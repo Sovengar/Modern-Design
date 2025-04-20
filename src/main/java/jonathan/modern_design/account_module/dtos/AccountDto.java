@@ -1,4 +1,4 @@
-package jonathan.modern_design.account_module.infra;
+package jonathan.modern_design.account_module.dtos;
 
 import jonathan.modern_design.account_module.domain.Account;
 import jonathan.modern_design.account_module.domain.AccountEntity;

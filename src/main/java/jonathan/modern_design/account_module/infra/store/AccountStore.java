@@ -1,9 +1,8 @@
-package jonathan.modern_design.account_module.infra;
+package jonathan.modern_design.account_module.infra.store;
 
 import jonathan.modern_design._common.annotations.DataAdapter;
 import jonathan.modern_design.account_module.domain.Account;
 import jonathan.modern_design.account_module.domain.AccountEntity;
-import jonathan.modern_design.account_module.domain.AccountJdbcEntity;
 import jonathan.modern_design.account_module.domain.exceptions.AccountNotFoundException;
 import jonathan.modern_design.account_module.domain.repos.AccountRepo;
 import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
@@ -12,18 +11,8 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;
-
-interface AccountRepoSpringDataJDBC extends CrudRepository<AccountJdbcEntity, String> {
-    Optional<AccountJdbcEntity> findByAccountNumber(@NonNull String accountNumber);
-}
-
-interface AccountRepoSpringDataJPA extends JpaRepository<AccountEntity, String> {
-    Optional<AccountEntity> findByAccountNumber(@NonNull String accountNumber);
-}
 
 @DataAdapter
 @Primary //When Spring finds AccountRepository but creates AccountSpringRepo, it will use AccountRepositorySpringAdapter
@@ -45,21 +34,15 @@ class AccountStore implements AccountRepo {
         return account.accountAccountNumber();
     }
 
-    /// BEGIN UPDATE /////////
     @Override
     public void update(final Account account) {
         var accountEntity = findOneEntityOrElseThrow(account.accountAccountNumber().accountNumber());
         AccountDataMapper.updateEntity(accountEntity, account);
         repositoryJPA.save(accountEntity);
-    }
 
-    private void updateWithJdbc(final Account account) {
-        var accountEntity = repositoryJDBC.findByAccountNumber(account.accountAccountNumber().accountNumber()).orElseThrow();
-        accountEntity = new AccountJdbcEntity(accountEntity, account);
-        repositoryJDBC.save(accountEntity);
+        //JDBC accountEntity = new AccountJdbcEntity(accountEntity, account);
+        //JDBC repositoryJDBC.save(accountEntity);
     }
-
-    /// /////////
 
     @Override
     public void delete(final String accountNumber) {

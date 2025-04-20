@@ -7,7 +7,7 @@ import jakarta.persistence.PersistenceContext;
 import jonathan.modern_design._common.annotations.DataAdapter;
 import jonathan.modern_design._common.annotations.Injectable;
 import jonathan.modern_design._common.annotations.WebAdapter;
-import jonathan.modern_design.account_module.infra.AccountDto;
+import jonathan.modern_design.account_module.dtos.AccountDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
