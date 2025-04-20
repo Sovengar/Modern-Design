@@ -39,16 +39,16 @@ import static java.util.Optional.ofNullable;
 @WebAdapter
 @RequestMapping("/api/v1/accounts")
 @Validated
-class AccountCreatorController {
-    private final AccountCreator accountCreator;
+class CreateAccountController {
+    private final CreateAccount createAccount;
     private final AccountRepo repository;
 
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     //OPENAPI @Operation(description = "Create Account")
     @Transactional
-    public ResponseEntity<AccountDto> createAccount(@RequestBody @Valid final AccountCreator.Command message) {
+    public ResponseEntity<AccountDto> createAccount(@RequestBody @Valid final CreateAccount.Command message) {
         log.info("START Controller - Creating account with command: {}", message);
-        final var accountNumber = accountCreator.handle(message).accountNumber();
+        final var accountNumber = createAccount.handle(message).accountNumber();
 
         var account = repository.findOneOrElseThrow(accountNumber);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{accountNumber}").buildAndExpand(accountNumber).toUri();
@@ -61,7 +61,7 @@ class AccountCreatorController {
 @Injectable
 @RequiredArgsConstructor
 @Slf4j
-public class AccountCreator {
+public class CreateAccount {
     private final AccountRepo repository;
     private final UserApi userFacade;
     private final CountriesInventory countriesInventory;

@@ -24,8 +24,8 @@ import java.math.BigDecimal;
 @RequiredArgsConstructor
 @WebAdapter
 @RequestMapping("/api/v1/accounts")
-class MoneyTransferController {
-    private final MoneyTransfer moneyTransfer;
+class TransferMoneyController {
+    private final TransferMoney transferMoney;
 
     @PostMapping(path = "/transfer/{sourceAccountId}/{targetAccountId}/{balance}/{currency}")
     void transferMoney(
@@ -36,9 +36,9 @@ class MoneyTransferController {
 
         log.info("BEGIN Controller - Transfer money from {} to {} with balance {}", sourceAccountId, targetAccountId, amount);
 
-        val command = new MoneyTransfer.Command(sourceAccountId, targetAccountId, amount, Currency.fromCode(currency));
+        val command = new TransferMoney.Command(sourceAccountId, targetAccountId, amount, Currency.fromCode(currency));
 
-        moneyTransfer.handle(command);
+        transferMoney.handle(command);
 
         log.info("END Controller - Transfer money from {} to {} with balance {}", sourceAccountId, targetAccountId, amount);
     }
@@ -48,7 +48,7 @@ class MoneyTransferController {
 @Injectable
 @RequiredArgsConstructor
 @Validated
-public class MoneyTransfer {
+public class TransferMoney {
     private final AccountRepo repository;
     private final AccountValidator accountValidator;
 

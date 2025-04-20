@@ -23,18 +23,18 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequiredArgsConstructor
 @WebAdapter
 @RequestMapping("/api/v1/accounts")
-class AccountFinderController {
-    private final AccountFinder accountFinder;
+class FindAccountController {
+    private final FindAccount findAccount;
 
     @GetMapping(path = "/{accountNumber}")
     ResponseEntity<AccountDto> loadAccount(@PathVariable String accountNumber) {
-        return ok(accountFinder.queryWith(accountNumber));
+        return ok(findAccount.queryWith(accountNumber));
     }
 }
 
 @Injectable
 @RequiredArgsConstructor
-public class AccountFinder {
+public class FindAccount {
     private final GetAccountQuery querier;
 
     public AccountDto queryWith(final String accountNumber) {

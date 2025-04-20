@@ -1,4 +1,4 @@
-package jonathan.modern_design.account_module.application.search;
+package jonathan.modern_design.account_module.search;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
@@ -101,7 +101,7 @@ class SearchAccountQueryImpl implements SearchAccount {
     @Override
     public List<AccountSearchResult> searchWithJPQL(Criteria filters) {
         // Alternative: Spring Specifications https://docs.spring.io/spring-data/jpa/reference/jpa/specifications.html
-        String jpql = "SELECT new jonathan.modern_design.account_module.application.search.SearchAccount.AccountSearchResult(a.id, a.name)" +
+        String jpql = "SELECT new jonathan.modern_design.account_module.search.SearchAccount.AccountSearchResult(a.id, a.name)" +
                 " FROM Account a " +
                 " WHERE ";
         List<String> jpqlParts = new ArrayList<>();

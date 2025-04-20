@@ -18,8 +18,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @WebAdapter
 @RequestMapping("/api/v1/users")
-class UserFinderController {
-    private final UserFinder querier;
+class FindUserController {
+    private final FindUser querier;
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUser(@PathVariable UUID id) {
@@ -33,7 +33,7 @@ class UserFinderController {
 @Slf4j
 @RequiredArgsConstructor
 @Injectable
-public class UserFinder {
+public class FindUser {
     private final UserRepo userRepo;
 
     public UserDto queryWith(User.UserId userId) {

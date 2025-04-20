@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Slf4j
 @RequiredArgsConstructor
 @Injectable
-public class AccountCRUDUpdater {
+public class UpdateAccountCRUD {
     private final AccountRepo repository;
 
     //CRUD-Like method, prefer usecase methods like moveToAnotherPlace to update the address
@@ -46,8 +46,8 @@ public class AccountCRUDUpdater {
 @RequiredArgsConstructor
 @WebAdapter
 @RequestMapping("/api/v1/accounts")
-class AccountCRUDUpdaterController {
-    private final AccountCRUDUpdater updater;
+class UpdateAccountCRUDController {
+    private final UpdateAccountCRUD updater;
 
     @PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public void updateAccount(@RequestBody AccountDto dto) {

@@ -1,8 +1,8 @@
 package jonathan.modern_design.user;
 
 import jonathan.modern_design._common.annotations.Injectable;
+import jonathan.modern_design.user.application.FindUser;
 import jonathan.modern_design.user.application.RegisterUser;
-import jonathan.modern_design.user.application.UserFinder;
 import jonathan.modern_design.user.domain.User;
 import jonathan.modern_design.user.infra.UserDto;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ public interface UserApi {
     @RequiredArgsConstructor
     class UserInternalApi implements UserApi {
         private final RegisterUser registerUser;
-        private final UserFinder userFinder;
+        private final FindUser findUser;
 
         @Override
         public void registerUser(RegisterUser.Command command) {
@@ -25,7 +25,7 @@ public interface UserApi {
 
         @Override
         public UserDto findUser(User.UserId userId) {
-            return userFinder.queryWith(userId);
+            return findUser.queryWith(userId);
         }
     }
 }

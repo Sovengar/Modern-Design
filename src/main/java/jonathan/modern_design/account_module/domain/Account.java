@@ -1,6 +1,7 @@
 package jonathan.modern_design.account_module.domain;
 
 import jonathan.modern_design._shared.Currency;
+import jonathan.modern_design.account_module.domain.exceptions.AccountIsInactiveException;
 import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
 import jonathan.modern_design.account_module.domain.vo.AccountAddress;
 import jonathan.modern_design.account_module.domain.vo.AccountId;
@@ -58,5 +59,14 @@ public final class Account {
     public void subtract(BigDecimal amount, Currency currency) {
         this.money = this.money.substract(AccountMoney.of(amount, currency));
         dateOfLastTransaction = LocalDateTime.now();
+    }
+
+    public void deactivate() {
+        if (!this.active) throw new AccountIsInactiveException(this.accountAccountNumber.accountNumber());
+        this.active = false;
+    }
+
+    public void activate() {
+        this.active = true;
     }
 }
