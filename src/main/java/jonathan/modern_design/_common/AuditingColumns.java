@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @SuperBuilder
 @NoArgsConstructor
 @EntityListeners(UserAuditListener.class) //AuditingEntityListener.class from springframework
-public abstract class BaseEntity {
+public abstract class AuditingColumns {
     @Column(name = "version")
     @Version
     protected Integer version;

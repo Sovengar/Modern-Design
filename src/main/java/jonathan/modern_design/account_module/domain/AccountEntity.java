@@ -11,7 +11,7 @@ import jakarta.persistence.PostPersist;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jonathan.modern_design._common.BaseEntity;
+import jonathan.modern_design._common.AuditingColumns;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
 import jonathan.modern_design.account_module.domain.vo.AccountAddress;
@@ -39,7 +39,7 @@ import static java.util.Objects.nonNull;
 @AllArgsConstructor
 @Slf4j
 @SQLRestriction("deleted <> true") //Make Hibernate ignore soft deleted entries
-public class AccountEntity extends BaseEntity {
+public class AccountEntity extends AuditingColumns {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ACCOUNTS_SQ")
     @SequenceGenerator(name = "ACCOUNTS_SQ", sequenceName = "MD.ACCOUNTS_SQ", allocationSize = 1)

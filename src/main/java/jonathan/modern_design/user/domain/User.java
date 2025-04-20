@@ -15,7 +15,7 @@ import jakarta.persistence.PostPersist;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jonathan.modern_design._common.BaseEntity;
+import jonathan.modern_design._common.AuditingColumns;
 import jonathan.modern_design._common.annotations.OptionalField;
 import jonathan.modern_design._shared.country.Country;
 import jonathan.modern_design.user.domain.catalogs.Roles;
@@ -52,7 +52,7 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor(access = PRIVATE)
 @SQLRestriction("deleted <> true") //Make Hibernate ignore soft deleted entries
 @Builder //For mapping and testing only!!!!!
-public class User extends BaseEntity {
+public class User extends AuditingColumns {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USERS_SQ")
     @SequenceGenerator(name = "USERS_SQ", sequenceName = "MD.USERS_SQ", allocationSize = 1)
