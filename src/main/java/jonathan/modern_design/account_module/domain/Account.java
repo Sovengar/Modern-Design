@@ -15,6 +15,7 @@ import lombok.Getter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import static java.util.Objects.requireNonNull;
 import static jonathan.modern_design.user.domain.User.UserId;
 
 @Builder //For mapper and tests only
@@ -45,7 +46,14 @@ public final class Account {
         LocalDateTime dateOfLastTransaction = null;
         var isActive = true;
 
-        return new Account(null, accountAccountNumber, money, address, userId, dateOfLastTransaction, isActive);
+        return new Account(
+                null,
+                requireNonNull(accountAccountNumber),
+                requireNonNull(money),
+                requireNonNull(address),
+                requireNonNull(userId),
+                dateOfLastTransaction,
+                isActive);
     }
 
     //TODO USE THE ENTITY CONSTRUCTOR?
