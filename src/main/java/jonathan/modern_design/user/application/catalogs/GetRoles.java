@@ -1,9 +1,9 @@
 package jonathan.modern_design.user.application.catalogs;
 
-import jonathan.modern_design._common.annotations.DataAdapter;
 import jonathan.modern_design._common.annotations.Injectable;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design._common.api.Response;
+import jonathan.modern_design.user.api.dtos.UserDto;
 import jonathan.modern_design.user.domain.Role;
 import jonathan.modern_design.user.domain.store.RoleStore;
 import lombok.RequiredArgsConstructor;
@@ -24,16 +24,14 @@ class RolFinderController {
     private final GetRoles getRoles;
 
     @GetMapping
-    public ResponseEntity<Response<List<String>>> getAll() {
+    public ResponseEntity<Response<List<UserDto.RoleDto>>> getAll() {
         var roles = getRoles.findAll();
 
-        //TODO VER SI HAGO UN DTO NI QUE SEA EN DOMAIN YA QUE NO PUEDO SEARIALIZAR VOs
-        //NO DTO BECAUSE IS A 1:1 MAP, THERE IS NOTHING TO HIDE AND THE DTO AND MODEL EVOLVES TOGETHER
-        Response<List<String>> response = new Response.Builder<List<String>>()
-                .data(roles.stream().map(Role::description).toList())
+        Response<List<UserDto.RoleDto>> response = new Response.Builder<List<UserDto.RoleDto>>()
+                .data(roles.stream().map(UserDto.RoleDto::new).toList())
                 .metadata(Map.of(
                         "timestamp", Instant.now(),
-                        "version", "1.0"
+                        "version", "1.0.0"
                 ))
                 //.links(List.of(
                 //      new Response.Link("self", "/roles/" + id, "GET"),
@@ -54,20 +52,9 @@ class RolFinderController {
 @RequiredArgsConstructor
 @Injectable
 class GetRoles {
-    private final GetRolQuery querier;
     private final RoleStore roleStore;
 
     public List<Role> findAll() {
-        var abc = querier.findAll();
         return roleStore.findAll();
-    }
-
-}
-
-@DataAdapter
-class GetRolQuery {
-
-    public List<Role> findAll() {
-        return null;
     }
 }
