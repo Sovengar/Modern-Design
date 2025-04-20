@@ -1,10 +1,15 @@
 package jonathan.modern_design.account_module.application;
 
+import jakarta.validation.Valid;
 import jonathan.modern_design._common.annotations.Injectable;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design.account_module.domain.repos.AccountRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
@@ -15,25 +20,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 class ActivateAccountController {
     private final ActivateAccount activateAccount;
 
-    public void activate(final ActivateAccount.Command message) {
-        log.info("BEGIN Controller - ActiveAccount");
-        activateAccount.handle(message);
-        log.info("END Controller - ActiveAccount");
+    @PutMapping(path = "/{accountNumber}/activate")
+    public ResponseEntity<Void> activate(final @PathVariable String accountNumber) {
+        log.info("BEGIN Controller - ActivateAccount");
+        activateAccount.handle(new ActivateAccount.Command(accountNumber));
+        log.info("END Controller - ActivateAccount");
+        return ResponseEntity.ok().build();
     }
 }
 
 @Slf4j
 @Injectable
 @RequiredArgsConstructor
+@Validated
 class ActivateAccount {
     private final AccountRepo repository;
 
-    protected void handle(final Command message) {
-        log.info("BEGIN - ActiveAccount");
+    protected void handle(final @Valid Command message) {
+        log.info("BEGIN - ActivateAccount");
         var account = repository.findOneOrElseThrow(message.accountNumber());
         account.activate();
         repository.update(account);
-        log.info("END - ActiveAccount");
+        log.info("END - ActivateAccount");
     }
 
     record Command(String accountNumber) {
