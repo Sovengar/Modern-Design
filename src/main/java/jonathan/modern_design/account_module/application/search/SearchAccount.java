@@ -12,13 +12,14 @@ import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design.account_module.domain.Account;
 import jonathan.modern_design.account_module.domain.AccountEntity;
 import jonathan.modern_design.account_module.infra.AccountDto;
-import jonathan.modern_design.account_module.infra.AccountRepoImpl;
 import lombok.Builder;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -59,6 +60,10 @@ public interface SearchAccount {
     }
 }
 
+interface AccountRepoSpringDataJPA extends JpaRepository<AccountEntity, String> {
+    Optional<AccountEntity> findByAccountNumber(@NonNull String accountNumber);
+}
+
 @Slf4j
 @RequiredArgsConstructor
 @WebAdapter
@@ -89,10 +94,10 @@ class SearchAccountController {
 class SearchAccountQueryImpl implements SearchAccount {
     @PersistenceContext
     private final EntityManager entityManager;
-    private final AccountRepoImpl.AccountRepoSpringDataJPA repository;
+    private final AccountRepoSpringDataJPA repository;
     private final JPAQueryFactory queryFactory;
 
-    public SearchAccountQueryImpl(EntityManager entityManager, AccountRepoImpl.AccountRepoSpringDataJPA repository) {
+    public SearchAccountQueryImpl(EntityManager entityManager, AccountRepoSpringDataJPA repository) {
         this.repository = repository;
         this.entityManager = entityManager;
         this.queryFactory = new JPAQueryFactory(JPQLTemplates.DEFAULT, entityManager);
