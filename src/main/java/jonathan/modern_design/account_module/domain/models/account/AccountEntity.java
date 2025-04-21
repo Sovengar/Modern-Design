@@ -15,7 +15,6 @@ import jonathan.modern_design._common.AuditingColumns;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountAccountNumber;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountAddress;
-import jonathan.modern_design.account_module.domain.models.account.vo.AccountId;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
 import jonathan.modern_design.user.domain.models.User;
 import lombok.AccessLevel;
@@ -70,7 +69,7 @@ public class AccountEntity extends AuditingColumns {
     }
 
     public Account toDomain() {
-        return new Account(new AccountId(accountId), AccountAccountNumber.of(accountNumber), AccountMoney.of(balance, currency), AccountAddress.of(address), userId, active);
+        return new Account(new Account.Id(accountId), AccountAccountNumber.of(accountNumber), AccountMoney.of(balance, currency), AccountAddress.of(address), userId, active);
     }
 
     @PrePersist

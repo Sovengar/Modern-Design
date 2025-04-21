@@ -4,7 +4,6 @@ import jakarta.persistence.Id;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountAccountNumber;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountAddress;
-import jonathan.modern_design.account_module.domain.models.account.vo.AccountId;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
 import jonathan.modern_design.user.domain.models.User;
 import org.springframework.data.relational.core.mapping.Table;
@@ -41,7 +40,7 @@ public record AccountJdbcEntity(
 
     public Account toDomain() {
         return new Account(
-                new AccountId(id),
+                new Account.Id(id),
                 AccountAccountNumber.of(accountNumber),
                 AccountMoney.of(balance, currency),
                 AccountAddress.of(address),

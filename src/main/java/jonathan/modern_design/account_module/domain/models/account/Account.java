@@ -4,7 +4,6 @@ import jonathan.modern_design._common.annotations.AggregateRoot;
 import jonathan.modern_design.account_module.domain.exceptions.AccountIsInactiveException;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountAccountNumber;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountAddress;
-import jonathan.modern_design.account_module.domain.models.account.vo.AccountId;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
 import jonathan.modern_design.user.domain.models.User;
 import lombok.AccessLevel;
@@ -26,7 +25,7 @@ import static java.util.Objects.requireNonNull;
 @AggregateRoot
 public final class Account {
     private final List<Transaction> transactions = new ArrayList<>();
-    AccountId accountId;
+    Id accountId;
     AccountAccountNumber accountAccountNumber;
     AccountMoney money;
     AccountAddress address;
@@ -35,7 +34,7 @@ public final class Account {
 
     //TODO THIS MAKES 0 SENSE, EXTRACT FIELDS THAT HAS NO LOGIC ASSOCIATED
     public Account(AccountEntity accountEntity) {
-        this.accountId = new AccountId(accountEntity.accountId());
+        this.accountId = new Id(accountEntity.accountId());
         this.accountAccountNumber = AccountAccountNumber.of(accountEntity.accountNumber());
         this.money = AccountMoney.of(accountEntity.balance(), accountEntity.currency());
         this.address = AccountAddress.of(accountEntity.address());
@@ -101,5 +100,8 @@ public final class Account {
         return transactions.stream()
                 .map(Transaction::transactionDate)
                 .max(Comparator.naturalOrder());
+    }
+
+    public record Id(Long id) {
     }
 }
