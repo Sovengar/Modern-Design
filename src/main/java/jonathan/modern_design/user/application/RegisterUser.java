@@ -6,7 +6,6 @@ import jonathan.modern_design._shared.country.Country;
 import jonathan.modern_design.user.domain.catalogs.Roles;
 import jonathan.modern_design.user.domain.models.Role;
 import jonathan.modern_design.user.domain.models.User;
-import jonathan.modern_design.user.domain.models.User.UserId;
 import jonathan.modern_design.user.domain.models.vo.UserEmail;
 import jonathan.modern_design.user.domain.models.vo.UserPassword;
 import jonathan.modern_design.user.domain.models.vo.UserPhoneNumbers;
@@ -38,7 +37,7 @@ public class RegisterUser {
     public void handle(final @Valid RegisterUser.Command command) {
         log.info("BEGIN RegisterUser");
 
-        repository.findByUuid(new UserId(command.uuid())).ifPresent(user -> {
+        repository.findByUuid(new User.Id(command.uuid())).ifPresent(user -> {
             throw new UserAlreadyExistsException(format("User [%s] already exists", command.uuid()));
         });
 
@@ -48,7 +47,7 @@ public class RegisterUser {
         //End of complex logic
 
         //Complex logic to decide the user
-        var user = User.register(new UserId(command.uuid()), UserRealName.of(command.realname().orElse("")), UserUserName.of(command.username()), UserEmail.of(command.email()), UserPassword.of(command.password()), command.country(), UserPhoneNumbers.of(command.phoneNumbers()), role);
+        var user = User.register(new User.Id(command.uuid()), UserRealName.of(command.realname().orElse("")), UserUserName.of(command.username()), UserEmail.of(command.email()), UserPassword.of(command.password()), command.country(), UserPhoneNumbers.of(command.phoneNumbers()), role);
         repository.registerUser(user);
 
         log.info("END RegisterUser");

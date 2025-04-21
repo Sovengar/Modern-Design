@@ -15,7 +15,6 @@ import jonathan.modern_design.account_module.domain.store.AccountRepo;
 import jonathan.modern_design.user.api.UserApi;
 import jonathan.modern_design.user.application.RegisterUser;
 import jonathan.modern_design.user.domain.models.User;
-import jonathan.modern_design.user.domain.models.User.UserId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -80,7 +79,7 @@ public class CreateAccount {
         return accountNumber;
     }
 
-    private User.UserId registerUser(final Command message) {
+    private User.Id registerUser(final Command message) {
         var userId = UUID.randomUUID();
         var userCreateCommand = new RegisterUser.Command(
                 userId,
@@ -92,7 +91,7 @@ public class CreateAccount {
                 List.of("+34123456789")); //TODO
 
         userFacade.registerUser(userCreateCommand);
-        return new UserId(userId);
+        return new User.Id(userId);
     }
 
     private static class AccountNumberGenerator {

@@ -22,7 +22,7 @@ class ChangeRoleController {
     private final ChangeRole changeRole;
 
     @PutMapping(value = "/{userId}/changeRoleTo/{roleCode}")
-    public ResponseEntity<Void> changeRole(final User.UserId userId, final Role.Code roleCode) {
+    public ResponseEntity<Void> changeRole(final User.Id userId, final Role.Code roleCode) {
         log.info("BEGIN Controller - ChangeRole");
         var message = new ChangeRole.Command(userId, roleCode);
         changeRole.handle(message);
@@ -51,6 +51,6 @@ class ChangeRole {
         log.info("END - ChangeRole");
     }
 
-    record Command(User.UserId userId, Role.Code roleCode) {
+    record Command(User.Id userId, Role.Code roleCode) {
     }
 }

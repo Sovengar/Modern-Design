@@ -2,7 +2,7 @@ package jonathan.modern_design.user;
 
 import jonathan.modern_design.__config.PrettyTestNames;
 import jonathan.modern_design.user.api.UserApi;
-import jonathan.modern_design.user.domain.models.User.UserId;
+import jonathan.modern_design.user.domain.models.User;
 import jonathan.modern_design.user.infra.UsersConfig;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Nested;
@@ -25,7 +25,7 @@ class CreateUserTest {
         void register_user() {
             var data = createUserCommandWithValidData();
             userFacade.registerUser(data);
-            var user = userFacade.findUser(new UserId(data.uuid()));
+            var user = userFacade.findUser(new User.Id(data.uuid()));
             assertThat(user).isNotNull();
         }
     }

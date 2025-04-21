@@ -9,7 +9,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PostPersist;
 import jakarta.persistence.PrePersist;
@@ -55,12 +54,12 @@ import static lombok.AccessLevel.PRIVATE;
 @Builder //For mapping and testing only!!!!!
 @AggregateRoot
 public class User extends AuditingColumns {
-    @Id
+    @jakarta.persistence.Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USERS_SQ")
     @SequenceGenerator(name = "USERS_SQ", sequenceName = "MD.USERS_SQ", allocationSize = 1)
     private Long userId; //Cant use microType with sequence
     @Embedded
-    private UserId uuid;
+    private User.Id uuid;
     @OptionalField
     @Embedded
     private UserRealName realname;
@@ -84,7 +83,7 @@ public class User extends AuditingColumns {
     @ManyToOne(fetch = FetchType.LAZY)
     private Role role;
 
-    public static User register(UserId uuid, UserRealName realname, UserUserName username, UserEmail email, UserPassword password, Country country, UserPhoneNumbers phoneNumbers, Role role) {
+    public static User register(Id uuid, UserRealName realname, UserUserName username, UserEmail email, UserPassword password, Country country, UserPhoneNumbers phoneNumbers, Role role) {
         requireNonNull(country);
 
         return new User(
@@ -101,7 +100,7 @@ public class User extends AuditingColumns {
                 requireNonNull(role));
     }
 
-    public static User registerAdmin(UserId uuid, UserRealName realname, UserUserName username, UserEmail email, UserEmail internalEmail, UserPassword password, UserPhoneNumbers phoneNumbers, Country country) {
+    public static User registerAdmin(Id uuid, UserRealName realname, UserUserName username, UserEmail email, UserEmail internalEmail, UserPassword password, UserPhoneNumbers phoneNumbers, Country country) {
         requireNonNull(country);
 
         return new User(
@@ -164,7 +163,7 @@ public class User extends AuditingColumns {
     @AllArgsConstructor
     @NoArgsConstructor(access = AccessLevel.PROTECTED) //For Hibernate
     @Embeddable
-    public static class UserId implements Serializable {
+    public static class Id implements Serializable {
         @Serial private static final long serialVersionUID = -2753108705494085826L;
         private UUID userUuid;
     }

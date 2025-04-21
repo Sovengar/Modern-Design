@@ -45,7 +45,7 @@ public record AccountJdbcEntity(
                 AccountAccountNumber.of(accountNumber),
                 AccountMoney.of(balance, currency),
                 AccountAddress.of(address),
-                new User.UserId(userId),
+                new User.Id(userId),
                 active
         );
     }

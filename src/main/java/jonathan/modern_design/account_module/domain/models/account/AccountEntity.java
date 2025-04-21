@@ -17,7 +17,7 @@ import jonathan.modern_design.account_module.domain.models.account.vo.AccountAcc
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountAddress;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountId;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
-import jonathan.modern_design.user.domain.models.User.UserId;
+import jonathan.modern_design.user.domain.models.User;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -52,7 +52,7 @@ public class AccountEntity extends AuditingColumns {
     private String address;
     private boolean active;
     @Embedded
-    private UserId userId;
+    private User.Id userId;
 
     public static AccountEntity create(Account account) {
         //If we start to use uuid from the client, we could assign the id directly

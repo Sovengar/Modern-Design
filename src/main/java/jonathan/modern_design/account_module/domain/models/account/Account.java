@@ -6,6 +6,7 @@ import jonathan.modern_design.account_module.domain.models.account.vo.AccountAcc
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountAddress;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountId;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
+import jonathan.modern_design.user.domain.models.User;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +19,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.util.Objects.requireNonNull;
-import static jonathan.modern_design.user.domain.models.User.UserId;
 
 @Builder //For mapper and tests only //TODO DELETE?
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -30,7 +30,7 @@ public final class Account {
     AccountAccountNumber accountAccountNumber;
     AccountMoney money;
     AccountAddress address;
-    UserId userId;
+    User.Id userId;
     boolean active;
 
     //TODO THIS MAKES 0 SENSE, EXTRACT FIELDS THAT HAS NO LOGIC ASSOCIATED
@@ -43,7 +43,7 @@ public final class Account {
         this.active = accountEntity.active();
     }
 
-    public static Account create(AccountAccountNumber accountAccountNumber, AccountMoney money, AccountAddress address, UserId userId) {
+    public static Account create(AccountAccountNumber accountAccountNumber, AccountMoney money, AccountAddress address, User.Id userId) {
         var isActive = true;
 
         return new Account(
@@ -56,7 +56,7 @@ public final class Account {
     }
 
     //TODO USE THE ENTITY CONSTRUCTOR?
-    public static Account updateCRUD(Account account, AccountAccountNumber accountAccountNumber, AccountMoney money, AccountAddress address, boolean isActive, UserId userId) {
+    public static Account updateCRUD(Account account, AccountAccountNumber accountAccountNumber, AccountMoney money, AccountAddress address, boolean isActive, User.Id userId) {
         Account updated = new Account(account.accountId(), accountAccountNumber, money, address, userId, isActive);
         updated.transactions.addAll(account.transactions);
         return updated;

@@ -24,7 +24,7 @@ class FindUserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUser(@PathVariable UUID id) {
         log.info("BEGIN Controller - FindUser");
-        var user = querier.queryWith(new User.UserId(id));
+        var user = querier.queryWith(new User.Id(id));
         log.info("END Controller - FindUser");
         return ResponseEntity.ok().body(user);
     }
@@ -36,7 +36,7 @@ class FindUserController {
 public class FindUser {
     private final UserRepo userRepo;
 
-    public UserDto queryWith(User.UserId userId) {
+    public UserDto queryWith(User.Id userId) {
         log.info("BEGIN FindUser");
         final var user = userRepo.findByUUIDOrElseThrow(userId);
         var userResource = new UserDto(user);

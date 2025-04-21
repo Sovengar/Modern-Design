@@ -6,7 +6,6 @@ import jonathan.modern_design.user.application.RegisterUser;
 import jonathan.modern_design.user.domain.catalogs.Roles;
 import jonathan.modern_design.user.domain.models.Role;
 import jonathan.modern_design.user.domain.models.User;
-import jonathan.modern_design.user.domain.models.User.UserId;
 import jonathan.modern_design.user.domain.models.vo.UserEmail;
 import jonathan.modern_design.user.domain.models.vo.UserPassword;
 import jonathan.modern_design.user.domain.models.vo.UserPhoneNumbers;
@@ -25,7 +24,7 @@ public class UserStub extends Stub {
 
     public static User normalUser() {
         return User.register(
-                new UserId(DEFAULT_UUID),
+                new User.Id(DEFAULT_UUID),
                 UserRealName.of(faker.name().fullName()),
                 UserUserName.of(faker.name().username()),
                 UserEmail.of(faker.internet().emailAddress()),
@@ -37,7 +36,7 @@ public class UserStub extends Stub {
 
     public static User adminUser() {
         return User.registerAdmin(
-                new UserId(DEFAULT_UUID),
+                new User.Id(DEFAULT_UUID),
                 UserRealName.of(faker.name().fullName()),
                 UserUserName.of(faker.name().username()),
                 UserEmail.of(faker.internet().emailAddress()),

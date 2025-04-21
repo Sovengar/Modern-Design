@@ -20,9 +20,9 @@ public interface AccountRepoSpringDataJPA extends JpaRepository<AccountEntity, S
     Stream<AccountEntity> streamAllActiveAccounts();
 
     @Query("SELECT a FROM AccountEntity a WHERE a.userId = :userId AND a.active = true")
-    List<AccountEntity> findActiveAccountsByUserId(@Param("userId") User.UserId userId);
+    List<AccountEntity> findActiveAccountsByUserId(@Param("userId") User.Id userId);
 
-    List<AccountEntity> findByUserIdOrderByBalanceDesc(User.UserId userId);
+    List<AccountEntity> findByUserIdOrderByBalanceDesc(User.Id userId);
 
     long countByActiveTrue();
 

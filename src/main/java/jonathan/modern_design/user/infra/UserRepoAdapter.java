@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 interface UserRepoSpringDataJPA extends JpaRepository<User, Long> {
-    Optional<User> findByUuid(User.UserId userId);
+    Optional<User> findByUuid(User.Id userId);
 }
 
 @DataAdapter
@@ -28,7 +28,7 @@ class UserRepoAdapter implements UserRepo {
     }
 
     @Override
-    public Optional<User> findByUuid(final User.UserId userId) {
+    public Optional<User> findByUuid(final User.Id userId) {
         return repository.findByUuid(userId);
     }
 }

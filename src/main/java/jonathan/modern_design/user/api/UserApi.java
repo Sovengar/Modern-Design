@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 public interface UserApi {
     void registerUser(RegisterUser.Command command);
 
-    UserDto findUser(User.UserId userId);
+    UserDto findUser(User.Id userId);
 
     @Injectable
     @RequiredArgsConstructor
@@ -24,7 +24,7 @@ public interface UserApi {
         }
 
         @Override
-        public UserDto findUser(User.UserId userId) {
+        public UserDto findUser(User.Id userId) {
             return findUser.queryWith(userId);
         }
     }

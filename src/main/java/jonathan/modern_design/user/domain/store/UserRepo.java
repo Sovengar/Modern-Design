@@ -10,9 +10,9 @@ public interface UserRepo {
 
     void updateUser(User user);
 
-    Optional<User> findByUuid(User.UserId userId);
+    Optional<User> findByUuid(User.Id userId);
 
-    default User findByUUIDOrElseThrow(User.UserId userId) {
+    default User findByUUIDOrElseThrow(User.Id userId) {
         return findByUuid(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
     }
 }
