@@ -84,7 +84,7 @@ public class AccountStub extends Stub {
             var email = faker.internet().emailAddress();
             var realname = faker.name().fullName();
             var address = "street, city, state, zipCode";
-            return new CreateAccount.Command(realname, email, username, address, VALID_PASSWORD, DEFAULT_COUNTRY.code(), EUR.description());
+            return new CreateAccount.Command(realname, email, username, address, VALID_PASSWORD, DEFAULT_COUNTRY.code(), EUR.code());
         }
 
         public static CreateAccount.Command randomAccountWithCurrency(Currency currency) {
@@ -92,7 +92,7 @@ public class AccountStub extends Stub {
             var email = faker.internet().emailAddress();
             var realname = faker.name().fullName();
             var address = "street, city, state, zipCode";
-            return new CreateAccount.Command(realname, email, username, address, VALID_PASSWORD, DEFAULT_COUNTRY.code(), currency.description());
+            return new CreateAccount.Command(realname, email, username, address, VALID_PASSWORD, DEFAULT_COUNTRY.code(), currency.code());
         }
     }
 

@@ -1,6 +1,7 @@
 package jonathan.modern_design.account_module.application;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import jonathan.modern_design._common.annotations.Injectable;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design._shared.Currency;
@@ -47,6 +48,9 @@ class WithdrawMoney {
         log.info("END WithdrawMoney");
     }
 
-    public record WithdrawMoneyCommand(String accountNumber, BigDecimal amount, Currency currency) {
+    public record WithdrawMoneyCommand(
+            @NotEmpty(message = "Account number is required") String accountNumber,
+            @NotEmpty(message = "Amount is required") BigDecimal amount,
+            @NotEmpty(message = "Currency is required") Currency currency) {
     }
 }

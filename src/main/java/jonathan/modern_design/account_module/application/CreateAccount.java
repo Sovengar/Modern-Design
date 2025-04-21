@@ -1,6 +1,7 @@
 package jonathan.modern_design.account_module.application;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import jonathan.modern_design._common.annotations.Injectable;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design._shared.Currency;
@@ -101,13 +102,14 @@ public class CreateAccount {
         }
     }
 
-    public record Command(String realname,
-                          String email,
-                          String username,
-                          String address,
-                          String password,
-                          String country,
-                          String currency) {
+    public record Command(
+            String realname,
+            @NotEmpty(message = "Email is required") String email,
+            @NotEmpty(message = "Username is required") String username,
+            @NotEmpty(message = "Address is required") String address,
+            @NotEmpty(message = "Password is required") String password,
+            @NotEmpty(message = "Country is required") String country,
+            @NotEmpty(message = "Currency is required") String currency) {
     }
 }
 

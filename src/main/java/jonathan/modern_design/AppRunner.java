@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Slf4j
 @SpringBootApplication
-@EnableJpaRepositories // (repositoryFactoryBeanClass =
+@EnableJpaRepositories
 @EnableJdbcRepositories
 @EnableJpaAuditing
 @EnableTransactionManagement

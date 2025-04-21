@@ -1,6 +1,7 @@
 package jonathan.modern_design.account_module.application;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import jonathan.modern_design._common.annotations.Injectable;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design.account_module.domain.store.AccountRepo;
@@ -44,7 +45,7 @@ class DeactivateAccount {
 
     }
 
-    record Command(String accountNumber) {
+    record Command(@NotEmpty(message = "Account number is required") String accountNumber) {
     }
 
 }

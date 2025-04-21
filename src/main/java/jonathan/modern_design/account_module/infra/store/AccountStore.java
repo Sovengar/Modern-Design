@@ -11,8 +11,10 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @DataAdapter
 @Primary //When Spring finds AccountRepository but creates AccountSpringRepo, it will use AccountRepositorySpringAdapter
@@ -55,6 +57,15 @@ class AccountStore implements AccountRepo {
             account.deleted(true);
             repositoryJPA.save(account);
         });
+    }
+
+    @Transactional(readOnly = true) //When using Streams, a transaction is needed to keep session open
+    public void processAllActiveAccounts() {
+        try (Stream<AccountEntity> stream = repositoryJPA.streamAllActiveAccounts()) {
+            stream.forEach(account -> {
+                // procesar la cuenta
+            });
+        }
     }
 
     private Optional<AccountEntity> findOneEntity(@NonNull final String accountNumber) {

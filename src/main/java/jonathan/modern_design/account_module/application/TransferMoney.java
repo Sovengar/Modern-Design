@@ -2,6 +2,8 @@ package jonathan.modern_design.account_module.application;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jonathan.modern_design._common.annotations.Injectable;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design._shared.Currency;
@@ -90,6 +92,10 @@ public class TransferMoney {
         repository.update(target);
     }
 
-    public record Command(String sourceId, String targetId, BigDecimal amount, Currency currency) {
+    public record Command(
+            @NotEmpty(message = "Source Account is required") String sourceId,
+            @NotEmpty(message = "Target Account is required") String targetId,
+            @NotNull(message = "Amount is required") BigDecimal amount,
+            @NotEmpty(message = "Currencyis required") Currency currency) {
     }
 }

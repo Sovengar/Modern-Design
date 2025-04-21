@@ -1,6 +1,8 @@
 package jonathan.modern_design.account_module.application;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jonathan.modern_design._common.annotations.Injectable;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design._shared.Currency;
@@ -30,7 +32,7 @@ class DepositController {
             @PathVariable("currency") String currency
     ) {
         log.info("BEGIN Controller - Deposit");
-        final var command = new Deposit.Command(accountNumber, amount, Currency.fromCode(currency));
+        final var command = new Deposit.Command("", amount, Currency.fromCode(currency));
         deposit.handle(command);
         log.info("END Controller - Deposit");
         return ResponseEntity.ok().build();
@@ -53,7 +55,10 @@ public class Deposit {
         log.info("END Deposit");
     }
 
-    public record Command(String accountNumber, BigDecimal amount, Currency currency) {
+    public record Command(
+            @NotEmpty(message = "Account number is required") String accountNumber,
+            @NotNull(message = "Amount is required") BigDecimal amount,
+            @NotNull(message = "Currency is required") Currency currency) {
     }
 }
 
