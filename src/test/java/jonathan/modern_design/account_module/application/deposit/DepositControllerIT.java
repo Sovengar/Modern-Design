@@ -30,6 +30,6 @@ class DepositControllerIT extends ITConfig {
 
         // Assert
         var updated = repository.findOne(accountNumber).orElseThrow();
-        assertEquals(BigDecimal.valueOf(100), updated.money().amount());
+        assertEquals(BigDecimal.valueOf(100), updated.money().balance());
     }
 }

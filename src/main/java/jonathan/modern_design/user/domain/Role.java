@@ -37,6 +37,7 @@ public class Role {
 
     //IMPORTANT: Avoid indirect link with user
 
+    //TODO MIGRATE TO @VALUE?
     @Data //Not a record because ORM needs mutability
     @Setter(PRIVATE)
     @AllArgsConstructor

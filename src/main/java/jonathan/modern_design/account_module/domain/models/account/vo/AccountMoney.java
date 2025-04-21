@@ -2,6 +2,8 @@ package jonathan.modern_design.account_module.domain.models.account.vo;
 
 import com.google.common.annotations.VisibleForTesting;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jonathan.modern_design._internal.config.exception.RootException;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design.account_module.domain.exceptions.OperationWithDifferentCurrenciesException;
@@ -20,7 +22,8 @@ import static java.math.BigDecimal.ZERO;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE) //For Hibernate
 public class AccountMoney {
-    BigDecimal amount;
+    BigDecimal balance;
+    @Enumerated(value = EnumType.STRING)
     Currency currency;
 
     public static AccountMoney of(BigDecimal amount, Currency currency) {
@@ -29,17 +32,17 @@ public class AccountMoney {
 
     public AccountMoney add(AccountMoney other) {
         checkCurrency(other);
-        return new AccountMoney(this.amount.add(other.amount), this.currency);
+        return new AccountMoney(this.balance.add(other.balance), this.currency);
     }
 
     public AccountMoney substract(AccountMoney other) {
         checkCurrency(other);
 
-        if (isLowerThan(other.amount)) {
+        if (isLowerThan(other.balance)) {
             throw new InsufficientFundsException();
         }
 
-        return new AccountMoney(this.amount.subtract(other.amount), this.currency);
+        return new AccountMoney(this.balance.subtract(other.balance), this.currency);
     }
 
 
@@ -51,27 +54,27 @@ public class AccountMoney {
     }
 
     public boolean isPositiveOrZero() {
-        return this.amount.compareTo(ZERO) >= 0;
+        return this.balance.compareTo(ZERO) >= 0;
     }
 
     public boolean isNegative() {
-        return this.amount.compareTo(ZERO) < 0;
+        return this.balance.compareTo(ZERO) < 0;
     }
 
     public boolean isPositive() {
-        return this.amount.compareTo(ZERO) > 0;
+        return this.balance.compareTo(ZERO) > 0;
     }
 
     public boolean isGreaterThanOrEqualTo(BigDecimal anotherAmount) {
-        return this.amount.compareTo(anotherAmount) >= 0;
+        return this.balance.compareTo(anotherAmount) >= 0;
     }
 
     public boolean isGreaterThan(BigDecimal anotherAmount) {
-        return this.amount.compareTo(anotherAmount) >= 1;
+        return this.balance.compareTo(anotherAmount) >= 1;
     }
 
     public boolean isLowerThan(BigDecimal anotherAmount) {
-        return this.amount.compareTo(anotherAmount) < 0;
+        return this.balance.compareTo(anotherAmount) < 0;
     }
 
     @VisibleForTesting //TODO QUE FUNCIONE

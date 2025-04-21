@@ -1,3 +1,14 @@
 Es un modulo que sigue Clean architecture y Vertical Slice Architecture.
 El domain model y data model estan fusionados.
 Las slices comparten la capa de persistencia.
+
+
+Este modulo esta relacionado con la gestión de identidad y acceso (Identity and Access Management, IAM).
+Este contexto podría tener varios componentes, como:
+Usuarios: Quiénes son los usuarios, qué atributos tienen, cómo se gestionan, etc.
+Roles: Qué permisos tiene cada rol, qué operaciones puede realizar un usuario en función de su rol, etc.
+*Permission roles si fueran necesarios, o solo roles.
+Autenticación y Autorización: Cómo se validan las credenciales de los usuarios, cómo se asignan los roles, cómo se controla el acceso a recursos específicos.
+
+Se podria incluir otras funcionalidades como:
+El registro, la recuperación de contraseñas, la administración de perfiles, etc.

@@ -20,7 +20,6 @@ public record AccountJdbcEntity(
         BigDecimal balance,
         Currency currency,
         String address,
-        LocalDateTime dateOfLastTransaction,
         boolean active,
         UUID userId,
         LocalDateTime createdAt,
@@ -30,10 +29,9 @@ public record AccountJdbcEntity(
         this(
                 account.accountId().id(),
                 account.accountAccountNumber().accountNumber(),
-                account.money().amount(),
+                account.money().balance(),
                 account.money().currency(),
                 account.address().toString(),
-                account.dateOfLastTransaction(),
                 account.active(),
                 account.userId().userUuid(),
                 entity.createdAt(),
@@ -48,7 +46,6 @@ public record AccountJdbcEntity(
                 AccountMoney.of(balance, currency),
                 AccountAddress.of(address),
                 new User.UserId(userId),
-                dateOfLastTransaction,
                 active
         );
     }

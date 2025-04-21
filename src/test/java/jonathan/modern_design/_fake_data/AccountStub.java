@@ -10,7 +10,6 @@ import jonathan.modern_design.account_module.domain.models.account.vo.AccountAdd
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 import static jonathan.modern_design._fake_data.UserStub.DEFAULT_COUNTRY;
 import static jonathan.modern_design._fake_data.UserStub.VALID_PASSWORD;
@@ -61,7 +60,6 @@ public class AccountStub extends Stub {
                     .money(money)
                     .address(AccountAddress.of("street", "city", "state", "zipCode"))
                     .userId(normalUser().uuid())
-                    .dateOfLastTransaction(LocalDateTime.now())
                     .active(isActive)
                     .build();
         }
@@ -98,7 +96,7 @@ public class AccountStub extends Stub {
 
     public static class TransferMoneyMother extends Stub {
         public static TransferMoney.Command fromAccountToAccountWithAmount(String sourceAccountId, String targetAccountId, AccountMoney money) {
-            return new TransferMoney.Command(sourceAccountId, targetAccountId, money.amount(), money.currency());
+            return new TransferMoney.Command(sourceAccountId, targetAccountId, money.balance(), money.currency());
         }
 
         public static TransferMoney.Command transactionWithAmount(AccountMoney money) {

@@ -31,7 +31,7 @@ class AccountStore implements AccountRepo {
 
     @Override
     public AccountAccountNumber create(final Account account) {
-        var accountEntity = new AccountEntity(account);
+        var accountEntity = AccountEntity.create(account);
         repositoryJPA.save(accountEntity);
         return account.accountAccountNumber();
     }
@@ -82,11 +82,10 @@ class AccountStore implements AccountRepo {
 class AccountDataMapper {
     public static void updateEntity(AccountEntity accountEntity, Account account) {
         accountEntity.accountNumber(account.accountAccountNumber().accountNumber());
-        accountEntity.balance(account.money().amount());
+        accountEntity.balance(account.money().balance());
         accountEntity.currency(account.money().currency());
         accountEntity.address(account.address().toString());
         accountEntity.userId(account.userId());
-        accountEntity.dateOfLastTransaction(account.dateOfLastTransaction());
         accountEntity.active(account.active());
     }
 }

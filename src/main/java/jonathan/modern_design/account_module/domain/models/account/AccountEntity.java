@@ -20,6 +20,7 @@ import jonathan.modern_design.account_module.domain.models.account.vo.AccountMon
 import jonathan.modern_design.user.domain.User.UserId;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,47 +28,49 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.SQLRestriction;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 import static java.util.Objects.nonNull;
 
 @Entity
 @Table(name = "accounts", schema = "md")
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Setter //For updates, allowed because is a data model only
+@Builder //For mapping and testing
+@NoArgsConstructor(access = AccessLevel.PRIVATE) //For Hibernate
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Slf4j
 @SQLRestriction("deleted <> true") //Make Hibernate ignore soft deleted entries
 public class AccountEntity extends AuditingColumns {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ACCOUNTS_SQ")
     @SequenceGenerator(name = "ACCOUNTS_SQ", sequenceName = "MD.ACCOUNTS_SQ", allocationSize = 1)
-    @Setter(AccessLevel.PRIVATE)
     private Long accountId; //Cant use microType with sequence
     private String accountNumber;
     private BigDecimal balance;
     @Enumerated(value = EnumType.STRING)
     private Currency currency;
     private String address;
-    private LocalDateTime dateOfLastTransaction;
     private boolean active;
     @Embedded
     private UserId userId;
 
-    public AccountEntity(Account account) {
-        this.accountId = nonNull(account.accountId()) ? account.accountId().id() : null;
-        this.accountNumber = account.accountAccountNumber().accountNumber();
-        this.balance = account.money().amount();
-        this.currency = account.money().currency();
-        this.address = account.address().toString();
-        this.userId = account.userId();
-        this.dateOfLastTransaction = account.dateOfLastTransaction();
-        this.active = account.active();
+    public static AccountEntity create(Account account) {
+        //If we start to use uuid from the client, we could assign the id directly
+        var accountId = nonNull(account.accountId()) ? account.accountId().id() : null;
+
+        return new AccountEntity(
+                accountId,
+                account.accountAccountNumber().accountNumber(),
+                account.money().balance(),
+                account.money().currency(),
+                account.address().toString(),
+                account.active(),
+                account.userId()
+        );
     }
 
     public Account toDomain() {
-        return new Account(new AccountId(accountId), AccountAccountNumber.of(accountNumber), AccountMoney.of(balance, currency), AccountAddress.of(address), userId, dateOfLastTransaction, active);
+        return new Account(new AccountId(accountId), AccountAccountNumber.of(accountNumber), AccountMoney.of(balance, currency), AccountAddress.of(address), userId, active);
     }
 
     @PrePersist

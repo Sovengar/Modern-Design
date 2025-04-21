@@ -45,3 +45,19 @@ create TABLE MD.ACCOUNTS (
     deleted BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (user_uuid) REFERENCES MD.USERS(user_uuid)
 );
+
+create table MD.TRANSACTIONS (
+    transaction_id UUID PRIMARY KEY,
+    origin VARCHAR(255),
+    destination VARCHAR(255),
+    balance DECIMAL(19,2),
+    currency VARCHAR(5),
+    transaction_type VARCHAR(100),
+    transaction_date TIMESTAMP WITHOUT TIME ZONE,
+    version INTEGER,
+    created_by VARCHAR(255),
+    created_on TIMESTAMP WITHOUT TIME ZONE,
+    modified_by VARCHAR(255),
+    modified_on TIMESTAMP WITHOUT TIME ZONE,
+    deleted BOOLEAN DEFAULT FALSE
+);

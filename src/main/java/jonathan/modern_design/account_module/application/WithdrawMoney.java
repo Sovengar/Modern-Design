@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jonathan.modern_design._common.annotations.Injectable;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design._shared.Currency;
+import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
 import jonathan.modern_design.account_module.domain.store.AccountRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +44,7 @@ class WithdrawMoney {
     public void withdraw(final @Valid WithdrawMoneyCommand message) {
         log.info("BEGIN WithdrawMoney");
         var account = repository.findOne(message.accountNumber()).orElseThrow();
-        account.subtract(message.amount(), message.currency());
+        account.withdrawal(AccountMoney.of(message.amount(), message.currency()));
         repository.update(account);
         log.info("END WithdrawMoney");
     }

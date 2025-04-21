@@ -33,7 +33,7 @@ class DepositTest {
 
         accountApi.deposit(new Deposit.Command(accountNumber.accountNumber(), TEN, EUR));
 
-        assertThat(source.money().amount()).isEqualTo(TEN);
+        assertThat(source.money().balance()).isEqualTo(TEN);
     }
 
     @Test

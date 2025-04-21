@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jonathan.modern_design._common.annotations.Injectable;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design._shared.Currency;
+import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
 import jonathan.modern_design.account_module.domain.store.AccountRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +51,8 @@ public class Deposit {
     public void handle(final @Valid Command message) {
         log.info("BEGIN Deposit");
         var account = repository.findOne(message.accountNumber()).orElseThrow();
-        account.add(message.amount(), message.currency());
+        var money = AccountMoney.of(message.amount(), message.currency());
+        account.deposit(money);
         repository.update(account);
         log.info("END Deposit");
     }

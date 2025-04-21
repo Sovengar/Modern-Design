@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -35,14 +34,13 @@ class AccountRepoSpringDataJPATest extends ITConfig {
 
     @BeforeEach
     void setUp() {
-        AccountEntity entity = new AccountEntity();
-        entity.accountNumber("ES123456789");
-        entity.balance(new BigDecimal("1500.00"));
-        entity.currency(Currency.EUR);
-        entity.address("C/ Passeig de Gràcia 42");
-        entity.dateOfLastTransaction(LocalDateTime.now().minusDays(1));
-        entity.userId(null);
-        entity.active(true);
+        AccountEntity entity = AccountEntity.builder()
+                .accountNumber("ES123456789")
+                .balance(new BigDecimal("1500.00"))
+                .currency(Currency.EUR)
+                .address("C/ Passeig de Gràcia 42")
+                .active(true)
+                .build();
 
         accountRepository.save(entity);
     }

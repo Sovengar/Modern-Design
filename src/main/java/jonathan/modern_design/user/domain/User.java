@@ -158,6 +158,7 @@ public class User extends AuditingColumns {
         DRAFT, ACTIVE, DELETED
     }
 
+    //TODO MIGRATE TO @VALUE?
     @Data //Not a record because ORM needs mutability
     @Setter(PRIVATE)
     @AllArgsConstructor

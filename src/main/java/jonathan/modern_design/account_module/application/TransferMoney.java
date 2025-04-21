@@ -10,6 +10,7 @@ import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design.account_module.domain.exceptions.OperationForbiddenForSameAccount;
 import jonathan.modern_design.account_module.domain.models.account.Account;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountAccountNumber;
+import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
 import jonathan.modern_design.account_module.domain.services.AccountValidator;
 import jonathan.modern_design.account_module.domain.store.AccountRepo;
 import lombok.RequiredArgsConstructor;
@@ -66,7 +67,7 @@ public class TransferMoney {
         final var amount = message.amount();
         final var currency = message.currency();
 
-        handle(source, target, amount, currency);
+        transfer(source, target, amount, currency);
         log.info("END TransferMoney");
     }
 
@@ -84,9 +85,11 @@ public class TransferMoney {
         }
     }
 
-    private void handle(Account source, Account target, final BigDecimal amount, final Currency currency) {
-        source.subtract(amount, currency);
-        target.add(amount, currency);
+    private void transfer(Account source, Account target, final BigDecimal amount, final Currency currency) {
+        var money = AccountMoney.of(amount, currency);
+
+        source.transferTo(target.accountAccountNumber(), money);
+        target.receiveTransferFrom(source.accountAccountNumber(), money);
 
         repository.update(source);
         repository.update(target);

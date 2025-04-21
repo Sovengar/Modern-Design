@@ -57,7 +57,7 @@ class TransferMoneyTest {
 
             accountFacade.transferMoney(transactionWithAmount(AccountMoney.of(BigDecimal.valueOf(50.0), EUR)));
 
-            assertThat(target.money().amount()).isEqualTo(BigDecimal.valueOf(50.0));
+            assertThat(target.money().balance()).isEqualTo(BigDecimal.valueOf(50.0));
         }
 
         @Test

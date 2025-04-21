@@ -32,7 +32,7 @@ class TransferMoneyRepositoryIT extends ITConfig {
         var accountNumber = accountFacade.createAccount(randomAccountWithCurrency(money.currency())).accountNumber();
 
         if (money.isPositive()) {
-            accountFacade.deposit(new Deposit.Command(accountNumber, money.amount(), money.currency()));
+            accountFacade.deposit(new Deposit.Command(accountNumber, money.balance(), money.currency()));
         }
 
         return repository.findOneOrElseThrow(accountNumber);
@@ -46,8 +46,8 @@ class TransferMoneyRepositoryIT extends ITConfig {
             var target = getAccountWithMoney(AccountMoney.of(ZERO, EUR));
             accountFacade.transferMoney(fromAccountToAccountWithAmount(source.accountAccountNumber().accountNumber(), target.accountAccountNumber().accountNumber(), AccountMoney.of(BigDecimal.valueOf(60.0), EUR)));
 
-            assertThat(source.money().amount()).isEqualTo(BigDecimal.valueOf(40.0));
-            assertThat(target.money().amount()).isEqualTo(BigDecimal.valueOf(60.0));
+            assertThat(source.money().balance()).isEqualTo(BigDecimal.valueOf(40.0));
+            assertThat(target.money().balance()).isEqualTo(BigDecimal.valueOf(60.0));
         }
     }
 }
