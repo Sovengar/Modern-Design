@@ -1,7 +1,7 @@
 package jonathan.modern_design.account_module.infra.store;
 
 import jonathan.modern_design.account_module.domain.models.account.AccountEntity;
-import jonathan.modern_design.user.domain.User;
+import jonathan.modern_design.user.domain.models.User;
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

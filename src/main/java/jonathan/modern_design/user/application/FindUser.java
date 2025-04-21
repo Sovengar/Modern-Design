@@ -3,7 +3,7 @@ package jonathan.modern_design.user.application;
 import jonathan.modern_design._common.annotations.Injectable;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design.user.api.dtos.UserDto;
-import jonathan.modern_design.user.domain.User;
+import jonathan.modern_design.user.domain.models.User;
 import jonathan.modern_design.user.domain.store.UserRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

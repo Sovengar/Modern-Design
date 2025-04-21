@@ -1,6 +1,6 @@
 package jonathan.modern_design.user.domain.store;
 
-import jonathan.modern_design.user.domain.Role;
+import jonathan.modern_design.user.domain.models.Role;
 
 import java.util.List;
 

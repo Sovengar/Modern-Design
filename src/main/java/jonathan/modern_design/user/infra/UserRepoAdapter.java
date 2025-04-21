@@ -1,7 +1,7 @@
 package jonathan.modern_design.user.infra;
 
 import jonathan.modern_design._common.annotations.DataAdapter;
-import jonathan.modern_design.user.domain.User;
+import jonathan.modern_design.user.domain.models.User;
 import jonathan.modern_design.user.domain.store.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;

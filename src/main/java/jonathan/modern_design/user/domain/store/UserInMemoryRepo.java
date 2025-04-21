@@ -1,7 +1,7 @@
 package jonathan.modern_design.user.domain.store;
 
 import jonathan.modern_design._common.annotations.Fake;
-import jonathan.modern_design.user.domain.User;
+import jonathan.modern_design.user.domain.models.User;
 
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;

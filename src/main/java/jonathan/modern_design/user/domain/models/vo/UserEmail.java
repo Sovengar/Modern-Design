@@ -1,4 +1,4 @@
-package jonathan.modern_design.user.domain.vo;
+package jonathan.modern_design.user.domain.models.vo;
 
 
 import jakarta.persistence.Embeddable;

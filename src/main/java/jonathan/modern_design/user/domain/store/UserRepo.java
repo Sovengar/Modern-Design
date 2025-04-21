@@ -1,7 +1,7 @@
 package jonathan.modern_design.user.domain.store;
 
 import jakarta.persistence.EntityNotFoundException;
-import jonathan.modern_design.user.domain.User;
+import jonathan.modern_design.user.domain.models.User;
 
 import java.util.Optional;
 

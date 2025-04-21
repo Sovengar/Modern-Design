@@ -14,8 +14,8 @@ import jonathan.modern_design.account_module.domain.models.account.vo.AccountMon
 import jonathan.modern_design.account_module.domain.store.AccountRepo;
 import jonathan.modern_design.user.api.UserApi;
 import jonathan.modern_design.user.application.RegisterUser;
-import jonathan.modern_design.user.domain.User;
-import jonathan.modern_design.user.domain.User.UserId;
+import jonathan.modern_design.user.domain.models.User;
+import jonathan.modern_design.user.domain.models.User.UserId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;

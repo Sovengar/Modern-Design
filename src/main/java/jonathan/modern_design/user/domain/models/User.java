@@ -1,4 +1,4 @@
-package jonathan.modern_design.user.domain;
+package jonathan.modern_design.user.domain.models;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
@@ -20,11 +20,11 @@ import jonathan.modern_design._common.annotations.AggregateRoot;
 import jonathan.modern_design._common.annotations.OptionalField;
 import jonathan.modern_design._shared.country.Country;
 import jonathan.modern_design.user.domain.catalogs.Roles;
-import jonathan.modern_design.user.domain.vo.UserEmail;
-import jonathan.modern_design.user.domain.vo.UserPassword;
-import jonathan.modern_design.user.domain.vo.UserPhoneNumbers;
-import jonathan.modern_design.user.domain.vo.UserRealName;
-import jonathan.modern_design.user.domain.vo.UserUserName;
+import jonathan.modern_design.user.domain.models.vo.UserEmail;
+import jonathan.modern_design.user.domain.models.vo.UserPassword;
+import jonathan.modern_design.user.domain.models.vo.UserPhoneNumbers;
+import jonathan.modern_design.user.domain.models.vo.UserRealName;
+import jonathan.modern_design.user.domain.models.vo.UserUserName;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

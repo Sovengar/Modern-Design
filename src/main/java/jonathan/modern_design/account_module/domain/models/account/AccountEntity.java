@@ -17,7 +17,7 @@ import jonathan.modern_design.account_module.domain.models.account.vo.AccountAcc
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountAddress;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountId;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
-import jonathan.modern_design.user.domain.User.UserId;
+import jonathan.modern_design.user.domain.models.User.UserId;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

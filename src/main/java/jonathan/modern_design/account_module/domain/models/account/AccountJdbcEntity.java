@@ -6,7 +6,7 @@ import jonathan.modern_design.account_module.domain.models.account.vo.AccountAcc
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountAddress;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountId;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
-import jonathan.modern_design.user.domain.User;
+import jonathan.modern_design.user.domain.models.User;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.math.BigDecimal;

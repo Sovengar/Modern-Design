@@ -2,7 +2,7 @@ package jonathan.modern_design.account_module.api.dtos;
 
 import jonathan.modern_design.account_module.domain.models.account.Account;
 import jonathan.modern_design.account_module.domain.models.account.AccountEntity;
-import jonathan.modern_design.user.domain.User.UserId;
+import jonathan.modern_design.user.domain.models.User.UserId;
 
 import java.math.BigDecimal;
 

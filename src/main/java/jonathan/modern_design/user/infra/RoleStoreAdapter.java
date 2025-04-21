@@ -4,7 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
 import jonathan.modern_design._common.annotations.DataAdapter;
-import jonathan.modern_design.user.domain.Role;
+import jonathan.modern_design.user.domain.models.Role;
 import jonathan.modern_design.user.domain.store.RoleStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;

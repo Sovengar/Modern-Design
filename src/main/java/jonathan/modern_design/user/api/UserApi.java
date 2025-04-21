@@ -4,7 +4,7 @@ import jonathan.modern_design._common.annotations.Injectable;
 import jonathan.modern_design.user.api.dtos.UserDto;
 import jonathan.modern_design.user.application.FindUser;
 import jonathan.modern_design.user.application.RegisterUser;
-import jonathan.modern_design.user.domain.User;
+import jonathan.modern_design.user.domain.models.User;
 import lombok.RequiredArgsConstructor;
 
 public interface UserApi {

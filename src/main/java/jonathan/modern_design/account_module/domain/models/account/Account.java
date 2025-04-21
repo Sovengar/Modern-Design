@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.util.Objects.requireNonNull;
-import static jonathan.modern_design.user.domain.User.UserId;
+import static jonathan.modern_design.user.domain.models.User.UserId;
 
 @Builder //For mapper and tests only //TODO DELETE?
 @AllArgsConstructor(access = AccessLevel.PROTECTED)

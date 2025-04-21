@@ -1,7 +1,7 @@
 package jonathan.modern_design.user.api.dtos;
 
-import jonathan.modern_design.user.domain.Role;
-import jonathan.modern_design.user.domain.User;
+import jonathan.modern_design.user.domain.models.Role;
+import jonathan.modern_design.user.domain.models.User;
 
 import java.util.Map;
 

@@ -1,8 +1,8 @@
 package jonathan.modern_design.user.domain.store;
 
 import jonathan.modern_design._common.annotations.Fake;
-import jonathan.modern_design.user.domain.Role;
 import jonathan.modern_design.user.domain.catalogs.Roles;
+import jonathan.modern_design.user.domain.models.Role;
 
 import java.util.ArrayList;
 import java.util.List;
