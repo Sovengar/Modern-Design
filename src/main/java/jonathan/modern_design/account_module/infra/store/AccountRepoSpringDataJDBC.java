@@ -1,6 +1,6 @@
 package jonathan.modern_design.account_module.infra.store;
 
-import jonathan.modern_design.account_module.domain.AccountJdbcEntity;
+import jonathan.modern_design.account_module.domain.models.account.AccountJdbcEntity;
 import lombok.NonNull;
 import org.springframework.data.repository.CrudRepository;
 

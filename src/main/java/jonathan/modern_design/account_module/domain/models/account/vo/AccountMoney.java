@@ -1,4 +1,4 @@
-package jonathan.modern_design.account_module.domain.vo;
+package jonathan.modern_design.account_module.domain.models.account.vo;
 
 import com.google.common.annotations.VisibleForTesting;
 import jakarta.persistence.Embeddable;

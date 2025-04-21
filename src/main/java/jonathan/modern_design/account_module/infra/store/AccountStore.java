@@ -1,11 +1,11 @@
 package jonathan.modern_design.account_module.infra.store;
 
 import jonathan.modern_design._common.annotations.DataAdapter;
-import jonathan.modern_design.account_module.domain.Account;
-import jonathan.modern_design.account_module.domain.AccountEntity;
 import jonathan.modern_design.account_module.domain.exceptions.AccountNotFoundException;
+import jonathan.modern_design.account_module.domain.models.account.Account;
+import jonathan.modern_design.account_module.domain.models.account.AccountEntity;
+import jonathan.modern_design.account_module.domain.models.account.vo.AccountAccountNumber;
 import jonathan.modern_design.account_module.domain.store.AccountRepo;
-import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;

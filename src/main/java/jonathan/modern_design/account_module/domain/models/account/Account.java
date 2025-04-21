@@ -1,12 +1,12 @@
-package jonathan.modern_design.account_module.domain;
+package jonathan.modern_design.account_module.domain.models.account;
 
 import jonathan.modern_design._common.annotations.AggregateRoot;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design.account_module.domain.exceptions.AccountIsInactiveException;
-import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
-import jonathan.modern_design.account_module.domain.vo.AccountAddress;
-import jonathan.modern_design.account_module.domain.vo.AccountId;
-import jonathan.modern_design.account_module.domain.vo.AccountMoney;
+import jonathan.modern_design.account_module.domain.models.account.vo.AccountAccountNumber;
+import jonathan.modern_design.account_module.domain.models.account.vo.AccountAddress;
+import jonathan.modern_design.account_module.domain.models.account.vo.AccountId;
+import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

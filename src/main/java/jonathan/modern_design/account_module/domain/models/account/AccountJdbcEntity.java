@@ -1,11 +1,11 @@
-package jonathan.modern_design.account_module.domain;
+package jonathan.modern_design.account_module.domain.models.account;
 
 import jakarta.persistence.Id;
 import jonathan.modern_design._shared.Currency;
-import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
-import jonathan.modern_design.account_module.domain.vo.AccountAddress;
-import jonathan.modern_design.account_module.domain.vo.AccountId;
-import jonathan.modern_design.account_module.domain.vo.AccountMoney;
+import jonathan.modern_design.account_module.domain.models.account.vo.AccountAccountNumber;
+import jonathan.modern_design.account_module.domain.models.account.vo.AccountAddress;
+import jonathan.modern_design.account_module.domain.models.account.vo.AccountId;
+import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
 import jonathan.modern_design.user.domain.User;
 import org.springframework.data.relational.core.mapping.Table;
 

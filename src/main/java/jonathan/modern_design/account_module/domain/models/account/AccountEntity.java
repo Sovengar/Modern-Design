@@ -1,4 +1,4 @@
-package jonathan.modern_design.account_module.domain;
+package jonathan.modern_design.account_module.domain.models.account;
 
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -13,10 +13,10 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jonathan.modern_design._common.AuditingColumns;
 import jonathan.modern_design._shared.Currency;
-import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
-import jonathan.modern_design.account_module.domain.vo.AccountAddress;
-import jonathan.modern_design.account_module.domain.vo.AccountId;
-import jonathan.modern_design.account_module.domain.vo.AccountMoney;
+import jonathan.modern_design.account_module.domain.models.account.vo.AccountAccountNumber;
+import jonathan.modern_design.account_module.domain.models.account.vo.AccountAddress;
+import jonathan.modern_design.account_module.domain.models.account.vo.AccountId;
+import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
 import jonathan.modern_design.user.domain.User.UserId;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

@@ -4,10 +4,10 @@ import jonathan.modern_design.__config.Stub;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design.account_module.application.CreateAccount;
 import jonathan.modern_design.account_module.application.TransferMoney;
-import jonathan.modern_design.account_module.domain.Account;
-import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
-import jonathan.modern_design.account_module.domain.vo.AccountAddress;
-import jonathan.modern_design.account_module.domain.vo.AccountMoney;
+import jonathan.modern_design.account_module.domain.models.account.Account;
+import jonathan.modern_design.account_module.domain.models.account.vo.AccountAccountNumber;
+import jonathan.modern_design.account_module.domain.models.account.vo.AccountAddress;
+import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

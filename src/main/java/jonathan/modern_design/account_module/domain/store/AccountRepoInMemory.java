@@ -1,8 +1,8 @@
 package jonathan.modern_design.account_module.domain.store;
 
 import jonathan.modern_design._common.annotations.Fake;
-import jonathan.modern_design.account_module.domain.Account;
-import jonathan.modern_design.account_module.domain.vo.AccountAccountNumber;
+import jonathan.modern_design.account_module.domain.models.account.Account;
+import jonathan.modern_design.account_module.domain.models.account.vo.AccountAccountNumber;
 
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
