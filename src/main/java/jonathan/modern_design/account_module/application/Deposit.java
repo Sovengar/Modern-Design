@@ -32,7 +32,7 @@ class DepositController {
             @PathVariable("currency") String currency
     ) {
         log.info("BEGIN Controller - Deposit");
-        final var command = new Deposit.Command("", amount, Currency.fromCode(currency));
+        final var command = new Deposit.Command(accountNumber, amount, Currency.fromCode(currency));
         deposit.handle(command);
         log.info("END Controller - Deposit");
         return ResponseEntity.ok().build();
