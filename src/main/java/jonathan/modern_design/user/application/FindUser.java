@@ -10,14 +10,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
-@WebAdapter
-@RequestMapping("/api/v1/users")
+@WebAdapter("/api/v1/users")
 class FindUserController {
     private final FindUser querier;
 

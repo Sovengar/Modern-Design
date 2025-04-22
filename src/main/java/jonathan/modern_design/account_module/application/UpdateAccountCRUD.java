@@ -15,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -44,8 +43,7 @@ public class UpdateAccountCRUD {
 
 @Slf4j
 @RequiredArgsConstructor
-@WebAdapter
-@RequestMapping("/api/v1/accounts")
+@WebAdapter("/api/v1/accounts")
 class UpdateAccountCRUDController {
     private final UpdateAccountCRUD updater;
 

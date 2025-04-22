@@ -13,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import static jonathan.modern_design.account_module.infra.QAccountEntity.accountEntity;
 import static org.springframework.http.ResponseEntity.ok;
@@ -21,8 +20,7 @@ import static org.springframework.http.ResponseEntity.ok;
 
 @Slf4j
 @RequiredArgsConstructor
-@WebAdapter
-@RequestMapping("/api/v1/accounts")
+@WebAdapter("/api/v1/accounts")
 class FindAccountController {
     private final FindAccount findAccount;
 

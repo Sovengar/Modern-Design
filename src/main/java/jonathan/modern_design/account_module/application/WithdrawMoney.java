@@ -13,14 +13,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.math.BigDecimal;
 
 @Slf4j
 @RequiredArgsConstructor
-@WebAdapter
-@RequestMapping("/api/v1/accounts")
+@WebAdapter("/api/v1/accounts")
 class WithdrawMoneyController {
     private final WithdrawMoney withdrawMoney;
 

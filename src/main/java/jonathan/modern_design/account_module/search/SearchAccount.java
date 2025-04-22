@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,8 +60,7 @@ public interface SearchAccount {
 
 @Slf4j
 @RequiredArgsConstructor
-@WebAdapter
-@RequestMapping("/api/v1/accounts")
+@WebAdapter("/api/v1/accounts")
 class SearchAccountController {
     private final SearchAccountQueryImpl querier;
 

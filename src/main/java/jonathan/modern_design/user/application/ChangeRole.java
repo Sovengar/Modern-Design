@@ -12,12 +12,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j
-@WebAdapter
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/roles")
+@WebAdapter("/api/v1/roles")
 class ChangeRoleController {
     private final ChangeRole changeRole;
 

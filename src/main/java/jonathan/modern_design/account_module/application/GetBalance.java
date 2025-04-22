@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.math.BigDecimal;
 
@@ -18,8 +17,7 @@ import static jonathan.modern_design.account_module.infra.QAccountEntity.account
 
 @Slf4j
 @RequiredArgsConstructor
-@WebAdapter
-@RequestMapping("/api/v1/accounts")
+@WebAdapter("/api/v1/accounts")
 class GetBalance {
     private final GetBalanceQuery querier;
 

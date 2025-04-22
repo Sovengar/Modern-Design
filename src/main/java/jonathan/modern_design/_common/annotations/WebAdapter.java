@@ -1,6 +1,8 @@
 package jonathan.modern_design._common.annotations;
 
 import org.springframework.core.annotation.AliasFor;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.lang.annotation.Documented;
@@ -13,9 +15,14 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @RestController
+@Validated
+@RequestMapping
 public @interface WebAdapter {
 
-    @AliasFor(annotation = RestController.class)
-    String value() default "";
+    @AliasFor(annotation = RequestMapping.class, attribute = "value")
+    String[] value() default {};
+
+    @AliasFor(annotation = RequestMapping.class, attribute = "path")
+    String[] path() default {};
 
 }
