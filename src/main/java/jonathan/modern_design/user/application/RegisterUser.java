@@ -45,7 +45,7 @@ public class RegisterUser {
         //End of complex logic
 
         //Complex logic to decide the user
-        var user = User.register(new User.Id(command.uuid()), UserRealName.of(command.realname().orElse("")), UserUserName.of(command.username()), UserEmail.of(command.email()), UserPassword.of(command.password()), command.country(), UserPhoneNumbers.of(command.phoneNumbers()), role);
+        var user = User.Factory.register(new User.Id(command.uuid()), UserRealName.of(command.realname().orElse("")), UserUserName.of(command.username()), UserEmail.of(command.email()), UserPassword.of(command.password()), command.country(), UserPhoneNumbers.of(command.phoneNumbers()), role);
         repository.registerUser(user);
 
         log.info("END RegisterUser");

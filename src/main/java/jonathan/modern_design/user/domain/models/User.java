@@ -24,13 +24,11 @@ import jonathan.modern_design.user.domain.models.vo.UserPassword;
 import jonathan.modern_design.user.domain.models.vo.UserPhoneNumbers;
 import jonathan.modern_design.user.domain.models.vo.UserRealName;
 import jonathan.modern_design.user.domain.models.vo.UserUserName;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -41,14 +39,13 @@ import java.util.UUID;
 
 import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
-import static lombok.AccessLevel.PACKAGE;
 import static lombok.AccessLevel.PRIVATE;
 
 @Slf4j
 @Entity
 @Table(name = "users", schema = "md")
 @Getter
-@NoArgsConstructor(access = PACKAGE) //For Hibernate
+@NoArgsConstructor(access = PRIVATE) //For Hibernate
 @AllArgsConstructor(access = PRIVATE)
 @SQLRestriction("deleted <> true") //Make Hibernate ignore soft deleted entries
 @Builder //For mapping and testing only!!!!!
@@ -82,40 +79,6 @@ public class User extends AuditingColumns {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Role role;
-
-    public static User register(Id uuid, UserRealName realname, UserUserName username, UserEmail email, UserPassword password, Country country, UserPhoneNumbers phoneNumbers, Role role) {
-        requireNonNull(country);
-
-        return new User(
-                null,
-                uuid,
-                realname,
-                requireNonNull(username),
-                requireNonNull(email),
-                null,
-                requireNonNull(password),
-                country.code(),
-                Status.DRAFT,
-                phoneNumbers,
-                requireNonNull(role));
-    }
-
-    public static User registerAdmin(Id uuid, UserRealName realname, UserUserName username, UserEmail email, UserEmail internalEmail, UserPassword password, UserPhoneNumbers phoneNumbers, Country country) {
-        requireNonNull(country);
-
-        return new User(
-                null,
-                uuid,
-                realname,
-                requireNonNull(username),
-                requireNonNull(email),
-                internalEmail,
-                requireNonNull(password),
-                country.code(),
-                Status.ACTIVE,
-                phoneNumbers,
-                Role.of(Roles.ADMIN));
-    }
 
     public String getRealNameOrPlaceHolder() {
         return realname.getRealname().orElse("Anonymous");
@@ -157,14 +120,51 @@ public class User extends AuditingColumns {
         DRAFT, ACTIVE, DELETED
     }
 
-    //TODO MIGRATE TO @VALUE?
-    @Data //Not a record because ORM needs mutability
-    @Setter(PRIVATE)
-    @AllArgsConstructor
-    @NoArgsConstructor(access = AccessLevel.PROTECTED) //For Hibernate
     @Embeddable
+    @Value //Not a record for Hibernate
+    @NoArgsConstructor(force = true) //For Hibernate
+    @AllArgsConstructor
     public static class Id implements Serializable {
         @Serial private static final long serialVersionUID = -2753108705494085826L;
-        private UUID userUuid;
+        UUID userUuid;
+    }
+
+    public static class Factory {
+        private Factory() {
+        }
+
+        public static User register(Id uuid, UserRealName realname, UserUserName username, UserEmail email, UserPassword password, Country country, UserPhoneNumbers phoneNumbers, Role role) {
+            requireNonNull(country);
+
+            return new User(
+                    null,
+                    uuid,
+                    realname,
+                    requireNonNull(username),
+                    requireNonNull(email),
+                    null,
+                    requireNonNull(password),
+                    country.code(),
+                    Status.DRAFT,
+                    phoneNumbers,
+                    requireNonNull(role));
+        }
+
+        public static User registerAdmin(Id uuid, UserRealName realname, UserUserName username, UserEmail email, UserEmail internalEmail, UserPassword password, UserPhoneNumbers phoneNumbers, Country country) {
+            requireNonNull(country);
+
+            return new User(
+                    null,
+                    uuid,
+                    realname,
+                    requireNonNull(username),
+                    requireNonNull(email),
+                    internalEmail,
+                    requireNonNull(password),
+                    country.code(),
+                    Status.ACTIVE,
+                    phoneNumbers,
+                    Role.of(Roles.ADMIN));
+        }
     }
 }

@@ -34,7 +34,7 @@ import static java.util.Objects.nonNull;
 @Table(name = "accounts", schema = "md")
 @Getter
 @Setter //For updates, allowed because is a data model only
-@Builder //For mapping and testing
+@Builder //For mapping and testing //TODO INTENTAR QUITAR
 @NoArgsConstructor(access = AccessLevel.PRIVATE) //For Hibernate
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Slf4j

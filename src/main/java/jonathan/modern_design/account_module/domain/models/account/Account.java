@@ -19,7 +19,7 @@ import java.util.Optional;
 
 import static java.util.Objects.requireNonNull;
 
-@Builder //For mapper and tests only //TODO DELETE?
+@Builder //For mapper and tests only //TODO TRY TO DELETE
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @AggregateRoot
@@ -42,18 +42,6 @@ public final class Account {
         this.active = accountEntity.active();
     }
 
-    public static Account create(AccountAccountNumber accountAccountNumber, AccountMoney money, AccountAddress address, User.Id userId) {
-        var isActive = true;
-
-        return new Account(
-                null,
-                requireNonNull(accountAccountNumber),
-                requireNonNull(money),
-                requireNonNull(address),
-                requireNonNull(userId),
-                isActive);
-    }
-
     //TODO USE THE ENTITY CONSTRUCTOR?
     public static Account updateCRUD(Account account, AccountAccountNumber accountAccountNumber, AccountMoney money, AccountAddress address, boolean isActive, User.Id userId) {
         Account updated = new Account(account.accountId(), accountAccountNumber, money, address, userId, isActive);
@@ -63,23 +51,23 @@ public final class Account {
 
     public void deposit(AccountMoney money) {
         this.money = this.money.add(money);
-        this.transactions.add(Transaction.deposit(money, this.accountAccountNumber.accountNumber()));
+        this.transactions.add(Transaction.Factory.deposit(money, this.accountAccountNumber.accountNumber()));
     }
 
     public void withdrawal(AccountMoney money) {
         this.money = this.money.substract(money);
-        this.transactions.add(Transaction.withdrawal(money, this.accountAccountNumber.accountNumber()));
+        this.transactions.add(Transaction.Factory.withdrawal(money, this.accountAccountNumber.accountNumber()));
     }
 
     public void transferTo(AccountAccountNumber destination, AccountMoney money) {
         this.money = this.money.substract(money);
-        var transaction = Transaction.transfer(money, this.accountAccountNumber.accountNumber(), destination.accountNumber());
+        var transaction = Transaction.Factory.transfer(money, this.accountAccountNumber.accountNumber(), destination.accountNumber());
         this.transactions.add(transaction);
     }
 
     public void receiveTransferFrom(AccountAccountNumber source, AccountMoney money) {
         this.money = this.money.add(money);
-        var transaction = Transaction.transfer(money, source.accountNumber(), this.accountAccountNumber.accountNumber());
+        var transaction = Transaction.Factory.transfer(money, source.accountNumber(), this.accountAccountNumber.accountNumber());
         this.transactions.add(transaction);
     }
 
@@ -103,5 +91,19 @@ public final class Account {
     }
 
     public record Id(Long id) {
+    }
+
+    public static class Factory {
+        public static Account create(AccountAccountNumber accountAccountNumber, AccountMoney money, AccountAddress address, User.Id userId) {
+            var isActive = true;
+
+            return new Account(
+                    null,
+                    requireNonNull(accountAccountNumber),
+                    requireNonNull(money),
+                    requireNonNull(address),
+                    requireNonNull(userId),
+                    isActive);
+        }
     }
 }

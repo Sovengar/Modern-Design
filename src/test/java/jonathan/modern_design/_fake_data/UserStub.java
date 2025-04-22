@@ -23,7 +23,7 @@ public class UserStub extends Stub {
     public static final String VALID_PASSWORD = faker.internet().password(4, 12, true, true, true) + "1ºAa";
 
     public static User normalUser() {
-        return User.register(
+        return User.Factory.register(
                 new User.Id(DEFAULT_UUID),
                 UserRealName.of(faker.name().fullName()),
                 UserUserName.of(faker.name().username()),
@@ -35,7 +35,7 @@ public class UserStub extends Stub {
     }
 
     public static User adminUser() {
-        return User.registerAdmin(
+        return User.Factory.registerAdmin(
                 new User.Id(DEFAULT_UUID),
                 UserRealName.of(faker.name().fullName()),
                 UserUserName.of(faker.name().username()),

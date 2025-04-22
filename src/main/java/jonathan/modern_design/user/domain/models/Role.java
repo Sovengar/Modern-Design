@@ -9,20 +9,17 @@ import jakarta.validation.constraints.NotNull;
 import jonathan.modern_design.user.domain.catalogs.Roles;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Value;
 
 import java.io.Serial;
 import java.io.Serializable;
 
-import static lombok.AccessLevel.PRIVATE;
-
 @Entity
 @Table(name = "roles", schema = "md")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PACKAGE) //For Hibernate
+@NoArgsConstructor(access = AccessLevel.PRIVATE) //For Hibernate
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 //If Role gets usecases, like managing permissions, creating and deleting roles dynamically based on business rules
 //Then it will be an Aggregate Root
@@ -37,16 +34,14 @@ public class Role {
 
     //IMPORTANT: Avoid indirect link with user
 
-    //TODO MIGRATE TO @VALUE?
-    @Data //Not a record because ORM needs mutability
-    @Setter(PRIVATE)
-    @AllArgsConstructor
-    @NoArgsConstructor(access = AccessLevel.PROTECTED) //For Hibernate
     @Embeddable
+    @Value //Not a record for Hibernate
+    @NoArgsConstructor(force = true) //For Hibernate
+    @AllArgsConstructor
     public static class Code implements Serializable {
         @Serial private static final long serialVersionUID = -491353586550215623L;
         @Column(name = "code", updatable = false)
         @NotNull
-        private String roleCode;
+        String roleCode;
     }
 }

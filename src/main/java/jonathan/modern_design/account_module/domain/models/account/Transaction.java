@@ -38,26 +38,33 @@ public class Transaction extends AuditingColumns {
     String origin;
     String destination;
 
-    public static Transaction deposit(AccountMoney money, String destination) {
-        return new Transaction(new Id(UUID.randomUUID()), LocalDateTime.now(), money, TransactionType.DEPOSIT, null, destination);
-    }
-
-    public static Transaction withdrawal(AccountMoney money, String origin) {
-        return new Transaction(new Id(UUID.randomUUID()), LocalDateTime.now(), money, TransactionType.WITHDRAWAL, origin, null);
-    }
-
-    public static Transaction transfer(AccountMoney money, String origin, String destination) {
-        return new Transaction(new Id(UUID.randomUUID()), LocalDateTime.now(), money, TransactionType.TRANSFER, origin, destination);
-    }
-
     public enum TransactionType {
         DEPOSIT, WITHDRAWAL, TRANSFER
     }
 
     @Embeddable
-    @Value
+    @Value //Not a record for Hibernate
+    @NoArgsConstructor(force = true) //For Hibernate
+    @AllArgsConstructor
     public static class Id implements Serializable {
         @Serial private static final long serialVersionUID = 8283338134388675524L;
         UUID transactionId;
+    }
+
+    static class Factory {
+        private Factory() {
+        }
+
+        static Transaction deposit(AccountMoney money, String destination) {
+            return new Transaction(new Id(UUID.randomUUID()), LocalDateTime.now(), money, TransactionType.DEPOSIT, null, destination);
+        }
+
+        static Transaction withdrawal(AccountMoney money, String origin) {
+            return new Transaction(new Id(UUID.randomUUID()), LocalDateTime.now(), money, TransactionType.WITHDRAWAL, origin, null);
+        }
+
+        static Transaction transfer(AccountMoney money, String origin, String destination) {
+            return new Transaction(new Id(UUID.randomUUID()), LocalDateTime.now(), money, TransactionType.TRANSFER, origin, destination);
+        }
     }
 }

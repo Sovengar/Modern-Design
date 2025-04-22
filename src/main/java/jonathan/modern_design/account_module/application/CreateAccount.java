@@ -69,7 +69,7 @@ public class CreateAccount {
 
         var userId = registerUser(message);
         final var currency = Currency.fromCode(message.currency());
-        final var account = Account.create(AccountAccountNumber.of(AccountNumberGenerator.generate()), AccountMoney.of(BigDecimal.ZERO, currency), AccountAddress.of(message.address()), userId);
+        final var account = Account.Factory.create(AccountAccountNumber.of(AccountNumberGenerator.generate()), AccountMoney.of(BigDecimal.ZERO, currency), AccountAddress.of(message.address()), userId);
 
         var accountNumber = repository.create(account);
         log.info("END - Account created  with number: {}", accountNumber);
