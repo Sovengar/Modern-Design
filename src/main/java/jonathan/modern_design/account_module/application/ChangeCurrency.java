@@ -1,6 +1,6 @@
 package jonathan.modern_design.account_module.application;
 
-class ChangeCurrency {
+public class ChangeCurrency {
 
     // TODO
     // Change currency taking in consideration updated exchange rates
