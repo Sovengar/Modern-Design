@@ -53,21 +53,6 @@ public class AccountEntity extends AuditingColumns {
     @Embedded
     private User.Id userId;
 
-    public static AccountEntity create(Account account) {
-        //If we start to use uuid from the client, we could assign the id directly
-        var accountId = nonNull(account.accountId()) ? account.accountId().id() : null;
-
-        return new AccountEntity(
-                accountId,
-                account.accountAccountNumber().accountNumber(),
-                account.money().balance(),
-                account.money().currency(),
-                account.address().toString(),
-                account.active(),
-                account.userId()
-        );
-    }
-
     public Account toDomain() {
         return new Account(new Account.Id(accountId), AccountAccountNumber.of(accountNumber), AccountMoney.of(balance, currency), AccountAddress.of(address), userId, active);
     }
@@ -80,5 +65,25 @@ public class AccountEntity extends AuditingColumns {
     @PostPersist
     public void postPersist() {
         log.info("postPersist");
+    }
+
+    public static class Factory {
+        private Factory() {
+        }
+
+        public static AccountEntity create(Account account) {
+            //If we start to use uuid from the client, we could assign the id directly
+            var accountId = nonNull(account.accountId()) ? account.accountId().id() : null;
+
+            return new AccountEntity(
+                    accountId,
+                    account.accountAccountNumber().accountNumber(),
+                    account.money().balance(),
+                    account.money().currency(),
+                    account.address().toString(),
+                    account.active(),
+                    account.userId()
+            );
+        }
     }
 }

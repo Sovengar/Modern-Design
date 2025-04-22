@@ -25,7 +25,7 @@ public interface AccountApi {
     @Injectable
     @RequiredArgsConstructor
     @Slf4j
-    class AccountInternalApi implements AccountApi {
+    class Internal implements AccountApi {
         private final FindAccount findAccount;
         private final TransferMoney transferMoney;
         private final CreateAccount createAccount;

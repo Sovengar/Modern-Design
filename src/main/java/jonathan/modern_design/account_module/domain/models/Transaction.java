@@ -1,4 +1,4 @@
-package jonathan.modern_design.account_module.domain.models.account;
+package jonathan.modern_design.account_module.domain.models;
 
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import jonathan.modern_design._common.AuditingColumns;
+import jonathan.modern_design._common.annotations.AggregateRoot;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -20,10 +21,10 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@AggregateRoot
 @Entity
 @Table(name = "transactions", schema = "md")
 @Getter
-//No setter needed, not an aggregate root
 @NoArgsConstructor(access = AccessLevel.PRIVATE) //For Hibernate
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @SQLRestriction("deleted <> true") //Make Hibernate ignore soft deleted entries
@@ -51,7 +52,7 @@ public class Transaction extends AuditingColumns {
         UUID transactionId;
     }
 
-    static class Factory {
+    public static class Factory {
         private Factory() {
         }
 
@@ -63,7 +64,7 @@ public class Transaction extends AuditingColumns {
             return new Transaction(new Id(UUID.randomUUID()), LocalDateTime.now(), money, TransactionType.WITHDRAWAL, origin, null);
         }
 
-        static Transaction transfer(AccountMoney money, String origin, String destination) {
+        public static Transaction transfer(AccountMoney money, String origin, String destination) {
             return new Transaction(new Id(UUID.randomUUID()), LocalDateTime.now(), money, TransactionType.TRANSFER, origin, destination);
         }
     }

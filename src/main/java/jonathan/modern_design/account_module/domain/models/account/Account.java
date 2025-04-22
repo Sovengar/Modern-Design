@@ -11,12 +11,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-
 import static java.util.Objects.requireNonNull;
 
 @Builder //For mapper and tests only //TODO TRY TO DELETE
@@ -24,7 +18,6 @@ import static java.util.Objects.requireNonNull;
 @Getter
 @AggregateRoot
 public final class Account {
-    private final List<Transaction> transactions = new ArrayList<>();
     Id accountId;
     AccountAccountNumber accountAccountNumber;
     AccountMoney money;
@@ -44,31 +37,15 @@ public final class Account {
 
     //TODO USE THE ENTITY CONSTRUCTOR?
     public static Account updateCRUD(Account account, AccountAccountNumber accountAccountNumber, AccountMoney money, AccountAddress address, boolean isActive, User.Id userId) {
-        Account updated = new Account(account.accountId(), accountAccountNumber, money, address, userId, isActive);
-        updated.transactions.addAll(account.transactions);
-        return updated;
+        return new Account(account.accountId(), accountAccountNumber, money, address, userId, isActive);
     }
 
     public void deposit(AccountMoney money) {
         this.money = this.money.add(money);
-        this.transactions.add(Transaction.Factory.deposit(money, this.accountAccountNumber.accountNumber()));
     }
 
     public void withdrawal(AccountMoney money) {
         this.money = this.money.substract(money);
-        this.transactions.add(Transaction.Factory.withdrawal(money, this.accountAccountNumber.accountNumber()));
-    }
-
-    public void transferTo(AccountAccountNumber destination, AccountMoney money) {
-        this.money = this.money.substract(money);
-        var transaction = Transaction.Factory.transfer(money, this.accountAccountNumber.accountNumber(), destination.accountNumber());
-        this.transactions.add(transaction);
-    }
-
-    public void receiveTransferFrom(AccountAccountNumber source, AccountMoney money) {
-        this.money = this.money.add(money);
-        var transaction = Transaction.Factory.transfer(money, source.accountNumber(), this.accountAccountNumber.accountNumber());
-        this.transactions.add(transaction);
     }
 
     public void deactivate() {
@@ -78,16 +55,6 @@ public final class Account {
 
     public void activate() {
         this.active = true;
-    }
-
-    public List<Transaction> transactionHistory() {
-        return List.copyOf(transactions);
-    }
-
-    public Optional<LocalDateTime> dateOfLastTransaction() {
-        return transactions.stream()
-                .map(Transaction::transactionDate)
-                .max(Comparator.naturalOrder());
     }
 
     public record Id(Long id) {

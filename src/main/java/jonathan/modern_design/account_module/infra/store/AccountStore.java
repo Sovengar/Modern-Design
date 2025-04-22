@@ -31,7 +31,7 @@ class AccountStore implements AccountRepo {
 
     @Override
     public AccountAccountNumber create(final Account account) {
-        var accountEntity = AccountEntity.create(account);
+        var accountEntity = AccountEntity.Factory.create(account);
         repositoryJPA.save(accountEntity);
         return account.accountAccountNumber();
     }

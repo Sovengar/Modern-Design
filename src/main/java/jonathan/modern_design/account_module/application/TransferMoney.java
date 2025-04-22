@@ -8,11 +8,13 @@ import jonathan.modern_design._common.annotations.ApplicationService;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design.account_module.domain.exceptions.OperationForbiddenForSameAccount;
+import jonathan.modern_design.account_module.domain.models.Transaction;
 import jonathan.modern_design.account_module.domain.models.account.Account;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountAccountNumber;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
 import jonathan.modern_design.account_module.domain.services.AccountValidator;
 import jonathan.modern_design.account_module.domain.store.AccountRepo;
+import jonathan.modern_design.account_module.domain.store.TransactionRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -49,6 +51,7 @@ class TransferMoneyController {
 @ApplicationService
 public class TransferMoney {
     private final AccountRepo repository;
+    private final TransactionRepo transactionRepo;
     private final AccountValidator accountValidator;
 
     @Transactional
@@ -84,17 +87,20 @@ public class TransferMoney {
     private void transfer(Account source, Account target, final BigDecimal amount, final Currency currency) {
         var money = AccountMoney.of(amount, currency);
 
-        source.transferTo(target.accountAccountNumber(), money);
-        target.receiveTransferFrom(source.accountAccountNumber(), money);
+        source.withdrawal(money);
+        target.deposit(money);
 
         repository.update(source);
         repository.update(target);
+
+        var tx = Transaction.Factory.transfer(money, source.accountAccountNumber().accountNumber(), target.accountAccountNumber().accountNumber());
+        transactionRepo.create(tx);
     }
 
     public record Command(
             @NotEmpty(message = "Source Account is required") String sourceId,
             @NotEmpty(message = "Target Account is required") String targetId,
             @NotNull(message = "Amount is required") BigDecimal amount,
-            @NotEmpty(message = "Currencyis required") Currency currency) {
+            @NotNull(message = "Currency is required") Currency currency) {
     }
 }

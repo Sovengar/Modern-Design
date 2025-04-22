@@ -2,6 +2,7 @@ package jonathan.modern_design.account_module.application;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jonathan.modern_design._common.annotations.ApplicationService;
 import jonathan.modern_design._common.annotations.DomainService;
 import jonathan.modern_design._common.annotations.WebAdapter;
@@ -106,7 +107,7 @@ public class CreateAccount {
             @NotEmpty(message = "Address is required") String address,
             @NotEmpty(message = "Password is required") String password,
             @NotEmpty(message = "Country is required") String country,
-            @NotEmpty(message = "Currency is required") String currency) {
+            @NotNull(message = "Currency is required") String currency) {
     }
 }
 
