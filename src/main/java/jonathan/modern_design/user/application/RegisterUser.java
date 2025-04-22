@@ -1,7 +1,7 @@
 package jonathan.modern_design.user.application;
 
 import jakarta.validation.Valid;
-import jonathan.modern_design._common.annotations.Injectable;
+import jonathan.modern_design._common.annotations.ApplicationService;
 import jonathan.modern_design._shared.country.Country;
 import jonathan.modern_design.user.domain.catalogs.Roles;
 import jonathan.modern_design.user.domain.models.Role;
@@ -16,7 +16,6 @@ import jonathan.modern_design.user.domain.store.UserRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
 
 import java.io.Serial;
 import java.util.List;
@@ -26,9 +25,8 @@ import java.util.UUID;
 import static java.lang.String.format;
 
 @Slf4j
-@Injectable
 @RequiredArgsConstructor
-@Validated
+@ApplicationService
 @Transactional
 public class RegisterUser {
     private final UserRepo repository;

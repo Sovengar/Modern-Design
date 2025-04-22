@@ -2,7 +2,8 @@ package jonathan.modern_design.account_module.application;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
-import jonathan.modern_design._common.annotations.Injectable;
+import jonathan.modern_design._common.annotations.ApplicationService;
+import jonathan.modern_design._common.annotations.DomainService;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design._shared.country.CountriesInventory;
@@ -54,9 +55,9 @@ class CreateAccountController {
     }
 }
 
-@Injectable
 @RequiredArgsConstructor
 @Slf4j
+@ApplicationService
 public class CreateAccount {
     private final AccountRepo repository;
     private final UserApi userFacade;
@@ -90,6 +91,7 @@ public class CreateAccount {
         return new User.Id(userId);
     }
 
+    @DomainService
     private static class AccountNumberGenerator {
         //Complex logic here... If it grows too big move to a domainService
         public static String generate() {

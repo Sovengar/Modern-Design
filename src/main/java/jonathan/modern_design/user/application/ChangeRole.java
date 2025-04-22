@@ -1,7 +1,7 @@
 package jonathan.modern_design.user.application;
 
 import jakarta.validation.Valid;
-import jonathan.modern_design._common.annotations.Injectable;
+import jonathan.modern_design._common.annotations.ApplicationService;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design.user.domain.models.Role;
 import jonathan.modern_design.user.domain.models.User;
@@ -10,7 +10,6 @@ import jonathan.modern_design.user.domain.store.UserRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PutMapping;
 
 @Slf4j
@@ -30,9 +29,8 @@ class ChangeRoleController {
 }
 
 @Slf4j
-@Injectable
 @RequiredArgsConstructor
-@Validated
+@ApplicationService
 class ChangeRole {
     private final UserRepo userRepo;
     private final RoleStore roleStore;

@@ -2,13 +2,12 @@ package jonathan.modern_design.account_module.application;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
-import jonathan.modern_design._common.annotations.Injectable;
+import jonathan.modern_design._common.annotations.ApplicationService;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design.account_module.domain.store.AccountRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 
@@ -29,9 +28,8 @@ class ActivateAccountController {
 }
 
 @Slf4j
-@Injectable
 @RequiredArgsConstructor
-@Validated
+@ApplicationService
 class ActivateAccount {
     private final AccountRepo repository;
 

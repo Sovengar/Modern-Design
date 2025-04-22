@@ -1,10 +1,10 @@
 package jonathan.modern_design._shared.notification;
 
-import jonathan.modern_design._common.annotations.Injectable;
+import jonathan.modern_design._common.annotations.ApplicationService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Injectable
+@ApplicationService
 class EmailSMTPSender implements EmailSender {
     @Override
     public void sendEmail(Email email) {

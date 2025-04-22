@@ -1,6 +1,6 @@
 package jonathan.modern_design.account_module.application;
 
-import jonathan.modern_design._common.annotations.Injectable;
+import jonathan.modern_design._common.annotations.ApplicationService;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design.account_module.api.dtos.AccountDto;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Slf4j
 @RequiredArgsConstructor
-@Injectable
+@ApplicationService
 public class UpdateAccountCRUD {
     private final AccountRepo repository;
 
