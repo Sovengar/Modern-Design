@@ -11,10 +11,9 @@ import jonathan.modern_design.account_module.domain.models.account.vo.AccountAcc
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+//Here we have the behavior we want to expose to other modules, my UI can call more methods because is on the same logical boundary
 public interface AccountApi {
     void transferMoney(final TransferMoney.Command command);
-
-    void update(AccountDto dto);
 
     AccountAccountNumber createAccount(final CreateAccount.Command command);
 
@@ -37,7 +36,6 @@ public interface AccountApi {
             transferMoney.handle(message);
         }
 
-        @Override
         public void update(AccountDto dto) {
             updateAccountCRUD.handle(dto);
         }
