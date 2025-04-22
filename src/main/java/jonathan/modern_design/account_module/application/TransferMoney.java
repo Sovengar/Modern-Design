@@ -94,7 +94,7 @@ public class TransferMoney {
         repository.update(target);
 
         var tx = Transaction.Factory.transfer(money, source.accountAccountNumber().accountNumber(), target.accountAccountNumber().accountNumber());
-        transactionRepo.create(tx);
+        transactionRepo.register(tx);
     }
 
     public record Command(

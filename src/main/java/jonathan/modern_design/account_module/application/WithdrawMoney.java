@@ -6,8 +6,10 @@ import jakarta.validation.constraints.NotNull;
 import jonathan.modern_design._common.annotations.ApplicationService;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design._shared.Currency;
+import jonathan.modern_design.account_module.domain.models.Transaction;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
 import jonathan.modern_design.account_module.domain.store.AccountRepo;
+import jonathan.modern_design.account_module.domain.store.TransactionRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -37,11 +39,17 @@ class WithdrawMoneyController {
 @ApplicationService
 class WithdrawMoney {
     private final AccountRepo repository;
+    private final TransactionRepo transactionRepo;
 
     public void withdraw(final @Valid WithdrawMoneyCommand message) {
         log.info("BEGIN WithdrawMoney");
         var account = repository.findOne(message.accountNumber()).orElseThrow();
-        account.withdrawal(AccountMoney.of(message.amount(), message.currency()));
+
+        var money = AccountMoney.of(message.amount(), message.currency());
+        account.withdrawal(money);
+        var tx = Transaction.Factory.withdrawal(money, account.accountAccountNumber().accountNumber());
+
+        transactionRepo.register(tx);
         repository.update(account);
         log.info("END WithdrawMoney");
     }

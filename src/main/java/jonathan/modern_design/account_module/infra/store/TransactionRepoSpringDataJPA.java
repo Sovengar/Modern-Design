@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 interface TransactionRepoSpringDataJPA extends JpaRepository<Transaction, Transaction.Id>, TransactionRepo {
 
     @Override
-    default void create(final Transaction transaction) {
+    default void register(final Transaction transaction) {
         save(transaction);
     }
 }

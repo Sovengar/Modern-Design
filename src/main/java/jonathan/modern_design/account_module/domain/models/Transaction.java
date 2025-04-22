@@ -56,11 +56,11 @@ public class Transaction extends AuditingColumns {
         private Factory() {
         }
 
-        static Transaction deposit(AccountMoney money, String destination) {
+        public static Transaction deposit(AccountMoney money, String destination) {
             return new Transaction(new Id(UUID.randomUUID()), LocalDateTime.now(), money, TransactionType.DEPOSIT, null, destination);
         }
 
-        static Transaction withdrawal(AccountMoney money, String origin) {
+        public static Transaction withdrawal(AccountMoney money, String origin) {
             return new Transaction(new Id(UUID.randomUUID()), LocalDateTime.now(), money, TransactionType.WITHDRAWAL, origin, null);
         }
 

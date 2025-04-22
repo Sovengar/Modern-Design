@@ -6,8 +6,10 @@ import jakarta.validation.constraints.NotNull;
 import jonathan.modern_design._common.annotations.ApplicationService;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design._shared.Currency;
+import jonathan.modern_design.account_module.domain.models.Transaction;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
 import jonathan.modern_design.account_module.domain.store.AccountRepo;
+import jonathan.modern_design.account_module.domain.store.TransactionRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -42,13 +44,18 @@ class DepositController {
 @ApplicationService
 public class Deposit {
     private final AccountRepo repository;
+    private final TransactionRepo transactionRepo;
 
     @Transactional
     public void handle(final @Valid Command message) {
         log.info("BEGIN Deposit");
         var account = repository.findOne(message.accountNumber()).orElseThrow();
+
         var money = AccountMoney.of(message.amount(), message.currency());
         account.deposit(money);
+        var tx = Transaction.Factory.withdrawal(money, account.accountAccountNumber().accountNumber());
+
+        transactionRepo.register(tx);
         repository.update(account);
         log.info("END Deposit");
     }
