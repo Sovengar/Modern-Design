@@ -47,7 +47,7 @@ create TABLE MD.ACCOUNTS (
 );
 
 create table MD.TRANSACTIONS (
-    transaction_id UUID PRIMARY KEY,
+    transaction_id VARCHAR(150) PRIMARY KEY,
     origin VARCHAR(255),
     destination VARCHAR(255),
     balance DECIMAL(19,2),

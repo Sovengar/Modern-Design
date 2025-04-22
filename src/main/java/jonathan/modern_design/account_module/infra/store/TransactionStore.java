@@ -12,11 +12,11 @@ import java.util.Optional;
 @DataAdapter
 @RequiredArgsConstructor
 class TransactionStore implements TransactionRepo {
-    private final TransactionRepo transactionRepo;
+    private final TransactionRepoSpringDataJPA transactionRepoJPA;
 
     @Override
     public void register(final Transaction transaction) {
-        transactionRepo.register(transaction);
+        transactionRepoJPA.save(transaction);
     }
 
     @Override

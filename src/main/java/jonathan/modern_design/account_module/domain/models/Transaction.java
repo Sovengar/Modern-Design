@@ -43,10 +43,14 @@ public class Transaction {
     @Embeddable
     @Value //Not a record for Hibernate
     @NoArgsConstructor(force = true) //For Hibernate
-    @AllArgsConstructor
+    //@AllArgsConstructor
     public static class Id implements Serializable {
         @Serial private static final long serialVersionUID = 8283338134388675524L;
-        UUID transactionId;
+        String transactionId;
+
+        public Id(UUID transactionId, TransactionType transactionType) {
+            this.transactionId = transactionType.toString() + " - " + transactionId.toString();
+        }
     }
 
     public static class Factory {
@@ -54,15 +58,15 @@ public class Transaction {
         }
 
         public static Transaction deposit(AccountMoney money, String destination) {
-            return new Transaction(new Id(UUID.randomUUID()), LocalDateTime.now(), money, TransactionType.DEPOSIT, null, destination);
+            return new Transaction(new Id(UUID.randomUUID(), TransactionType.DEPOSIT), LocalDateTime.now(), money, TransactionType.DEPOSIT, null, destination);
         }
 
         public static Transaction withdrawal(AccountMoney money, String origin) {
-            return new Transaction(new Id(UUID.randomUUID()), LocalDateTime.now(), money, TransactionType.WITHDRAWAL, origin, null);
+            return new Transaction(new Id(UUID.randomUUID(), TransactionType.WITHDRAWAL), LocalDateTime.now(), money, TransactionType.WITHDRAWAL, origin, null);
         }
 
         public static Transaction transfer(AccountMoney money, String origin, String destination) {
-            return new Transaction(new Id(UUID.randomUUID()), LocalDateTime.now(), money, TransactionType.TRANSFER, origin, destination);
+            return new Transaction(new Id(UUID.randomUUID(), TransactionType.TRANSFER), LocalDateTime.now(), money, TransactionType.TRANSFER, origin, destination);
         }
     }
 }
