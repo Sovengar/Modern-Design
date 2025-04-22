@@ -53,11 +53,5 @@ create table MD.TRANSACTIONS (
     balance DECIMAL(19,2),
     currency VARCHAR(5),
     transaction_type VARCHAR(100),
-    transaction_date TIMESTAMP WITHOUT TIME ZONE,
-    version INTEGER,
-    created_by VARCHAR(255),
-    created_on TIMESTAMP WITHOUT TIME ZONE,
-    modified_by VARCHAR(255),
-    modified_on TIMESTAMP WITHOUT TIME ZONE,
-    deleted BOOLEAN DEFAULT FALSE
+    transaction_date TIMESTAMP WITHOUT TIME ZONE
 );

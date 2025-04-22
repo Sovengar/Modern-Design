@@ -6,7 +6,6 @@ import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
-import jonathan.modern_design._common.AuditingColumns;
 import jonathan.modern_design._common.annotations.AggregateRoot;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
 import lombok.AccessLevel;
@@ -14,7 +13,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Value;
-import org.hibernate.annotations.SQLRestriction;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -27,17 +25,16 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE) //For Hibernate
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@SQLRestriction("deleted <> true") //Make Hibernate ignore soft deleted entries
-public class Transaction extends AuditingColumns {
+public class Transaction {
     @EmbeddedId
-    Id transactionId;
-    LocalDateTime transactionDate;
+    private Id transactionId;
+    private LocalDateTime transactionDate;
     @Embedded
-    AccountMoney money;
+    private AccountMoney money;
     @Enumerated(value = jakarta.persistence.EnumType.STRING)
-    TransactionType transactionType;
-    String origin;
-    String destination;
+    private TransactionType transactionType;
+    private String origin;
+    private String destination;
 
     public enum TransactionType {
         DEPOSIT, WITHDRAWAL, TRANSFER

@@ -34,7 +34,7 @@ public class AccountingConfig {
                 new TransferMoney(accountRepo, transactionRepo, accountValidator),
                 new CreateAccount(accountRepo, userFacade, countriesInventory),
                 new UpdateAccountCRUD(accountRepo),
-                new Deposit(accountRepo)
+                new Deposit(accountRepo, transactionRepo)
         );
     }
 
