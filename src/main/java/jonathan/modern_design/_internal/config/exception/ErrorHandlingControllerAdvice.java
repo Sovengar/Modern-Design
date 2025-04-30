@@ -1,5 +1,6 @@
 package jonathan.modern_design._internal.config.exception;
 
+import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.constraints.NotNull;
 import jonathan.modern_design._internal.config.i18n.I18nUtils;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -41,12 +42,14 @@ import java.util.stream.Collectors;
 import static java.lang.String.format;
 import static java.util.Collections.emptyList;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @ControllerAdvice
 @Slf4j
 @RequiredArgsConstructor
-class ExceptionHandler extends ResponseEntityExceptionHandler {
+class ErrorHandlingControllerAdvice extends ResponseEntityExceptionHandler {
     private static final String API_DEFAULT_ERROR_MESSAGE = "apiDefaultErrorMessage";
     private static final String API_DEFAULT_REQUEST_FAILED_MESSAGE = "apiDefaultRequestFailedMessage";
     private static final String VALIDATION_FIELDS_FAILED = "validationOfFieldsFailed";
@@ -61,15 +64,16 @@ class ExceptionHandler extends ResponseEntityExceptionHandler {
             @NonNull final HttpHeaders headers,
             @NonNull final HttpStatusCode status,
             @NonNull final WebRequest request) {
-        log.info(ex.getMessage(), ex);
-
         final List<ErrorDetails> errors = new ArrayList<>();
         for (final ObjectError err : ex.getBindingResult().getAllErrors()) {
             errors.add(new ErrorDetails(((FieldError) err).getField(), err.getDefaultMessage()));
         }
 
         String validationFailedMessage = i18nUtils.getMessage(VALIDATION_FIELDS_FAILED, null, request.getLocale());
-        ProblemDetail problemDetail = this.buildProblemDetail(BAD_REQUEST, validationFailedMessage, errors);
+
+        var problemDetail = this.buildProblemDetail(BAD_REQUEST, validationFailedMessage, errors);
+        log.debug("Error ID: {} - {}", getErrorId(problemDetail), ex.getMessage(), ex);
+
         return ResponseEntity.status(BAD_REQUEST).body(problemDetail);
     }
 
@@ -80,35 +84,36 @@ class ExceptionHandler extends ResponseEntityExceptionHandler {
             final @NotNull HttpHeaders headers,
             final @NotNull HttpStatusCode status,
             final @NotNull WebRequest request) {
-        log.info(ex.getMessage(), ex);
-
         final List<ErrorDetails> errors = ex.getAllValidationResults().stream()
                 .flatMap(validation -> validation.getResolvableErrors().stream()
                         .map(error -> new ErrorDetails(validation.getMethodParameter().getParameterName(), error.getDefaultMessage())))
                 .collect(Collectors.toList());
 
-        String validationFailedMessage = i18nUtils.getMessage(VALIDATION_FIELDS_FAILED, null, request.getLocale());
-        return ResponseEntity.status(BAD_REQUEST)
-                .body(this.buildProblemDetail(BAD_REQUEST, validationFailedMessage, errors));
+        String validationFailedMessage = i18nUtils.getMessage(VALIDATION_FIELDS_FAILED, request.getLocale());
+
+        var problemDetail = this.buildProblemDetail(BAD_REQUEST, validationFailedMessage, errors);
+        log.debug("Error ID: {} - {}", getErrorId(problemDetail), ex.getMessage(), ex);
+
+        return ResponseEntity.status(BAD_REQUEST).body(problemDetail);
     }
 
     // Process @Validated
-    @ResponseStatus(BAD_REQUEST)
-    @org.springframework.web.bind.annotation.ExceptionHandler(jakarta.validation.ConstraintViolationException.class)
-    public ProblemDetail handleJakartaConstraintViolationException(
-            final jakarta.validation.ConstraintViolationException ex, final WebRequest request) {
-        log.info(ex.getMessage(), ex);
-
+    @ExceptionHandler
+    public ProblemDetail handleJakartaConstraintViolationException(final ConstraintViolationException ex, final WebRequest request) {
         final List<ErrorDetails> errors = ex.getConstraintViolations().stream()
                 .map(violation -> new ErrorDetails(((PathImpl) violation.getPropertyPath()).getLeafNode().getName(), violation.getMessage()))
                 .collect(Collectors.toList());
 
-        String validationFailedMessage = i18nUtils.getMessage(VALIDATION_FIELDS_FAILED, null, request.getLocale());
-        return this.buildProblemDetail(BAD_REQUEST, validationFailedMessage, errors);
+        String validationFailedMessage = i18nUtils.getMessage(VALIDATION_FIELDS_FAILED, request.getLocale());
+
+        var problemDetail = this.buildProblemDetail(BAD_REQUEST, validationFailedMessage, errors);
+        log.error("Error ID: {} - {}", getErrorId(problemDetail), ex.getMessage(), ex);
+        // this.slack.notify(format("[API] InternalServerError: %s", ex.getMessage()));
+
+        return problemDetail;
     }
 
-    @ResponseStatus(BAD_REQUEST)
-    @org.springframework.web.bind.annotation.ExceptionHandler({
+    @ExceptionHandler({
             org.hibernate.exception.ConstraintViolationException.class,
             DataIntegrityViolationException.class,
             BatchUpdateException.class,
@@ -116,84 +121,82 @@ class ExceptionHandler extends ResponseEntityExceptionHandler {
             //PSQLException.class
     })
     public ProblemDetail handlePersistenceException(final Exception ex, final WebRequest request) {
-        log.info(ex.getMessage(), ex);
-
         final String cause = NestedExceptionUtils.getMostSpecificCause(ex).getLocalizedMessage();
         final String errorDetail = this.extractPersistenceDetails(cause);
-        return this.buildProblemDetail(BAD_REQUEST, errorDetail);
+
+        var problemDetail = this.buildProblemDetail(BAD_REQUEST, errorDetail);
+        log.error("Error ID: {} - {}", getErrorId(problemDetail), ex.getMessage(), ex);
+        // this.slack.notify(format("[API] InternalServerError: %s", ex.getMessage()));
+
+        return problemDetail;
     }
 
-    /*
-     *  When authorizing user at controller or service layer using @PreAuthorize it throws
+    /**
+     * When authorizing user at controller or service layer using @PreAuthorize it throws
      * AccessDeniedException, and it's a developer's responsibility to catch it
-     * */
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    @org.springframework.web.bind.annotation.ExceptionHandler(AccessDeniedException.class)
-    public ProblemDetail handleAccessDeniedException(final Exception ex, final WebRequest request) {
+     */
+    @ExceptionHandler
+    public ProblemDetail handleAccessDeniedException(final AccessDeniedException ex, final WebRequest request) {
         log.info(ex.getMessage(), ex);
-        return this.buildProblemDetail(HttpStatus.FORBIDDEN, null);
+        return this.buildProblemDetail(FORBIDDEN, null);
     }
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @org.springframework.web.bind.annotation.ExceptionHandler(EmptyResultDataAccessException.class)
-    public ProblemDetail handleEmptyResultDataAccessException(
-            final EmptyResultDataAccessException ex, final WebRequest request) {
-        log.info(ex.getMessage(), ex);
+    @ExceptionHandler
+    public ProblemDetail handleEmptyResultDataAccessException(final EmptyResultDataAccessException ex, final WebRequest request) {
+        String message = i18nUtils.getMessage(RECORD_NOT_FOUND, request.getLocale());
 
-        String message = i18nUtils.getMessage(RECORD_NOT_FOUND, null, request.getLocale());
-        return this.buildProblemDetail(HttpStatus.NOT_FOUND, message);
+        var problemDetail = this.buildProblemDetail(NOT_FOUND, message);
+        log.error("Error ID: {} - {}", getErrorId(problemDetail), ex.getMessage(), ex);
+        // this.slack.notify(format("[API] InternalServerError: %s", ex.getMessage()));
+
+        return problemDetail;
     }
 
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @org.springframework.web.bind.annotation.ExceptionHandler(LazyInitializationException.class)
+    @ExceptionHandler
     public ProblemDetail handleLazyInitialization(final LazyInitializationException ex, final WebRequest request) {
-        UUID errorId = UUID.randomUUID();
-        log.warn("Error ID: {} - {}", errorId, ex.getMessage(), ex);
+        String message = i18nUtils.getMessage(API_DEFAULT_ERROR_MESSAGE);
 
+        var problemDetail = this.buildProblemDetail(INTERNAL_SERVER_ERROR, message);
+        log.error("Error ID: {} - {}", getErrorId(problemDetail), ex.getMessage(), ex);
         // this.slack.notify(format("LazyInitializationException: %s", ex.getMessage()));
 
-        Locale currentLocale = LocaleContextHolder.getLocale();
-        String message = i18nUtils.getMessage(API_DEFAULT_ERROR_MESSAGE, null, currentLocale);
-        message += " Error ID: " + errorId;
-
-        return this.buildProblemDetail(HttpStatus.INTERNAL_SERVER_ERROR, message);
+        return problemDetail;
     }
 
     //Catch API defined exceptions
-    @org.springframework.web.bind.annotation.ExceptionHandler(RootException.class)
+    @ExceptionHandler
     public ResponseEntity<ProblemDetail> handleCustomExceptions(final RootException ex) {
-        log.info(ex.getMessage(), ex);
+        String message = org.springframework.util.StringUtils.hasText(ex.messageToBeDisplayed()) ?
+                i18nUtils.getMessage(ex.messageToBeDisplayed()) :
+                i18nUtils.getMessage(API_DEFAULT_REQUEST_FAILED_MESSAGE);
 
+        final ProblemDetail problemDetail = this.buildProblemDetail(ex.httpStatus(), message, ex.errors());
+        log.error("Error ID: {} - {}", getErrorId(problemDetail), ex.getMessage(), ex);
         // if (ex.getHttpStatus().is5xxServerError()) {
         //   this.slack.notify(format("[API] InternalServerError: %s", ex.getMessage()));
         // }
 
-        Locale currentLocale = LocaleContextHolder.getLocale();
-        String message = org.springframework.util.StringUtils.hasText(ex.messageToBeDisplayed()) ?
-                i18nUtils.getMessage(ex.messageToBeDisplayed(), null, currentLocale) :
-                i18nUtils.getMessage(API_DEFAULT_REQUEST_FAILED_MESSAGE, null, currentLocale);
-
-        final ProblemDetail problemDetail = this.buildProblemDetail(ex.httpStatus(), message, ex.errors());
         return ResponseEntity.status(ex.httpStatus()).body(problemDetail);
     }
 
     //Fallback, catch all unknown exceptions
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @org.springframework.web.bind.annotation.ExceptionHandler(Throwable.class)
+    @ExceptionHandler
     public ResponseEntity<ProblemDetail> handleUnknownExceptions(final Throwable ex) {
-        UUID errorId = UUID.randomUUID();
-        log.warn("Error ID: {} - {}", errorId, ex.getMessage(), ex);
+        String message = i18nUtils.getMessage(API_DEFAULT_ERROR_MESSAGE);
 
+        final var problemDetail = this.buildProblemDetail(INTERNAL_SERVER_ERROR, message);
+        log.error("Error ID: {} - {}", getErrorId(problemDetail), ex.getMessage(), ex);
         // this.slack.notify(format("[API] InternalServerError: %s", ex.getMessage()));
 
-        Locale currentLocale = LocaleContextHolder.getLocale();
-        String message = i18nUtils.getMessage(API_DEFAULT_ERROR_MESSAGE, null, currentLocale);
-        message += " Error ID: " + errorId;
-
-        final ProblemDetail problemDetail = this.buildProblemDetail(INTERNAL_SERVER_ERROR, message);
         return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(problemDetail);
     }
 
+    private String getErrorId(final ProblemDetail problemDetail) {
+        var errorId = problemDetail.getProperties().get("errorId").toString();
+        assert errorId != null;
+
+        return errorId;
+    }
 
     private ProblemDetail buildProblemDetail(final HttpStatus status, final String detail) {
         return this.buildProblemDetail(status, detail, emptyList());
@@ -202,6 +205,7 @@ class ExceptionHandler extends ResponseEntityExceptionHandler {
     private ProblemDetail buildProblemDetail(final HttpStatus status, final String detail, final List<ErrorDetails> errors) {
 
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(status, StringUtils.normalizeSpace(detail));
+        problemDetail.setDetail(detail);
 
         if (!errors.isEmpty()) {
             problemDetail.setProperty("errors", errors);
