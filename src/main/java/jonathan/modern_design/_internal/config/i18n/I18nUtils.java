@@ -20,6 +20,10 @@ public class I18nUtils {
         return this.messageSource.getMessage(message, params, LocaleContextHolder.getLocale());
     }
 
+    public String getMessage(String message, Locale locale) {
+        return this.messageSource.getMessage(message, null, getSpecificLocale(locale));
+    }
+
     public String getMessage(String message, String[] params, Locale locale) {
         return this.messageSource.getMessage(message, params, getSpecificLocale(locale));
     }

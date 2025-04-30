@@ -21,7 +21,7 @@ import java.math.BigDecimal;
 @Slf4j
 @RequiredArgsConstructor
 @WebAdapter("/api/v1/accounts")
-class WithdrawMoneyController {
+class WithdrawMoneyHttpController {
     private final WithdrawMoney withdrawMoney;
 
     @PutMapping(path = "/{accountNumber}/withdraw/{amount}/{currency}")

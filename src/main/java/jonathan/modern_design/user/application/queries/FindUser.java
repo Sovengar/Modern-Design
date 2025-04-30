@@ -1,4 +1,4 @@
-package jonathan.modern_design.user.application;
+package jonathan.modern_design.user.application.queries;
 
 import jonathan.modern_design._common.annotations.Injectable;
 import jonathan.modern_design._common.annotations.WebAdapter;

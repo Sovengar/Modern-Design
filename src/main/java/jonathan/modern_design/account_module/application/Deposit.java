@@ -22,7 +22,7 @@ import java.math.BigDecimal;
 @Slf4j
 @RequiredArgsConstructor
 @WebAdapter("/api/v1/accounts")
-class DepositController {
+class DepositHttpController {
     private final Deposit deposit;
 
     @PutMapping("/{accountNumber}/deposit/{amount}/{currency}")

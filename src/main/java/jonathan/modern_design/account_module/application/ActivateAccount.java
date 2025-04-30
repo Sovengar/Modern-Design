@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 @Slf4j
 @RequiredArgsConstructor
 @WebAdapter("/api/v1/accounts")
-class ActivateAccountController {
+class ActivateAccountHttpController {
     private final ActivateAccount activateAccount;
 
     @PutMapping(path = "/{accountNumber}/activate")

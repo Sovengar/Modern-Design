@@ -17,7 +17,7 @@ public class StopEntity {
     private int sequence;
 
     @Enumerated(EnumType.STRING)
-    private StopStatus status;
+    private Stop.Status status;
 
     //@ManyToOne(fetch = FetchType.LAZY)
     private ShipmentEntity shipment;

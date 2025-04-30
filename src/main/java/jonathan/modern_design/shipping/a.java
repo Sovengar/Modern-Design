@@ -1,8 +1,8 @@
 package jonathan.modern_design.shipping;
 
 import jonathan.modern_design.shipping.domain.Shipment;
+import jonathan.modern_design.shipping.domain.Stop;
 import jonathan.modern_design.shipping.domain.StopEntity;
-import jonathan.modern_design.shipping.domain.StopStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,7 @@ interface StopRepository {
 public class a {
 }
 
-record StopDto(Long stopId, int sequence, StopStatus status) {
+record StopDto(int stopId, int sequence, Stop.Status status) {
 }
 
 @Service
@@ -31,9 +31,9 @@ record StopDto(Long stopId, int sequence, StopStatus status) {
 class ShipmentService {
     private final StopRepository stopRepo = null;
 
-    public void handleArrival(UUID shipmentId, Long stopId) {
+    public void handleArrival(UUID shipmentId, int stopId) {
         List<StopEntity> stops = stopRepo.findStopDataByShipmentId(shipmentId);
-        Shipment shipment = new Shipment(stops);
+        var shipment = Shipment.Factory.createWithEntity(stops);
         shipment.arrive(stopId);
         // Aquí se podrían publicar eventos, actualizar estado, etc.
     }

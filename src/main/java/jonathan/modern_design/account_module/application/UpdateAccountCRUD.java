@@ -44,7 +44,7 @@ public class UpdateAccountCRUD {
 @Slf4j
 @RequiredArgsConstructor
 @WebAdapter("/api/v1/accounts")
-class UpdateAccountCRUDController {
+class UpdateAccountCRUDHttpController {
     private final UpdateAccountCRUD updater;
 
     @PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE})

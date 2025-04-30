@@ -1,4 +1,4 @@
-package jonathan.modern_design.account_module.search;
+package jonathan.modern_design.account_module.application.queries;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
@@ -32,8 +32,8 @@ import java.util.Optional;
 
 import static java.lang.String.join;
 import static java.util.Optional.ofNullable;
-import static jonathan.modern_design.account_module.infra.QAccountEntity.accountEntity;
-import static jonathan.modern_design.user.domain.QUser.user;
+import static jonathan.modern_design.account_module.domain.models.account.QAccountEntity.accountEntity;
+import static jonathan.modern_design.user.domain.models.QUser.user;
 
 public interface SearchAccount {
     List<AccountSearchResult> searchWithJPQL(Criteria filters);
@@ -61,7 +61,7 @@ public interface SearchAccount {
 @Slf4j
 @RequiredArgsConstructor
 @WebAdapter("/api/v1/accounts")
-class SearchAccountController {
+class SearchAccountHttpController {
     private final SearchAccountQueryImpl querier;
 
     //@Operation(description = "Search Account")
@@ -99,7 +99,7 @@ class SearchAccountQueryImpl implements SearchAccount {
     @Override
     public List<AccountSearchResult> searchWithJPQL(Criteria filters) {
         // Alternative: Spring Specifications https://docs.spring.io/spring-data/jpa/reference/jpa/specifications.html
-        String jpql = "SELECT new jonathan.modern_design.account_module.search.SearchAccount.AccountSearchResult(a.id, a.name)" +
+        String jpql = "SELECT new jonathan.modern_design.account_module.application.queries.SearchAccount.AccountSearchResult(a.id, a.name)" +
                 " FROM Account a " +
                 " WHERE ";
         List<String> jpqlParts = new ArrayList<>();

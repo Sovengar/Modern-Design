@@ -37,7 +37,7 @@ import static java.util.Optional.ofNullable;
 @Slf4j
 @RequiredArgsConstructor
 @WebAdapter("/api/v1/accounts")
-class CreateAccountController {
+class CreateAccountHttpController {
     private final CreateAccount createAccount;
     private final AccountRepo repository;
 

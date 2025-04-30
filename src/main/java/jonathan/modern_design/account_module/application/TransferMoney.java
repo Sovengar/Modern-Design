@@ -26,7 +26,7 @@ import java.math.BigDecimal;
 @Slf4j
 @RequiredArgsConstructor
 @WebAdapter("/api/v1/accounts")
-class TransferMoneyController {
+class TransferMoneyHttpController {
     private final TransferMoney transferMoney;
 
     @PostMapping(path = "/transfer/{sourceAccountId}/{targetAccountId}/{balance}/{currency}")

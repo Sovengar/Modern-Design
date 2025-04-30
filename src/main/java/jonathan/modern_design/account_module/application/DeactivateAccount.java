@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 @Slf4j
 @RequiredArgsConstructor
 @WebAdapter("/api/v1/accounts")
-class DeactivateAccountController {
+class DeactivateAccountHttpController {
     private final DeactivateAccount deactivateAccount;
 
     @PutMapping(path = "/{accountNumber}/deactivate")

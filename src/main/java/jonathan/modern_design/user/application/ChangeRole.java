@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 @Slf4j
 @RequiredArgsConstructor
 @WebAdapter("/api/v1/roles")
-class ChangeRoleController {
+class ChangeRoleHttpController {
     private final ChangeRole changeRole;
 
     @PutMapping(value = "/{userId}/changeRoleTo/{roleCode}")
