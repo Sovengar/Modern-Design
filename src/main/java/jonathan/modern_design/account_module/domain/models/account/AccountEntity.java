@@ -72,7 +72,7 @@ public class AccountEntity extends AuditingColumns {
         }
 
         public static AccountEntity create(Account account) {
-            //If we start to use uuid from the client, we could assign the id directly
+            //If we start to use id from the client, we could assign the id directly
             var accountId = nonNull(account.accountId()) ? account.accountId().id() : null;
 
             return new AccountEntity(

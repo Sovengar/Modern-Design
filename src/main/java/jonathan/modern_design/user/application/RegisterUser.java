@@ -36,7 +36,7 @@ class RegisterUserGraphQLController {
     @MutationMapping
     public User registerUser(@Argument RegisterUser.Command message) {
         /*
-        User.Id uuid = User.Id.of(UUID.randomUUID());
+        User.Id id = User.Id.of(UUID.randomUUID());
         UserRealName realname = input.getRealname() != null ? UserRealName.of(input.getRealname()) : null;
         UserUserName username = UserUserName.of(input.getUsername());
         UserEmail email = UserEmail.of(input.getEmail());
@@ -44,7 +44,7 @@ class RegisterUserGraphQLController {
         Country country = Country.of(input.getCountry());
         UserPhoneNumbers phoneNumbers = new UserPhoneNumbers(input.getPhoneNumbers());
 */
-        //var message = new RegisterUser.Command(uuid, realname, username, email, password, country, phoneNumbers);
+        //var message = new RegisterUser.Command(id, realname, username, email, password, country, phoneNumbers);
 
         var userId = registerUser.handle(message);
         return userRepo.findByUUIDOrElseThrow(User.Id.of(userId));
@@ -62,8 +62,8 @@ public class RegisterUser {
     public UUID handle(final @Valid RegisterUser.Command command) {
         log.info("BEGIN RegisterUser");
 
-        repository.findByUuid(User.Id.of(command.uuid())).ifPresent(user -> {
-            throw new UserAlreadyExistsException(format("User [%s] already exists", command.uuid()));
+        repository.findById(User.Id.of(command.id())).ifPresent(user -> {
+            throw new UserAlreadyExistsException(format("User [%s] already exists", command.id()));
         });
 
         //Begin with Complex logic to know the final role of the user
@@ -72,11 +72,11 @@ public class RegisterUser {
         //End of complex logic
 
         //Complex logic to decide the user
-        var user = User.Factory.register(User.Id.of(command.uuid()), UserRealName.of(command.realname().orElse("")), UserUserName.of(command.username()), UserEmail.of(command.email()), UserPassword.of(command.password()), command.country(), UserPhoneNumbers.of(command.phoneNumbers()), role);
+        var user = User.Factory.register(User.Id.of(command.id()), UserRealName.of(command.realname().orElse("")), UserUserName.of(command.username()), UserEmail.of(command.email()), UserPassword.of(command.password()), command.country(), UserPhoneNumbers.of(command.phoneNumbers()), role);
         repository.registerUser(user);
 
         log.info("END RegisterUser");
-        return user.uuid().userUuid();
+        return user.id().userId();
     }
 
     private static class UserAlreadyExistsException extends RuntimeException {
@@ -87,7 +87,7 @@ public class RegisterUser {
         }
     }
 
-    public record Command(UUID uuid, Optional<String> realname, String username, String email, String password,
+    public record Command(UUID id, Optional<String> realname, String username, String email, String password,
                           Country country, List<String> phoneNumbers) {
     }
 }

@@ -32,7 +32,7 @@ public record AccountJdbcEntity(
                 account.money().currency(),
                 account.address().toString(),
                 account.active(),
-                account.userId().userUuid(),
+                account.userId().userId(),
                 entity.createdAt(),
                 entity.updatedAt()
         );

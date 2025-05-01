@@ -177,7 +177,7 @@ class SearchAccountQueryImpl implements SearchAccount {
 
         assert userFound != null;
         var accountFound = queryFactory.selectFrom(accountEntity)
-                .where(accountEntity.userId.eq(userFound.uuid()))
+                .where(accountEntity.userId.eq(userFound.id()))
                 .fetchOne();
 
         return ofNullable(accountFound).map(AccountDto::new);

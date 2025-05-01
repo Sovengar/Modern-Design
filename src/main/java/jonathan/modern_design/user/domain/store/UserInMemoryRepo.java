@@ -13,16 +13,16 @@ public class UserInMemoryRepo implements UserRepo {
 
     @Override
     public void registerUser(User user) {
-        users.put(user.uuid(), user);
+        users.put(user.id(), user);
     }
 
     @Override
     public void updateUser(final User user) {
-        users.put(user.uuid(), user);
+        users.put(user.id(), user);
     }
 
     @Override
-    public Optional<User> findByUuid(final User.Id userId) {
+    public Optional<User> findById(final User.Id userId) {
         return Optional.ofNullable(users.get(userId));
     }
 

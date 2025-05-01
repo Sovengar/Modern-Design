@@ -4,16 +4,14 @@ import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PostPersist;
 import jakarta.persistence.PrePersist;
-import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jonathan.modern_design._common.AuditingColumns;
 import jonathan.modern_design._common.annotations.AggregateRoot;
@@ -53,12 +51,8 @@ import static lombok.AccessLevel.PRIVATE;
 @Builder //For mapping and testing only!!!!!
 @AggregateRoot
 public class User extends AuditingColumns {
-    @jakarta.persistence.Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USERS_SQ")
-    @SequenceGenerator(name = "USERS_SQ", sequenceName = "MD.USERS_SQ", allocationSize = 1)
-    private Long userId; //Cant use microType with sequence
-    @Embedded
-    private User.Id uuid;
+    @EmbeddedId
+    private Id id;
     @OptionalField
     @Embedded
     private UserRealName realname;
@@ -75,7 +69,6 @@ public class User extends AuditingColumns {
     private String country;
     @Enumerated(value = jakarta.persistence.EnumType.STRING)
     private Status status;
-
     @Embedded
     private UserPhoneNumbers userPhoneNumbers;
 
@@ -129,42 +122,34 @@ public class User extends AuditingColumns {
     @RequiredArgsConstructor(staticName = "of")
     public static class Id implements Serializable {
         @Serial private static final long serialVersionUID = -2753108705494085826L;
-        UUID userUuid;
+        UUID userId;
     }
 
+    @NoArgsConstructor(access = PRIVATE)
     public static class Factory {
-        private Factory() {
-        }
-
-        public static User register(Id uuid, UserRealName realname, UserUserName username, UserEmail email, UserPassword password, Country country, UserPhoneNumbers phoneNumbers, Role role) {
-            requireNonNull(country);
-
+        public static User register(Id id, UserRealName realname, UserUserName username, UserEmail email, UserPassword password, Country country, UserPhoneNumbers phoneNumbers, Role role) {
             return new User(
-                    null,
-                    uuid,
+                    id != null ? id : Id.of(UUID.randomUUID()),
                     realname,
                     requireNonNull(username),
                     requireNonNull(email),
                     null,
                     requireNonNull(password),
-                    country.code(),
+                    requireNonNull(country).code(),
                     Status.DRAFT,
                     phoneNumbers,
                     requireNonNull(role));
         }
 
-        public static User registerAdmin(Id uuid, UserRealName realname, UserUserName username, UserEmail email, UserEmail internalEmail, UserPassword password, UserPhoneNumbers phoneNumbers, Country country) {
-            requireNonNull(country);
-
+        public static User registerAdmin(Id id, UserRealName realname, UserUserName username, UserEmail email, UserEmail internalEmail, UserPassword password, UserPhoneNumbers phoneNumbers, Country country) {
             return new User(
-                    null,
-                    uuid,
+                    id != null ? id : Id.of(UUID.randomUUID()),
                     realname,
                     requireNonNull(username),
                     requireNonNull(email),
                     internalEmail,
                     requireNonNull(password),
-                    country.code(),
+                    requireNonNull(country).code(),
                     Status.ACTIVE,
                     phoneNumbers,
                     Role.of(Roles.ADMIN));

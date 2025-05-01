@@ -18,7 +18,7 @@ class CreateUserRepoIT extends ITConfig {
     void should_register_user() {
         var data = createUserCommandWithValidData();
         userApi.registerUser(data);
-        var user = userApi.findUser(User.Id.of(data.uuid()));
+        var user = userApi.findUser(User.Id.of(data.id()));
         assertThat(user).isNotNull();
     }
 }

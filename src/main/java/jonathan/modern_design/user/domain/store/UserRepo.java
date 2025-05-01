@@ -11,11 +11,11 @@ public interface UserRepo {
 
     void updateUser(User user);
 
-    Optional<User> findByUuid(User.Id userId);
+    Optional<User> findById(User.Id userId);
 
     List<User> findAll();
 
     default User findByUUIDOrElseThrow(User.Id userId) {
-        return findByUuid(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        return findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
     }
 }
