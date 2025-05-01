@@ -11,6 +11,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Value;
 
 import java.io.Serial;
@@ -28,8 +29,8 @@ public class Role {
     private Role.Code code;
     private String description;
 
-    public static Role of(Roles role) {
-        return new Role(new Code(role.code()), role.description());
+    public static Role of(Roles roleEnum) {
+        return new Role(Role.Code.of(roleEnum.code()), roleEnum.description());
     }
 
     //IMPORTANT: Avoid indirect link with user
@@ -37,10 +38,10 @@ public class Role {
     @Embeddable
     @Value //Not a record for Hibernate
     @NoArgsConstructor(force = true) //For Hibernate
-    @AllArgsConstructor
+    @RequiredArgsConstructor(staticName = "of")
     public static class Code implements Serializable {
         @Serial private static final long serialVersionUID = -491353586550215623L;
-        @Column(name = "code", updatable = false)
+        @Column(name = "role_code", updatable = false)
         @NotNull
         String roleCode;
     }

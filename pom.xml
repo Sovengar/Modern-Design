@@ -184,6 +184,10 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
         <!-- END OBSERVABILITY -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-graphql</artifactId>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>

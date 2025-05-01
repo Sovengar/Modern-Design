@@ -1,7 +1,7 @@
 create SCHEMA IF NOT EXISTS md; --AUTHORIZATION admin
 
 create TABLE MD.ROLES (
-    code VARCHAR(25) PRIMARY KEY,
+    role_code VARCHAR(25) PRIMARY KEY,
     description VARCHAR(100)
 );
 
@@ -24,7 +24,7 @@ create TABLE MD.USERS (
     modified_by VARCHAR(255),
     modified_on TIMESTAMP WITHOUT TIME ZONE,
     deleted BOOLEAN DEFAULT FALSE,
-    FOREIGN KEY (role_code) REFERENCES MD.ROLES(code)
+    FOREIGN KEY (role_code) REFERENCES MD.ROLES(role_code)
 );
 
 create sequence MD.ACCOUNTS_SQ start with 1;

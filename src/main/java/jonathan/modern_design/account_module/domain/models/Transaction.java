@@ -1,6 +1,5 @@
 package jonathan.modern_design.account_module.domain.models;
 
-import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -40,10 +39,8 @@ public class Transaction {
         DEPOSIT, WITHDRAWAL, TRANSFER
     }
 
-    @Embeddable
     @Value //Not a record for Hibernate
     @NoArgsConstructor(force = true) //For Hibernate
-    //@AllArgsConstructor
     public static class Id implements Serializable {
         @Serial private static final long serialVersionUID = 8283338134388675524L;
         String transactionId;

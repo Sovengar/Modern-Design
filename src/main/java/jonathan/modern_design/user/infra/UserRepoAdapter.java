@@ -6,6 +6,7 @@ import jonathan.modern_design.user.domain.store.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 interface UserRepoSpringDataJPA extends JpaRepository<User, Long> {
@@ -30,5 +31,10 @@ class UserRepoAdapter implements UserRepo {
     @Override
     public Optional<User> findByUuid(final User.Id userId) {
         return repository.findByUuid(userId);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return repository.findAll();
     }
 }

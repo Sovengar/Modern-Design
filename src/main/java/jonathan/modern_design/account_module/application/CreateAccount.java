@@ -89,7 +89,7 @@ public class CreateAccount {
                 List.of("+34123456789")); //TODO
 
         userFacade.registerUser(userCreateCommand);
-        return new User.Id(userId);
+        return User.Id.of(userId);
     }
 
     @DomainService

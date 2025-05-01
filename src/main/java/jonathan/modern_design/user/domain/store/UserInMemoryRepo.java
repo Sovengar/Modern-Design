@@ -3,6 +3,7 @@ package jonathan.modern_design.user.domain.store;
 import jonathan.modern_design._common.annotations.Fake;
 import jonathan.modern_design.user.domain.models.User;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -23,5 +24,10 @@ public class UserInMemoryRepo implements UserRepo {
     @Override
     public Optional<User> findByUuid(final User.Id userId) {
         return Optional.ofNullable(users.get(userId));
+    }
+
+    @Override
+    public List<User> findAll() {
+        return List.copyOf(users.values());
     }
 }

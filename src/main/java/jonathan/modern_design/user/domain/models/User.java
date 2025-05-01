@@ -9,6 +9,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PostPersist;
 import jakarta.persistence.PrePersist;
@@ -28,6 +29,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.SQLRestriction;
@@ -78,6 +80,7 @@ public class User extends AuditingColumns {
     private UserPhoneNumbers userPhoneNumbers;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_code")
     private Role role;
 
     public String getRealNameOrPlaceHolder() {
@@ -123,7 +126,7 @@ public class User extends AuditingColumns {
     @Embeddable
     @Value //Not a record for Hibernate
     @NoArgsConstructor(force = true) //For Hibernate
-    @AllArgsConstructor
+    @RequiredArgsConstructor(staticName = "of")
     public static class Id implements Serializable {
         @Serial private static final long serialVersionUID = -2753108705494085826L;
         UUID userUuid;
