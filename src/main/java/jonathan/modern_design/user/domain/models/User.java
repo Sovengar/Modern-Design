@@ -24,7 +24,6 @@ import jonathan.modern_design.user.domain.models.vo.UserPhoneNumbers;
 import jonathan.modern_design.user.domain.models.vo.UserRealName;
 import jonathan.modern_design.user.domain.models.vo.UserUserName;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -48,7 +47,6 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor(access = PRIVATE) //For Hibernate
 @AllArgsConstructor(access = PRIVATE)
 @SQLRestriction("deleted <> true") //Make Hibernate ignore soft deleted entries
-@Builder //For mapping and testing only!!!!!
 @AggregateRoot
 public class User extends AuditingColumns {
     @EmbeddedId
@@ -74,7 +72,7 @@ public class User extends AuditingColumns {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_code")
-    private Role role;
+    private Role role; //We should not reference another AR directly, doing the exception here
 
     public String getRealNameOrPlaceHolder() {
         return realname.getRealname().orElse("Anonymous");
