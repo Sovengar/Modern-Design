@@ -7,7 +7,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.PostPersist;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -17,33 +16,27 @@ import jonathan.modern_design.account_module.domain.models.account.vo.AccountAcc
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountAddress;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
 import jonathan.modern_design.user.domain.models.User;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.SQLRestriction;
 
 import java.math.BigDecimal;
 
 import static java.util.Objects.nonNull;
+import static lombok.AccessLevel.PRIVATE;
 
 @Entity
 @Table(name = "accounts", schema = "md")
 @Getter
-@Setter //For updates, allowed because is a data model only
-@Builder //For mapping and testing //TODO INTENTAR QUITAR
-@NoArgsConstructor(access = AccessLevel.PRIVATE) //For Hibernate
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Slf4j
+@NoArgsConstructor(access = PRIVATE) //For Hibernate
+@AllArgsConstructor(access = PRIVATE)
 @SQLRestriction("deleted <> true") //Make Hibernate ignore soft deleted entries
 public class AccountEntity extends AuditingColumns {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ACCOUNTS_SQ")
     @SequenceGenerator(name = "ACCOUNTS_SQ", sequenceName = "MD.ACCOUNTS_SQ", allocationSize = 1)
-    private Long accountId; //Cant use microType with sequence
+    private Long accountId; //Can't use microType with a sequence
     private String accountNumber;
     private BigDecimal balance;
     @Enumerated(value = EnumType.STRING)
@@ -57,20 +50,23 @@ public class AccountEntity extends AuditingColumns {
         return new Account(new Account.Id(accountId), AccountAccountNumber.of(accountNumber), AccountMoney.of(balance, currency), AccountAddress.of(address), userId, active);
     }
 
+    public void updateFrom(Account account) {
+        this.accountId = account.accountId().id();
+        this.accountNumber = account.accountAccountNumber().accountNumber();
+        this.balance = account.money().balance();
+        this.currency = account.money().currency();
+        this.address = account.address().toString();
+        this.active = account.active();
+        this.userId = account.userId();
+    }
+
     @PrePersist
     public void prePersist() {
-        log.info("prePersist");
+        active = true;
     }
 
-    @PostPersist
-    public void postPersist() {
-        log.info("postPersist");
-    }
-
+    @NoArgsConstructor(access = PRIVATE)
     public static class Factory {
-        private Factory() {
-        }
-
         public static AccountEntity create(Account account) {
             //If we start to use id from the client, we could assign the id directly
             var accountId = nonNull(account.accountId()) ? account.accountId().id() : null;
@@ -83,6 +79,18 @@ public class AccountEntity extends AuditingColumns {
                     account.address().toString(),
                     account.active(),
                     account.userId()
+            );
+        }
+
+        public static AccountEntity create(Long accountId, String accountNumber, BigDecimal balance, Currency currency, String address, boolean isActive, User.Id userId) {
+            return new AccountEntity(
+                    accountId,
+                    accountNumber,
+                    balance,
+                    currency,
+                    address,
+                    isActive,
+                    userId
             );
         }
     }

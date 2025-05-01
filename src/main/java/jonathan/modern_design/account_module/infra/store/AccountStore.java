@@ -59,11 +59,11 @@ class AccountStore implements AccountRepo {
         });
     }
 
-    @Transactional(readOnly = true) //When using Streams, a transaction is needed to keep session open
+    @Transactional(readOnly = true) //When using Streams, a transaction is needed to keep the session open
     public void processAllActiveAccounts() {
         try (Stream<AccountEntity> stream = repositoryJPA.streamAllActiveAccounts()) {
             stream.forEach(account -> {
-                // procesar la cuenta
+                // Process Account
             });
         }
     }
@@ -81,11 +81,6 @@ class AccountStore implements AccountRepo {
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 class AccountDataMapper {
     public static void updateEntity(AccountEntity accountEntity, Account account) {
-        accountEntity.accountNumber(account.accountAccountNumber().accountNumber());
-        accountEntity.balance(account.money().balance());
-        accountEntity.currency(account.money().currency());
-        accountEntity.address(account.address().toString());
-        accountEntity.userId(account.userId());
-        accountEntity.active(account.active());
+        accountEntity.updateFrom(account);
     }
 }
