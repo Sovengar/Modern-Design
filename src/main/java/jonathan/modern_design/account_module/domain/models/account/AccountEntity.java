@@ -24,12 +24,13 @@ import org.hibernate.annotations.SQLRestriction;
 import java.math.BigDecimal;
 
 import static java.util.Objects.nonNull;
+import static lombok.AccessLevel.PACKAGE;
 import static lombok.AccessLevel.PRIVATE;
 
 @Entity
 @Table(name = "accounts", schema = "md")
 @Getter
-@NoArgsConstructor(access = PRIVATE) //For Hibernate
+@NoArgsConstructor(access = PACKAGE) //For Hibernate
 @AllArgsConstructor(access = PRIVATE)
 @SQLRestriction("deleted <> true") //Make Hibernate ignore soft deleted entries
 public class AccountEntity extends AuditingColumns {

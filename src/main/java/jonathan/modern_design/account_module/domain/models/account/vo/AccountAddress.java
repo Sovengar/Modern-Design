@@ -1,15 +1,16 @@
 package jonathan.modern_design.account_module.domain.models.account.vo;
 
 import jakarta.persistence.Embeddable;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Value;
 
+import static lombok.AccessLevel.PRIVATE;
+
 @Embeddable
 @Value //No record for Hibernate
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE) //For Hibernate
+@NoArgsConstructor(access = PRIVATE, force = true) //For Hibernate
+@AllArgsConstructor(access = PRIVATE)
 public class AccountAddress {
     String street;
     String city;

@@ -4,7 +4,6 @@ import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Transient;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,11 +16,12 @@ import java.util.Optional;
 import java.util.Set;
 
 import static com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat.E164;
+import static lombok.AccessLevel.PRIVATE;
 
 @Embeddable
 @Data //No record for Hibernate
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE) //For Hibernate
+@NoArgsConstructor(access = PRIVATE, force = true) //For Hibernate
+@AllArgsConstructor(access = PRIVATE)
 public class UserPhoneNumbers {
     private static final String SEPARATOR = ";";
     private static final String PHONE_NUMBER_REGEX = "^(?:\\+?\\d{1,4}[\\s.-]?)?(?:\\(?\\d+\\)?[\\s.-]?)*\\d+(?:\\s?(?:x|ext\\.?)\\s?\\d{1,5})?$\n";
@@ -62,7 +62,7 @@ public class UserPhoneNumbers {
             }
             final var phoneNumber = PHONE_NUMBER_UTIL.parse(value, "ES");
             final String formattedPhoneNumber = PHONE_NUMBER_UTIL.format(phoneNumber, E164);
-            // E164 format returns phone number with + character
+            // E164 format returns a phone number with + character
             return formattedPhoneNumber.substring(1);
         } catch (NumberParseException | NumberFormatException e) {
             throw new InvalidPhoneNumbersException("The phone number isn't valid: " + value, e);
@@ -73,7 +73,7 @@ public class UserPhoneNumbers {
         return String.join(SEPARATOR, phoneNumbers);
     }
 
-    //If this logic grows, for example based on the role allowing more phones, move to a domain Service
+    //If this logic grows, for example, based on the role allowing more phones, move to a domain Service
     private boolean hasMoreThanTwoPhoneNumbers() {
         return phoneNumbersSet.size() > 2;
     }

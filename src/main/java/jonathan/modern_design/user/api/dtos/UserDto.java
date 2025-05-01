@@ -8,7 +8,7 @@ import java.util.Map;
 public record UserDto(String realname, String email, String country, String username, Map<String, String> deprecations) {
     public UserDto(User user) {
         this(
-                user.realname().getRealname().orElse(""),
+                user.getRealNameOrPlaceHolder(),
                 user.email().email(),
                 user.country(),
                 user.username().username(),

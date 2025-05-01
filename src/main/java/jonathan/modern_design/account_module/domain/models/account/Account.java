@@ -10,8 +10,10 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import static java.util.Objects.requireNonNull;
+import static lombok.AccessLevel.PRIVATE;
 
 @Builder //For mapper and tests only //TODO TRY TO DELETE
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -27,7 +29,7 @@ public final class Account {
 
     //TODO THIS MAKES 0 SENSE, EXTRACT FIELDS THAT HAS NO LOGIC ASSOCIATED
     public Account(AccountEntity accountEntity) {
-        this.accountId = new Id(accountEntity.accountId());
+        this.accountId = Id.of(accountEntity.accountId());
         this.accountAccountNumber = AccountAccountNumber.of(accountEntity.accountNumber());
         this.money = AccountMoney.of(accountEntity.balance(), accountEntity.currency());
         this.address = AccountAddress.of(accountEntity.address());
@@ -45,7 +47,7 @@ public final class Account {
     }
 
     public void withdrawal(AccountMoney money) {
-        this.money = this.money.substract(money);
+        this.money = this.money.subtract(money);
     }
 
     public void deactivate() {
@@ -58,8 +60,12 @@ public final class Account {
     }
 
     public record Id(Long id) {
+        public static Id of(Long id) {
+            return new Id(id);
+        }
     }
 
+    @NoArgsConstructor(access = PRIVATE)
     public static class Factory {
         public static Account create(AccountAccountNumber accountAccountNumber, AccountMoney money, AccountAddress address, User.Id userId) {
             var isActive = true;

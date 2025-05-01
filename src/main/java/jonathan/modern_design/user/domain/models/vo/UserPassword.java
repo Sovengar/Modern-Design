@@ -2,7 +2,6 @@ package jonathan.modern_design.user.domain.models.vo;
 
 import jakarta.persistence.Embeddable;
 import jonathan.modern_design._internal.config.exception.RootException;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Value;
@@ -15,11 +14,12 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 import static java.util.regex.Pattern.matches;
+import static lombok.AccessLevel.PRIVATE;
 
 @Embeddable
 @Value //No record for Hibernate
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE) //For Hibernate
+@NoArgsConstructor(access = PRIVATE, force = true) //For Hibernate
+@AllArgsConstructor(access = PRIVATE)
 public class UserPassword {
     String password;
 

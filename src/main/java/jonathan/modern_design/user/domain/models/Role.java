@@ -8,7 +8,6 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jonathan.modern_design._common.annotations.AggregateRoot;
 import jonathan.modern_design.user.domain.catalogs.Roles;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,11 +17,14 @@ import lombok.Value;
 import java.io.Serial;
 import java.io.Serializable;
 
+import static lombok.AccessLevel.PACKAGE;
+import static lombok.AccessLevel.PRIVATE;
+
 @Entity
 @Table(name = "roles", schema = "md")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE) //For Hibernate
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = PACKAGE) //For Hibernate
+@AllArgsConstructor(access = PRIVATE)
 @AggregateRoot
 public class Role {
     @EmbeddedId
@@ -37,7 +39,7 @@ public class Role {
 
     @Embeddable
     @Value //Not a record for Hibernate
-    @NoArgsConstructor(force = true) //For Hibernate
+    @NoArgsConstructor(access = PACKAGE, force = true) //For Hibernate
     @RequiredArgsConstructor(staticName = "of")
     public static class Code implements Serializable {
         @Serial private static final long serialVersionUID = -491353586550215623L;

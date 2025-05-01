@@ -5,7 +5,23 @@ meta {
 }
 
 post {
-  url: 
-  body: none
+  url: http://localhost:8080/graphql
+  body: graphql
   auth: none
+}
+
+body:graphql {
+  query {
+    userById(id: "f5e4e2a8-7f07-4b2e-9b7c-6c6b1fcd3c42") {
+      userId
+      username
+      email
+      country
+      role {
+        code
+        name
+      }
+    }
+  }
+  
 }

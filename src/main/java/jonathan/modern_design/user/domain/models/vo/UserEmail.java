@@ -3,17 +3,18 @@ package jonathan.modern_design.user.domain.models.vo;
 
 import jakarta.persistence.Embeddable;
 import jonathan.modern_design._internal.config.exception.RootException;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Value;
 
 import java.io.Serial;
 
+import static lombok.AccessLevel.PRIVATE;
+
 @Embeddable
 @Value //No record for Hibernate
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = PRIVATE, force = true)
+@AllArgsConstructor(access = PRIVATE)
 public class UserEmail {
     private static final int MAX_LENGTH = 254;
     private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";

@@ -7,7 +7,6 @@ import jakarta.persistence.Enumerated;
 import jonathan.modern_design._internal.config.exception.RootException;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design.account_module.domain.exceptions.OperationWithDifferentCurrenciesException;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Value;
@@ -16,26 +15,23 @@ import java.io.Serial;
 import java.math.BigDecimal;
 
 import static java.math.BigDecimal.ZERO;
+import static lombok.AccessLevel.PRIVATE;
 
 @Embeddable
 @Value //No record for Hibernate
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE) //For Hibernate
+@NoArgsConstructor(access = PRIVATE, force = true) //For Hibernate
+@AllArgsConstructor(staticName = "of")
 public class AccountMoney {
     BigDecimal balance;
     @Enumerated(value = EnumType.STRING)
     Currency currency;
-
-    public static AccountMoney of(BigDecimal amount, Currency currency) {
-        return new AccountMoney(amount, currency);
-    }
 
     public AccountMoney add(AccountMoney other) {
         checkCurrency(other);
         return new AccountMoney(this.balance.add(other.balance), this.currency);
     }
 
-    public AccountMoney substract(AccountMoney other) {
+    public AccountMoney subtract(AccountMoney other) {
         checkCurrency(other);
 
         if (isLowerThan(other.balance)) {
@@ -44,7 +40,6 @@ public class AccountMoney {
 
         return new AccountMoney(this.balance.subtract(other.balance), this.currency);
     }
-
 
     private void checkCurrency(AccountMoney other) {
         assert this.currency != null;
@@ -82,7 +77,7 @@ public class AccountMoney {
         @Serial private static final long serialVersionUID = 4577125702505726581L;
 
         public InsufficientFundsException() {
-            super("Account doesnt have enough money");
+            super("Account doesn't have enough money");
         }
     }
 }

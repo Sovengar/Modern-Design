@@ -15,7 +15,6 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jonathan.modern_design._common.AuditingColumns;
 import jonathan.modern_design._common.annotations.AggregateRoot;
-import jonathan.modern_design._common.annotations.OptionalField;
 import jonathan.modern_design._shared.country.Country;
 import jonathan.modern_design.user.domain.catalogs.Roles;
 import jonathan.modern_design.user.domain.models.vo.UserEmail;
@@ -28,7 +27,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
-import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.SQLRestriction;
 
 import java.io.Serial;
@@ -38,21 +36,21 @@ import java.util.UUID;
 
 import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
+import static lombok.AccessLevel.PACKAGE;
 import static lombok.AccessLevel.PRIVATE;
 
-@Slf4j
 @Entity
 @Table(name = "users", schema = "md")
 @Getter
-@NoArgsConstructor(access = PRIVATE) //For Hibernate
+@NoArgsConstructor(access = PACKAGE) //For Hibernate
 @AllArgsConstructor(access = PRIVATE)
 @SQLRestriction("deleted <> true") //Make Hibernate ignore soft deleted entries
 @AggregateRoot
 public class User extends AuditingColumns {
     @EmbeddedId
     private Id id;
-    @OptionalField
     @Embedded
+    @Getter(PRIVATE)
     private UserRealName realname;
     @Embedded
     private UserUserName username;
@@ -60,7 +58,7 @@ public class User extends AuditingColumns {
     private UserEmail email;
     @Embedded
     @AttributeOverride(name = "email", column = @Column(name = "internal_enterprise_email"))
-    @OptionalField
+    @Getter(PRIVATE)
     private UserEmail internalEnterpriseEmail;
     @Embedded
     private UserPassword password;
@@ -102,12 +100,10 @@ public class User extends AuditingColumns {
 
     @PrePersist
     public void prePersist() {
-        log.info("prePersist");
     }
 
     @PostPersist
     public void postPersist() {
-        log.info("postPersist");
     }
 
     public enum Status {
@@ -116,7 +112,7 @@ public class User extends AuditingColumns {
 
     @Embeddable
     @Value //Not a record for Hibernate
-    @NoArgsConstructor(force = true) //For Hibernate
+    @NoArgsConstructor(access = PACKAGE, force = true) //For Hibernate
     @RequiredArgsConstructor(staticName = "of")
     public static class Id implements Serializable {
         @Serial private static final long serialVersionUID = -2753108705494085826L;
