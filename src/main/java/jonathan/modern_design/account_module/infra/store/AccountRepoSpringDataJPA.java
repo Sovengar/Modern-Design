@@ -1,5 +1,6 @@
 package jonathan.modern_design.account_module.infra.store;
 
+import jonathan.modern_design.account_module.api.dtos.AccountDto;
 import jonathan.modern_design.account_module.domain.models.account.AccountEntity;
 import jonathan.modern_design.user.domain.models.User;
 import lombok.NonNull;
@@ -35,4 +36,7 @@ public interface AccountRepoSpringDataJPA extends JpaRepository<AccountEntity, S
 
     // ✨ Dynamic projection
     <T> List<T> findByAccountNumber(String accountNumber, Class<T> type);
+
+    // Explicit projection
+    AccountDto findAccountDtoByAccountNumber(String accountNumber);
 }
