@@ -23,4 +23,10 @@ public class AccountAddress {
     public static AccountAddress of(String address) {
         return new AccountAddress(address, "", "", "");
     }
+
+    @Override
+    public String toString() {
+        return street + ", " + city + ", " + state + ", " + zipCode;
+        //return String.format("Street: %s, City: %s, State: %s, ZipCode: %s", street, city, state, zipCode);
+    }
 }

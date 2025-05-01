@@ -1,5 +1,7 @@
 package jonathan.modern_design.user.domain.models.vo;
 
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Transient;
 import lombok.AccessLevel;
@@ -14,6 +16,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import static com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat.E164;
+
 @Embeddable
 @Data //No record for Hibernate
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -21,6 +25,8 @@ import java.util.Set;
 public class UserPhoneNumbers {
     private static final String SEPARATOR = ";";
     private static final String PHONE_NUMBER_REGEX = "^(?:\\+?\\d{1,4}[\\s.-]?)?(?:\\(?\\d+\\)?[\\s.-]?)*\\d+(?:\\s?(?:x|ext\\.?)\\s?\\d{1,5})?$\n";
+    private static final PhoneNumberUtil PHONE_NUMBER_UTIL = PhoneNumberUtil.getInstance();
+
     @Transient
     Set<String> phoneNumbersSet = new HashSet<>();
     String phoneNumbers;
@@ -47,6 +53,20 @@ public class UserPhoneNumbers {
 //                throw new InvalidPhoneNumbersException();
 //            }
         });
+    }
+
+    private static String validateAndNormalizePhoneNumber(String value) {
+        try {
+            if (Long.parseLong(value) <= 0) {
+                throw new InvalidPhoneNumbersException("The phone number cannot be negative: " + value);
+            }
+            final var phoneNumber = PHONE_NUMBER_UTIL.parse(value, "ES");
+            final String formattedPhoneNumber = PHONE_NUMBER_UTIL.format(phoneNumber, E164);
+            // E164 format returns phone number with + character
+            return formattedPhoneNumber.substring(1);
+        } catch (NumberParseException | NumberFormatException e) {
+            throw new InvalidPhoneNumbersException("The phone number isn't valid: " + value, e);
+        }
     }
 
     private String transformListToString(List<String> phoneNumbers) {
@@ -99,8 +119,16 @@ public class UserPhoneNumbers {
         }
     }
 
-    private static class InvalidPhoneNumbersException extends RuntimeException {
+    static class InvalidPhoneNumbersException extends RuntimeException {
         @Serial private static final long serialVersionUID = -6507485328113799878L;
+
+        InvalidPhoneNumbersException(String msg) {
+            super(msg);
+        }
+
+        InvalidPhoneNumbersException(String msg, Throwable cause) {
+            super(msg, cause);
+        }
 
         InvalidPhoneNumbersException() {
             super("Invalid phone numbers");
