@@ -1,2 +1,2 @@
-Este modulo se basa en una mezcla de Clean Architecture y Vertical Slice Architecture.
-Concretamente mas orientado a VSA que a Clean, ya que incluso cada slice tiene su infra, en vez de compartirla.
+In this module application depends on infra instead of fusing application and infra, there is no rule that prohibits this.
+The queries are on their slices, but the persistence not.
