@@ -28,7 +28,7 @@ class WithdrawMoneyHttpController {
     public ResponseEntity<Void> getBalance(@PathVariable String accountNumber, @PathVariable BigDecimal amount, @PathVariable String currency) {
         log.info("BEGIN Controller - WithdrawMoney");
         var withdrawMoneyCommand = new WithdrawMoney.WithdrawMoneyCommand(accountNumber, amount, Currency.fromCode(currency));
-        withdrawMoney.withdraw(withdrawMoneyCommand);
+        withdrawMoney.handle(withdrawMoneyCommand);
         log.info("END Controller - WithdrawMoney");
         return ResponseEntity.ok().build();
     }
@@ -41,7 +41,7 @@ class WithdrawMoney {
     private final AccountRepo repository;
     private final TransactionRepo transactionRepo;
 
-    public void withdraw(final @Valid WithdrawMoneyCommand message) {
+    public void handle(final @Valid WithdrawMoneyCommand message) {
         log.info("BEGIN WithdrawMoney");
         var account = repository.findOne(message.accountNumber()).orElseThrow();
 

@@ -1,4 +1,4 @@
-package jonathan.modern_design._internal.web;
+package jonathan.modern_design._internal.config.i18n;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

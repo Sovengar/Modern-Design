@@ -1,2 +1,7 @@
 In this module application depends on infra instead of fusing application and infra, there is no rule that prohibits this.
 The queries are on their slices, but the persistence not.
+
+delete en user lo pone todo a anonymous y deleted = true
+delete en account la borra de verdad y la pasa a la tabla de datos deleteados
+los de metadata deben apuntar al uuid de user, no como fk, asi no hay que anonimizarlos
+el @Version lo deberia tener solo el AR

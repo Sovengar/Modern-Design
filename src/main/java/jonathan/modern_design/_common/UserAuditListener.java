@@ -20,16 +20,15 @@ public class UserAuditListener {
         final var userCreatingEntity = auditingColumns.createdBy();
         final var finalUser = StringUtils.hasText(userCreatingEntity) ? userCreatingEntity : currentUser;
 
-        auditingColumns.createdOn(LocalDateTime.now());
+        auditingColumns.createdAt(LocalDateTime.now());
         auditingColumns.createdBy(finalUser);
-        auditingColumns.modifiedBy(finalUser);
     }
 
     @PreUpdate
     public void setUpdatedBy(AuditingColumns auditingColumns) {
         String currentUser = getCurrentUser();
         auditingColumns.modifiedBy(currentUser);
-        auditingColumns.modifiedOn(LocalDateTime.now());
+        auditingColumns.modifiedAt(LocalDateTime.now());
     }
 
     private String getCurrentUser() {

@@ -15,6 +15,8 @@ public interface UserRepo {
 
     List<User> findAll();
 
+    void delete(User.Id userId);
+
     default User findByUUIDOrElseThrow(User.Id userId) {
         return findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
     }

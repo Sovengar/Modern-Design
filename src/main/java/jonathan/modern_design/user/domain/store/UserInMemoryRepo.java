@@ -30,4 +30,9 @@ public class UserInMemoryRepo implements UserRepo {
     public List<User> findAll() {
         return List.copyOf(users.values());
     }
+
+    @Override
+    public void delete(final User.Id userId) {
+        users.remove(userId);
+    }
 }

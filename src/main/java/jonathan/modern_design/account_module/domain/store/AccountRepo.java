@@ -13,8 +13,6 @@ public interface AccountRepo {
 
     void delete(final String accountNumber);
 
-    void softDelete(final String accountNumber);
-
     Optional<Account> findOne(final String accountNumber);
 
     default Account findOneOrElseThrow(final String accountNumber) {

@@ -1,26 +1,26 @@
 create SCHEMA IF NOT EXISTS md; --AUTHORIZATION admin
 
 create TABLE MD.ROLES (
-    role_code VARCHAR(25) PRIMARY KEY,
-    description VARCHAR(100)
+    role_code TEXT PRIMARY KEY,
+    description TEXT
 );
 
 create TABLE MD.USERS (
     user_id UUID PRIMARY KEY,
-    realname VARCHAR(255),
-    username VARCHAR(255),
-    email VARCHAR(255),
-    internal_enterprise_email VARCHAR(255),
-    password VARCHAR(255),
-    status VARCHAR(255),
-    country VARCHAR(255),
-    phone_numbers VARCHAR(500),
-    role_code VARCHAR(25),
+    realname TEXT,
+    username TEXT,
+    email TEXT,
+    internal_enterprise_email TEXT,
+    password VARCHAR(70),
+    status TEXT,
+    country TEXT,
+    phone_numbers TEXT,
+    role_code TEXT,
     version INTEGER,
-    created_by VARCHAR(255),
-    created_on TIMESTAMP WITHOUT TIME ZONE,
-    modified_by VARCHAR(255),
-    modified_on TIMESTAMP WITHOUT TIME ZONE,
+    created_by TEXT,
+    created_at TIMESTAMP WITHOUT TIME ZONE,
+    modified_by TEXT,
+    modified_at TIMESTAMP WITHOUT TIME ZONE,
     deleted BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (role_code) REFERENCES MD.ROLES(role_code)
 );
@@ -32,24 +32,38 @@ create TABLE MD.ACCOUNTS (
     balance DECIMAL(19,2),
     currency VARCHAR(5),
     address TEXT,
-    date_of_last_transaction TIMESTAMP WITHOUT TIME ZONE,
-    active BOOLEAN,
+    status TEXT,
     user_id UUID,
     version INTEGER,
     created_by TEXT,
-    created_on TIMESTAMP WITHOUT TIME ZONE,
+    created_at TIMESTAMP WITHOUT TIME ZONE,
     modified_by TEXT,
-    modified_on TIMESTAMP WITHOUT TIME ZONE,
-    deleted BOOLEAN DEFAULT FALSE,
+    modified_at TIMESTAMP WITHOUT TIME ZONE,
     FOREIGN KEY (user_id) REFERENCES MD.USERS(user_id)
 );
 
-create table MD.TRANSACTIONS (
+create TABLE MD.TRANSACTIONS (
     transaction_id VARCHAR(150) PRIMARY KEY,
-    origin VARCHAR(255),
-    destination VARCHAR(255),
+    origin TEXT,
+    destination TEXT,
     balance DECIMAL(19,2),
     currency VARCHAR(5),
-    transaction_type VARCHAR(100),
+    transaction_type TEXT,
     transaction_date TIMESTAMP WITHOUT TIME ZONE
 );
+
+
+create TABLE deleted_rows (
+    id SERIAL PRIMARY KEY,
+    origin_table TEXT NOT NULL,
+    origin_id TEXT NOT NULL,
+    deleted_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    deleted_by TEXT,
+    reason TEXT,
+    data JSONB NOT NULL
+);
+
+-- Índices recomendados
+create index idx_deleted_rows_origin_table on deleted_rows(origin_table);
+create index idx_deleted_rows_origin_id on deleted_rows(origin_id);
+create index idx_deleted_rows_deleted_at on deleted_rows(deleted_at);

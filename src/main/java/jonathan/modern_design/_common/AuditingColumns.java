@@ -3,7 +3,6 @@ package jonathan.modern_design._common;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.Version;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,31 +17,24 @@ import java.time.LocalDateTime;
 @Setter
 @SuperBuilder
 @NoArgsConstructor
-@EntityListeners(UserAuditListener.class) //AuditingEntityListener.class from springframework
+@EntityListeners(UserAuditListener.class) //AuditingEntityListener.class from the springframework
 public abstract class AuditingColumns {
-    @Column(name = "version")
-    @Version
-    protected Integer version;
-
     //@CreatedBy
-    @Column(name = "created_by")
+    @Column(updatable = false)
     protected String createdBy;
 
     //@CreatedDate
     @CreationTimestamp
-    @Column(name = "created_on")
-    protected LocalDateTime createdOn;
+    @Column(updatable = false)
+    protected LocalDateTime createdAt;
 
     //@LastModifiedBy
-    @Column(name = "modified_by")
+    @Column(insertable = false)
     protected String modifiedBy;
 
     //@LastModifiedDate
     @UpdateTimestamp
-    @Column(name = "modified_on")
-    protected LocalDateTime modifiedOn;
-
-    @Column(name = "deleted", nullable = false)
-    protected Boolean deleted = false;
+    @Column(insertable = false)
+    protected LocalDateTime modifiedAt;
 }
 

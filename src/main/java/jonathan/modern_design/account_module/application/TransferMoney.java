@@ -18,6 +18,7 @@ import jonathan.modern_design.account_module.domain.store.TransactionRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -30,7 +31,7 @@ class TransferMoneyHttpController {
     private final TransferMoney transferMoney;
 
     @PostMapping(path = "/transfer/{sourceAccountId}/{targetAccountId}/{balance}/{currency}")
-    void transferMoney(
+    ResponseEntity<Void> transferMoney(
             @PathVariable("sourceAccountId") String sourceAccountId,
             @PathVariable("targetAccountId") String targetAccountId,
             @PathVariable("balance") BigDecimal amount,
@@ -43,6 +44,7 @@ class TransferMoneyHttpController {
         transferMoney.handle(command);
 
         log.info("END Controller - Transfer money from {} to {} with balance {}", sourceAccountId, targetAccountId, amount);
+        return ResponseEntity.ok().build();
     }
 }
 

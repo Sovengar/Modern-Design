@@ -36,4 +36,12 @@ class UserRepoAdapter implements UserRepo {
     public List<User> findAll() {
         return repository.findAll();
     }
+
+    @Override
+    public void delete(final User.Id userId) {
+        findById(userId).ifPresent(user -> {
+            user.delete();
+            repository.save(user);
+        });
+    }
 }

@@ -51,14 +51,6 @@ class AccountStore implements AccountRepo {
         repositoryJPA.deleteById(accountNumber);
     }
 
-    @Override
-    public void softDelete(final String accountNumber) {
-        this.findOneEntity(accountNumber).ifPresent(account -> {
-            account.deleted(true);
-            repositoryJPA.save(account);
-        });
-    }
-
     @Transactional(readOnly = true) //When using Streams, a transaction is needed to keep the session open
     public void processAllActiveAccounts() {
         try (Stream<AccountEntity> stream = repositoryJPA.streamAllActiveAccounts()) {

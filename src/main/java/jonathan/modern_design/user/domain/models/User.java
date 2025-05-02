@@ -13,6 +13,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PostPersist;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import jonathan.modern_design._common.AuditingColumns;
 import jonathan.modern_design._common.annotations.AggregateRoot;
 import jonathan.modern_design._shared.country.Country;
@@ -67,10 +68,13 @@ public class User extends AuditingColumns {
     private Status status;
     @Embedded
     private UserPhoneNumbers userPhoneNumbers;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_code")
     private Role role; //We should not reference another AR directly, doing the exception here
+    @Version
+    private Integer version;
+    @Column(nullable = false)
+    private boolean deleted = false;
 
     public String getRealNameOrPlaceHolder() {
         return realname.getRealname().orElse("Anonymous");
@@ -80,12 +84,27 @@ public class User extends AuditingColumns {
         return internalEnterpriseEmail != null ? ofNullable(internalEnterpriseEmail.email()) : Optional.empty();
     }
 
+    public void delete() {
+        //Comply with the law GDPR (General Data Protection Regulation)
+        this.deleted = true;
+        this.status = null;
+        this.realname = null;
+        this.username = null;
+        this.email = null;
+        this.internalEnterpriseEmail = null;
+        this.password = null;
+        this.country = "";
+        this.userPhoneNumbers = null;
+    }
+
     public void changeRole(Role newRole) {
         requireNonNull(newRole);
 
-        if (this.status == Status.DELETED) {
+        if (this.deleted) {
             throw new IllegalStateException("Cannot change role of a deleted user.");
         }
+
+        //An inactive user can have their role changed to another role
 
         if (this.role.code().equals(newRole.code())) {
             throw new IllegalStateException("Cannot change role to the same role.");
@@ -107,7 +126,7 @@ public class User extends AuditingColumns {
     }
 
     public enum Status {
-        DRAFT, ACTIVE, DELETED
+        DRAFT, ACTIVE, INACTIVE
     }
 
     @Embeddable
@@ -122,31 +141,19 @@ public class User extends AuditingColumns {
     @NoArgsConstructor(access = PRIVATE)
     public static class Factory {
         public static User register(Id id, UserRealName realname, UserUserName username, UserEmail email, UserPassword password, Country country, UserPhoneNumbers phoneNumbers, Role role) {
-            return new User(
-                    id != null ? id : Id.of(UUID.randomUUID()),
-                    realname,
-                    requireNonNull(username),
-                    requireNonNull(email),
-                    null,
-                    requireNonNull(password),
-                    requireNonNull(country).code(),
-                    Status.DRAFT,
-                    phoneNumbers,
-                    requireNonNull(role));
+            var userId = id != null ? id : Id.of(UUID.randomUUID());
+            var version = 0;
+            var deleted = false;
+
+            return new User(userId, realname, requireNonNull(username), requireNonNull(email), null, requireNonNull(password), requireNonNull(country).code(), Status.DRAFT, phoneNumbers, requireNonNull(role), version, deleted);
         }
 
         public static User registerAdmin(Id id, UserRealName realname, UserUserName username, UserEmail email, UserEmail internalEmail, UserPassword password, UserPhoneNumbers phoneNumbers, Country country) {
-            return new User(
-                    id != null ? id : Id.of(UUID.randomUUID()),
-                    realname,
-                    requireNonNull(username),
-                    requireNonNull(email),
-                    internalEmail,
-                    requireNonNull(password),
-                    requireNonNull(country).code(),
-                    Status.ACTIVE,
-                    phoneNumbers,
-                    Role.of(Roles.ADMIN));
+            var userId = id != null ? id : Id.of(UUID.randomUUID());
+            var version = 0;
+            var deleted = false;
+            
+            return new User(userId, realname, requireNonNull(username), requireNonNull(email), internalEmail, requireNonNull(password), requireNonNull(country).code(), Status.ACTIVE, phoneNumbers, Role.of(Roles.ADMIN), version, deleted);
         }
     }
 }

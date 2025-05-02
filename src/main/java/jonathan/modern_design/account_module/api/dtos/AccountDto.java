@@ -11,7 +11,7 @@ public record AccountDto(
         BigDecimal balance,
         String currency,
         String address,
-        boolean active,
+        Account.Status status,
         User.Id userId) {
 
     public AccountDto(final Account account) {
@@ -20,7 +20,7 @@ public record AccountDto(
                 account.money().balance(),
                 account.money().currency().description(),
                 account.address().toString(),
-                account.active(),
+                account.status(),
                 account.userId()
         );
     }
@@ -31,7 +31,7 @@ public record AccountDto(
                 account.balance(),
                 account.currency().description(),
                 account.address(),
-                account.active(),
+                account.status(),
                 account.userId()
         );
     }

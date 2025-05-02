@@ -17,19 +17,19 @@ public interface AccountRepoSpringDataJPA extends JpaRepository<AccountEntity, S
     Optional<AccountEntity> findByAccountNumber(@NonNull String accountNumber);
 
     // ✨ Stream para procesamiento eficiente de grandes cantidades de datos
-    @Query("SELECT a FROM AccountEntity a WHERE a.active = true")
+    @Query("SELECT a FROM AccountEntity a WHERE a.status = ACTIVE")
     Stream<AccountEntity> streamAllActiveAccounts();
 
-    @Query("SELECT a FROM AccountEntity a WHERE a.userId = :userId AND a.active = true")
+    @Query("SELECT a FROM AccountEntity a WHERE a.userId = :userId AND a.status = ACTIVE")
     List<AccountEntity> findActiveAccountsByUserId(@Param("userId") User.Id userId);
 
     List<AccountEntity> findByUserIdOrderByBalanceDesc(User.Id userId);
 
-    long countByActiveTrue();
+    //long countByCurrency();
 
     // ✨ Native query
     @Query(
-            value = "SELECT * FROM md.accounts WHERE balance > :minBalance AND deleted <> true",
+            value = "SELECT * FROM md.accounts WHERE balance > :minBalance",
             nativeQuery = true
     )
     List<AccountEntity> findAccountsWithBalanceGreaterThan(@Param("minBalance") BigDecimal minBalance);

@@ -35,9 +35,4 @@ public class AccountRepoInMemory implements AccountRepo {
     public void delete(final String accountNumber) {
         accounts.remove(accountNumber);
     }
-
-    @Override
-    public void softDelete(final String accountNumber) {
-        accounts.remove(accountNumber);
-    }
 }
