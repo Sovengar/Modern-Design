@@ -22,7 +22,7 @@ class DepositHttpControllerIT extends ITConfig {
 
     @Test
     void should_deposit_funds_via_http_request() throws Exception {
-        var accountNumber = accountFacade.createAccount(randomAccountWithCurrency(EUR)).accountNumber();
+        var accountNumber = accountFacade.createAccount(randomAccountWithCurrency(EUR)).getAccountNumber();
 
         // Act
         mockMvc.perform(put("/api/v1/accounts/" + accountNumber + "/deposit/100/EUR"))
@@ -30,6 +30,6 @@ class DepositHttpControllerIT extends ITConfig {
 
         // Assert
         var updated = repository.findByAccNumber(accountNumber).orElseThrow();
-        assertEquals(BigDecimal.valueOf(100), updated.money().balance());
+        assertEquals(BigDecimal.valueOf(100), updated.getMoney().getBalance());
     }
 }
