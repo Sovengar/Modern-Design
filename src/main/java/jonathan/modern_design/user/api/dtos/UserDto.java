@@ -1,6 +1,5 @@
 package jonathan.modern_design.user.api.dtos;
 
-import jonathan.modern_design.user.domain.models.Role;
 import jonathan.modern_design.user.domain.models.User;
 
 import java.util.Map;
@@ -16,10 +15,4 @@ public record UserDto(String realname, String email, String country, String user
         );
     }
 
-    //This Dto is akward because is a 1:1 map with the model and there is nothing to hide
-    public record RoleDto(String code, String description) {
-        public RoleDto(Role role) {
-            this(role.code().roleCode(), role.description());
-        }
-    }
 }

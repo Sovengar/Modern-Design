@@ -3,7 +3,7 @@ package jonathan.modern_design.user.application.queries;
 import jonathan.modern_design._common.annotations.Injectable;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design._common.api.Response;
-import jonathan.modern_design.user.api.dtos.UserDto;
+import jonathan.modern_design.user.api.dtos.RoleDto;
 import jonathan.modern_design.user.domain.models.Role;
 import jonathan.modern_design.user.domain.store.RoleStore;
 import lombok.RequiredArgsConstructor;
@@ -22,11 +22,11 @@ class RolFinderController {
     private final GetRoles getRoles;
 
     @GetMapping
-    public ResponseEntity<Response<List<UserDto.RoleDto>>> getAll() {
+    public ResponseEntity<Response<List<RoleDto>>> getAll() {
         var roles = getRoles.findAll();
 
-        Response<List<UserDto.RoleDto>> response = new Response.Builder<List<UserDto.RoleDto>>()
-                .data(roles.stream().map(UserDto.RoleDto::new).toList())
+        Response<List<RoleDto>> response = new Response.Builder<List<RoleDto>>()
+                .data(roles.stream().map(RoleDto::new).toList())
                 .metadata(Map.of(
                         "timestamp", Instant.now(),
                         "version", "1.0.0"
