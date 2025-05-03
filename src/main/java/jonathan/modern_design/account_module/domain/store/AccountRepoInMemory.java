@@ -2,7 +2,7 @@ package jonathan.modern_design.account_module.domain.store;
 
 import jonathan.modern_design._common.annotations.Fake;
 import jonathan.modern_design.account_module.domain.models.account.Account;
-import jonathan.modern_design.account_module.domain.models.account.vo.AccountAccountNumber;
+import jonathan.modern_design.account_module.domain.models.account.vo.AccountNumber;
 
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,16 +22,16 @@ public class AccountRepoInMemory implements AccountRepo {
     }
 
     @Override
-    public AccountAccountNumber create(Account account) {
-        accountsByNumber.put(account.getAccountAccountNumber().getAccountNumber(), account);
+    public AccountNumber create(Account account) {
+        accountsByNumber.put(account.getAccountNumber().getAccountNumber(), account);
         accountsById.put(account.getAccountId(), account);
-        return account.getAccountAccountNumber();
+        return account.getAccountNumber();
     }
 
     @Override
     public void update(Account account) {
         requireNonNull(account);
-        accountsByNumber.put(account.getAccountAccountNumber().getAccountNumber(), account);
+        accountsByNumber.put(account.getAccountNumber().getAccountNumber(), account);
         accountsById.put(account.getAccountId(), account);
     }
 

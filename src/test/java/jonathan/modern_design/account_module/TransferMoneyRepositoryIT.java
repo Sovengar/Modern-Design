@@ -46,7 +46,7 @@ class TransferMoneyRepositoryIT extends ITConfig {
         void transfer_money_into_the_target_account() {
             var source = getAccountWithMoney(AccountMoney.of(BigDecimal.valueOf(100.0), EUR));
             var target = getAccountWithMoney(AccountMoney.of(ZERO, EUR));
-            accountFacade.transferMoney(fromAccountToAccountWithAmount(source.getAccountAccountNumber().getAccountNumber(), target.getAccountAccountNumber().getAccountNumber(), AccountMoney.of(BigDecimal.valueOf(60.0), EUR)));
+            accountFacade.transferMoney(fromAccountToAccountWithAmount(source.getAccountNumber().getAccountNumber(), target.getAccountNumber().getAccountNumber(), AccountMoney.of(BigDecimal.valueOf(60.0), EUR)));
 
             assertThat(source.getMoney().getBalance()).isEqualTo(BigDecimal.valueOf(40.0));
             assertThat(target.getMoney().getBalance()).isEqualTo(BigDecimal.valueOf(60.0));

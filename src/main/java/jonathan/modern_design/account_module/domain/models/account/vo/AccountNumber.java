@@ -16,10 +16,10 @@ import static lombok.AccessLevel.PRIVATE;
 @Value //No record for Hibernate
 @NoArgsConstructor(access = PRIVATE, force = true) //For Hibernate
 @AllArgsConstructor(access = PRIVATE)
-public class AccountAccountNumber implements ValueObject {
+public class AccountNumber implements ValueObject {
     String accountNumber;
 
-    public static AccountAccountNumber of(String accountNumber) {
+    public static AccountNumber of(String accountNumber) {
         if (accountNumber == null || accountNumber.isEmpty()) {
             throw new InvalidAccountNumberException("Account number cannot be empty or null.");
         }
@@ -32,7 +32,7 @@ public class AccountAccountNumber implements ValueObject {
             throw new InvalidAccountNumberException("Account number must contain at least one digit.");
         }
 
-        return new AccountAccountNumber(accountNumber);
+        return new AccountNumber(accountNumber);
     }
 
     private static class InvalidAccountNumberException extends RootException {

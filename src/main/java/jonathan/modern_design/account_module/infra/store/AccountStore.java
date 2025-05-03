@@ -4,7 +4,7 @@ import jonathan.modern_design._common.annotations.DataAdapter;
 import jonathan.modern_design.account_module.domain.exceptions.AccountNotFoundException;
 import jonathan.modern_design.account_module.domain.models.account.Account;
 import jonathan.modern_design.account_module.domain.models.account.AccountEntity;
-import jonathan.modern_design.account_module.domain.models.account.vo.AccountAccountNumber;
+import jonathan.modern_design.account_module.domain.models.account.vo.AccountNumber;
 import jonathan.modern_design.account_module.domain.store.AccountRepo;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -30,15 +30,15 @@ class AccountStore implements AccountRepo {
     }
 
     @Override
-    public AccountAccountNumber create(final Account account) {
+    public AccountNumber create(final Account account) {
         var accountEntity = AccountEntity.Factory.create(account);
         repositoryJPA.save(accountEntity);
-        return account.getAccountAccountNumber();
+        return account.getAccountNumber();
     }
 
     @Override
     public void update(final Account account) {
-        var accountEntity = findOneEntityOrElseThrow(account.getAccountAccountNumber().getAccountNumber());
+        var accountEntity = findOneEntityOrElseThrow(account.getAccountNumber().getAccountNumber());
         AccountDataMapper.updateEntity(accountEntity, account);
         repositoryJPA.save(accountEntity);
 

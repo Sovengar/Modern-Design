@@ -2,9 +2,9 @@ package jonathan.modern_design.account_module.domain.models.account;
 
 import jakarta.persistence.Id;
 import jonathan.modern_design._shared.Currency;
-import jonathan.modern_design.account_module.domain.models.account.vo.AccountAccountNumber;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountAddress;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
+import jonathan.modern_design.account_module.domain.models.account.vo.AccountNumber;
 import jonathan.modern_design.user.domain.models.User;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -27,7 +27,7 @@ public record AccountJdbcEntity(
     public AccountJdbcEntity(AccountJdbcEntity entity, Account account) {
         this(
                 account.getAccountId().id(),
-                account.getAccountAccountNumber().getAccountNumber(),
+                account.getAccountNumber().getAccountNumber(),
                 account.getMoney().getBalance(),
                 account.getMoney().getCurrency(),
                 account.getAddress().toString(),
@@ -41,7 +41,7 @@ public record AccountJdbcEntity(
     public Account toDomain() {
         return new Account(
                 new Account.Id(id),
-                AccountAccountNumber.of(accountNumber),
+                AccountNumber.of(accountNumber),
                 status,
                 AccountMoney.of(balance, currency),
                 AccountAddress.of(address),

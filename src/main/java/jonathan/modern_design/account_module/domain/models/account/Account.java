@@ -4,9 +4,9 @@ import jonathan.modern_design._common.annotations.AggregateRoot;
 import jonathan.modern_design._common.annotations.MicroType;
 import jonathan.modern_design.account_module.domain.exceptions.AccountIsAlreadyActiveException;
 import jonathan.modern_design.account_module.domain.exceptions.AccountIsInactiveException;
-import jonathan.modern_design.account_module.domain.models.account.vo.AccountAccountNumber;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountAddress;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
+import jonathan.modern_design.account_module.domain.models.account.vo.AccountNumber;
 import jonathan.modern_design.user.domain.models.User;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -23,7 +23,7 @@ import static lombok.AccessLevel.PRIVATE;
 @AggregateRoot
 public final class Account {
     private Id accountId;
-    private AccountAccountNumber accountAccountNumber;
+    private AccountNumber accountNumber;
     private Status status;
     private AccountMoney money;
     private AccountAddress address;
@@ -32,15 +32,15 @@ public final class Account {
     //TODO THIS MAKES 0 SENSE, EXTRACT FIELDS THAT HAS NO LOGIC ASSOCIATED
     public Account(AccountEntity accountEntity) {
         this.accountId = Id.of(accountEntity.getAccountId());
-        this.accountAccountNumber = AccountAccountNumber.of(accountEntity.getAccountNumber());
+        this.accountNumber = AccountNumber.of(accountEntity.getAccountNumber());
         this.money = AccountMoney.of(accountEntity.getBalance(), accountEntity.getCurrency());
         this.address = AccountAddress.of(accountEntity.getAddress());
         this.userId = accountEntity.getUserId();
         this.status = accountEntity.getStatus();
     }
 
-    public void updateCRUD(AccountAccountNumber accountAccountNumber, AccountMoney money, AccountAddress address, Status status, User.Id userId) {
-        this.accountAccountNumber = accountAccountNumber;
+    public void updateCRUD(AccountNumber accountNumber, AccountMoney money, AccountAddress address, Status status, User.Id userId) {
+        this.accountNumber = accountNumber;
         this.money = money;
         this.address = address;
         this.status = status;
@@ -56,12 +56,12 @@ public final class Account {
     }
 
     public void deactivate() {
-        if (this.status == Status.INACTIVE) throw new AccountIsInactiveException(this.accountAccountNumber.getAccountNumber());
+        if (this.status == Status.INACTIVE) throw new AccountIsInactiveException(this.accountNumber.getAccountNumber());
         this.status = Status.INACTIVE;
     }
 
     public void activate() {
-        if (this.status == Status.ACTIVE) throw new AccountIsAlreadyActiveException(this.accountAccountNumber.getAccountNumber());
+        if (this.status == Status.ACTIVE) throw new AccountIsAlreadyActiveException(this.accountNumber.getAccountNumber());
         this.status = Status.ACTIVE;
     }
 
@@ -77,11 +77,11 @@ public final class Account {
 
     @NoArgsConstructor(access = PRIVATE)
     public static class Factory {
-        public static Account create(AccountAccountNumber accountAccountNumber, AccountMoney money, AccountAddress address, User.Id userId) {
+        public static Account create(AccountNumber accountNumber, AccountMoney money, AccountAddress address, User.Id userId) {
 
             return new Account(
                     null,
-                    requireNonNull(accountAccountNumber),
+                    requireNonNull(accountNumber),
                     Status.ACTIVE,
                     requireNonNull(money),
                     requireNonNull(address),

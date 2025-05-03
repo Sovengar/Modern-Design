@@ -5,9 +5,9 @@ import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design.account_module.application.CreateAccount;
 import jonathan.modern_design.account_module.application.TransferMoney;
 import jonathan.modern_design.account_module.domain.models.account.Account;
-import jonathan.modern_design.account_module.domain.models.account.vo.AccountAccountNumber;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountAddress;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
+import jonathan.modern_design.account_module.domain.models.account.vo.AccountNumber;
 
 import java.math.BigDecimal;
 
@@ -56,11 +56,11 @@ public class AccountStub extends Stub {
         private static Account builder(String accountId, AccountMoney money, boolean isActive) {
             return Account.builder()
                     .accountId(null)
-                    .accountAccountNumber(AccountAccountNumber.of(accountId))
+                    .accountNumber(AccountNumber.of(accountId))
                     .money(money)
                     .address(AccountAddress.of("street", "city", "state", "zipCode"))
-                    .userId(normalUser().id())
-                    .active(isActive)
+                    .userId(normalUser().getId())
+                    .status(isActive ? Account.Status.ACTIVE : Account.Status.INACTIVE)
                     .build();
         }
     }
@@ -70,7 +70,7 @@ public class AccountStub extends Stub {
             var username = "Account Name";
             var email = "z3u1E@example.com";
             var realname = "John Doe";
-            var currency = EUR.description();
+            var currency = EUR.getDescription();
             var password = "123456";
             var country = "XXX";
             var address = "address";
@@ -82,7 +82,7 @@ public class AccountStub extends Stub {
             var email = faker.internet().emailAddress();
             var realname = faker.name().fullName();
             var address = "street, city, state, zipCode";
-            return new CreateAccount.Command(realname, email, username, address, VALID_PASSWORD, DEFAULT_COUNTRY.code(), EUR.code());
+            return new CreateAccount.Command(realname, email, username, address, VALID_PASSWORD, DEFAULT_COUNTRY.code(), EUR.getCode());
         }
 
         public static CreateAccount.Command randomAccountWithCurrency(Currency currency) {
@@ -90,13 +90,13 @@ public class AccountStub extends Stub {
             var email = faker.internet().emailAddress();
             var realname = faker.name().fullName();
             var address = "street, city, state, zipCode";
-            return new CreateAccount.Command(realname, email, username, address, VALID_PASSWORD, DEFAULT_COUNTRY.code(), currency.code());
+            return new CreateAccount.Command(realname, email, username, address, VALID_PASSWORD, DEFAULT_COUNTRY.code(), currency.getCode());
         }
     }
 
     public static class TransferMoneyMother extends Stub {
         public static TransferMoney.Command fromAccountToAccountWithAmount(String sourceAccountId, String targetAccountId, AccountMoney money) {
-            return new TransferMoney.Command(sourceAccountId, targetAccountId, money.balance(), money.currency());
+            return new TransferMoney.Command(sourceAccountId, targetAccountId, money.getBalance(), money.getCurrency());
         }
 
         public static TransferMoney.Command transactionWithAmount(AccountMoney money) {

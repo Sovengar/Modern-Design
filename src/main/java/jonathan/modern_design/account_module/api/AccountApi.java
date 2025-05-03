@@ -7,7 +7,7 @@ import jonathan.modern_design.account_module.application.Deposit;
 import jonathan.modern_design.account_module.application.TransferMoney;
 import jonathan.modern_design.account_module.application.UpdateAccountCRUD;
 import jonathan.modern_design.account_module.application.queries.FindAccount;
-import jonathan.modern_design.account_module.domain.models.account.vo.AccountAccountNumber;
+import jonathan.modern_design.account_module.domain.models.account.vo.AccountNumber;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 public interface AccountApi {
     void transferMoney(final TransferMoney.Command command);
 
-    AccountAccountNumber createAccount(final CreateAccount.Command command);
+    AccountNumber createAccount(final CreateAccount.Command command);
 
     void deposit(final Deposit.Command command);
 
@@ -41,7 +41,7 @@ public interface AccountApi {
         }
 
         @Override
-        public AccountAccountNumber createAccount(final CreateAccount.Command message) {
+        public AccountNumber createAccount(final CreateAccount.Command message) {
             return createAccount.handle(message);
         }
 

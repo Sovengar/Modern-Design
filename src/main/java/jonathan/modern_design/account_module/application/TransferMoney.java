@@ -10,8 +10,8 @@ import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design.account_module.domain.exceptions.OperationForbiddenForSameAccount;
 import jonathan.modern_design.account_module.domain.models.Transaction;
 import jonathan.modern_design.account_module.domain.models.account.Account;
-import jonathan.modern_design.account_module.domain.models.account.vo.AccountAccountNumber;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
+import jonathan.modern_design.account_module.domain.models.account.vo.AccountNumber;
 import jonathan.modern_design.account_module.domain.services.AccountValidator;
 import jonathan.modern_design.account_module.domain.store.AccountRepo;
 import jonathan.modern_design.account_module.domain.store.TransactionRepo;
@@ -63,7 +63,7 @@ public class TransferMoney {
         Account source = getAccountValidated(message.sourceId());
         Account target = getAccountValidated(message.targetId());
 
-        validateDifferentAccounts(source.getAccountAccountNumber(), target.getAccountAccountNumber());
+        validateDifferentAccounts(source.getAccountNumber(), target.getAccountNumber());
 
         final var amount = message.amount();
         final var currency = message.currency();
@@ -78,7 +78,7 @@ public class TransferMoney {
         return account;
     }
 
-    private void validateDifferentAccounts(final AccountAccountNumber source, final AccountAccountNumber target) {
+    private void validateDifferentAccounts(final AccountNumber source, final AccountNumber target) {
         var isSameAccount = source.equals(target);
 
         if (isSameAccount) {
@@ -95,7 +95,7 @@ public class TransferMoney {
         repository.update(source);
         repository.update(target);
 
-        var tx = Transaction.Factory.transfer(money, source.getAccountAccountNumber().getAccountNumber(), target.getAccountAccountNumber().getAccountNumber());
+        var tx = Transaction.Factory.transfer(money, source.getAccountNumber().getAccountNumber(), target.getAccountNumber().getAccountNumber());
         transactionRepo.register(tx);
     }
 

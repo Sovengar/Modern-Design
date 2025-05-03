@@ -4,9 +4,9 @@ import jonathan.modern_design._common.annotations.ApplicationService;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design.account_module.api.dtos.AccountDto;
-import jonathan.modern_design.account_module.domain.models.account.vo.AccountAccountNumber;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountAddress;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
+import jonathan.modern_design.account_module.domain.models.account.vo.AccountNumber;
 import jonathan.modern_design.account_module.domain.store.AccountRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,7 +48,7 @@ public class UpdateAccountCRUD {
 
         var account = repository.findByAccNumberOrElseThrow(dto.accountNumber());
         account.updateCRUD(
-                AccountAccountNumber.of(dto.accountNumber()),
+                AccountNumber.of(dto.accountNumber()),
                 AccountMoney.of(dto.balance(), Currency.valueOf(dto.currency())),
                 AccountAddress.of(dto.address()),
                 dto.status(),

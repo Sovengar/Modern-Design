@@ -13,9 +13,9 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import jonathan.modern_design._common.AuditingColumns;
 import jonathan.modern_design._shared.Currency;
-import jonathan.modern_design.account_module.domain.models.account.vo.AccountAccountNumber;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountAddress;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
+import jonathan.modern_design.account_module.domain.models.account.vo.AccountNumber;
 import jonathan.modern_design.user.domain.models.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -50,12 +50,12 @@ public class AccountEntity extends AuditingColumns {
     private Integer version;
 
     public Account toDomain() {
-        return new Account(Account.Id.of(accountId), AccountAccountNumber.of(accountNumber), status, AccountMoney.of(balance, currency), AccountAddress.of(address), userId);
+        return new Account(Account.Id.of(accountId), AccountNumber.of(accountNumber), status, AccountMoney.of(balance, currency), AccountAddress.of(address), userId);
     }
 
     public void updateFrom(Account account) {
         this.accountId = account.getAccountId().id();
-        this.accountNumber = account.getAccountAccountNumber().getAccountNumber();
+        this.accountNumber = account.getAccountNumber().getAccountNumber();
         this.balance = account.getMoney().getBalance();
         this.currency = account.getMoney().getCurrency();
         this.address = account.getAddress().toString();
@@ -73,7 +73,7 @@ public class AccountEntity extends AuditingColumns {
         public static AccountEntity create(Account account) {
             //If we start to use id from the client, we could assign the id directly
             var accountId = nonNull(account.getAccountId()) ? account.getAccountId().id() : null;
-            var accountNumber = account.getAccountAccountNumber().getAccountNumber();
+            var accountNumber = account.getAccountNumber().getAccountNumber();
             var active = Account.Status.ACTIVE;
             var balance = account.getMoney().getBalance();
             var currency = account.getMoney().getCurrency();

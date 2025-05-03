@@ -66,12 +66,12 @@ final class AccountAcceptanceTest extends ITConfig {
             var target = getAccountWithMoney(AccountMoney.of(ZERO, EUR));
 
             accountFacade.transferMoney(fromAccountToAccountWithAmount(
-                    source.getAccountAccountNumber().getAccountNumber(),
-                    target.getAccountAccountNumber().getAccountNumber(),
+                    source.getAccountNumber().getAccountNumber(),
+                    target.getAccountNumber().getAccountNumber(),
                     AccountMoney.of(BigDecimal.valueOf(50.0), EUR))
             );
 
-            source = repository.findByAccNumberOrElseThrow(source.getAccountAccountNumber().getAccountNumber());
+            source = repository.findByAccNumberOrElseThrow(source.getAccountNumber().getAccountNumber());
             Approvals.verify(source.getMoney().getBalance());
         }
 
@@ -81,12 +81,12 @@ final class AccountAcceptanceTest extends ITConfig {
             var target = getAccountWithMoney(AccountMoney.of(ZERO, EUR));
 
             accountFacade.transferMoney(fromAccountToAccountWithAmount(
-                    source.getAccountAccountNumber().getAccountNumber(),
-                    target.getAccountAccountNumber().getAccountNumber(),
+                    source.getAccountNumber().getAccountNumber(),
+                    target.getAccountNumber().getAccountNumber(),
                     AccountMoney.of(BigDecimal.valueOf(50.0), EUR))
             );
 
-            target = repository.findByAccNumberOrElseThrow(target.getAccountAccountNumber().getAccountNumber());
+            target = repository.findByAccNumberOrElseThrow(target.getAccountNumber().getAccountNumber());
             Approvals.verify(target.getMoney().getBalance());
         }
     }

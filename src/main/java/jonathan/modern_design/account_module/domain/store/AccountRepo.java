@@ -2,12 +2,12 @@ package jonathan.modern_design.account_module.domain.store;
 
 import jonathan.modern_design.account_module.domain.exceptions.AccountNotFoundException;
 import jonathan.modern_design.account_module.domain.models.account.Account;
-import jonathan.modern_design.account_module.domain.models.account.vo.AccountAccountNumber;
+import jonathan.modern_design.account_module.domain.models.account.vo.AccountNumber;
 
 import java.util.Optional;
 
 public interface AccountRepo {
-    AccountAccountNumber create(Account account);
+    AccountNumber create(Account account);
 
     void update(Account account);
 

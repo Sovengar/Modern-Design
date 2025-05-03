@@ -10,9 +10,9 @@ import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design._shared.country.CountriesInventory;
 import jonathan.modern_design.account_module.api.dtos.AccountDto;
 import jonathan.modern_design.account_module.domain.models.account.Account;
-import jonathan.modern_design.account_module.domain.models.account.vo.AccountAccountNumber;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountAddress;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
+import jonathan.modern_design.account_module.domain.models.account.vo.AccountNumber;
 import jonathan.modern_design.account_module.domain.store.AccountRepo;
 import jonathan.modern_design.user.api.UserApi;
 import jonathan.modern_design.user.application.RegisterUser;
@@ -65,12 +65,12 @@ public class CreateAccount {
     private final CountriesInventory countriesInventory;
 
     @Transactional
-    public AccountAccountNumber handle(final Command message) {
+    public AccountNumber handle(final Command message) {
         log.info("START - Creating account with command: {}", message);
 
         var userId = registerUser(message);
         final var currency = Currency.fromCode(message.currency());
-        final var account = Account.Factory.create(AccountAccountNumber.of(AccountNumberGenerator.generate()), AccountMoney.of(BigDecimal.ZERO, currency), AccountAddress.of(message.address()), userId);
+        final var account = Account.Factory.create(AccountNumber.of(AccountNumberGenerator.generate()), AccountMoney.of(BigDecimal.ZERO, currency), AccountAddress.of(message.address()), userId);
 
         var accountNumber = repository.create(account);
         log.info("END - Account created  with number: {}", accountNumber);
