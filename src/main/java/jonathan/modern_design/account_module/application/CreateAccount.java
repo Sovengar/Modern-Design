@@ -48,7 +48,7 @@ class CreateAccountHttpController {
         log.info("START Controller - Creating account with command: {}", message);
         final var accountNumber = createAccount.handle(message).accountNumber();
 
-        var account = repository.findOneOrElseThrow(accountNumber);
+        var account = repository.findByAccNumberOrElseThrow(accountNumber);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{accountNumber}").buildAndExpand(accountNumber).toUri();
 
         log.info("END Controller - Account created  with number: {}", accountNumber);

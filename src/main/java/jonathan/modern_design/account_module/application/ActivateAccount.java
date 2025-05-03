@@ -35,7 +35,7 @@ class ActivateAccount {
 
     protected void handle(final @Valid Command message) {
         log.info("BEGIN - ActivateAccount");
-        var account = repository.findOneOrElseThrow(message.accountNumber());
+        var account = repository.findByAccNumberOrElseThrow(message.accountNumber());
         account.activate();
         repository.update(account);
         log.info("END - ActivateAccount");

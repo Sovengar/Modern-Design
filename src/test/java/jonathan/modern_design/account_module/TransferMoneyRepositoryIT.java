@@ -35,7 +35,7 @@ class TransferMoneyRepositoryIT extends ITConfig {
             accountFacade.deposit(new Deposit.Command(accountNumber, money.balance(), money.currency()));
         }
 
-        return repository.findOneOrElseThrow(accountNumber);
+        return repository.findByAccNumberOrElseThrow(accountNumber);
     }
 
     @Nested

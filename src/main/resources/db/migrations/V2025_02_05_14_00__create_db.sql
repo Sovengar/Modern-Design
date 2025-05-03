@@ -63,7 +63,6 @@ create TABLE deleted_rows (
     data JSONB NOT NULL
 );
 
--- Índices recomendados
 create index idx_deleted_rows_origin_table on deleted_rows(origin_table);
 create index idx_deleted_rows_origin_id on deleted_rows(origin_id);
 create index idx_deleted_rows_deleted_at on deleted_rows(deleted_at);

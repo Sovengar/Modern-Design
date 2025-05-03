@@ -46,7 +46,7 @@ public class UpdateAccountCRUD {
     public void handle(AccountDto dto) {
         log.info("BEGIN Update");
 
-        var account = repository.findOneOrElseThrow(dto.accountNumber());
+        var account = repository.findByAccNumberOrElseThrow(dto.accountNumber());
         account.updateCRUD(
                 AccountAccountNumber.of(dto.accountNumber()),
                 AccountMoney.of(dto.balance(), Currency.valueOf(dto.currency())),

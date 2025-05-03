@@ -29,7 +29,7 @@ class DepositHttpControllerIT extends ITConfig {
                 .andExpect(status().isOk());
 
         // Assert
-        var updated = repository.findOne(accountNumber).orElseThrow();
+        var updated = repository.findByAccNumber(accountNumber).orElseThrow();
         assertEquals(BigDecimal.valueOf(100), updated.money().balance());
     }
 }

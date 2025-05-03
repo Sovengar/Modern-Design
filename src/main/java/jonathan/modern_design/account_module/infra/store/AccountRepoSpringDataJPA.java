@@ -16,6 +16,10 @@ import java.util.stream.Stream;
 public interface AccountRepoSpringDataJPA extends JpaRepository<AccountEntity, String> {
     Optional<AccountEntity> findByAccountNumber(@NonNull String accountNumber);
 
+    default AccountEntity findByAccNumberOrElseThrow(@NonNull final String accountNumber) {
+        return findByAccountNumber(accountNumber).orElseThrow(() -> new IllegalArgumentException("Account not found"));
+    }
+
     // ✨ Stream para procesamiento eficiente de grandes cantidades de datos
     @Query("SELECT a FROM AccountEntity a WHERE a.status = ACTIVE")
     Stream<AccountEntity> streamAllActiveAccounts();

@@ -39,7 +39,7 @@ final class AccountAcceptanceTest extends ITConfig {
             accountFacade.deposit(new Deposit.Command(accountNumber, money.balance(), money.currency()));
         }
 
-        return repository.findOneOrElseThrow(accountNumber);
+        return repository.findByAccNumberOrElseThrow(accountNumber);
     }
 
     @Nested
@@ -64,7 +64,7 @@ final class AccountAcceptanceTest extends ITConfig {
             var target = getAccountWithMoney(AccountMoney.of(ZERO, EUR));
             accountFacade.transferMoney(fromAccountToAccountWithAmount(source.accountAccountNumber().accountNumber(), target.accountAccountNumber().accountNumber(), AccountMoney.of(BigDecimal.valueOf(50.0), EUR)));
 
-            source = repository.findOneOrElseThrow(source.accountAccountNumber().accountNumber());
+            source = repository.findByAccNumberOrElseThrow(source.accountAccountNumber().accountNumber());
             Approvals.verify(source.money().balance());
         }
 
@@ -74,7 +74,7 @@ final class AccountAcceptanceTest extends ITConfig {
             var target = getAccountWithMoney(AccountMoney.of(ZERO, EUR));
             accountFacade.transferMoney(fromAccountToAccountWithAmount(source.accountAccountNumber().accountNumber(), target.accountAccountNumber().accountNumber(), AccountMoney.of(BigDecimal.valueOf(50.0), EUR)));
 
-            target = repository.findOneOrElseThrow(target.accountAccountNumber().accountNumber());
+            target = repository.findByAccNumberOrElseThrow(target.accountAccountNumber().accountNumber());
             Approvals.verify(target.money().balance());
         }
     }

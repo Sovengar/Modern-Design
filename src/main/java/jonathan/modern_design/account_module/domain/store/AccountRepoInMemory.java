@@ -15,7 +15,7 @@ public class AccountRepoInMemory implements AccountRepo {
     private final ConcurrentHashMap<String, Account> accounts = new ConcurrentHashMap<>();
 
     @Override
-    public Optional<Account> findOne(String accountNumber) {
+    public Optional<Account> findByAccNumber(String accountNumber) {
         var account = accounts.get(accountNumber);
         return ofNullable(account);
     }

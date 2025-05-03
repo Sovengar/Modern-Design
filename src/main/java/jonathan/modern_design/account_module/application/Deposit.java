@@ -49,7 +49,7 @@ public class Deposit {
     @Transactional
     public void handle(final @Valid Command message) {
         log.info("BEGIN Deposit");
-        var account = repository.findOne(message.accountNumber()).orElseThrow();
+        var account = repository.findByAccNumber(message.accountNumber()).orElseThrow();
 
         var money = AccountMoney.of(message.amount(), message.currency());
         account.deposit(money);

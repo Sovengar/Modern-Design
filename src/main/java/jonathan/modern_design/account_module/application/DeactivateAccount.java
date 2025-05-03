@@ -34,7 +34,7 @@ class DeactivateAccount {
 
     protected void handle(final @Valid Command message) {
         log.info("BEGIN - DeactiveAccount");
-        var account = repository.findOneOrElseThrow(message.accountNumber());
+        var account = repository.findByAccNumberOrElseThrow(message.accountNumber());
         account.deactivate();
         repository.update(account);
         log.info("END - DeactiveAccount");

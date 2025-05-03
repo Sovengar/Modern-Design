@@ -24,7 +24,7 @@ class AccountStore implements AccountRepo {
     private final AccountRepoSpringDataJDBC repositoryJDBC;
 
     @Override
-    public Optional<Account> findOne(final String accountNumber) {
+    public Optional<Account> findByAccNumber(final String accountNumber) {
         return findOneEntity(accountNumber).map(AccountEntity::toDomain);
         // Use JDBC return accountEntity.map(AccountJdbcEntity::toDomain);
     }

@@ -43,7 +43,7 @@ class WithdrawMoney {
 
     public void handle(final @Valid WithdrawMoneyCommand message) {
         log.info("BEGIN WithdrawMoney");
-        var account = repository.findOne(message.accountNumber()).orElseThrow();
+        var account = repository.findByAccNumber(message.accountNumber()).orElseThrow();
 
         var money = AccountMoney.of(message.amount(), message.currency());
         account.withdrawal(money);

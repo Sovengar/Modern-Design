@@ -73,7 +73,7 @@ public class TransferMoney {
     }
 
     private Account getAccountValidated(final String accountNumber) {
-        var account = repository.findOneOrElseThrow(accountNumber);
+        var account = repository.findByAccNumberOrElseThrow(accountNumber);
         accountValidator.validateAccount(account);
         return account;
     }

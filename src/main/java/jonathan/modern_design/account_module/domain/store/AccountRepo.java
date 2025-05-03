@@ -13,9 +13,9 @@ public interface AccountRepo {
 
     void delete(final String accountNumber);
 
-    Optional<Account> findOne(final String accountNumber);
+    Optional<Account> findByAccNumber(final String accountNumber);
 
-    default Account findOneOrElseThrow(final String accountNumber) {
-        return findOne(accountNumber).orElseThrow(() -> new AccountNotFoundException(accountNumber));
+    default Account findByAccNumberOrElseThrow(final String accountNumber) {
+        return findByAccNumber(accountNumber).orElseThrow(() -> new AccountNotFoundException(accountNumber));
     }
 }
