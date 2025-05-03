@@ -54,13 +54,11 @@ class AccountRepoSpringDataJPATest extends ITConfig {
         //assertThat(dtoList).isEqualTo(1);
         //assertThat(domainModelList).isEqualTo(1);
 
-        projectionList.forEach(projection -> {
-            log.info("Projection -> id: {}, number: {}, balance: {}, currency: {}",
-                    projection.getAccountId(),
-                    projection.getAccountNumber(),
-                    projection.getBalance(),
-                    projection.getCurrency()
-            );
-        });
+        projectionList.forEach(projection -> log.info("Projection -> id: {}, number: {}, balance: {}, currency: {}",
+                projection.getAccountId(),
+                projection.getAccountNumber(),
+                projection.getBalance(),
+                projection.getCurrency()
+        ));
     }
 }
