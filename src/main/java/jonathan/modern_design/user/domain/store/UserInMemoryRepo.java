@@ -13,12 +13,12 @@ public class UserInMemoryRepo implements UserRepo {
 
     @Override
     public void registerUser(User user) {
-        users.put(user.id(), user);
+        users.put(user.getId(), user);
     }
 
     @Override
     public void updateUser(final User user) {
-        users.put(user.id(), user);
+        users.put(user.getId(), user);
     }
 
     @Override

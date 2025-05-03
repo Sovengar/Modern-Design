@@ -54,13 +54,13 @@ public class AccountEntity extends AuditingColumns {
     }
 
     public void updateFrom(Account account) {
-        this.accountId = account.accountId().id();
-        this.accountNumber = account.accountAccountNumber().accountNumber();
-        this.balance = account.money().balance();
-        this.currency = account.money().currency();
-        this.address = account.address().toString();
-        this.status = account.status();
-        this.userId = account.userId();
+        this.accountId = account.getAccountId().id();
+        this.accountNumber = account.getAccountAccountNumber().getAccountNumber();
+        this.balance = account.getMoney().getBalance();
+        this.currency = account.getMoney().getCurrency();
+        this.address = account.getAddress().toString();
+        this.status = account.getStatus();
+        this.userId = account.getUserId();
     }
 
     @PrePersist
@@ -72,13 +72,13 @@ public class AccountEntity extends AuditingColumns {
     public static class Factory {
         public static AccountEntity create(Account account) {
             //If we start to use id from the client, we could assign the id directly
-            var accountId = nonNull(account.accountId()) ? account.accountId().id() : null;
-            var accountNumber = account.accountAccountNumber().accountNumber();
+            var accountId = nonNull(account.getAccountId()) ? account.getAccountId().id() : null;
+            var accountNumber = account.getAccountAccountNumber().getAccountNumber();
             var active = Account.Status.ACTIVE;
-            var balance = account.money().balance();
-            var currency = account.money().currency();
-            var address = account.address().toString();
-            var userId = account.userId();
+            var balance = account.getMoney().getBalance();
+            var currency = account.getMoney().getCurrency();
+            var address = account.getAddress().toString();
+            var userId = account.getUserId();
             var version = 0;
 
             return new AccountEntity(accountId, accountNumber, active, balance, currency, address, userId, version);

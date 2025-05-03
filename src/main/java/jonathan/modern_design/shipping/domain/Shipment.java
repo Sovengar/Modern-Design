@@ -23,20 +23,20 @@ public class Shipment {
     }
 
     public boolean isComplete() {
-        return stopsEntity.stream().allMatch(stop -> stop.status() == Stop.Status.DEPARTED);
+        return stopsEntity.stream().allMatch(stop -> stop.getStatus() == Stop.Status.DEPARTED);
     }
 
     public void arrive(int stopId) {
         var currentStop = getCurrentStopOrElseThrow(stopId);
 
         boolean previousAreNotDeparted = stopsEntity.stream()
-                .anyMatch(stop -> stop.status() != Stop.Status.DEPARTED); //add stop.sequence() < currentStop.sequence() &&
+                .anyMatch(stop -> stop.getStatus() != Stop.Status.DEPARTED); //add stop.sequence() < currentStop.sequence() &&
 
         if (previousAreNotDeparted) {
             throw new IllegalStateException("Previous stops have not departed");
         }
 
-        if (currentStop.status() != Stop.Status.IN_TRANSIT) {
+        if (currentStop.getStatus() != Stop.Status.IN_TRANSIT) {
             throw new IllegalStateException("Current stop is not in transit");
         }
 
@@ -65,14 +65,14 @@ public class Shipment {
 
     private StopEntity getCurrentStopOrElseThrow(final Long stopId) {
         return stopsEntity.stream()
-                .filter(stop -> stop.id().equals(stopId))
+                .filter(stop -> stop.getId().equals(stopId))
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("Stop not found"));
     }
 
     private Stop getCurrentStopOrElseThrow(final int stopId) {
         return stops.stream()
-                .filter(stop -> stop.stopId() == stopId)
+                .filter(stop -> stop.getStopId() == stopId)
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("Stop not found"));
     }

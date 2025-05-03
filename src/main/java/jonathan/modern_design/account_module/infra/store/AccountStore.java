@@ -33,12 +33,12 @@ class AccountStore implements AccountRepo {
     public AccountAccountNumber create(final Account account) {
         var accountEntity = AccountEntity.Factory.create(account);
         repositoryJPA.save(accountEntity);
-        return account.accountAccountNumber();
+        return account.getAccountAccountNumber();
     }
 
     @Override
     public void update(final Account account) {
-        var accountEntity = findOneEntityOrElseThrow(account.accountAccountNumber().accountNumber());
+        var accountEntity = findOneEntityOrElseThrow(account.getAccountAccountNumber().getAccountNumber());
         AccountDataMapper.updateEntity(accountEntity, account);
         repositoryJPA.save(accountEntity);
 

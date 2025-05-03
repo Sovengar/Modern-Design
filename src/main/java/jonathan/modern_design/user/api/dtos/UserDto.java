@@ -8,10 +8,10 @@ public record UserDto(String realname, String email, String country, String user
     public UserDto(User user) {
         this(
                 user.getRealNameOrPlaceHolder(),
-                user.email().email(),
-                user.country(),
-                user.username().username(),
-                Map.of("inventedProperty", user.username().username())
+                user.getEmail().getEmail(),
+                user.getCountry(),
+                user.getUsername().getUsername(),
+                Map.of("inventedProperty", user.getUsername().getUsername())
         );
     }
 

@@ -2,7 +2,7 @@ package jonathan.modern_design.account_module.application;
 
 import jonathan.modern_design._common.annotations.ApplicationService;
 import jonathan.modern_design._common.annotations.WebAdapter;
-import jonathan.modern_design._internal.DeletedRowService;
+import jonathan.modern_design._common.delete_table.DeletedRowService;
 import jonathan.modern_design.account_module.domain.store.AccountRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,8 +41,8 @@ class DeleteAccount {
         var account = repository.findByAccNumberOrElseThrow(accountNumber);
         var username = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        deletedRowService.saveDeletedEntity(account, "md.accounts", String.valueOf(account.accountId().id()), username, reason);
-        repository.delete(accountNumber);
+        deletedRowService.saveDeletedEntity(account, "md.accounts", String.valueOf(account.getAccountId().id()), username, reason);
+        //repository.delete(accountNumber);
 
         log.info("END DeleteAccount");
     }

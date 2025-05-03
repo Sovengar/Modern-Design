@@ -1,4 +1,4 @@
-package jonathan.modern_design._internal;
+package jonathan.modern_design._common.delete_table;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,7 +30,7 @@ public class DeletedRowService {
             return deletedRowRepository.findByOriginTableAndOriginId(originTable, originId)
                     .map(deletedRow -> {
                         try {
-                            return objectMapper.readValue(deletedRow.data(), entityClass);
+                            return objectMapper.readValue(deletedRow.getData(), entityClass);
                         } catch (JsonProcessingException e) {
                             throw new SerializingDeletedRowException("Error deserializing deleted entity", e);
                         }

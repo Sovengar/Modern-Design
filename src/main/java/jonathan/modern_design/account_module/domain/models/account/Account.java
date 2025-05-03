@@ -30,12 +30,12 @@ public final class Account {
 
     //TODO THIS MAKES 0 SENSE, EXTRACT FIELDS THAT HAS NO LOGIC ASSOCIATED
     public Account(AccountEntity accountEntity) {
-        this.accountId = Id.of(accountEntity.accountId());
-        this.accountAccountNumber = AccountAccountNumber.of(accountEntity.accountNumber());
-        this.money = AccountMoney.of(accountEntity.balance(), accountEntity.currency());
-        this.address = AccountAddress.of(accountEntity.address());
-        this.userId = accountEntity.userId();
-        this.status = accountEntity.status();
+        this.accountId = Id.of(accountEntity.getAccountId());
+        this.accountAccountNumber = AccountAccountNumber.of(accountEntity.getAccountNumber());
+        this.money = AccountMoney.of(accountEntity.getBalance(), accountEntity.getCurrency());
+        this.address = AccountAddress.of(accountEntity.getAddress());
+        this.userId = accountEntity.getUserId();
+        this.status = accountEntity.getStatus();
     }
 
     public void updateCRUD(AccountAccountNumber accountAccountNumber, AccountMoney money, AccountAddress address, Status status, User.Id userId) {
@@ -55,12 +55,12 @@ public final class Account {
     }
 
     public void deactivate() {
-        if (this.status == Status.INACTIVE) throw new AccountIsInactiveException(this.accountAccountNumber.accountNumber());
+        if (this.status == Status.INACTIVE) throw new AccountIsInactiveException(this.accountAccountNumber.getAccountNumber());
         this.status = Status.INACTIVE;
     }
 
     public void activate() {
-        if (this.status == Status.ACTIVE) throw new AccountIsAlreadyActiveException(this.accountAccountNumber.accountNumber());
+        if (this.status == Status.ACTIVE) throw new AccountIsAlreadyActiveException(this.accountAccountNumber.getAccountNumber());
         this.status = Status.ACTIVE;
     }
 

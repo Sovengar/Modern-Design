@@ -22,8 +22,8 @@ public class AccountRepoInMemory implements AccountRepo {
 
     @Override
     public AccountAccountNumber create(Account account) {
-        accounts.put(account.accountAccountNumber().accountNumber(), account);
-        return account.accountAccountNumber();
+        accounts.put(account.getAccountAccountNumber().getAccountNumber(), account);
+        return account.getAccountAccountNumber();
     }
 
     @Override

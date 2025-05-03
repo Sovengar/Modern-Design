@@ -1,4 +1,4 @@
-package jonathan.modern_design._internal;
+package jonathan.modern_design._common.delete_table;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

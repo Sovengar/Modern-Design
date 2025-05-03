@@ -47,7 +47,7 @@ class WithdrawMoney {
 
         var money = AccountMoney.of(message.amount(), message.currency());
         account.withdrawal(money);
-        var tx = Transaction.Factory.withdrawal(money, account.accountAccountNumber().accountNumber());
+        var tx = Transaction.Factory.withdrawal(money, account.getAccountAccountNumber().getAccountNumber());
 
         transactionRepo.register(tx);
         repository.update(account);

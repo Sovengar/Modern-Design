@@ -16,23 +16,23 @@ public record AccountDto(
 
     public AccountDto(final Account account) {
         this(
-                account.accountAccountNumber().accountNumber(),
-                account.money().balance(),
-                account.money().currency().description(),
-                account.address().toString(),
-                account.status(),
-                account.userId()
+                account.getAccountAccountNumber().getAccountNumber(),
+                account.getMoney().getBalance(),
+                account.getMoney().getCurrency().getDescription(),
+                account.getAddress().toString(),
+                account.getStatus(),
+                account.getUserId()
         );
     }
 
     public AccountDto(final AccountEntity account) {
         this(
-                account.accountNumber(),
-                account.balance(),
-                account.currency().description(),
-                account.address(),
-                account.status(),
-                account.userId()
+                account.getAccountNumber(),
+                account.getBalance(),
+                account.getCurrency().getDescription(),
+                account.getAddress(),
+                account.getStatus(),
+                account.getUserId()
         );
     }
 }

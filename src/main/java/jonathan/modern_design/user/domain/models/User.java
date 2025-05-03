@@ -16,6 +16,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import jonathan.modern_design._common.AuditingColumns;
 import jonathan.modern_design._common.annotations.AggregateRoot;
+import jonathan.modern_design._common.annotations.ValueObject;
 import jonathan.modern_design._shared.country.Country;
 import jonathan.modern_design.user.domain.catalogs.Roles;
 import jonathan.modern_design.user.domain.models.vo.UserEmail;
@@ -59,7 +60,6 @@ public class User extends AuditingColumns {
     private UserEmail email;
     @Embedded
     @AttributeOverride(name = "email", column = @Column(name = "internal_enterprise_email"))
-    @Getter(PRIVATE)
     private UserEmail internalEnterpriseEmail;
     @Embedded
     private UserPassword password;
@@ -77,11 +77,11 @@ public class User extends AuditingColumns {
     private boolean deleted = false;
 
     public String getRealNameOrPlaceHolder() {
-        return realname.getRealname().orElse("Anonymous");
+        return realname.getRealname().orElse("Not defined");
     }
 
     public Optional<String> getInternalEnterpriseEmail() {
-        return internalEnterpriseEmail != null ? ofNullable(internalEnterpriseEmail.email()) : Optional.empty();
+        return internalEnterpriseEmail != null ? ofNullable(internalEnterpriseEmail.getEmail()) : Optional.empty();
     }
 
     public void delete() {
@@ -106,11 +106,11 @@ public class User extends AuditingColumns {
 
         //An inactive user can have their role changed to another role
 
-        if (this.role.code().equals(newRole.code())) {
+        if (this.role.getCode().equals(newRole.getCode())) {
             throw new IllegalStateException("Cannot change role to the same role.");
         }
 
-        if (newRole.code().roleCode().equals(Roles.ADMIN.code())) {
+        if (newRole.getCode().getRoleCode().equals(Roles.ADMIN.getCode())) {
             throw new IllegalStateException("Cannot change the role of an ADMIN.");
         }
 
@@ -133,7 +133,7 @@ public class User extends AuditingColumns {
     @Value //Not a record for Hibernate
     @NoArgsConstructor(access = PACKAGE, force = true) //For Hibernate
     @RequiredArgsConstructor(staticName = "of")
-    public static class Id implements Serializable {
+    public static class Id implements Serializable, ValueObject {
         @Serial private static final long serialVersionUID = -2753108705494085826L;
         UUID userId;
     }
@@ -152,7 +152,7 @@ public class User extends AuditingColumns {
             var userId = id != null ? id : Id.of(UUID.randomUUID());
             var version = 0;
             var deleted = false;
-            
+
             return new User(userId, realname, requireNonNull(username), requireNonNull(email), internalEmail, requireNonNull(password), requireNonNull(country).code(), Status.ACTIVE, phoneNumbers, Role.of(Roles.ADMIN), version, deleted);
         }
     }

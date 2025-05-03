@@ -139,7 +139,7 @@ class SearchAccountQueryImpl implements SearchAccount {
         return queryFactory
                 .select(Projections.constructor(AccountSearchResult.class, accountEntity.accountId, user.username.username))
                 .from(accountEntity)
-                .where(filtersBuilded.and(accountEntity.userId.userUuid.eq(user.uuid.userUuid)))
+                .where(filtersBuilded.and(accountEntity.userId.userId.eq(user.id.userId)))
                 .fetch();
     }
 
@@ -149,7 +149,7 @@ class SearchAccountQueryImpl implements SearchAccount {
 
         var accounts = queryFactory
                 .selectFrom(accountEntity)
-                .where(filtersBuilded.and(accountEntity.userId.userUuid.eq(user.uuid.userUuid)))
+                .where(filtersBuilded.and(accountEntity.userId.userId.eq(user.id.userId)))
                 .fetch();
 
         return accounts.stream().map(AccountDto::new).toList();
@@ -163,8 +163,7 @@ class SearchAccountQueryImpl implements SearchAccount {
                 .map(AccountEntity::toDomain)
                 .toList();
 
-        //This is bad, there is no filter, I am just showing findAll pageable from Spring Data JPA
-
+        //This is bad, there is no filter. Just showing findAll pageable from Spring Data JPA
         var accountsDto = accounts.stream().map(AccountDto::new).toList();
         return new PageImpl<>(accountsDto, pageable, accounts.size());
     }
@@ -177,7 +176,7 @@ class SearchAccountQueryImpl implements SearchAccount {
 
         assert userFound != null;
         var accountFound = queryFactory.selectFrom(accountEntity)
-                .where(accountEntity.userId.eq(userFound.id()))
+                .where(accountEntity.userId.eq(userFound.getId()))
                 .fetchOne();
 
         return ofNullable(accountFound).map(AccountDto::new);

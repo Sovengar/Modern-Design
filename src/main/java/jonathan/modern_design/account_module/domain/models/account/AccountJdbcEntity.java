@@ -26,13 +26,13 @@ public record AccountJdbcEntity(
 
     public AccountJdbcEntity(AccountJdbcEntity entity, Account account) {
         this(
-                account.accountId().id(),
-                account.accountAccountNumber().accountNumber(),
-                account.money().balance(),
-                account.money().currency(),
-                account.address().toString(),
-                account.status(),
-                account.userId().userId(),
+                account.getAccountId().id(),
+                account.getAccountAccountNumber().getAccountNumber(),
+                account.getMoney().getBalance(),
+                account.getMoney().getCurrency(),
+                account.getAddress().toString(),
+                account.getStatus(),
+                account.getUserId().getUserId(),
                 entity.createdAt(),
                 entity.updatedAt()
         );

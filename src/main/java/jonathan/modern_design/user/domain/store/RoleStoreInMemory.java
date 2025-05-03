@@ -19,7 +19,7 @@ public class RoleStoreInMemory implements RoleStore {
         list.add(Role.of(Roles.USER));
         list.add(Role.of(Roles.TECHNICIAN));
 
-        list.forEach(role -> codes.put(role.code(), role));
+        list.forEach(role -> codes.put(role.getCode(), role));
 
         //codes.put(new Role.Code(Roles.ADMIN.code()), Role.of(Roles.ADMIN));
         //codes.put(new Role.Code(Roles.USER.code()), Role.of(Roles.USER));

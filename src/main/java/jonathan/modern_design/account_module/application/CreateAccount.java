@@ -46,7 +46,7 @@ class CreateAccountHttpController {
     @Transactional
     public ResponseEntity<AccountDto> createAccount(@RequestBody @Valid final CreateAccount.Command message) {
         log.info("START Controller - Creating account with command: {}", message);
-        final var accountNumber = createAccount.handle(message).accountNumber();
+        final var accountNumber = createAccount.handle(message).getAccountNumber();
 
         var account = repository.findByAccNumberOrElseThrow(accountNumber);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{accountNumber}").buildAndExpand(accountNumber).toUri();

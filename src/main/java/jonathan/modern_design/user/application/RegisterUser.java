@@ -67,7 +67,7 @@ public class RegisterUser {
         });
 
         //Begin with Complex logic to know the final role of the user
-        var roleCode = Role.Code.of(Roles.USER.code());
+        var roleCode = Role.Code.of(Roles.USER.getCode());
         var role = roleStore.findByCode(roleCode);
         //End of complex logic
 
@@ -76,7 +76,7 @@ public class RegisterUser {
         repository.registerUser(user);
 
         log.info("END RegisterUser");
-        return user.id().userId();
+        return user.getId().getUserId();
     }
 
     private static class UserAlreadyExistsException extends RuntimeException {

@@ -6,6 +6,6 @@ import jonathan.modern_design.user.domain.models.Role;
 //If we use the model directly, the moment we need to diverge, we would need to use a DTO
 public record RoleDto(String code, String description) {
     public RoleDto(Role role) {
-        this(role.code().roleCode(), role.description());
+        this(role.getCode().getRoleCode(), role.getDescription());
     }
 }

@@ -32,7 +32,7 @@ public class Role {
     private String description;
 
     public static Role of(Roles roleEnum) {
-        return new Role(Role.Code.of(roleEnum.code()), roleEnum.description());
+        return new Role(Role.Code.of(roleEnum.getCode()), roleEnum.getDescription());
     }
 
     //IMPORTANT: Avoid an indirect link with the user

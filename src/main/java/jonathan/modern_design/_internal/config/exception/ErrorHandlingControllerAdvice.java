@@ -166,17 +166,17 @@ class ErrorHandlingControllerAdvice extends ResponseEntityExceptionHandler {
     //Catch API defined exceptions
     @ExceptionHandler
     public ResponseEntity<ProblemDetail> handleCustomExceptions(final RootException ex) {
-        String message = org.springframework.util.StringUtils.hasText(ex.messageToBeDisplayed()) ?
-                i18nUtils.getMessage(ex.messageToBeDisplayed()) :
+        String message = org.springframework.util.StringUtils.hasText(ex.getMessageToBeDisplayed()) ?
+                i18nUtils.getMessage(ex.getMessageToBeDisplayed()) :
                 i18nUtils.getMessage(API_DEFAULT_REQUEST_FAILED_MESSAGE);
 
-        final ProblemDetail problemDetail = this.buildProblemDetail(ex.httpStatus(), message, ex.errors());
+        final ProblemDetail problemDetail = this.buildProblemDetail(ex.getHttpStatus(), message, ex.getErrors());
         log.error("Error ID: {} - {}", getErrorId(problemDetail), ex.getMessage(), ex);
         // if (ex.getHttpStatus().is5xxServerError()) {
         //   this.slack.notify(format("[API] InternalServerError: %s", ex.getMessage()));
         // }
 
-        return ResponseEntity.status(ex.httpStatus()).body(problemDetail);
+        return ResponseEntity.status(ex.getHttpStatus()).body(problemDetail);
     }
 
     //Fallback, catch all unknown exceptions
