@@ -1,6 +1,7 @@
 package jonathan.modern_design.user.domain.models.vo;
 
 import jakarta.persistence.Embeddable;
+import jonathan.modern_design._common.annotations.ValueObject;
 import jonathan.modern_design._internal.config.exception.RootException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,7 @@ import static java.util.Optional.ofNullable;
 @Value //No record for Hibernate
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE) //For Hibernate
-public class UserRealName {
+public class UserRealName implements ValueObject {
     String realname;
 
     public static UserRealName of(String name) {

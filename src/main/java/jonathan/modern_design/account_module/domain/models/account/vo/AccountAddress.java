@@ -1,6 +1,7 @@
 package jonathan.modern_design.account_module.domain.models.account.vo;
 
 import jakarta.persistence.Embeddable;
+import jonathan.modern_design._common.annotations.ValueObject;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Value;
@@ -11,7 +12,7 @@ import static lombok.AccessLevel.PRIVATE;
 @Value //No record for Hibernate
 @NoArgsConstructor(access = PRIVATE, force = true) //For Hibernate
 @AllArgsConstructor(access = PRIVATE)
-public class AccountAddress {
+public class AccountAddress implements ValueObject {
     String street;
     String city;
     String state;

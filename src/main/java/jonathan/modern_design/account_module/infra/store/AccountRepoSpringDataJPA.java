@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public interface AccountRepoSpringDataJPA extends JpaRepository<AccountEntity, String> {
+public interface AccountRepoSpringDataJPA extends JpaRepository<AccountEntity, Long> {
     Optional<AccountEntity> findByAccountNumber(@NonNull String accountNumber);
 
     default AccountEntity findByAccNumberOrElseThrow(@NonNull final String accountNumber) {

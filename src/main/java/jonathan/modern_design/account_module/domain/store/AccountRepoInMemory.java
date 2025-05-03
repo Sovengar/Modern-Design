@@ -12,27 +12,40 @@ import static java.util.Optional.ofNullable;
 
 @Fake //This class is for unit tests, also, don't evaluate his state, pointless, rather evaluate the state of the objects
 public class AccountRepoInMemory implements AccountRepo {
-    private final ConcurrentHashMap<String, Account> accounts = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, Account> accountsByNumber = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<Account.Id, Account> accountsById = new ConcurrentHashMap<>();
 
     @Override
     public Optional<Account> findByAccNumber(String accountNumber) {
-        var account = accounts.get(accountNumber);
+        var account = accountsByNumber.get(accountNumber);
         return ofNullable(account);
     }
 
     @Override
     public AccountAccountNumber create(Account account) {
-        accounts.put(account.getAccountAccountNumber().getAccountNumber(), account);
+        accountsByNumber.put(account.getAccountAccountNumber().getAccountNumber(), account);
+        accountsById.put(account.getAccountId(), account);
         return account.getAccountAccountNumber();
     }
 
     @Override
     public void update(Account account) {
         requireNonNull(account);
+        accountsByNumber.put(account.getAccountAccountNumber().getAccountNumber(), account);
+        accountsById.put(account.getAccountId(), account);
     }
 
     @Override
     public void delete(final String accountNumber) {
-        accounts.remove(accountNumber);
+        var account = accountsByNumber.get(accountNumber);
+        if (account != null) {
+            accountsById.remove(account.getAccountId());
+            accountsByNumber.remove(accountNumber);
+        }
+    }
+
+    @Override
+    public Optional<Account> findById(final Account.Id id) {
+        return ofNullable(accountsById.get(id));
     }
 }

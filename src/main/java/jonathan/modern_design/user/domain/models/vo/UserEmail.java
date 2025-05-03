@@ -2,6 +2,7 @@ package jonathan.modern_design.user.domain.models.vo;
 
 
 import jakarta.persistence.Embeddable;
+import jonathan.modern_design._common.annotations.ValueObject;
 import jonathan.modern_design._internal.config.exception.RootException;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ import static lombok.AccessLevel.PRIVATE;
 @Value //No record for Hibernate
 @NoArgsConstructor(access = PRIVATE, force = true)
 @AllArgsConstructor(access = PRIVATE)
-public class UserEmail {
+public class UserEmail implements ValueObject {
     private static final int MAX_LENGTH = 254;
     private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
     String email;

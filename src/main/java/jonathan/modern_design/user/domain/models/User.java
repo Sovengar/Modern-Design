@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import jonathan.modern_design._common.AuditingColumns;
 import jonathan.modern_design._common.annotations.AggregateRoot;
-import jonathan.modern_design._common.annotations.ValueObject;
+import jonathan.modern_design._common.annotations.MicroType;
 import jonathan.modern_design._shared.country.Country;
 import jonathan.modern_design.user.domain.catalogs.Roles;
 import jonathan.modern_design.user.domain.models.vo.UserEmail;
@@ -133,7 +133,7 @@ public class User extends AuditingColumns {
     @Value //Not a record for Hibernate
     @NoArgsConstructor(access = PACKAGE, force = true) //For Hibernate
     @RequiredArgsConstructor(staticName = "of")
-    public static class Id implements Serializable, ValueObject {
+    public static class Id implements Serializable, MicroType {
         @Serial private static final long serialVersionUID = -2753108705494085826L;
         UUID userId;
     }

@@ -1,6 +1,7 @@
 package jonathan.modern_design.user.domain.models.vo;
 
 import jakarta.persistence.Embeddable;
+import jonathan.modern_design._common.annotations.ValueObject;
 import jonathan.modern_design._internal.config.exception.RootException;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,7 @@ import static lombok.AccessLevel.PRIVATE;
 @Value //No record for Hibernate
 @NoArgsConstructor(access = PRIVATE, force = true) //For Hibernate
 @AllArgsConstructor(access = PRIVATE)
-public class UserPassword {
+public class UserPassword implements ValueObject {
     String password;
 
     public static UserPassword of(String password) {

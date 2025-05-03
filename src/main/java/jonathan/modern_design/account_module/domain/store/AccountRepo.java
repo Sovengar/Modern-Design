@@ -13,6 +13,8 @@ public interface AccountRepo {
 
     void delete(final String accountNumber);
 
+    Optional<Account> findById(final Account.Id id);
+
     Optional<Account> findByAccNumber(final String accountNumber);
 
     default Account findByAccNumberOrElseThrow(final String accountNumber) {

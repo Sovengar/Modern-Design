@@ -1,4 +1,4 @@
-package jonathan.modern_design._internal;
+package jonathan.modern_design._common.delete_table;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,6 +9,8 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.OffsetDateTime;
 
@@ -39,7 +41,8 @@ public class DeletedRow {
     @Column(name = "reason")
     private String reason;
 
-    @Column(name = "data", columnDefinition = "jsonb", nullable = false)
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "jsonb")
     private String data;
 
     public static DeletedRow of(String originTable, String originId, String deletedBy, String reason, String data) {

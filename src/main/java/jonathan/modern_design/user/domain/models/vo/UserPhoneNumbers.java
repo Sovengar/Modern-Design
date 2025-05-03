@@ -4,6 +4,7 @@ import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Transient;
+import jonathan.modern_design._common.annotations.ValueObject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,7 @@ import static lombok.AccessLevel.PRIVATE;
 @Data //No record for Hibernate
 @NoArgsConstructor(access = PRIVATE, force = true) //For Hibernate
 @AllArgsConstructor(access = PRIVATE)
-public class UserPhoneNumbers {
+public class UserPhoneNumbers implements ValueObject {
     private static final String SEPARATOR = ";";
     private static final String PHONE_NUMBER_REGEX = "^(?:\\+?\\d{1,4}[\\s.-]?)?(?:\\(?\\d+\\)?[\\s.-]?)*\\d+(?:\\s?(?:x|ext\\.?)\\s?\\d{1,5})?$\n";
     private static final PhoneNumberUtil PHONE_NUMBER_UTIL = PhoneNumberUtil.getInstance();

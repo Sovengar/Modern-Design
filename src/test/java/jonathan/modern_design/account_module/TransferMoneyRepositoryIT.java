@@ -7,6 +7,7 @@ import jonathan.modern_design.account_module.domain.models.account.Account;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
 import jonathan.modern_design.account_module.domain.store.AccountRepo;
 import jonathan.modern_design.user.api.UserApi;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +30,11 @@ class TransferMoneyRepositoryIT extends ITConfig {
     private UserApi userApi;
 
     private Account getAccountWithMoney(final AccountMoney money) {
-        var accountNumber = accountFacade.createAccount(randomAccountWithCurrency(money.currency())).accountNumber();
+        Assertions.assertNotNull(money.getCurrency());
+        var accountNumber = accountFacade.createAccount(randomAccountWithCurrency(money.getCurrency())).getAccountNumber();
 
-        if (money.isPositive()) {
-            accountFacade.deposit(new Deposit.Command(accountNumber, money.balance(), money.currency()));
+        if (money.checkPositive()) {
+            accountFacade.deposit(new Deposit.Command(accountNumber, money.getBalance(), money.getCurrency()));
         }
 
         return repository.findByAccNumberOrElseThrow(accountNumber);
@@ -44,10 +46,10 @@ class TransferMoneyRepositoryIT extends ITConfig {
         void transfer_money_into_the_target_account() {
             var source = getAccountWithMoney(AccountMoney.of(BigDecimal.valueOf(100.0), EUR));
             var target = getAccountWithMoney(AccountMoney.of(ZERO, EUR));
-            accountFacade.transferMoney(fromAccountToAccountWithAmount(source.accountAccountNumber().accountNumber(), target.accountAccountNumber().accountNumber(), AccountMoney.of(BigDecimal.valueOf(60.0), EUR)));
+            accountFacade.transferMoney(fromAccountToAccountWithAmount(source.getAccountAccountNumber().getAccountNumber(), target.getAccountAccountNumber().getAccountNumber(), AccountMoney.of(BigDecimal.valueOf(60.0), EUR)));
 
-            assertThat(source.money().balance()).isEqualTo(BigDecimal.valueOf(40.0));
-            assertThat(target.money().balance()).isEqualTo(BigDecimal.valueOf(60.0));
+            assertThat(source.getMoney().getBalance()).isEqualTo(BigDecimal.valueOf(40.0));
+            assertThat(target.getMoney().getBalance()).isEqualTo(BigDecimal.valueOf(60.0));
         }
     }
 }

@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jonathan.modern_design._common.annotations.AggregateRoot;
+import jonathan.modern_design._common.annotations.MicroType;
 import jonathan.modern_design.user.domain.catalogs.Roles;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -41,7 +42,7 @@ public class Role {
     @Value //Not a record for Hibernate
     @NoArgsConstructor(access = PACKAGE, force = true) //For Hibernate
     @RequiredArgsConstructor(staticName = "of")
-    public static class Code implements Serializable {
+    public static class Code implements Serializable, MicroType {
         @Serial private static final long serialVersionUID = -491353586550215623L;
         @Column(name = "role_code", updatable = false)
         @NotNull

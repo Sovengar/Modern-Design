@@ -1,5 +1,6 @@
 package jonathan.modern_design.account_module.application;
 
+import jakarta.transaction.Transactional;
 import jonathan.modern_design._common.annotations.ApplicationService;
 import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design._common.delete_table.DeletedRowService;
@@ -36,13 +37,14 @@ class DeleteAccount {
     private final AccountRepo repository;
     private final DeletedRowService deletedRowService;
 
+    @Transactional
     public void handle(final String accountNumber, final String reason) {
         log.info("BEGIN DeleteAccount");
         var account = repository.findByAccNumberOrElseThrow(accountNumber);
         var username = SecurityContextHolder.getContext().getAuthentication().getName();
 
         deletedRowService.saveDeletedEntity(account, "md.accounts", String.valueOf(account.getAccountId().id()), username, reason);
-        //repository.delete(accountNumber);
+        repository.delete(accountNumber);
 
         log.info("END DeleteAccount");
     }

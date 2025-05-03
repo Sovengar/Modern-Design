@@ -9,6 +9,7 @@ import jonathan.modern_design.account_module.domain.models.account.Account;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
 import jonathan.modern_design.account_module.domain.store.AccountRepo;
 import org.approvaltests.Approvals;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +34,11 @@ final class AccountAcceptanceTest extends ITConfig {
     private AccountApi accountFacade;
 
     private Account getAccountWithMoney(final AccountMoney money) {
-        var accountNumber = accountFacade.createAccount(randomAccountWithCurrency(money.currency())).accountNumber();
+        Assertions.assertNotNull(money.getCurrency());
+        var accountNumber = accountFacade.createAccount(randomAccountWithCurrency(money.getCurrency())).getAccountNumber();
 
-        if (money.isPositive()) {
-            accountFacade.deposit(new Deposit.Command(accountNumber, money.balance(), money.currency()));
+        if (money.checkPositive()) {
+            accountFacade.deposit(new Deposit.Command(accountNumber, money.getBalance(), money.getCurrency()));
         }
 
         return repository.findByAccNumberOrElseThrow(accountNumber);
@@ -62,20 +64,30 @@ final class AccountAcceptanceTest extends ITConfig {
         void transfer_money_into_the_target_account_check_source_approval() {
             var source = getAccountWithMoney(AccountMoney.of(BigDecimal.valueOf(100.0), EUR));
             var target = getAccountWithMoney(AccountMoney.of(ZERO, EUR));
-            accountFacade.transferMoney(fromAccountToAccountWithAmount(source.accountAccountNumber().accountNumber(), target.accountAccountNumber().accountNumber(), AccountMoney.of(BigDecimal.valueOf(50.0), EUR)));
 
-            source = repository.findByAccNumberOrElseThrow(source.accountAccountNumber().accountNumber());
-            Approvals.verify(source.money().balance());
+            accountFacade.transferMoney(fromAccountToAccountWithAmount(
+                    source.getAccountAccountNumber().getAccountNumber(),
+                    target.getAccountAccountNumber().getAccountNumber(),
+                    AccountMoney.of(BigDecimal.valueOf(50.0), EUR))
+            );
+
+            source = repository.findByAccNumberOrElseThrow(source.getAccountAccountNumber().getAccountNumber());
+            Approvals.verify(source.getMoney().getBalance());
         }
 
         @Test
         void transfer_money_into_the_target_account_check_target_approval() {
             var source = getAccountWithMoney(AccountMoney.of(BigDecimal.valueOf(100.0), EUR));
             var target = getAccountWithMoney(AccountMoney.of(ZERO, EUR));
-            accountFacade.transferMoney(fromAccountToAccountWithAmount(source.accountAccountNumber().accountNumber(), target.accountAccountNumber().accountNumber(), AccountMoney.of(BigDecimal.valueOf(50.0), EUR)));
 
-            target = repository.findByAccNumberOrElseThrow(target.accountAccountNumber().accountNumber());
-            Approvals.verify(target.money().balance());
+            accountFacade.transferMoney(fromAccountToAccountWithAmount(
+                    source.getAccountAccountNumber().getAccountNumber(),
+                    target.getAccountAccountNumber().getAccountNumber(),
+                    AccountMoney.of(BigDecimal.valueOf(50.0), EUR))
+            );
+
+            target = repository.findByAccNumberOrElseThrow(target.getAccountAccountNumber().getAccountNumber());
+            Approvals.verify(target.getMoney().getBalance());
         }
     }
 }

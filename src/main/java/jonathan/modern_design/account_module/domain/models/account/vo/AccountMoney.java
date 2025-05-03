@@ -4,6 +4,7 @@ import com.google.common.annotations.VisibleForTesting;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jonathan.modern_design._common.annotations.ValueObject;
 import jonathan.modern_design._internal.config.exception.RootException;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design.account_module.domain.exceptions.OperationWithDifferentCurrenciesException;
@@ -21,54 +22,77 @@ import static lombok.AccessLevel.PRIVATE;
 @Value //No record for Hibernate
 @NoArgsConstructor(access = PRIVATE, force = true) //For Hibernate
 @AllArgsConstructor(staticName = "of")
-public class AccountMoney {
+public class AccountMoney implements ValueObject {
     BigDecimal balance;
     @Enumerated(value = EnumType.STRING)
     Currency currency;
 
     public AccountMoney add(AccountMoney other) {
         checkCurrency(other);
+        assert this.balance != null;
         return new AccountMoney(this.balance.add(other.balance), this.currency);
     }
 
     public AccountMoney subtract(AccountMoney other) {
         checkCurrency(other);
 
-        if (isLowerThan(other.balance)) {
+        if (checkLowerThan(other.balance)) {
             throw new InsufficientFundsException();
         }
 
+        assert this.balance != null;
         return new AccountMoney(this.balance.subtract(other.balance), this.currency);
     }
 
     private void checkCurrency(AccountMoney other) {
-        assert this.currency != null;
+        if (this.currency == null || other == null || other.currency == null) {
+            throw new OperationWithDifferentCurrenciesException();
+        }
+
         if (!this.currency.equals(other.currency)) {
             throw new OperationWithDifferentCurrenciesException();
         }
     }
 
-    public boolean isPositiveOrZero() {
+    public boolean checkPositiveOrZero() {
+        if (this.balance == null) {
+            return false;
+        }
         return this.balance.compareTo(ZERO) >= 0;
     }
 
-    public boolean isNegative() {
+    public boolean checkNegative() {
+        if (this.balance == null) {
+            return false;
+        }
         return this.balance.compareTo(ZERO) < 0;
     }
 
-    public boolean isPositive() {
+    public boolean checkPositive() {
+        if (this.balance == null) {
+            return false;
+        }
         return this.balance.compareTo(ZERO) > 0;
     }
 
-    public boolean isGreaterThanOrEqualTo(BigDecimal anotherAmount) {
+    public boolean checkGreaterThanOrEqualTo(BigDecimal anotherAmount) {
+        if (this.balance == null || anotherAmount == null) {
+            return false;
+        }
         return this.balance.compareTo(anotherAmount) >= 0;
     }
 
-    public boolean isGreaterThan(BigDecimal anotherAmount) {
+    public boolean checkGreaterThan(BigDecimal anotherAmount) {
+        if (this.balance == null || anotherAmount == null) {
+            return false;
+        }
         return this.balance.compareTo(anotherAmount) >= 1;
     }
 
-    public boolean isLowerThan(BigDecimal anotherAmount) {
+    public boolean checkLowerThan(BigDecimal anotherAmount) {
+        if (this.balance == null || anotherAmount == null) {
+            return false;
+        }
         return this.balance.compareTo(anotherAmount) < 0;
     }
 
