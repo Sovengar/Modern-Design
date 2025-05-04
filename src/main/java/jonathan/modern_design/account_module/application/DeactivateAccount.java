@@ -2,8 +2,8 @@ package jonathan.modern_design.account_module.application;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
-import jonathan.modern_design._common.annotations.ApplicationService;
-import jonathan.modern_design._common.annotations.WebAdapter;
+import jonathan.modern_design._common.tags.ApplicationService;
+import jonathan.modern_design._common.tags.WebAdapter;
 import jonathan.modern_design.account_module.domain.store.AccountRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

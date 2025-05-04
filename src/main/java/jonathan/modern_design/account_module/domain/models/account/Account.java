@@ -1,7 +1,7 @@
 package jonathan.modern_design.account_module.domain.models.account;
 
-import jonathan.modern_design._common.annotations.AggregateRoot;
-import jonathan.modern_design._common.annotations.MicroType;
+import jonathan.modern_design._common.tags.AggregateRoot;
+import jonathan.modern_design._common.tags.MicroType;
 import jonathan.modern_design.account_module.domain.exceptions.AccountIsAlreadyActiveException;
 import jonathan.modern_design.account_module.domain.exceptions.AccountIsInactiveException;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountAddress;

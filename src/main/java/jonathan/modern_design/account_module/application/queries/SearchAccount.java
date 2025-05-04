@@ -7,8 +7,8 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
-import jonathan.modern_design._common.annotations.DataAdapter;
-import jonathan.modern_design._common.annotations.WebAdapter;
+import jonathan.modern_design._common.tags.DataAdapter;
+import jonathan.modern_design._common.tags.WebAdapter;
 import jonathan.modern_design.account_module.api.dtos.AccountDto;
 import jonathan.modern_design.account_module.domain.models.account.Account;
 import jonathan.modern_design.account_module.domain.models.account.AccountEntity;
@@ -200,7 +200,7 @@ class SearchAccountQueryImpl implements SearchAccount {
 
 //region CriteriaAPI alternative
 // add to pom <dependency>
-//            <!--Generate Criteria API metamodel in target/generated-sources/annotations-->
+//            <!--Generate Criteria API metamodel in target/generated-sources/tags-->
 //            <groupId>org.hibernate</groupId>
 //            <artifactId>hibernate-jpamodelgen</artifactId>
 //        </dependency>

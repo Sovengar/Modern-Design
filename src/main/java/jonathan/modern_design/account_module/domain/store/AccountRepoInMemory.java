@@ -1,6 +1,6 @@
 package jonathan.modern_design.account_module.domain.store;
 
-import jonathan.modern_design._common.annotations.Fake;
+import jonathan.modern_design._common.tags.Fake;
 import jonathan.modern_design.account_module.domain.models.account.Account;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountNumber;
 

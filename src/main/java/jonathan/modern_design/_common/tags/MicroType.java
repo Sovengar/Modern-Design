@@ -1,4 +1,4 @@
-package jonathan.modern_design._common.annotations;
+package jonathan.modern_design._common.tags;
 
 //Tagger interface
 public interface MicroType {

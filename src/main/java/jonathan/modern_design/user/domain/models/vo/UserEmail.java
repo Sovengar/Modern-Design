@@ -2,7 +2,7 @@ package jonathan.modern_design.user.domain.models.vo;
 
 
 import jakarta.persistence.Embeddable;
-import jonathan.modern_design._common.annotations.ValueObject;
+import jonathan.modern_design._common.tags.ValueObject;
 import jonathan.modern_design._internal.config.exception.RootException;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

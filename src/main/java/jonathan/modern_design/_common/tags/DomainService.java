@@ -1,4 +1,4 @@
-package jonathan.modern_design._common.annotations;
+package jonathan.modern_design._common.tags;
 
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.stereotype.Component;
@@ -13,8 +13,10 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Component
-public @interface Injectable {
+public @interface DomainService {
 
     @AliasFor(annotation = Component.class)
     String value() default "";
+
+    //DomainServices can reside in a slice, if it grows too complex or needs to be reused should be moved to domain/services
 }

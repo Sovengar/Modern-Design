@@ -4,7 +4,7 @@ import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Transient;
-import jonathan.modern_design._common.annotations.ValueObject;
+import jonathan.modern_design._common.tags.ValueObject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

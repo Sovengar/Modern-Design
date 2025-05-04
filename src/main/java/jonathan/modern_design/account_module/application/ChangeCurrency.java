@@ -1,6 +1,6 @@
 package jonathan.modern_design.account_module.application;
 
-import jonathan.modern_design._common.annotations.ApplicationService;
+import jonathan.modern_design._common.tags.ApplicationService;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
 import jonathan.modern_design.account_module.domain.services.CurrencyChanger;

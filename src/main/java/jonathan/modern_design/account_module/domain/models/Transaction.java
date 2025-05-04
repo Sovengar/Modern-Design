@@ -5,7 +5,7 @@ import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
-import jonathan.modern_design._common.annotations.AggregateRoot;
+import jonathan.modern_design._common.tags.AggregateRoot;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package jonathan.modern_design._common.annotations;
+package jonathan.modern_design._common.tags;
 
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.validation.annotation.Validated;

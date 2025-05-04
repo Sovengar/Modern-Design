@@ -1,6 +1,6 @@
 package jonathan.modern_design.user.domain.store;
 
-import jonathan.modern_design._common.annotations.Fake;
+import jonathan.modern_design._common.tags.Fake;
 import jonathan.modern_design.user.domain.models.User;
 
 import java.util.List;

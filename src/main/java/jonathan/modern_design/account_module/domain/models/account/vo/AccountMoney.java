@@ -4,7 +4,7 @@ import com.google.common.annotations.VisibleForTesting;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jonathan.modern_design._common.annotations.ValueObject;
+import jonathan.modern_design._common.tags.ValueObject;
 import jonathan.modern_design._internal.config.exception.RootException;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design.account_module.domain.exceptions.OperationWithDifferentCurrenciesException;

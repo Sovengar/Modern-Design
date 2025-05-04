@@ -1,6 +1,6 @@
 package jonathan.modern_design.account_module.api;
 
-import jonathan.modern_design._common.annotations.Injectable;
+import jonathan.modern_design._common.tags.Injectable;
 import jonathan.modern_design.account_module.api.dtos.AccountDto;
 import jonathan.modern_design.account_module.application.CreateAccount;
 import jonathan.modern_design.account_module.application.Deposit;

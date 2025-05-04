@@ -1,9 +1,9 @@
 package jonathan.modern_design.account_module.application;
 
 import jakarta.transaction.Transactional;
-import jonathan.modern_design._common.annotations.ApplicationService;
-import jonathan.modern_design._common.annotations.WebAdapter;
 import jonathan.modern_design._common.delete_table.DeletedRowService;
+import jonathan.modern_design._common.tags.ApplicationService;
+import jonathan.modern_design._common.tags.WebAdapter;
 import jonathan.modern_design.account_module.domain.store.AccountRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

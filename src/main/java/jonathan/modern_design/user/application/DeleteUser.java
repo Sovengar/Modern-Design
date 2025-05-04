@@ -1,7 +1,7 @@
 package jonathan.modern_design.user.application;
 
-import jonathan.modern_design._common.annotations.ApplicationService;
-import jonathan.modern_design._common.annotations.WebAdapter;
+import jonathan.modern_design._common.tags.ApplicationService;
+import jonathan.modern_design._common.tags.WebAdapter;
 import jonathan.modern_design.user.domain.models.User;
 import jonathan.modern_design.user.domain.store.UserRepo;
 import lombok.RequiredArgsConstructor;

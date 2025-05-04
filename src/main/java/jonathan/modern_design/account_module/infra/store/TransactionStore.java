@@ -1,6 +1,6 @@
 package jonathan.modern_design.account_module.infra.store;
 
-import jonathan.modern_design._common.annotations.DataAdapter;
+import jonathan.modern_design._common.tags.DataAdapter;
 import jonathan.modern_design.account_module.domain.models.Transaction;
 import jonathan.modern_design.account_module.domain.store.TransactionRepo;
 import lombok.RequiredArgsConstructor;

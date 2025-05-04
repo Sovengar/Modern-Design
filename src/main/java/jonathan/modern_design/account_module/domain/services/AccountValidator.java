@@ -1,6 +1,6 @@
 package jonathan.modern_design.account_module.domain.services;
 
-import jonathan.modern_design._common.annotations.DomainService;
+import jonathan.modern_design._common.tags.DomainService;
 import jonathan.modern_design.account_module.domain.exceptions.AccountIsInactiveException;
 import jonathan.modern_design.account_module.domain.models.account.Account;
 

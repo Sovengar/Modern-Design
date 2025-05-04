@@ -1,7 +1,7 @@
 package jonathan.modern_design.account_module.application;
 
-import jonathan.modern_design._common.annotations.ApplicationService;
-import jonathan.modern_design._common.annotations.WebAdapter;
+import jonathan.modern_design._common.tags.ApplicationService;
+import jonathan.modern_design._common.tags.WebAdapter;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design.account_module.api.dtos.AccountDto;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountAddress;
