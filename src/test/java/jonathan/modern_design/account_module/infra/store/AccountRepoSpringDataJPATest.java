@@ -62,3 +62,4 @@ class AccountRepoSpringDataJPATest extends ITConfig {
         ));
     }
 }
+
