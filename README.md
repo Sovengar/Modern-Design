@@ -214,6 +214,8 @@ TestContainers can be improved with TestContainer Desktop to map explicitly to p
 Tests with @Tag("integration") to execute exclusively unit tests.
 We need to edit the runConfiguration in IntelliJ and establish y the tag execution "!integration"
 
+The annotation @VisibleForTesting permits having a class as private but be referenced on tests.
+
 ## QueryDSL
 
 Is a database library to make queries with our java models instead of plain fragile SQL strings.
@@ -259,7 +261,13 @@ This project uses Lombok, you will need an IDE that has a plugin that allows Lom
 
 ### ArchUnit
 
-### SpringModulith
+### Spring Modulith
+
+### Spring Security
+
+### Spring Actuator
+
+### i18n
 
 ### Spring profiles
 
