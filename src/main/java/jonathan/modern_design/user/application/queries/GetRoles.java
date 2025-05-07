@@ -1,5 +1,7 @@
 package jonathan.modern_design.user.application.queries;
 
+import io.micrometer.observation.annotation.Observed;
+import io.swagger.v3.oas.annotations.Operation;
 import jonathan.modern_design._common.api.Response;
 import jonathan.modern_design._common.tags.Injectable;
 import jonathan.modern_design._common.tags.WebAdapter;
@@ -18,15 +20,20 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 @WebAdapter("/api/v1/roles")
-class RolFinderController {
+class GetRolesController {
     private final GetRoles getRoles;
 
+    @Observed(name = "getRoles")
+    @Operation(summary = "Get all roles")
     @GetMapping
     public ResponseEntity<Response<List<RoleDto>>> getAll() {
         var roles = getRoles.findAll();
+        var roleDtos = roles.stream().map(RoleDto::new).toList();
 
+        //TODO PONER EN EL RESTO DE CONTROLLERS, AUNQUE AQUI NO ME CONVENCE MUCHO
+        
         Response<List<RoleDto>> response = new Response.Builder<List<RoleDto>>()
-                .data(roles.stream().map(RoleDto::new).toList())
+                .data(roleDtos)
                 .metadata(Map.of(
                         "timestamp", Instant.now(),
                         "version", "1.0.0"

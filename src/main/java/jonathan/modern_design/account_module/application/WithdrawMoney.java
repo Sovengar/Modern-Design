@@ -1,5 +1,7 @@
 package jonathan.modern_design.account_module.application;
 
+import io.micrometer.observation.annotation.Observed;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -18,18 +20,25 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import java.math.BigDecimal;
 
+import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
+
 @Slf4j
 @RequiredArgsConstructor
 @WebAdapter("/api/v1/accounts")
 class WithdrawMoneyHttpController {
     private final WithdrawMoney withdrawMoney;
 
+    @Observed(name = "withdrawMoney")
+    @Operation(summary = "Withdraw money from an account")
     @PutMapping(path = "/{accountNumber}/withdraw/{amount}/{currency}")
     public ResponseEntity<Void> getBalance(@PathVariable String accountNumber, @PathVariable BigDecimal amount, @PathVariable String currency) {
-        log.info("BEGIN Controller - WithdrawMoney");
+        generateTraceId();
         var withdrawMoneyCommand = new WithdrawMoney.WithdrawMoneyCommand(accountNumber, amount, Currency.fromCode(currency));
+        
+        log.info("BEGIN WithdrawMoney for accountNumber: {} with amount: {} and currency: {}", accountNumber, amount, currency);
         withdrawMoney.handle(withdrawMoneyCommand);
-        log.info("END Controller - WithdrawMoney");
+        log.info("END WithdrawMoney for accountNumber: {} with amount: {} and currency: {}", accountNumber, amount, currency);
+
         return ResponseEntity.ok().build();
     }
 }

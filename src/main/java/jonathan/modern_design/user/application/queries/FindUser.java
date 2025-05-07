@@ -1,5 +1,7 @@
 package jonathan.modern_design.user.application.queries;
 
+import io.micrometer.observation.annotation.Observed;
+import io.swagger.v3.oas.annotations.Operation;
 import jonathan.modern_design._common.tags.Injectable;
 import jonathan.modern_design._common.tags.WebAdapter;
 import jonathan.modern_design.user.api.dtos.UserDto;
@@ -11,11 +13,15 @@ import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.UUID;
+
+import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
 
 
 @Slf4j
@@ -24,11 +30,17 @@ import java.util.UUID;
 class FindUserHttpController {
     private final FindUser querier;
 
+    @Observed(name = "findUser")
+    @Operation(summary = "Find a user by id")
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUser(@PathVariable UUID id) {
-        log.info("BEGIN Controller - FindUser");
+        Assert.state(StringUtils.hasText(String.valueOf(id)), "UserId is required");
+        generateTraceId();
+
+        log.info("BEGIN FindUser for userId: {}", id);
         var user = querier.queryWith(User.Id.of(id));
-        log.info("END Controller - FindUser");
+        log.info("END FindUser for userId: {}", id);
+
         return ResponseEntity.ok().body(user);
     }
 }

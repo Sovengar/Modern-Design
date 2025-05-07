@@ -3,14 +3,15 @@ package jonathan.modern_design.account_module.application.queries;
 import com.querydsl.jpa.JPQLTemplates;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.micrometer.observation.Observation;
-import io.micrometer.observation.ObservationHandler;
 import io.micrometer.observation.ObservationRegistry;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jonathan.modern_design._common.tags.DataAdapter;
 import jonathan.modern_design._common.tags.WebAdapter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.math.BigDecimal;
 
+import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
 import static jonathan.modern_design.account_module.domain.models.account.QAccountEntity.accountEntity;
 
 @Slf4j
@@ -27,11 +29,26 @@ class GetBalanceHttpController {
     private final GetBalance querier;
     private final ObservationRegistry registry;
 
+    @Operation(description = "Get Balance of the account")
     @GetMapping(path = "/{accountNumber}/balance")
-    public BigDecimal getBalance(@PathVariable String accountNumber) {
+    public ResponseEntity<BigDecimal> getBalance(@PathVariable String accountNumber) {
         Assert.state(StringUtils.hasText(accountNumber), "Account number is required");
-        return Observation.createNotStarted("get-balance", this.registry)
-                .observe(() -> querier.getBalance(accountNumber));
+        generateTraceId();
+
+        //TODO SECURITY, YOU CAN'T ACCESS ANY ACCOUNT IF YOU ARE NOT AN ADMIN
+
+        //Fine-grained Observation instead of @Observation
+        String prefix = accountNumber.split("-")[0];
+        var observation = Observation
+                .createNotStarted("get-balance", registry)
+                .lowCardinalityKeyValue("accountPrefix", prefix)
+                .contextualName("getBalance");
+
+        log.info("BEGIN getBalance for accountNumber: {}", accountNumber);
+        var balance = observation.observe(() -> querier.getBalance(accountNumber));
+        log.info("END getBalance for accountNumber: {}", accountNumber);
+
+        return ResponseEntity.ok().body(balance);
     }
 }
 
@@ -52,6 +69,7 @@ class GetBalance {
     }
 }
 
+/*
 @Slf4j
 class LoggingObservationHandler implements ObservationHandler<Observation.Context> {
 
@@ -75,3 +93,4 @@ class LoggingObservationHandler implements ObservationHandler<Observation.Contex
         log.error("Observation error: {}", context.getName(), context.getError());
     }
 }
+*/

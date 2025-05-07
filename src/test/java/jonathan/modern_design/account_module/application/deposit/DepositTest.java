@@ -31,9 +31,9 @@ class DepositTest {
         var source = sourceAccountEmpty();
         var accountNumber = accountRepo.create(source);
 
-        accountApi.deposit(new Deposit.Command(accountNumber.accountNumber(), TEN, EUR));
+        accountApi.deposit(new Deposit.Command(accountNumber.getAccountNumber(), TEN, EUR));
 
-        assertThat(source.money().balance()).isEqualTo(TEN);
+        assertThat(source.getMoney().getBalance()).isEqualTo(TEN);
     }
 
     @Test

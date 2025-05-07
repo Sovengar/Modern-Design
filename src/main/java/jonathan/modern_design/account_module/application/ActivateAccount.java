@@ -1,16 +1,22 @@
 package jonathan.modern_design.account_module.application;
 
+import io.micrometer.observation.annotation.Observed;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jonathan.modern_design._common.tags.ApplicationService;
 import jonathan.modern_design._common.tags.WebAdapter;
+import jonathan.modern_design.account_module.domain.models.account.Account;
 import jonathan.modern_design.account_module.domain.store.AccountRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 
+import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -18,30 +24,60 @@ import org.springframework.web.bind.annotation.PutMapping;
 class ActivateAccountHttpController {
     private final ActivateAccount activateAccount;
 
+    @Observed(name = "activateAccount")
+    @Operation(summary = "Activate an account")
     @PutMapping(path = "/{accountNumber}/activate")
     public ResponseEntity<Void> activate(final @PathVariable String accountNumber) {
-        log.info("BEGIN Controller - ActivateAccount");
+        Assert.state(StringUtils.hasText(accountNumber), "Account number is required");
+        generateTraceId();
+
+        //TODO ADD AUTH
+
+        log.info("BEGIN ActivateAccount for accountNumber: {}", accountNumber);
         activateAccount.handle(new ActivateAccount.Command(accountNumber));
-        log.info("END Controller - ActivateAccount");
+        log.info("END ActivateAccount for accountNumber: {}", accountNumber);
+
         return ResponseEntity.ok().build();
     }
 }
 
-@Slf4j
 @RequiredArgsConstructor
 @ApplicationService
 class ActivateAccount {
     private final AccountRepo repository;
 
     protected void handle(final @Valid Command message) {
-        log.info("BEGIN - ActivateAccount");
         var account = repository.findByAccNumberOrElseThrow(message.accountNumber());
-        account.activate();
-        repository.update(account);
-        log.info("END - ActivateAccount");
+        var instrumentation = new ActivateAccountInstrumentation(account);
+
+        instrumentation.voidExecutionWithLogs(() -> {
+            account.activate();
+            repository.update(account);
+        }, "Activate account");
+
+        instrumentation.accountActivated();
     }
 
     record Command(@NotEmpty(message = "Account number is required") String accountNumber) {
     }
+}
 
+//Overengineering, maybe useful when you need to compose various variables on every log like accountId, accountNumber, userId and some dynamic others
+@Slf4j
+@RequiredArgsConstructor
+class ActivateAccountInstrumentation {
+    private static final String START = "Executing action {}";
+    private static final String END = "Action {} executed successfully";
+
+    private final Account account;
+
+    public void accountActivated() {
+        log.info("Account with id: {} and number: {} has been activated", account.getAccountId().id(), account.getAccountNumber().getAccountNumber());
+    }
+
+    public void voidExecutionWithLogs(Runnable action, String actionName) {
+        log.info(START, actionName);
+        action.run();
+        log.info(END, actionName);
+    }
 }

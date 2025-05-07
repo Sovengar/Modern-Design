@@ -1,5 +1,7 @@
 package jonathan.modern_design.user.application;
 
+import io.micrometer.observation.annotation.Observed;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jonathan.modern_design._common.tags.ApplicationService;
 import jonathan.modern_design._common.tags.WebAdapter;
@@ -10,7 +12,12 @@ import jonathan.modern_design.user.domain.store.UserRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+
+import java.util.UUID;
+
+import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -18,12 +25,17 @@ import org.springframework.web.bind.annotation.PutMapping;
 class ChangeRoleHttpController {
     private final ChangeRole changeRole;
 
+    @Observed(name = "changeRole")
+    @Operation(summary = "Change the role of a user")
     @PutMapping(value = "/{userId}/changeRoleTo/{roleCode}")
-    public ResponseEntity<Void> changeRole(final User.Id userId, final Role.Code roleCode) {
-        log.info("BEGIN Controller - ChangeRole");
-        var message = new ChangeRole.Command(userId, roleCode);
+    public ResponseEntity<Void> changeRole(final @PathVariable UUID userId, @PathVariable final String roleCode) {
+        generateTraceId();
+        var message = new ChangeRole.Command(User.Id.of(userId), Role.Code.of(roleCode));
+
+        log.info("BEGIN ChangeRole for userId: {} with role: {}", userId, roleCode);
         changeRole.handle(message);
-        log.info("END Controller - ChangeRole");
+        log.info("END ChangeRole for userId: {}, with role: {}", userId, roleCode);
+
         return ResponseEntity.ok().build();
     }
 }
@@ -37,7 +49,7 @@ class ChangeRole {
 
     //TODO GET THE USER THAT TRIGGERED THE COMMAND AND VALIDATE IF IT CAN CHANGE ROLES OF OTHER USERS
 
-    //If logic grows complex move to a domain service
+    //If logic grows complex, move to a domain service
     public void handle(final @Valid ChangeRole.Command message) {
         log.info("BEGIN - ChangeRole");
         var user = userRepo.findByUUIDOrElseThrow(message.userId());

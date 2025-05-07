@@ -1,5 +1,7 @@
 package jonathan.modern_design.account_module.application;
 
+import io.micrometer.observation.annotation.Observed;
+import io.swagger.v3.oas.annotations.Operation;
 import jonathan.modern_design._common.tags.ApplicationService;
 import jonathan.modern_design._common.tags.WebAdapter;
 import jonathan.modern_design._shared.Currency;
@@ -16,17 +18,24 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
+
 @Slf4j
 @RequiredArgsConstructor
 @WebAdapter("/api/v1/accounts")
 class UpdateAccountCRUDHttpController {
     private final UpdateAccountCRUD updater;
 
+    @Observed(name = "updateAccount")
+    @Operation(description = "Update Account")
     @PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Void> updateAccount(@RequestBody AccountDto dto) {
-        log.info("BEGIN Controller - Updating account with command: {}", dto);
+        generateTraceId();
+
+        log.info("BEGIN Updating account with number {} with this JSON: {}", dto.accountNumber(), dto);
         updater.handle(dto);
-        log.info("END Controller - Account updated  with number: {}", dto.accountNumber());
+        log.info("END Account with number {} updated", dto.accountNumber());
+
         return ResponseEntity.ok().build();
     }
 }

@@ -1,5 +1,7 @@
 package jonathan.modern_design.account_module.application;
 
+import io.micrometer.observation.annotation.Observed;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -19,22 +21,29 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import java.math.BigDecimal;
 
+import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
+
 @Slf4j
 @RequiredArgsConstructor
 @WebAdapter("/api/v1/accounts")
 class DepositHttpController {
     private final Deposit deposit;
 
+    @Observed(name = "deposit")
+    @Operation(summary = "Deposit money to an account")
     @PutMapping("/{accountNumber}/deposit/{amount}/{currency}")
     public ResponseEntity<Void> deposit(
             @PathVariable("accountNumber") String accountNumber,
             @PathVariable("amount") BigDecimal amount,
             @PathVariable("currency") String currency
     ) {
-        log.info("BEGIN Controller - Deposit");
-        final var command = new Deposit.Command(accountNumber, amount, Currency.fromCode(currency));
-        deposit.handle(command);
-        log.info("END Controller - Deposit");
+        generateTraceId();
+        final var message = new Deposit.Command(accountNumber, amount, Currency.fromCode(currency));
+
+        log.info("BEGIN Deposit for accountNumber: {} with amount: {} and currency: {}", accountNumber, amount, currency);
+        deposit.handle(message);
+        log.info("END Deposit for accountNumber: {} with amount: {} and currency: {}", accountNumber, amount, currency);
+
         return ResponseEntity.ok().build();
     }
 }
@@ -49,7 +58,7 @@ public class Deposit {
     @Transactional
     public void handle(final @Valid Command message) {
         log.info("BEGIN Deposit");
-        var account = repository.findByAccNumber(message.accountNumber()).orElseThrow();
+        var account = repository.findByAccNumberOrElseThrow(message.accountNumber());
 
         var money = AccountMoney.of(message.amount(), message.currency());
         account.deposit(money);

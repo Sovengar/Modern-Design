@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -36,7 +36,7 @@ class UserPhoneNumbersTest {
         UserPhoneNumbers userPhoneNumbers = UserPhoneNumbers.of(phoneNumbers);
 
         assertNotNull(userPhoneNumbers);
-        assertTrue(userPhoneNumbers.phoneNumbers().isEmpty());
+        assertThat(userPhoneNumbers.getPhoneNumbers()).isEmpty();
     }
 
     @Test

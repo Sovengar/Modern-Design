@@ -1,5 +1,7 @@
 package jonathan.modern_design.account_module.application;
 
+import io.micrometer.observation.annotation.Observed;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
@@ -24,26 +26,29 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.math.BigDecimal;
 
+import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
+
 @Slf4j
 @RequiredArgsConstructor
 @WebAdapter("/api/v1/accounts")
 class TransferMoneyHttpController {
     private final TransferMoney transferMoney;
 
+    @Observed(name = "transferMoney")
+    @Operation(summary = "Transfer money from one account to another")
     @PostMapping(path = "/transfer/{sourceAccountId}/{targetAccountId}/{balance}/{currency}")
     ResponseEntity<Void> transferMoney(
             @PathVariable("sourceAccountId") String sourceAccountId,
             @PathVariable("targetAccountId") String targetAccountId,
             @PathVariable("balance") BigDecimal amount,
             @PathVariable("currency") String currency) {
-
-        log.info("BEGIN Controller - Transfer money from {} to {} with balance {}", sourceAccountId, targetAccountId, amount);
-
+        generateTraceId();
         val command = new TransferMoney.Command(sourceAccountId, targetAccountId, amount, Currency.fromCode(currency));
 
+        log.info("BEGIN Transfer money from {} to {} with balance {}", sourceAccountId, targetAccountId, amount);
         transferMoney.handle(command);
+        log.info("END Transfer money from {} to {} with balance {}", sourceAccountId, targetAccountId, amount);
 
-        log.info("END Controller - Transfer money from {} to {} with balance {}", sourceAccountId, targetAccountId, amount);
         return ResponseEntity.ok().build();
     }
 }

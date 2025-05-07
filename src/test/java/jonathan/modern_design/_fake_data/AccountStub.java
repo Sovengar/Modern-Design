@@ -54,14 +54,17 @@ public class AccountStub extends Stub {
         }
 
         private static Account builder(String accountId, AccountMoney money, boolean isActive) {
-            return Account.builder()
-                    .accountId(null)
-                    .accountNumber(AccountNumber.of(accountId))
-                    .money(money)
-                    .address(AccountAddress.of("street", "city", "state", "zipCode"))
-                    .userId(normalUser().getId())
-                    .status(isActive ? Account.Status.ACTIVE : Account.Status.INACTIVE)
-                    .build();
+            var accountNumber = AccountNumber.of(accountId);
+            var address = AccountAddress.of("street", "city", "state", "zipCode");
+            var userId = normalUser().getId();
+
+            var account = Account.Factory.create(accountNumber, money, address, userId);
+
+            if (!isActive) {
+                account.deactivate();
+            }
+
+            return account;
         }
     }
 

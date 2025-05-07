@@ -1,5 +1,7 @@
 package jonathan.modern_design.account_module.application;
 
+import io.micrometer.observation.annotation.Observed;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -32,6 +34,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static java.util.Optional.ofNullable;
+import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
 
 
 @Slf4j
@@ -41,17 +44,20 @@ class CreateAccountHttpController {
     private final CreateAccount createAccount;
     private final AccountRepo repository;
 
+    @Observed(name = "createAccount")
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
-    //OPENAPI @Operation(description = "Create Account")
+    @Operation(description = "Create Account")
     @Transactional
     public ResponseEntity<AccountDto> createAccount(@RequestBody @Valid final CreateAccount.Command message) {
-        log.info("START Controller - Creating account with command: {}", message);
+        generateTraceId();
+
+        log.info("START createAccount with command: {}", message);
         final var accountNumber = createAccount.handle(message).getAccountNumber();
 
         var account = repository.findByAccNumberOrElseThrow(accountNumber);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{accountNumber}").buildAndExpand(accountNumber).toUri();
 
-        log.info("END Controller - Account created  with number: {}", accountNumber);
+        log.info("END Account created  with number: {}", accountNumber);
         return ResponseEntity.created(location).body(new AccountDto(account));
     }
 }

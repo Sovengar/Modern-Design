@@ -4,6 +4,8 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLTemplates;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import io.micrometer.observation.annotation.Observed;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
@@ -64,18 +66,22 @@ public interface SearchAccount {
 class SearchAccountHttpController {
     private final SearchAccountQueryImpl querier;
 
-    //@Operation(description = "Search Account")
+    @Observed(name = "searchAccount")
+    @Operation(description = "Search Account")
     @PostMapping("/search")
     public List<AccountDto> searchForXXXPage(@RequestBody SearchAccount.Criteria filters) {
         return querier.searchForXXXPage(filters);
     }
 
+    @Observed(name = "searchAccount")
+    @Operation(description = "Search Account")
     @GetMapping(path = "/search/byuser/password/{password}")
     public AccountDto findAccount(@PathVariable String password) {
         return querier.searchWithUserPassword(password).orElseThrow(EntityNotFoundException::new);
     }
 
-    //@Operation(description = "Search Account")
+    @Observed(name = "searchAccount")
+    @Operation(description = "Search Account")
     @PostMapping("/search/xxxPage")
     public List<SearchAccount.AccountSearchResult> searchProjectionForXXXPage(@RequestBody SearchAccount.Criteria filters) {
         return querier.searchWithQueryDSL(filters);

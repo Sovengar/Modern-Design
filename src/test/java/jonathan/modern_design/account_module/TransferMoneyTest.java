@@ -58,7 +58,7 @@ class TransferMoneyTest {
 
             accountFacade.transferMoney(transactionWithAmount(AccountMoney.of(BigDecimal.valueOf(50.0), EUR)));
 
-            assertThat(target.money().balance()).isEqualTo(BigDecimal.valueOf(50.0));
+            assertThat(target.getMoney().getBalance()).isEqualTo(BigDecimal.valueOf(50.0));
         }
 
         @Test
@@ -70,7 +70,7 @@ class TransferMoneyTest {
 
             accountFacade.transferMoney(transactionWithAmount(AccountMoney.of(BigDecimal.valueOf(50.0), EUR)));
 
-            //assertThat(target.dateOfLastTransaction()).isEqualTo(supposedToBeNow);
+            //TODO assertThat(target.dateOfLastTransaction()).isEqualTo(supposedToBeNow);
         }
     }
 

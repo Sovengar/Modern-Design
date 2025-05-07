@@ -1,6 +1,5 @@
 package jonathan.modern_design.account_module.domain.models.account.vo;
 
-import com.google.common.annotations.VisibleForTesting;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -96,7 +95,6 @@ public class AccountMoney implements ValueObject {
         return this.balance.compareTo(anotherAmount) < 0;
     }
 
-    @VisibleForTesting //TODO QUE FUNCIONE
     public static class InsufficientFundsException extends RootException {
         @Serial private static final long serialVersionUID = 4577125702505726581L;
 

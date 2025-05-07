@@ -10,14 +10,12 @@ import jonathan.modern_design.account_module.domain.models.account.vo.AccountNum
 import jonathan.modern_design.user.domain.models.User;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import static java.util.Objects.requireNonNull;
 import static lombok.AccessLevel.PRIVATE;
 
-@Builder //For mapper and tests only //TODO TRY TO DELETE
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @AggregateRoot
