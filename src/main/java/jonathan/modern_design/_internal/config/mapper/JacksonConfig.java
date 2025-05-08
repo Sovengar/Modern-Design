@@ -1,11 +1,9 @@
 package jonathan.modern_design._internal.config.mapper;
 
-import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.BeanDescription;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationConfig;
-import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.BeanSerializer;
 import com.fasterxml.jackson.databind.ser.BeanSerializerModifier;
@@ -13,7 +11,6 @@ import com.fasterxml.jackson.databind.ser.impl.ObjectIdWriter;
 import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase;
 import jonathan.modern_design._common.tags.MicroType;
 import jonathan.modern_design._common.tags.ValueObject;
-import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -65,21 +62,21 @@ class FlatteningSerializer extends BeanSerializer {
         super(src, objectIdWriter, filterId);
     }
 
-    @SneakyThrows
-    @Override
-    public void serialize(Object bean, JsonGenerator gen, SerializerProvider provider) {
-        // Si hay solo una propiedad, serializamos directamente su valor
-        if (_props != null && _props.length == 1) {
-            Object value = _props[0].get(bean);
-            if (value != null) {
-                provider.defaultSerializeValue(value, gen);
-                return;
-            }
-        }
-
-        // Si hay más de una propiedad o el valor es null, usamos la serialización normal
-        super.serialize(bean, gen, provider);
-    }
+//    @SneakyThrows
+//    @Override
+//    public void serialize(Object bean, JsonGenerator gen, SerializerProvider provider) {
+//        // Si hay solo una propiedad, serializamos directamente su valor
+//        if (_props != null && _props.length == 1) {
+//            Object value = _props[0].get(bean);
+//            if (value != null) {
+//                provider.defaultSerializeValue(value, gen);
+//                return;
+//            }
+//        }
+//
+//        // Si hay más de una propiedad o el valor es null, usamos la serialización normal
+//        super.serialize(bean, gen, provider);
+//    }
 
     @Override
     public BeanSerializerBase withObjectIdWriter(ObjectIdWriter objectIdWriter) {
