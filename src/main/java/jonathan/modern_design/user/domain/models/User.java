@@ -70,7 +70,7 @@ public class User extends AuditingColumns {
     private UserPhoneNumbers userPhoneNumbers;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_code")
-    private Role role; //We should not reference another AR directly, doing the exception here
+    private Role role; //Should be Role.Code, but since they are on the same BC and not a big graph, we can do the exception for pragmatism.
     @Version
     private Integer version;
     @Column(nullable = false)
