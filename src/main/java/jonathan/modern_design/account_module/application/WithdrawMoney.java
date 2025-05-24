@@ -65,7 +65,7 @@ class WithdrawMoney {
 
     public record WithdrawMoneyCommand(
             @NotEmpty(message = "Account number is required") String accountNumber,
-            @NotEmpty(message = "Amount is required") BigDecimal amount,
+            @NotNull(message = "Amount is required") BigDecimal amount,
             @NotNull(message = "Currency is required") Currency currency) {
     }
 }
