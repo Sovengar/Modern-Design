@@ -18,6 +18,7 @@ import jonathan.modern_design.account_module.domain.models.account.vo.AccountMon
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountNumber;
 import jonathan.modern_design.user.domain.models.User;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -32,6 +33,7 @@ import static lombok.AccessLevel.PRIVATE;
 @Getter
 @NoArgsConstructor(access = PACKAGE) //For Hibernate
 @AllArgsConstructor(access = PRIVATE)
+@Builder //Allowed because is a class without biz logic, use only for mapping or testing purposes
 public class AccountEntity extends AuditingColumns {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ACCOUNTS_SQ")

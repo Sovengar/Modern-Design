@@ -14,6 +14,8 @@ public record AccountDto(
         Account.Status status,
         User.Id userId) {
 
+    //We can use Account.Status or create here an StatusDto if needed.
+
     public AccountDto(final Account account) {
         this(
                 account.getAccountNumber().getAccountNumber(),

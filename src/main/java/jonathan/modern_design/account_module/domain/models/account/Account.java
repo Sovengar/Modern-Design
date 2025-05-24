@@ -37,12 +37,21 @@ public final class Account {
         this.status = accountEntity.getStatus();
     }
 
-    public void updateCRUD(AccountNumber accountNumber, AccountMoney money, AccountAddress address, Status status, User.Id userId) {
+    /**
+     * CRUD method, prefer usecase methods like moveToAnotherPlace to update the address only.
+     * If we keep making the method more generic, the method will grow complex.
+     * Logic will be dispersed since the client now has the burden to provide the right fields to support his need.
+     */
+    public void genericUpdate(AccountNumber accountNumber, AccountMoney money, AccountAddress address, Status status, User.Id userId) {
         this.accountNumber = accountNumber;
         this.money = money;
         this.address = address;
         this.status = status;
         this.userId = userId;
+    }
+
+    public void generateNewAccountNumber() {
+        //TODO TRY TO USE DOBLE DISPATCH
     }
 
     public void deposit(AccountMoney money) {

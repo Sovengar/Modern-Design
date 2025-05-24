@@ -9,6 +9,11 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
@@ -17,22 +22,22 @@ import java.time.LocalDateTime;
 @Setter
 @SuperBuilder
 @NoArgsConstructor
-@EntityListeners(UserAuditListener.class) //AuditingEntityListener.class from the springframework
+@EntityListeners(AuditingEntityListener.class)
 public abstract class AuditingColumns {
-    //@CreatedBy
+    @CreatedBy
     @Column(updatable = false)
     protected String createdBy;
 
-    //@CreatedDate
+    @CreatedDate
     @CreationTimestamp
     @Column(updatable = false)
     protected LocalDateTime createdAt;
 
-    //@LastModifiedBy
+    @LastModifiedBy
     @Column(insertable = false)
     protected String modifiedBy;
 
-    //@LastModifiedDate
+    @LastModifiedDate
     @UpdateTimestamp
     @Column(insertable = false)
     protected LocalDateTime modifiedAt;

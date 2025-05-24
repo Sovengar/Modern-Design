@@ -1,7 +1,5 @@
 package jonathan.modern_design.user.application;
 
-import io.micrometer.observation.annotation.Observed;
-import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jonathan.modern_design._common.tags.ApplicationService;
 import jonathan.modern_design._shared.country.Country;
@@ -17,55 +15,16 @@ import jonathan.modern_design.user.domain.store.RoleStore;
 import jonathan.modern_design.user.domain.store.UserRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.graphql.data.method.annotation.Argument;
-import org.springframework.graphql.data.method.annotation.MutationMapping;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.Serial;
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import static java.lang.String.format;
-import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
 
-@Controller
-@RequiredArgsConstructor
-@Slf4j
-class RegisterUserGraphQLController {
-    private final RegisterUser registerUser;
-    private final UserRepo userRepo;
-
-    @Observed(name = "registerUser")
-    @Operation(summary = "Register a new user")
-    @MutationMapping
-    public ResponseEntity<User> registerUser(@Argument RegisterUser.Command message) {
-        /*
-        User.Id id = User.Id.of(UUID.randomUUID());
-        UserRealName realname = input.getRealname() != null ? UserRealName.of(input.getRealname()) : null;
-        UserUserName username = UserUserName.of(input.getUsername());
-        UserEmail email = UserEmail.of(input.getEmail());
-        UserPassword password = UserPassword.of(input.getPassword());
-        Country country = Country.of(input.getCountry());
-        UserPhoneNumbers phoneNumbers = new UserPhoneNumbers(input.getPhoneNumbers());
-*/
-        //var message = new RegisterUser.Command(id, realname, username, email, password, country, phoneNumbers);
-
-        generateTraceId();
-
-        log.info("BEGIN registerUser for userId: {}", message.id());
-        var userId = registerUser.handle(message);
-        var user = userRepo.findByUUIDOrElseThrow(User.Id.of(userId));
-        log.info("END registerUser for userId: {}", message.id());
-
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(userId).toUri();
-        return ResponseEntity.created(location).body(user);
-    }
-}
+//TODO ADD CONTROLLER
 
 @Slf4j
 @RequiredArgsConstructor

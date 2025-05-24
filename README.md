@@ -104,15 +104,16 @@ Not all classes are private because we are packaging, we use ArchUnit and Spring
 
 ### CQRS
 
-Search class that calls directly the repository and has his own dtos for projections
-Zero business logic involved, Zero mutation in the search class
-Commands in the normal facade.
+Commands return void or an identifier, that way after the command you have to make your specific query to retrieve the latest data.
+*This ensures that the commands are decoupled from a genericDto, avoiding excessive mapping.
+Search classes that directly call the repository/EntityManager and have their own dtos for projections.
 
 ### Instantiation
 
 - Factory Classes (Configuration)
 - Factory method / Named Constructors
 - Builder (for testing or criteria objects)
+- Withers (for ResponseAPI)
 - ObjectMother (for testing small objects with few combinations)
 
 ### Java
@@ -121,11 +122,11 @@ Commands in the normal facade.
 - Stream
 - Default methods
 - Records (Immutable DTOs for many different scenarios)
-- Sealed? Switch matchers?
+- TODO Data-oriented programming (Sealed + Switch Expressions + Sealed + Smart Switches)
 
 ### Others
 
-- DTOs (to transfer data between layers)
+- DTOs (to transfer data OVER THE NETWORK, not between layers)
 - entityDto (DTOs that expose our API to the external clients have to be robust for less versioning)
 - Value Objects
 - Micro Types (AccountId, reserve for PK only)

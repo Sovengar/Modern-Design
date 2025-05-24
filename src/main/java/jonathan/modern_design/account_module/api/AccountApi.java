@@ -4,8 +4,8 @@ import jonathan.modern_design._common.tags.Injectable;
 import jonathan.modern_design.account_module.api.dtos.AccountDto;
 import jonathan.modern_design.account_module.application.CreateAccount;
 import jonathan.modern_design.account_module.application.Deposit;
+import jonathan.modern_design.account_module.application.GenericUpdateAccount;
 import jonathan.modern_design.account_module.application.TransferMoney;
-import jonathan.modern_design.account_module.application.UpdateAccountCRUD;
 import jonathan.modern_design.account_module.application.queries.FindAccount;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountNumber;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ public interface AccountApi {
         private final FindAccount findAccount;
         private final TransferMoney transferMoney;
         private final CreateAccount createAccount;
-        private final UpdateAccountCRUD updateAccountCRUD;
+        private final GenericUpdateAccount genericUpdateAccount;
         private final Deposit deposit;
 
         @Override
@@ -37,7 +37,7 @@ public interface AccountApi {
         }
 
         public void update(AccountDto dto) {
-            updateAccountCRUD.handle(dto);
+            genericUpdateAccount.handle(dto);
         }
 
         @Override

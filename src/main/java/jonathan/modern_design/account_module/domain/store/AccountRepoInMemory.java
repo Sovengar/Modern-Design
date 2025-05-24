@@ -4,6 +4,8 @@ import jonathan.modern_design._common.tags.Fake;
 import jonathan.modern_design.account_module.domain.models.account.Account;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountNumber;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -19,6 +21,13 @@ public class AccountRepoInMemory implements AccountRepo {
     public Optional<Account> findByAccNumber(String accountNumber) {
         var account = accountsByNumber.get(accountNumber);
         return ofNullable(account);
+    }
+
+    @Override
+    public List<Account> findAll() {
+        var accounts = new ArrayList<Account>();
+        accountsByNumber.forEach((key, value) -> accounts.add(value));
+        return accounts;
     }
 
     @Override

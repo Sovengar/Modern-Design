@@ -5,8 +5,8 @@ import jonathan.modern_design._shared.country.CountriesInventoryStub;
 import jonathan.modern_design.account_module.api.AccountApi;
 import jonathan.modern_design.account_module.application.CreateAccount;
 import jonathan.modern_design.account_module.application.Deposit;
+import jonathan.modern_design.account_module.application.GenericUpdateAccount;
 import jonathan.modern_design.account_module.application.TransferMoney;
-import jonathan.modern_design.account_module.application.UpdateAccountCRUD;
 import jonathan.modern_design.account_module.application.queries.FindAccount;
 import jonathan.modern_design.account_module.domain.services.AccountValidator;
 import jonathan.modern_design.account_module.domain.store.AccountRepo;
@@ -33,7 +33,7 @@ public class AccountingConfig {
                 findAccount,
                 new TransferMoney(accountRepo, transactionRepo, accountValidator),
                 new CreateAccount(accountRepo, userFacade, countriesInventory),
-                new UpdateAccountCRUD(accountRepo),
+                new GenericUpdateAccount(accountRepo),
                 new Deposit(accountRepo, transactionRepo)
         );
     }

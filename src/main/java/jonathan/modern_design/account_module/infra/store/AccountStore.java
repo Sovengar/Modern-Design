@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -21,12 +22,10 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 class AccountStore implements AccountRepo {
     private final AccountRepoSpringDataJPA repositoryJPA;
-    private final AccountRepoSpringDataJDBC repositoryJDBC;
 
     @Override
     public Optional<Account> findByAccNumber(final String accountNumber) {
         return findOneEntity(accountNumber).map(AccountEntity::toDomain);
-        // Use JDBC return accountEntity.map(AccountJdbcEntity::toDomain);
     }
 
     @Override
@@ -41,9 +40,6 @@ class AccountStore implements AccountRepo {
         var accountEntity = findOneEntityOrElseThrow(account.getAccountNumber().getAccountNumber());
         AccountDataMapper.updateEntity(accountEntity, account);
         repositoryJPA.save(accountEntity);
-
-        //JDBC accountEntity = new AccountJdbcEntity(accountEntity, account);
-        //JDBC repositoryJDBC.save(accountEntity);
     }
 
     @Override
@@ -66,9 +62,13 @@ class AccountStore implements AccountRepo {
         }
     }
 
+    @Override
+    public List<Account> findAll() {
+        return repositoryJPA.findAll().stream().map(AccountEntity::toDomain).toList();
+    }
+
     private Optional<AccountEntity> findOneEntity(@NonNull final String accountNumber) {
         return repositoryJPA.findByAccountNumber(accountNumber);
-        // JDBC return repositoryJDBC.findByAccountNumber(accountNumber);
     }
 
     private AccountEntity findOneEntityOrElseThrow(@NonNull final String accountNumber) {

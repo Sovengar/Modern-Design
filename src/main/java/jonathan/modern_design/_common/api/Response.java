@@ -65,6 +65,12 @@ public record Response<T>(
             return this;
         }
 
+        //Wither
+        public Builder<T> withDefaultMetadata() {
+            this.metadata = Map.of("version", "1.0", "retrievedAt", (Object) java.time.LocalDateTime.now());
+            return this;
+        }
+
         public Response<T> build() {
             return new Response<>(data, metadata, links, actions);
         }

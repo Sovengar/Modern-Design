@@ -33,11 +33,8 @@
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.3.0</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-graphql</artifactId>
-        </dependency>
         <!-- END API -->
+
         <!-- BEGIN DEV -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -79,7 +76,14 @@
             <artifactId>spring-modulith-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.tngtech.archunit</groupId>
+            <artifactId>archunit-junit5</artifactId>
+            <version>1.4.0</version>
+            <scope>test</scope>
+        </dependency>
         <!-- END DEV -->
+
         <!-- BEGIN TEST -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -113,25 +117,16 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.tngtech.archunit</groupId>
-            <artifactId>archunit-junit5</artifactId>
-            <version>1.4.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.openapitools.openapidiff</groupId>
             <artifactId>openapi-diff-maven</artifactId>
             <version>2.0.1</version>
         </dependency>
         <!-- END TEST -->
+
         <!-- BEGIN DB -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jdbc</artifactId>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -153,17 +148,7 @@
             <version>${querydsl.version}</version>
         </dependency>
         <!-- END DB -->
-        <!-- BEGIN SECURITY -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.auth0</groupId>
-            <artifactId>java-jwt</artifactId>
-            <version>4.3.0</version>
-        </dependency>
-        <!-- END SECURITY -->
+
         <!-- BEGIN OBSERVABILITY -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -235,7 +220,6 @@
             </plugin>
             <!-- END INTEGRATION TESTS -->
 
-            <!-- BEGIN MAPSTRUCT WITH LOMBOK SYNC PLUGIN -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -251,8 +235,7 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
-            <!-- END MAPSTRUCT WITH LOMBOK SYNC PLUGIN -->
-
+            
             <!-- BEGIN QUERYDSL PLUGIN -->
             <plugin>
                 <groupId>com.mysema.maven</groupId>
@@ -279,76 +262,6 @@
                 </dependencies>
             </plugin>
             <!-- END QUERYDSL PLUGIN -->
-
-            <!--            <plugin>-->
-            <!--                <groupId>org.openapitools</groupId>-->
-            <!--                <artifactId>openapi-generator-maven-plugin</artifactId>-->
-            <!--                <version>6.3.0</version>-->
-            <!--                <executions>-->
-            <!--                    <execution>-->
-            <!--                        <goals>-->
-            <!--                            <goal>generate</goal>-->
-            <!--                        </goals>-->
-            <!--                        <configuration>-->
-            <!--                            &lt;!&ndash; Generate client stubs based on consumed contract &ndash;&gt;-->
-            <!--                            <inputSpec>clean-application/ldap-api-docs.yaml</inputSpec>-->
-            <!--                            <generatorName>java</generatorName>-->
-            <!--                            <library>resttemplate</library>-->
-            <!--                            <apiPackage>jonathan.modern-design</apiPackage>-->
-            <!--                            <modelPackage>jonathan.modern-design</modelPackage>-->
-            <!--                            <generateApiTests>false</generateApiTests>-->
-            <!--                            <generateModelTests>false</generateModelTests>-->
-            <!--                            <modelNameSuffix>Dto</modelNameSuffix>-->
-            <!--                            <configOptions>-->
-            <!--                                <useJakartaEe>true</useJakartaEe>-->
-            <!--                                <jakarta>true</jakarta>-->
-            <!--                                <openApiNullable>false</openApiNullable>-->
-            <!--                            </configOptions>-->
-            <!--                        </configuration>-->
-            <!--                    </execution>-->
-            <!--                </executions>-->
-            <!--            </plugin>-->
-
-            <!--            <plugin>-->
-            <!--                <groupId>org.pitest</groupId>-->
-            <!--                <artifactId>pitest-maven</artifactId>-->
-            <!--                <version>1.9.11</version>-->
-
-            <!--                &lt;!&ndash; adds support for JUnit5 &ndash;&gt;-->
-            <!--                <dependencies>-->
-            <!--                    <dependency>-->
-            <!--                        <groupId>org.pitest</groupId>-->
-            <!--                        <artifactId>pitest-junit5-plugin</artifactId>-->
-            <!--                        <version>0.14</version>-->
-            <!--                    </dependency>-->
-            <!--                </dependencies>-->
-
-            <!--                <executions>-->
-            <!--                    <execution>-->
-            <!--                        <userId>pit-report</userId>-->
-            <!--                        &lt;!&ndash; optional &ndash;&gt;-->
-            <!--                        <phase>test</phase>-->
-            <!--                        <goals>-->
-            <!--                            <goal>mutationCoverage</goal>-->
-            <!--                            &lt;!&ndash; only run mutation coverage on changed FILES &ndash;&gt;-->
-            <!--                            &lt;!&ndash; https://twitter.com/_HamzaBlm/status/1449529008501272579?s=20 &ndash;&gt;-->
-            <!--                            &lt;!&ndash; mvn org.pitest:pitest-maven:scmMutationCoverage -Dinclude=ADDED,UNKNOWN -DmutationThreshold=85 -DoriginalBranch & -DdestinationBranch&ndash;&gt;-->
-            <!--                        </goals>-->
-            <!--                    </execution>-->
-            <!--                </executions>-->
-
-            <!--                <configuration>-->
-            <!--                    <targetClasses>-->
-            <!--                        <param>com.jonathan.modern_design.*</param>-->
-            <!--                    </targetClasses>-->
-            <!--                    <targetTests>-->
-            <!--                        <param>com.jonathan.modern_design.*Test</param>-->
-            <!--                    </targetTests>-->
-            <!--                    <mutators>-->
-            <!--                        <mutator>NON_VOID_METHOD_CALLS</mutator>-->
-            <!--                    </mutators>-->
-            <!--                </configuration>-->
-            <!--            </plugin>-->
         </plugins>
     </build>
 

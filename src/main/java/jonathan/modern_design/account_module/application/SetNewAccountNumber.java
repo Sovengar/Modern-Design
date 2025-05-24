@@ -2,15 +2,16 @@ package jonathan.modern_design.account_module.application;
 
 import io.micrometer.observation.annotation.Observed;
 import io.swagger.v3.oas.annotations.Operation;
+import jonathan.modern_design._common.api.Response;
 import jonathan.modern_design._common.tags.ApplicationService;
 import jonathan.modern_design._common.tags.WebAdapter;
 import jonathan.modern_design.account_module.domain.store.AccountRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 
 import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
@@ -18,39 +19,34 @@ import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
 @Slf4j
 @RequiredArgsConstructor
 @WebAdapter("/api/v1/accounts")
-class DeactivateAccountHttpController {
-    private final DeactivateAccount deactivateAccount;
+//Atomic Update, following Task UI Design
+class SetNewAccountNumberHttpController {
+    private final SetNewAccountNumber updater;
 
-    @Observed(name = "deactivateAccount")
-    @Operation(description = "Deactivate an account")
-    @PutMapping(path = "/{accountNumber}/deactivate")
-    public ResponseEntity<Void> deactivate(final @PathVariable String accountNumber) {
+    @Observed(name = "setNewAccountNumber")
+    @Operation(description = "SetNewAccountNumber")
+    @PutMapping(value = "/setNewAccountNumber", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<Response<String>> updateAccount(final String accountNumber) {
         Assert.state(StringUtils.hasText(accountNumber), "Account number is required");
         generateTraceId();
 
-        log.info("BEGIN DeactivateAccount for accountNumber: {}", accountNumber);
-        deactivateAccount.handle(accountNumber);
-        log.info("END DeactivateAccount for accountNumber: {}", accountNumber);
+        log.info("BEGIN Updating account number of account: {}", accountNumber);
+        var newAccountNumber = updater.handle(accountNumber);
+        log.info("END Account with old number {} updated to number {}", accountNumber, newAccountNumber);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new Response.Builder<String>().data(newAccountNumber).withDefaultMetadata().build());
     }
 }
 
 @Slf4j
 @RequiredArgsConstructor
 @ApplicationService
-public class DeactivateAccount {
+class SetNewAccountNumber {
     private final AccountRepo repository;
 
-    public void handle(final String accountNumber) {
-        Assert.state(StringUtils.hasText(accountNumber), "Account number is required");
-
-        log.info("BEGIN - DeactiveAccount");
+    String handle(final String accountNumber) {
         var account = repository.findByAccNumberOrElseThrow(accountNumber);
-        account.deactivate();
-        repository.update(account);
-        log.info("END - DeactiveAccount");
+        account.generateNewAccountNumber();
+        return account.getAccountNumber().getAccountNumber();
     }
-
-
 }

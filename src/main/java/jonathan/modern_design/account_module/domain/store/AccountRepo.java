@@ -4,6 +4,7 @@ import jonathan.modern_design.account_module.domain.exceptions.AccountNotFoundEx
 import jonathan.modern_design.account_module.domain.models.account.Account;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountNumber;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface AccountRepo {
@@ -20,4 +21,6 @@ public interface AccountRepo {
     default Account findByAccNumberOrElseThrow(final String accountNumber) {
         return findByAccNumber(accountNumber).orElseThrow(() -> new AccountNotFoundException(accountNumber));
     }
+
+    List<Account> findAll();
 }

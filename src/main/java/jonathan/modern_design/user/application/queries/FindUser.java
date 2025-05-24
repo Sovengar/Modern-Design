@@ -9,16 +9,12 @@ import jonathan.modern_design.user.domain.models.User;
 import jonathan.modern_design.user.domain.store.UserRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.graphql.data.method.annotation.Argument;
-import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.List;
 import java.util.UUID;
 
 import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
@@ -42,22 +38,6 @@ class FindUserHttpController {
         log.info("END FindUser for userId: {}", id);
 
         return ResponseEntity.ok().body(user);
-    }
-}
-
-@Controller
-@RequiredArgsConstructor
-class FindUserGraphQLController {
-    private final UserRepo userRepo;
-
-    @QueryMapping
-    public User userById(@Argument String id) {
-        return userRepo.findByUUIDOrElseThrow(User.Id.of(UUID.fromString(id)));
-    }
-
-    @QueryMapping
-    public List<User> users() {
-        return userRepo.findAll();
     }
 }
 
