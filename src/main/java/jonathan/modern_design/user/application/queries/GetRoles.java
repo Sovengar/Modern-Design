@@ -19,7 +19,7 @@ import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
-@WebAdapter("/api/v1/roles")
+@WebAdapter("/v1/roles")
 class GetRolesController {
     private final GetRoles getRoles;
 
@@ -31,7 +31,7 @@ class GetRolesController {
         var roleDtos = roles.stream().map(RoleDto::new).toList();
 
         //TODO PONER EN EL RESTO DE CONTROLLERS, AUNQUE AQUI NO ME CONVENCE MUCHO
-        
+
         Response<List<RoleDto>> response = new Response.Builder<List<RoleDto>>()
                 .data(roleDtos)
                 .metadata(Map.of(

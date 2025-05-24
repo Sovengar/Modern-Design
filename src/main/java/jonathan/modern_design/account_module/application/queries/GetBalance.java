@@ -24,7 +24,7 @@ import static jonathan.modern_design.account_module.domain.models.account.QAccou
 
 @Slf4j
 @RequiredArgsConstructor
-@WebAdapter("/api/v1/accounts")
+@WebAdapter("/v1/accounts")
 class GetBalanceHttpController {
     private final GetBalance querier;
     private final ObservationRegistry registry;

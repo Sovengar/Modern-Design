@@ -17,7 +17,7 @@ import java.util.UUID;
 
 import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
 
-@WebAdapter("/api/v1/users")
+@WebAdapter("/v1/users")
 @Slf4j
 @RequiredArgsConstructor
 class DeleteUserHttpController {

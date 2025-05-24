@@ -18,7 +18,7 @@ import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
 
 @Slf4j
 @RequiredArgsConstructor
-@WebAdapter("/api/v1/accounts")
+@WebAdapter("/v1/accounts")
 //Atomic Update, following Task UI Design
 class SetNewAccountNumberHttpController {
     private final SetNewAccountNumber updater;

@@ -53,6 +53,6 @@ public final class CountriesInventoryStub implements CountriesInventory {
 
     @Override
     public Optional<Country> findByCode(final String code) {
-        return Optional.ofNullable(countries.stream().filter(c -> code.equals(c.code())).findFirst().orElse(null));
+        return countries.stream().filter(c -> code.equals(c.code())).findFirst();
     }
 }

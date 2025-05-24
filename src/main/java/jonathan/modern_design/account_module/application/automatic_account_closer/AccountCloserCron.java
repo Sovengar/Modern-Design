@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
 
-@WebAdapter("/api/v1/internal/accounts/closer")
+@WebAdapter("/v1/internal/accounts/closer")
 @Slf4j
 @RequiredArgsConstructor
 class AccountCloserInternalHttpController {

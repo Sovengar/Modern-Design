@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
 
-@WebAdapter("/api/v1/accounts")
+@WebAdapter("/v1/accounts")
 @Slf4j
 @RequiredArgsConstructor
 class DeleteAccountHttpController {

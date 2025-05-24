@@ -62,7 +62,7 @@ public interface SearchAccount {
 
 @Slf4j
 @RequiredArgsConstructor
-@WebAdapter("/api/v1/accounts")
+@WebAdapter("/v1/accounts")
 class SearchAccountHttpController {
     private final SearchAccountQueryImpl querier;
 

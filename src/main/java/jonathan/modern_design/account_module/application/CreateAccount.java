@@ -39,7 +39,7 @@ import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
 
 @Slf4j
 @RequiredArgsConstructor
-@WebAdapter("/api/v1/accounts")
+@WebAdapter("/v1/accounts")
 class CreateAccountHttpController {
     private final CreateAccount createAccount;
     private final AccountRepo repository;

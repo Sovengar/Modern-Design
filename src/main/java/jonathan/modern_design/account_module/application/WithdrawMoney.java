@@ -24,7 +24,7 @@ import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
 
 @Slf4j
 @RequiredArgsConstructor
-@WebAdapter("/api/v1/accounts")
+@WebAdapter("/v1/accounts")
 class WithdrawMoneyHttpController {
     private final WithdrawMoney withdrawMoney;
 
@@ -34,7 +34,7 @@ class WithdrawMoneyHttpController {
     public ResponseEntity<Void> getBalance(@PathVariable String accountNumber, @PathVariable BigDecimal amount, @PathVariable String currency) {
         generateTraceId();
         var withdrawMoneyCommand = new WithdrawMoney.WithdrawMoneyCommand(accountNumber, amount, Currency.fromCode(currency));
-        
+
         log.info("BEGIN WithdrawMoney for accountNumber: {} with amount: {} and currency: {}", accountNumber, amount, currency);
         withdrawMoney.handle(withdrawMoneyCommand);
         log.info("END WithdrawMoney for accountNumber: {} with amount: {} and currency: {}", accountNumber, amount, currency);

@@ -21,7 +21,7 @@ import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
 
 @Slf4j
 @RequiredArgsConstructor
-@WebAdapter("/api/v1/roles")
+@WebAdapter("/v1/roles")
 class ChangeRoleHttpController {
     private final ChangeRole changeRole;
 
