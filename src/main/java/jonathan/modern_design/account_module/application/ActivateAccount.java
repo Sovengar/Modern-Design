@@ -4,6 +4,7 @@ import io.micrometer.observation.annotation.Observed;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
+import jonathan.modern_design._common.api.Response;
 import jonathan.modern_design._common.tags.ApplicationService;
 import jonathan.modern_design._common.tags.WebAdapter;
 import jonathan.modern_design.account_module.domain.models.account.Account;
@@ -27,17 +28,16 @@ class ActivateAccountHttpController {
     @Observed(name = "activateAccount")
     @Operation(summary = "Activate an account")
     @PutMapping(path = "/{accountNumber}/activate")
-    public ResponseEntity<Void> activate(final @PathVariable String accountNumber) {
+    public ResponseEntity<Response<Void>> activate(final @PathVariable String accountNumber) {
         Assert.state(StringUtils.hasText(accountNumber), "Account number is required");
         generateTraceId();
-
-        //TODO ADD AUTH
+        //Authentication + Authorization
 
         log.info("BEGIN ActivateAccount for accountNumber: {}", accountNumber);
         activateAccount.handle(new ActivateAccount.Command(accountNumber));
         log.info("END ActivateAccount for accountNumber: {}", accountNumber);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new Response.Builder<Void>().withDefaultMetadataV1());
     }
 }
 

@@ -2,11 +2,10 @@ package jonathan.modern_design.account_module.application.queries;
 
 import com.querydsl.jpa.JPQLTemplates;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import io.micrometer.observation.Observation;
-import io.micrometer.observation.ObservationRegistry;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jonathan.modern_design._common.api.Response;
 import jonathan.modern_design._common.tags.DataAdapter;
 import jonathan.modern_design._common.tags.WebAdapter;
 import lombok.RequiredArgsConstructor;
@@ -27,28 +26,19 @@ import static jonathan.modern_design.account_module.domain.models.account.QAccou
 @WebAdapter("/v1/accounts")
 class GetBalanceHttpController {
     private final GetBalance querier;
-    private final ObservationRegistry registry;
 
     @Operation(description = "Get Balance of the account")
     @GetMapping(path = "/{accountNumber}/balance")
-    public ResponseEntity<BigDecimal> getBalance(@PathVariable String accountNumber) {
+    public ResponseEntity<Response<BigDecimal>> getBalance(@PathVariable String accountNumber) {
         Assert.state(StringUtils.hasText(accountNumber), "Account number is required");
         generateTraceId();
-
-        //TODO SECURITY, YOU CAN'T ACCESS ANY ACCOUNT IF YOU ARE NOT AN ADMIN
-
-        //Fine-grained Observation instead of @Observation
-        String prefix = accountNumber.split("-")[0];
-        var observation = Observation
-                .createNotStarted("get-balance", registry)
-                .lowCardinalityKeyValue("accountPrefix", prefix)
-                .contextualName("getBalance");
+        //Authentication + Authorization
 
         log.info("BEGIN getBalance for accountNumber: {}", accountNumber);
-        var balance = observation.observe(() -> querier.getBalance(accountNumber));
+        var balance = querier.getBalance(accountNumber);
         log.info("END getBalance for accountNumber: {}", accountNumber);
 
-        return ResponseEntity.ok().body(balance);
+        return ResponseEntity.ok(new Response.Builder<BigDecimal>().data(balance).withDefaultMetadataV1());
     }
 }
 
@@ -68,29 +58,3 @@ class GetBalance {
                 .fetchOne();
     }
 }
-
-/*
-@Slf4j
-class LoggingObservationHandler implements ObservationHandler<Observation.Context> {
-
-    @Override
-    public boolean supportsContext(Observation.Context context) {
-        return true; // Maneja todos los contextos
-    }
-
-    @Override
-    public void onStart(Observation.Context context) {
-        log.info("Observation started: {}", context.getName());
-    }
-
-    @Override
-    public void onStop(Observation.Context context) {
-        log.info("Observation stopped: {}", context.getName());
-    }
-
-    @Override
-    public void onError(Observation.Context context) {
-        log.error("Observation error: {}", context.getName(), context.getError());
-    }
-}
-*/

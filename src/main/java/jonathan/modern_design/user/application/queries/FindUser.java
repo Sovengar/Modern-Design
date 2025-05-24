@@ -2,6 +2,7 @@ package jonathan.modern_design.user.application.queries;
 
 import io.micrometer.observation.annotation.Observed;
 import io.swagger.v3.oas.annotations.Operation;
+import jonathan.modern_design._common.api.Response;
 import jonathan.modern_design._common.tags.Injectable;
 import jonathan.modern_design._common.tags.WebAdapter;
 import jonathan.modern_design.user.api.dtos.UserDto;
@@ -23,13 +24,14 @@ import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
 @Slf4j
 @RequiredArgsConstructor
 @WebAdapter("/v1/users")
+//Generic FindUser, Implicit. Who calls this? For what? Cannot do HATEOAS if this is generic.
 class FindUserHttpController {
     private final FindUser querier;
 
     @Observed(name = "findUser")
     @Operation(summary = "Find a user by id")
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getUser(@PathVariable UUID id) {
+    public ResponseEntity<Response<UserDto>> getUser(@PathVariable UUID id) {
         Assert.state(StringUtils.hasText(String.valueOf(id)), "UserId is required");
         generateTraceId();
 
@@ -37,7 +39,7 @@ class FindUserHttpController {
         var user = querier.queryWith(User.Id.of(id));
         log.info("END FindUser for userId: {}", id);
 
-        return ResponseEntity.ok().body(user);
+        return ResponseEntity.ok().body(new Response.Builder<UserDto>().data(user).withDefaultMetadataV1());
     }
 }
 

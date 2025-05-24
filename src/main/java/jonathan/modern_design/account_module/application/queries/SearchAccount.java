@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
+import jonathan.modern_design._common.api.Response;
 import jonathan.modern_design._common.tags.DataAdapter;
 import jonathan.modern_design._common.tags.WebAdapter;
 import jonathan.modern_design.account_module.api.dtos.AccountDto;
@@ -21,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -69,22 +71,25 @@ class SearchAccountHttpController {
     @Observed(name = "searchAccount")
     @Operation(description = "Search Account")
     @PostMapping("/search")
-    public List<AccountDto> searchForXXXPage(@RequestBody SearchAccount.Criteria filters) {
-        return querier.searchForXXXPage(filters);
+    public ResponseEntity<Response<List<AccountDto>>> searchForXXXPage(@RequestBody SearchAccount.Criteria filters) {
+        var accountDtos = querier.searchForXXXPage(filters);
+        return ResponseEntity.ok(new Response.Builder<List<AccountDto>>().data(accountDtos).withDefaultMetadataV1());
     }
 
     @Observed(name = "searchAccount")
     @Operation(description = "Search Account")
     @GetMapping(path = "/search/byuser/password/{password}")
-    public AccountDto findAccount(@PathVariable String password) {
-        return querier.searchWithUserPassword(password).orElseThrow(EntityNotFoundException::new);
+    public ResponseEntity<Response<AccountDto>> findAccount(@PathVariable String password) {
+        var accountDto = querier.searchWithUserPassword(password).orElseThrow(EntityNotFoundException::new);
+        return ResponseEntity.ok(new Response.Builder<AccountDto>().data(accountDto).withDefaultMetadataV1());
     }
 
     @Observed(name = "searchAccount")
     @Operation(description = "Search Account")
     @PostMapping("/search/xxxPage")
-    public List<SearchAccount.AccountSearchResult> searchProjectionForXXXPage(@RequestBody SearchAccount.Criteria filters) {
-        return querier.searchWithQueryDSL(filters);
+    public ResponseEntity<Response<List<SearchAccount.AccountSearchResult>>> searchProjectionForXXXPage(@RequestBody SearchAccount.Criteria filters) {
+        var accountSearchResults = querier.searchWithQueryDSL(filters);
+        return ResponseEntity.ok(new Response.Builder<List<SearchAccount.AccountSearchResult>>().data(accountSearchResults).withDefaultMetadataV1());
     }
 }
 

@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jonathan.modern_design._common.api.Response;
 import jonathan.modern_design._common.tags.ApplicationService;
 import jonathan.modern_design._common.tags.WebAdapter;
 import jonathan.modern_design._shared.Currency;
@@ -32,19 +33,21 @@ class DepositHttpController {
     @Observed(name = "deposit")
     @Operation(summary = "Deposit money to an account")
     @PutMapping("/{accountNumber}/deposit/{amount}/{currency}")
-    public ResponseEntity<Void> deposit(
+    public ResponseEntity<Response<Void>> deposit(
             @PathVariable("accountNumber") String accountNumber,
             @PathVariable("amount") BigDecimal amount,
             @PathVariable("currency") String currency
     ) {
         generateTraceId();
+        //Authentication + Authorization
+        
         final var message = new Deposit.Command(accountNumber, amount, Currency.fromCode(currency));
 
         log.info("BEGIN Deposit for accountNumber: {} with amount: {} and currency: {}", accountNumber, amount, currency);
         deposit.handle(message);
         log.info("END Deposit for accountNumber: {} with amount: {} and currency: {}", accountNumber, amount, currency);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new Response.Builder<Void>().withDefaultMetadataV1());
     }
 }
 

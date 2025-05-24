@@ -13,9 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.time.Instant;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -30,26 +28,7 @@ class GetRolesController {
         var roles = getRoles.findAll();
         var roleDtos = roles.stream().map(RoleDto::new).toList();
 
-        //TODO PONER EN EL RESTO DE CONTROLLERS, AUNQUE AQUI NO ME CONVENCE MUCHO
-
-        Response<List<RoleDto>> response = new Response.Builder<List<RoleDto>>()
-                .data(roleDtos)
-                .metadata(Map.of(
-                        "timestamp", Instant.now(),
-                        "version", "1.0.0"
-                ))
-                //.links(List.of(
-                //      new Response.Link("self", "/roles/" + id, "GET"),
-                //    new Response.Link("all", "/roles", "GET")
-                //))
-                //.actions(List.of(
-                //      new Response.Action("delete", "DELETE", "/roles/" + id),
-                //    new Response.Action("update", "PUT", "/roles/" + id,
-                //          Map.of("name", "string", "description", "string"))
-                //))
-                .build();
-
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok().body(new Response.Builder<List<RoleDto>>().data(roleDtos).withDefaultMetadataV1());
     }
 }
 

@@ -38,6 +38,7 @@ class GenericUpdateAccountHttpController {
     @PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Response<Void>> updateAccount(@RequestBody UpdateAccountRequestDto requestDto) {
         generateTraceId();
+        //Authentication + Authorization
 
         log.info("BEGIN Updating account with number {} with this JSON: {}", requestDto.accountNumber(), requestDto);
         var accountDto = new AccountDto(
@@ -52,7 +53,7 @@ class GenericUpdateAccountHttpController {
         updater.handle(accountDto);
         log.info("END Account with number {} updated", requestDto.accountNumber());
 
-        return ResponseEntity.ok().body(new Response.Builder<Void>().data(null).withDefaultMetadata().build());
+        return ResponseEntity.ok().body(new Response.Builder<Void>().withDefaultMetadataV1());
     }
 
     @Schema(description = "Data for updating an account")

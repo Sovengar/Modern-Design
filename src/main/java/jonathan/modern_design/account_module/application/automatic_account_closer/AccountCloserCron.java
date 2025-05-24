@@ -26,6 +26,7 @@ class AccountCloserInternalHttpController {
     @PostMapping(path = "/execute")
     public ResponseEntity<Void> closeInactiveAccounts() {
         generateTraceId();
+        //Authentication + Authorization
 
         log.info("BEGIN CloseInactiveAccounts cron job execution.");
         accountCloserCron.execute();

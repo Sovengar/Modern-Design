@@ -3,6 +3,7 @@ package jonathan.modern_design.user.application;
 import io.micrometer.observation.annotation.Observed;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+import jonathan.modern_design._common.api.Response;
 import jonathan.modern_design._common.tags.ApplicationService;
 import jonathan.modern_design._common.tags.WebAdapter;
 import jonathan.modern_design.user.domain.models.Role;
@@ -28,15 +29,17 @@ class ChangeRoleHttpController {
     @Observed(name = "changeRole")
     @Operation(summary = "Change the role of a user")
     @PutMapping(value = "/{userId}/changeRoleTo/{roleCode}")
-    public ResponseEntity<Void> changeRole(final @PathVariable UUID userId, @PathVariable final String roleCode) {
+    public ResponseEntity<Response<Void>> changeRole(final @PathVariable UUID userId, @PathVariable final String roleCode) {
         generateTraceId();
+        //Authentication + Authorization
+        
         var message = new ChangeRole.Command(User.Id.of(userId), Role.Code.of(roleCode));
 
         log.info("BEGIN ChangeRole for userId: {} with role: {}", userId, roleCode);
         changeRole.handle(message);
         log.info("END ChangeRole for userId: {}, with role: {}", userId, roleCode);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new Response.Builder<Void>().withDefaultMetadataV1());
     }
 }
 

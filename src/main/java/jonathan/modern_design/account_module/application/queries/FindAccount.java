@@ -6,6 +6,7 @@ import io.micrometer.observation.annotation.Observed;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jonathan.modern_design._common.api.Response;
 import jonathan.modern_design._common.tags.DataAdapter;
 import jonathan.modern_design._common.tags.WebAdapter;
 import jonathan.modern_design.account_module.api.dtos.AccountDto;
@@ -29,15 +30,17 @@ class FindAccountHttpController {
     @Operation(description = "Find Account")
     @Observed(name = "findAccount")
     @GetMapping(path = "/{accountNumber}")
-    ResponseEntity<AccountDto> loadAccount(@PathVariable String accountNumber) {
+    ResponseEntity<Response<AccountDto>> loadAccount(@PathVariable String accountNumber) {
         Assert.state(StringUtils.hasText(accountNumber), "Account number is required");
         generateTraceId();
+        //Authentication + Authorization
 
         log.info("BEGIN FindAccount for accountNumber: {}", accountNumber);
         var account = findAccount.queryWith(accountNumber);
         log.info("END FindAccount for accountNumber: {}", accountNumber);
 
-        return ResponseEntity.ok().body(account);
+        return ResponseEntity.ok(new Response.Builder<AccountDto>().data(account).withDefaultMetadataV1());
+        //Actions? This would have to be updated to support the new API, smells...
     }
 }
 

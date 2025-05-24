@@ -2,6 +2,7 @@ package jonathan.modern_design.user.application;
 
 import io.micrometer.observation.annotation.Observed;
 import io.swagger.v3.oas.annotations.Operation;
+import jonathan.modern_design._common.api.Response;
 import jonathan.modern_design._common.tags.ApplicationService;
 import jonathan.modern_design._common.tags.WebAdapter;
 import jonathan.modern_design.user.domain.models.User;
@@ -26,15 +27,16 @@ class DeleteUserHttpController {
     @Observed(name = "deleteUser")
     @Operation(summary = "Delete a user")
     @DeleteMapping(path = "/{userId}")
-    public ResponseEntity<Void> deleteUser(@PathVariable UUID userId) {
-        generateTraceId();
+    public ResponseEntity<Response<Void>> deleteUser(@PathVariable UUID userId) {
         Assert.notNull(userId, "User id must not be null");
+        generateTraceId();
+        //Authentication + Authorization
 
         log.info("BEGIN deleteUser for userId: {}", userId);
         deleteUser.handle(User.Id.of(userId));
         log.info("END deleteUser for userId: {}", userId);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new Response.Builder<Void>().withDefaultMetadataV1());
     }
 }
 

@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jonathan.modern_design._common.api.Response;
 import jonathan.modern_design._common.tags.ApplicationService;
 import jonathan.modern_design._common.tags.DomainService;
 import jonathan.modern_design._common.tags.WebAdapter;
@@ -48,8 +49,9 @@ class CreateAccountHttpController {
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     @Operation(description = "Create Account")
     @Transactional
-    public ResponseEntity<AccountDto> createAccount(@RequestBody @Valid final CreateAccount.Command message) {
+    public ResponseEntity<Response<AccountDto>> createAccount(@RequestBody @Valid final CreateAccount.Command message) {
         generateTraceId();
+        //Authentication + Authorization
 
         log.info("START createAccount with command: {}", message);
         final var accountNumber = createAccount.handle(message).getAccountNumber();
@@ -58,7 +60,13 @@ class CreateAccountHttpController {
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{accountNumber}").buildAndExpand(accountNumber).toUri();
 
         log.info("END Account created  with number: {}", accountNumber);
-        return ResponseEntity.created(location).body(new AccountDto(account));
+        return ResponseEntity.created(location).body(
+                new Response.Builder<AccountDto>()
+                        .data(new AccountDto(account))
+                        .links(List.of(new Response.Link("findAccount", "/accounts/" + accountNumber, "GET")))
+                        //Actions? This would have to be updated to support the new API, smells...
+                        .withDefaultMetadataV1()
+        );
     }
 }
 

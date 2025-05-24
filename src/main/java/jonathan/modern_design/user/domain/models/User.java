@@ -62,6 +62,7 @@ public class User extends AuditingColumns {
     @AttributeOverride(name = "email", column = @Column(name = "internal_enterprise_email"))
     private UserEmail internalEnterpriseEmail;
     @Embedded
+    @Getter(PRIVATE)
     private UserPassword password;
     private String country;
     @Enumerated(value = jakarta.persistence.EnumType.STRING)

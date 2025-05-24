@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jonathan.modern_design._common.api.Response;
 import jonathan.modern_design._common.tags.ApplicationService;
 import jonathan.modern_design._common.tags.WebAdapter;
 import jonathan.modern_design._shared.Currency;
@@ -31,15 +32,17 @@ class WithdrawMoneyHttpController {
     @Observed(name = "withdrawMoney")
     @Operation(summary = "Withdraw money from an account")
     @PutMapping(path = "/{accountNumber}/withdraw/{amount}/{currency}")
-    public ResponseEntity<Void> getBalance(@PathVariable String accountNumber, @PathVariable BigDecimal amount, @PathVariable String currency) {
+    public ResponseEntity<Response<Void>> getBalance(@PathVariable String accountNumber, @PathVariable BigDecimal amount, @PathVariable String currency) {
         generateTraceId();
+        //Authentication + Authorization
+        
         var withdrawMoneyCommand = new WithdrawMoney.WithdrawMoneyCommand(accountNumber, amount, Currency.fromCode(currency));
 
         log.info("BEGIN WithdrawMoney for accountNumber: {} with amount: {} and currency: {}", accountNumber, amount, currency);
         withdrawMoney.handle(withdrawMoneyCommand);
         log.info("END WithdrawMoney for accountNumber: {} with amount: {} and currency: {}", accountNumber, amount, currency);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new Response.Builder<Void>().withDefaultMetadataV1());
     }
 }
 

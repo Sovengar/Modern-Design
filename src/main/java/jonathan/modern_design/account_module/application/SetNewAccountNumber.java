@@ -29,12 +29,13 @@ class SetNewAccountNumberHttpController {
     public ResponseEntity<Response<String>> updateAccount(final String accountNumber) {
         Assert.state(StringUtils.hasText(accountNumber), "Account number is required");
         generateTraceId();
+        //Authentication + Authorization
 
         log.info("BEGIN Updating account number of account: {}", accountNumber);
         var newAccountNumber = updater.handle(accountNumber);
         log.info("END Account with old number {} updated to number {}", accountNumber, newAccountNumber);
 
-        return ResponseEntity.ok(new Response.Builder<String>().data(newAccountNumber).withDefaultMetadata().build());
+        return ResponseEntity.ok(new Response.Builder<String>().data(newAccountNumber).withDefaultMetadataV1());
     }
 }
 

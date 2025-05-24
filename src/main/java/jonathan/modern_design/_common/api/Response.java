@@ -2,6 +2,7 @@ package jonathan.modern_design._common.api;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +26,7 @@ public record Response<T>(
 
     @Schema(description = "Hypermedia link")
     public record Link(
-            String rel,
+            String linkId,
             String href,
             String method
     ) {
@@ -66,9 +67,14 @@ public record Response<T>(
         }
 
         //Wither
-        public Builder<T> withDefaultMetadata() {
-            this.metadata = Map.of("version", "1.0", "retrievedAt", (Object) java.time.LocalDateTime.now());
-            return this;
+        public Response<T> withDefaultMetadataV1() {
+            this.metadata = Map.of("version", "1.0.0", "retrievedAt", Instant.now()); //(Object) java.time.LocalDateTime.now()
+            return build();
+        }
+
+        public Response<T> withDefaultMetadataV2() {
+            this.metadata = Map.of("version", "1.0.0", "retrievedAt", Instant.now()); //(Object) java.time.LocalDateTime.now()
+            return build();
         }
 
         public Response<T> build() {

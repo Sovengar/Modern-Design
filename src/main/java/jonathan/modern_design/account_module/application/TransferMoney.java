@@ -6,6 +6,7 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jonathan.modern_design._common.api.Response;
 import jonathan.modern_design._common.tags.ApplicationService;
 import jonathan.modern_design._common.tags.WebAdapter;
 import jonathan.modern_design._shared.Currency;
@@ -37,19 +38,21 @@ class TransferMoneyHttpController {
     @Observed(name = "transferMoney")
     @Operation(summary = "Transfer money from one account to another")
     @PostMapping(path = "/transfer/{sourceAccountId}/{targetAccountId}/{balance}/{currency}")
-    ResponseEntity<Void> transferMoney(
+    ResponseEntity<Response<Void>> transferMoney(
             @PathVariable("sourceAccountId") String sourceAccountId,
             @PathVariable("targetAccountId") String targetAccountId,
             @PathVariable("balance") BigDecimal amount,
             @PathVariable("currency") String currency) {
         generateTraceId();
+        //Authentication + Authorization
+
         val command = new TransferMoney.Command(sourceAccountId, targetAccountId, amount, Currency.fromCode(currency));
 
         log.info("BEGIN Transfer money from {} to {} with balance {}", sourceAccountId, targetAccountId, amount);
         transferMoney.handle(command);
         log.info("END Transfer money from {} to {} with balance {}", sourceAccountId, targetAccountId, amount);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new Response.Builder<Void>().withDefaultMetadataV1());
     }
 }
 

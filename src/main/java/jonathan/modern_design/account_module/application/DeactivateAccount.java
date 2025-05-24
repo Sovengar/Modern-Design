@@ -2,6 +2,7 @@ package jonathan.modern_design.account_module.application;
 
 import io.micrometer.observation.annotation.Observed;
 import io.swagger.v3.oas.annotations.Operation;
+import jonathan.modern_design._common.api.Response;
 import jonathan.modern_design._common.tags.ApplicationService;
 import jonathan.modern_design._common.tags.WebAdapter;
 import jonathan.modern_design.account_module.domain.store.AccountRepo;
@@ -24,15 +25,16 @@ class DeactivateAccountHttpController {
     @Observed(name = "deactivateAccount")
     @Operation(description = "Deactivate an account")
     @PutMapping(path = "/{accountNumber}/deactivate")
-    public ResponseEntity<Void> deactivate(final @PathVariable String accountNumber) {
+    public ResponseEntity<Response<Void>> deactivate(final @PathVariable String accountNumber) {
         Assert.state(StringUtils.hasText(accountNumber), "Account number is required");
         generateTraceId();
+        //Authentication + Authorization
 
         log.info("BEGIN DeactivateAccount for accountNumber: {}", accountNumber);
         deactivateAccount.handle(accountNumber);
         log.info("END DeactivateAccount for accountNumber: {}", accountNumber);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new Response.Builder<Void>().withDefaultMetadataV1());
     }
 }
 
