@@ -28,6 +28,12 @@ import static lombok.AccessLevel.PRIVATE;
 public class UserPhoneNumbers implements ValueObject {
     private static final String SEPARATOR = ";";
     private static final String PHONE_NUMBER_REGEX = "^(?:\\+?\\d{1,4}[\\s.-]?)?(?:\\(?\\d+\\)?[\\s.-]?)*\\d+(?:\\s?(?:x|ext\\.?)\\s?\\d{1,5})?$\n";
+
+    /**
+     * Double Dispatch, delegating from VO to a third party library.
+     * At this point, while we keep acknowledging the degree of coupling with the third party library (keeping it to the bare minimum),
+     * there is no problem.
+     */
     private static final PhoneNumberUtil PHONE_NUMBER_UTIL = PhoneNumberUtil.getInstance();
 
     @Transient
