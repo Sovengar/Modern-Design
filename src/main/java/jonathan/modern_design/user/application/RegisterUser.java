@@ -2,6 +2,7 @@ package jonathan.modern_design.user.application;
 
 import jakarta.validation.Valid;
 import jonathan.modern_design._common.tags.ApplicationService;
+import jonathan.modern_design._internal.config.exception.RootException;
 import jonathan.modern_design._shared.country.Country;
 import jonathan.modern_design.user.domain.catalogs.Roles;
 import jonathan.modern_design.user.domain.models.Role;
@@ -54,7 +55,7 @@ public class RegisterUser {
         return user.getId().getUserId();
     }
 
-    private static class UserAlreadyExistsException extends RuntimeException {
+    private static class UserAlreadyExistsException extends RootException {
         @Serial private static final long serialVersionUID = 1604523616703390261L;
 
         public UserAlreadyExistsException(String message) {

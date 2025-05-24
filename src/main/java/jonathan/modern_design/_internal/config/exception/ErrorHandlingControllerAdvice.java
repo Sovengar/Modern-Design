@@ -90,7 +90,7 @@ class ErrorHandlingControllerAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<ProblemDetail> handleCustomExceptions(final RootException ex) {
 
-        final ProblemDetail problemDetail = this.buildProblemDetail(ex.getHttpStatus(), "An error occurred", ex.getErrors());
+        final ProblemDetail problemDetail = this.buildProblemDetail(ex.getHttpStatus(), ex.getMessage(), ex.getErrors());
         log.error("Error ID: {} - {}", getErrorId(problemDetail), ex.getMessage(), ex);
 
         return ResponseEntity.status(ex.getHttpStatus()).body(problemDetail);

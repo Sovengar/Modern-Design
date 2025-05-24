@@ -1,5 +1,6 @@
 package jonathan.modern_design._shared;
 
+import jonathan.modern_design._internal.config.exception.RootException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -33,7 +34,7 @@ public enum Currency {
         throw new CurrencyNotFoundException(code);
     }
 
-    static class CurrencyNotFoundException extends RuntimeException {
+    static class CurrencyNotFoundException extends RootException {
         @Serial private static final long serialVersionUID = 800745090304627590L;
 
         public CurrencyNotFoundException(String code) {

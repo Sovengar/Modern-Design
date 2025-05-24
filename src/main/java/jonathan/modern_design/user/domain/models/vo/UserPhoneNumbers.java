@@ -5,9 +5,11 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Transient;
 import jonathan.modern_design._common.tags.ValueObject;
+import jonathan.modern_design._internal.config.exception.RootException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.http.HttpStatus;
 
 import java.io.Serial;
 import java.util.Collections;
@@ -112,7 +114,7 @@ public class UserPhoneNumbers implements ValueObject {
         return phoneNumbersSet.stream().filter(phone -> phone.equals(phoneNumber)).findFirst();
     }
 
-    private static class MaximumNumberOfPhoneNumbersExceededException extends RuntimeException {
+    private static class MaximumNumberOfPhoneNumbersExceededException extends RootException {
         @Serial private static final long serialVersionUID = -6507485328113799878L;
 
         MaximumNumberOfPhoneNumbersExceededException() {
@@ -120,7 +122,7 @@ public class UserPhoneNumbers implements ValueObject {
         }
     }
 
-    static class InvalidPhoneNumbersException extends RuntimeException {
+    static class InvalidPhoneNumbersException extends RootException {
         @Serial private static final long serialVersionUID = -6507485328113799878L;
 
         InvalidPhoneNumbersException(String msg) {
@@ -128,7 +130,7 @@ public class UserPhoneNumbers implements ValueObject {
         }
 
         InvalidPhoneNumbersException(String msg, Throwable cause) {
-            super(msg, cause);
+            super(HttpStatus.INTERNAL_SERVER_ERROR, msg, "", cause);
         }
 
         InvalidPhoneNumbersException() {
