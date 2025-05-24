@@ -68,12 +68,12 @@ public record Response<T>(
 
         //Wither
         public Response<T> withDefaultMetadataV1() {
-            this.metadata = Map.of("version", "1.0.0", "retrievedAt", Instant.now()); //(Object) java.time.LocalDateTime.now()
+            this.metadata = Map.of("version", "1.0.0", "retrievedAt", Instant.now().toString()); //(Object) java.time.LocalDateTime.now()
             return build();
         }
 
         public Response<T> withDefaultMetadataV2() {
-            this.metadata = Map.of("version", "1.0.0", "retrievedAt", Instant.now()); //(Object) java.time.LocalDateTime.now()
+            this.metadata = Map.of("version", "2.0.0", "retrievedAt", Instant.now().toString()); //(Object) java.time.LocalDateTime.now()
             return build();
         }
 

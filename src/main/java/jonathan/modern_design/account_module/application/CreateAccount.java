@@ -10,7 +10,6 @@ import jonathan.modern_design._common.tags.ApplicationService;
 import jonathan.modern_design._common.tags.DomainService;
 import jonathan.modern_design._common.tags.WebAdapter;
 import jonathan.modern_design._shared.Currency;
-import jonathan.modern_design._shared.country.CountriesInventory;
 import jonathan.modern_design.account_module.api.dtos.AccountDto;
 import jonathan.modern_design.account_module.domain.models.account.Account;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountAddress;
@@ -76,7 +75,6 @@ class CreateAccountHttpController {
 public class CreateAccount {
     private final AccountRepo repository;
     private final UserApi userFacade;
-    private final CountriesInventory countriesInventory;
 
     @Transactional
     public AccountNumber handle(final Command message) {
@@ -99,7 +97,7 @@ public class CreateAccount {
                 message.username(),
                 message.email(),
                 message.password(),
-                countriesInventory.findByCodeOrElseThrow(message.country()),
+                message.country(),
                 List.of("+34123456789")); //TODO
 
         userFacade.registerUser(userCreateCommand);
@@ -108,7 +106,7 @@ public class CreateAccount {
 
     @DomainService
     private static class AccountNumberGenerator {
-        //Complex logic here... If it grows too big move to a domainService
+        //Complex logic here... If it grows too big, move to a domainService
         public static String generate() {
             return UUID.randomUUID().toString();
         }

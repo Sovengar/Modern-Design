@@ -1,5 +1,7 @@
 package jonathan.modern_design.user.infra;
 
+import jonathan.modern_design._shared.country.CountriesInventory;
+import jonathan.modern_design._shared.country.CountriesInventoryStub;
 import jonathan.modern_design.user.api.UserApi;
 import jonathan.modern_design.user.application.RegisterUser;
 import jonathan.modern_design.user.application.queries.FindUser;
@@ -14,8 +16,8 @@ import org.springframework.context.annotation.Profile;
 public class UsersConfig {
     final UserRepo userRepo = new UserInMemoryRepo();
 
-    public UserApi userApi(UserRepo userRepo, RoleStore roleStore) {
-        var registerUser = new RegisterUser(userRepo, roleStore);
+    public UserApi userApi(UserRepo userRepo, RoleStore roleStore, CountriesInventory countriesInventory) {
+        var registerUser = new RegisterUser(userRepo, roleStore, countriesInventory);
         var userFinder = new FindUser(userRepo);
         return new UserApi.UserInternalApi(registerUser, userFinder);
     }
@@ -24,7 +26,9 @@ public class UsersConfig {
     public UserApi userApi() {
         //For Unit testing
         var roleRepo = new RoleStoreInMemory();
-        return userApi(userRepo, roleRepo);
+        final CountriesInventory countriesInventory = new CountriesInventoryStub();
+        
+        return userApi(userRepo, roleRepo, countriesInventory);
     }
 
     @Profile("test")

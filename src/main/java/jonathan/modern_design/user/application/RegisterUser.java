@@ -9,7 +9,7 @@ import jonathan.modern_design._common.api.Response;
 import jonathan.modern_design._common.tags.ApplicationService;
 import jonathan.modern_design._common.tags.WebAdapter;
 import jonathan.modern_design._internal.config.exception.RootException;
-import jonathan.modern_design._shared.country.Country;
+import jonathan.modern_design._shared.country.CountriesInventory;
 import jonathan.modern_design.user.domain.catalogs.Roles;
 import jonathan.modern_design.user.domain.models.Role;
 import jonathan.modern_design.user.domain.models.User;
@@ -25,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.Serial;
 import java.util.List;
@@ -44,19 +45,20 @@ class RegisterUserController {
     @Observed(name = "registerUser")
     @Operation(summary = "RegisterUser")
     @PostMapping
-    public ResponseEntity<Response<DataResponse>> registerUser(final @Valid RegisterUser.Command request) {
+    public ResponseEntity<Response<DataResponse>> registerUser(final @Valid @RequestBody Request request) {
         generateTraceId();
         //Authentication + Authorization
 
         log.info("BEGIN RegisterUser for userId: {}", request.id());
-        var userId = handler.handle(request);
+        var command = new RegisterUser.Command(request.id(), Optional.ofNullable(request.realname()), request.username(), request.email(), request.password(), request.country(), request.phoneNumbers());
+        var userId = handler.handle(command);
         var user = repository.findById(User.Id.of(userId)).orElseThrow();
         log.info("END RegisterUser for userId: {}", request.id());
 
         var roleDto = new DataResponse.RoleDto(
                 user.getRole().getCode().getRoleCode(),
                 user.getRole().getDescription(),
-                List.of(new Response.Link("findRole", "/roles/" + user.getRole().getCode(), "GET"))
+                List.of(new Response.Link("findRole", "/roles/" + user.getRole().getCode().getRoleCode(), "GET"))
         );
 
         return ResponseEntity.ok(
@@ -65,8 +67,8 @@ class RegisterUserController {
                         .links(List.of(new Response.Link("findUser", "/users/" + userId, "GET")))
                         .actions(List.of(
                                 //new Response.Action("changeRoleTo", "/users/" + userId + "/changeRoleTo/" + Roles.USER.getCode(), "PUT"),
-                                new Response.Action("deleteUser", "/users/" + userId + "/changeRoleTo/" + userId, "DELETE")
-                        ))
+                                new Response.Action("deleteUser", "/users/" + userId, "DELETE")
+                        )) //Smelly… We have to go back to this and keep adding here.
                         .withDefaultMetadataV1()
         );
     }
@@ -74,6 +76,23 @@ class RegisterUserController {
     record DataResponse(UUID userId, RoleDto role) {
         record RoleDto(String code, String name, List<Response.Link> links) {
         }
+    }
+
+    public record Request(
+            @NotNull(message = "User id must not be null")
+            UUID id,
+            String realname,
+            @NotEmpty(message = "User username must not be empty")
+            String username,
+            @NotEmpty(message = "User email must not be empty")
+            String email,
+            @NotEmpty(message = "User password must not be empty")
+            String password,
+            @NotEmpty(message = "User country must not be empty")
+            String country,
+            @NotEmpty(message = "User phone numbers must not be empty")
+            List<String> phoneNumbers
+    ) {
     }
 }
 
@@ -84,6 +103,7 @@ class RegisterUserController {
 public class RegisterUser {
     private final UserRepo repository;
     private final RoleStore roleStore;
+    private final CountriesInventory countriesInventory;
 
     public UUID handle(final @Valid Command message) {
         log.info("BEGIN RegisterUser");
@@ -98,7 +118,16 @@ public class RegisterUser {
         //End of complex logic
 
         //Complex logic to decide the user
-        var user = User.Factory.register(User.Id.of(message.id()), UserRealName.of(message.realname().orElse("")), UserUserName.of(message.username()), UserEmail.of(message.email()), UserPassword.of(message.password()), message.country(), UserPhoneNumbers.of(message.phoneNumbers()), role);
+        var user = User.Factory.register(
+                User.Id.of(message.id()),
+                UserRealName.of(message.realname().orElse("")),
+                UserUserName.of(message.username()),
+                UserEmail.of(message.email()),
+                UserPassword.of(message.password()),
+                countriesInventory.findByCodeOrElseThrow(message.country()),
+                UserPhoneNumbers.of(message.phoneNumbers()),
+                role
+        );
         repository.registerUser(user);
 
         log.info("END RegisterUser");
@@ -114,18 +143,18 @@ public class RegisterUser {
     }
 
     public record Command(
-            @NotNull
+            @NotNull(message = "User id must not be null")
             UUID id,
             Optional<String> realname,
-            @NotEmpty
+            @NotEmpty(message = "User username must not be empty")
             String username,
-            @NotEmpty
+            @NotEmpty(message = "User email must not be empty")
             String email,
-            @NotEmpty
+            @NotEmpty(message = "User password must not be empty")
             String password,
-            @NotEmpty
-            Country country,
-            @NotEmpty
+            @NotEmpty(message = "User country must not be empty")
+            String country,
+            @NotEmpty(message = "User phone numbers must not be empty")
             List<String> phoneNumbers
     ) {
     }

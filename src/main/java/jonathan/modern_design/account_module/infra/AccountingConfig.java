@@ -1,7 +1,5 @@
 package jonathan.modern_design.account_module.infra;
 
-import jonathan.modern_design._shared.country.CountriesInventory;
-import jonathan.modern_design._shared.country.CountriesInventoryStub;
 import jonathan.modern_design.account_module.api.AccountApi;
 import jonathan.modern_design.account_module.application.CreateAccount;
 import jonathan.modern_design.account_module.application.Deposit;
@@ -24,15 +22,14 @@ public class AccountingConfig {
             AccountRepo accountRepo,
             TransactionRepo transactionRepo,
             FindAccount findAccount,
-            UserApi userFacade,
-            CountriesInventory countriesInventory
+            UserApi userFacade
     ) {
         AccountValidator accountValidator = new AccountValidator();
 
         return new AccountApi.Internal(
                 findAccount,
                 new TransferMoney(accountRepo, transactionRepo, accountValidator),
-                new CreateAccount(accountRepo, userFacade, countriesInventory),
+                new CreateAccount(accountRepo, userFacade),
                 new GenericUpdateAccount(accountRepo),
                 new Deposit(accountRepo, transactionRepo)
         );
@@ -42,11 +39,10 @@ public class AccountingConfig {
     public AccountApi accountApi(UserApi userApi) {
         //For Unit testing
         FindAccount findAccount = null; //TODO
-        final CountriesInventory countriesInventory = new CountriesInventoryStub();
 
         TransactionRepo transactionRepo = null; //TODO CREARLE INMEMORY
 
-        return accountApi(accountRepo, transactionRepo, findAccount, userApi, countriesInventory);
+        return accountApi(accountRepo, transactionRepo, findAccount, userApi);
     }
 
     @Profile("test")

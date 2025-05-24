@@ -7,7 +7,6 @@ import jakarta.persistence.Embedded;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PostPersist;
@@ -69,7 +68,7 @@ public class User extends AuditingColumns {
     private Status status;
     @Embedded
     private UserPhoneNumbers userPhoneNumbers;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "role_code")
     private Role role; //Should be Role.Code, but since they are on the same BC and not a big graph, we can do the exception for pragmatism.
     @Version
