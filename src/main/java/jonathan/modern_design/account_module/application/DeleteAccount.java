@@ -1,6 +1,5 @@
 package jonathan.modern_design.account_module.application;
 
-import io.micrometer.observation.annotation.Observed;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -26,7 +25,6 @@ import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
 class DeleteAccountHttpController {
     private final DeleteAccount deleteAccount;
 
-    @Observed(name = "deleteAccount")
     @Operation(summary = "Delete an account")
     @DeleteMapping(path = "/{accountNumber}/reason/{reason}")
     public ResponseEntity<Response<Void>> deleteAccount(@PathVariable String accountNumber, @PathVariable String reason) {

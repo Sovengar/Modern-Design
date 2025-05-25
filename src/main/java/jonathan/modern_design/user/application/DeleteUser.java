@@ -1,6 +1,5 @@
 package jonathan.modern_design.user.application;
 
-import io.micrometer.observation.annotation.Observed;
 import io.swagger.v3.oas.annotations.Operation;
 import jonathan.modern_design._common.api.Response;
 import jonathan.modern_design._common.tags.ApplicationService;
@@ -24,7 +23,6 @@ import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
 class DeleteUserHttpController {
     private final DeleteUser deleteUser;
 
-    @Observed(name = "deleteUser")
     @Operation(summary = "Delete a user")
     @DeleteMapping(path = "/{userId}")
     public ResponseEntity<Response<Void>> deleteUser(@PathVariable UUID userId) {

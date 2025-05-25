@@ -1,6 +1,5 @@
 package jonathan.modern_design.user.application.queries;
 
-import io.micrometer.observation.annotation.Observed;
 import io.swagger.v3.oas.annotations.Operation;
 import jonathan.modern_design._common.api.Response;
 import jonathan.modern_design._common.tags.Injectable;
@@ -28,7 +27,6 @@ import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
 class FindUserHttpController {
     private final FindUser querier;
 
-    @Observed(name = "findUser")
     @Operation(summary = "Find a user by id")
     @GetMapping("/{id}")
     public ResponseEntity<Response<UserDto>> getUser(@PathVariable UUID id) {
@@ -52,7 +50,7 @@ public class FindUser {
     public UserDto queryWith(User.Id userId) {
         log.info("BEGIN FindUser");
         final var user = userRepo.findByUUIDOrElseThrow(userId);
-        var userResource = new UserDto(user);
+        var userResource = new UserDto(user, true);
         log.info("END FindUser");
         return userResource;
     }

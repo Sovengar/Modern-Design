@@ -1,6 +1,5 @@
 package jonathan.modern_design.account_module.application;
 
-import io.micrometer.observation.annotation.Observed;
 import io.swagger.v3.oas.annotations.Operation;
 import jonathan.modern_design._common.api.Response;
 import jonathan.modern_design._common.tags.ApplicationService;
@@ -22,7 +21,6 @@ import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
 class DeactivateAccountHttpController {
     private final DeactivateAccount deactivateAccount;
 
-    @Observed(name = "deactivateAccount")
     @Operation(description = "Deactivate an account")
     @PutMapping(path = "/{accountNumber}/deactivate")
     public ResponseEntity<Response<Void>> deactivate(final @PathVariable String accountNumber) {

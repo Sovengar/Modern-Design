@@ -1,6 +1,5 @@
 package jonathan.modern_design.account_module.application;
 
-import io.micrometer.observation.annotation.Observed;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -35,7 +34,6 @@ import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
 class TransferMoneyHttpController {
     private final TransferMoney transferMoney;
 
-    @Observed(name = "transferMoney")
     @Operation(summary = "Transfer money from one account to another")
     @PostMapping(path = "/transfer/{sourceAccountId}/{targetAccountId}/{balance}/{currency}")
     ResponseEntity<Response<Void>> transferMoney(

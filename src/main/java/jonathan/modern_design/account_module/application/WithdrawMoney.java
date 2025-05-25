@@ -1,6 +1,5 @@
 package jonathan.modern_design.account_module.application;
 
-import io.micrometer.observation.annotation.Observed;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
@@ -29,13 +28,12 @@ import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
 class WithdrawMoneyHttpController {
     private final WithdrawMoney withdrawMoney;
 
-    @Observed(name = "withdrawMoney")
     @Operation(summary = "Withdraw money from an account")
     @PutMapping(path = "/{accountNumber}/withdraw/{amount}/{currency}")
     public ResponseEntity<Response<Void>> getBalance(@PathVariable String accountNumber, @PathVariable BigDecimal amount, @PathVariable String currency) {
         generateTraceId();
         //Authentication + Authorization
-        
+
         var withdrawMoneyCommand = new WithdrawMoney.WithdrawMoneyCommand(accountNumber, amount, Currency.fromCode(currency));
 
         log.info("BEGIN WithdrawMoney for accountNumber: {} with amount: {} and currency: {}", accountNumber, amount, currency);

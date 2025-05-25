@@ -1,6 +1,5 @@
 package jonathan.modern_design.account_module.application;
 
-import io.micrometer.observation.annotation.Observed;
 import io.swagger.v3.oas.annotations.Operation;
 import jonathan.modern_design._common.api.Response;
 import jonathan.modern_design._common.tags.ApplicationService;
@@ -23,7 +22,6 @@ import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
 class SetNewAccountNumberHttpController {
     private final SetNewAccountNumber updater;
 
-    @Observed(name = "setNewAccountNumber")
     @Operation(description = "SetNewAccountNumber")
     @PutMapping(value = "/setNewAccountNumber", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Response<String>> updateAccount(final String accountNumber) {

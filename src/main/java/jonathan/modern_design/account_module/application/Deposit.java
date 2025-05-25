@@ -1,6 +1,5 @@
 package jonathan.modern_design.account_module.application;
 
-import io.micrometer.observation.annotation.Observed;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
@@ -30,7 +29,6 @@ import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
 class DepositHttpController {
     private final Deposit deposit;
 
-    @Observed(name = "deposit")
     @Operation(summary = "Deposit money to an account")
     @PutMapping("/{accountNumber}/deposit/{amount}/{currency}")
     public ResponseEntity<Response<Void>> deposit(
@@ -40,7 +38,7 @@ class DepositHttpController {
     ) {
         generateTraceId();
         //Authentication + Authorization
-        
+
         final var message = new Deposit.Command(accountNumber, amount, Currency.fromCode(currency));
 
         log.info("BEGIN Deposit for accountNumber: {} with amount: {} and currency: {}", accountNumber, amount, currency);

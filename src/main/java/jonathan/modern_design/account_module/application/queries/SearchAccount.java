@@ -4,7 +4,6 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLTemplates;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import io.micrometer.observation.annotation.Observed;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
@@ -68,7 +67,6 @@ public interface SearchAccount {
 class SearchAccountHttpController {
     private final SearchAccountQueryImpl querier;
 
-    @Observed(name = "searchAccount")
     @Operation(description = "Search Account")
     @PostMapping("/search")
     public ResponseEntity<Response<List<AccountDto>>> searchForXXXPage(@RequestBody SearchAccount.Criteria filters) {
@@ -76,7 +74,6 @@ class SearchAccountHttpController {
         return ResponseEntity.ok(new Response.Builder<List<AccountDto>>().data(accountDtos).withDefaultMetadataV1());
     }
 
-    @Observed(name = "searchAccount")
     @Operation(description = "Search Account")
     @GetMapping(path = "/search/byuser/password/{password}")
     public ResponseEntity<Response<AccountDto>> findAccount(@PathVariable String password) {
@@ -84,7 +81,6 @@ class SearchAccountHttpController {
         return ResponseEntity.ok(new Response.Builder<AccountDto>().data(accountDto).withDefaultMetadataV1());
     }
 
-    @Observed(name = "searchAccount")
     @Operation(description = "Search Account")
     @PostMapping("/search/xxxPage")
     public ResponseEntity<Response<List<SearchAccount.AccountSearchResult>>> searchProjectionForXXXPage(@RequestBody SearchAccount.Criteria filters) {

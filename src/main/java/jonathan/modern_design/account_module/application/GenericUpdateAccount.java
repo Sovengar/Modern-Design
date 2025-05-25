@@ -1,6 +1,5 @@
 package jonathan.modern_design.account_module.application;
 
-import io.micrometer.observation.annotation.Observed;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.DecimalMin;
@@ -33,7 +32,6 @@ import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
 class GenericUpdateAccountHttpController {
     private final GenericUpdateAccount updater;
 
-    @Observed(name = "updateAccount")
     @Operation(description = "Update Account")
     @PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Response<Void>> updateAccount(@RequestBody UpdateAccountRequestDto requestDto) {

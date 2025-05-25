@@ -1,6 +1,5 @@
 package jonathan.modern_design.account_module.application.automatic_account_closer;
 
-import io.micrometer.observation.annotation.Observed;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.transaction.Transactional;
 import jonathan.modern_design._common.tags.ApplicationService;
@@ -21,7 +20,6 @@ import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
 class AccountCloserInternalHttpController {
     private final AccountCloserCron accountCloserCron;
 
-    @Observed(name = "closeInactiveAccounts")
     @Operation(summary = "Close accounts that are inactive for a long time")
     @PostMapping(path = "/execute")
     public ResponseEntity<Void> closeInactiveAccounts() {

@@ -1,6 +1,5 @@
 package jonathan.modern_design.user.application;
 
-import io.micrometer.observation.annotation.Observed;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jonathan.modern_design._common.api.Response;
@@ -26,13 +25,12 @@ import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
 class ChangeRoleHttpController {
     private final ChangeRole changeRole;
 
-    @Observed(name = "changeRole")
     @Operation(summary = "Change the role of a user")
     @PutMapping(value = "/{userId}/changeRoleTo/{roleCode}")
     public ResponseEntity<Response<Void>> changeRole(final @PathVariable UUID userId, @PathVariable final String roleCode) {
         generateTraceId();
         //Authentication + Authorization
-        
+
         var message = new ChangeRole.Command(User.Id.of(userId), Role.Code.of(roleCode));
 
         log.info("BEGIN ChangeRole for userId: {} with role: {}", userId, roleCode);

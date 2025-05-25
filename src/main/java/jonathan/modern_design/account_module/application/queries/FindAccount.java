@@ -2,7 +2,6 @@ package jonathan.modern_design.account_module.application.queries;
 
 import com.querydsl.jpa.JPQLTemplates;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import io.micrometer.observation.annotation.Observed;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -28,7 +27,6 @@ class FindAccountHttpController {
     private final FindAccount findAccount;
 
     @Operation(description = "Find Account")
-    @Observed(name = "findAccount")
     @GetMapping(path = "/{accountNumber}")
     ResponseEntity<Response<AccountDto>> loadAccount(@PathVariable String accountNumber) {
         Assert.state(StringUtils.hasText(accountNumber), "Account number is required");

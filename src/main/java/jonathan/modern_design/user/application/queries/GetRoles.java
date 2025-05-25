@@ -1,6 +1,5 @@
 package jonathan.modern_design.user.application.queries;
 
-import io.micrometer.observation.annotation.Observed;
 import io.swagger.v3.oas.annotations.Operation;
 import jonathan.modern_design._common.api.Response;
 import jonathan.modern_design._common.tags.Injectable;
@@ -21,7 +20,6 @@ import java.util.List;
 class GetRolesController {
     private final GetRoles getRoles;
 
-    @Observed(name = "getRoles")
     @Operation(summary = "Get all roles")
     @GetMapping
     public ResponseEntity<Response<List<RoleDto>>> getAll() {

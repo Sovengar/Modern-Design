@@ -1,6 +1,5 @@
 package jonathan.modern_design.user.application;
 
-import io.micrometer.observation.annotation.Observed;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
@@ -42,7 +41,6 @@ class RegisterUserController {
     private final RegisterUser handler;
     private final UserRepo repository;
 
-    @Observed(name = "registerUser")
     @Operation(summary = "RegisterUser")
     @PostMapping
     public ResponseEntity<Response<DataResponse>> registerUser(final @Valid @RequestBody Request request) {

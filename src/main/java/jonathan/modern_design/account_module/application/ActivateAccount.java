@@ -1,6 +1,5 @@
 package jonathan.modern_design.account_module.application;
 
-import io.micrometer.observation.annotation.Observed;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
@@ -25,7 +24,6 @@ import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
 class ActivateAccountHttpController {
     private final ActivateAccount activateAccount;
 
-    @Observed(name = "activateAccount")
     @Operation(summary = "Activate an account")
     @PutMapping(path = "/{accountNumber}/activate")
     public ResponseEntity<Response<Void>> activate(final @PathVariable String accountNumber) {

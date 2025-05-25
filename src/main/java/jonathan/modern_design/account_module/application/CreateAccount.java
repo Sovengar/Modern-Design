@@ -1,6 +1,5 @@
 package jonathan.modern_design.account_module.application;
 
-import io.micrometer.observation.annotation.Observed;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
@@ -44,7 +43,6 @@ class CreateAccountHttpController {
     private final CreateAccount createAccount;
     private final AccountRepo repository;
 
-    @Observed(name = "createAccount")
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     @Operation(description = "Create Account")
     @Transactional
