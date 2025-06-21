@@ -1,5 +1,6 @@
 package jonathan.modern_design.banking.infra;
 
+import jonathan.modern_design.auth.api.UserApi;
 import jonathan.modern_design.banking.api.AccountApi;
 import jonathan.modern_design.banking.application.CreateAccount;
 import jonathan.modern_design.banking.application.Deposit;
@@ -10,7 +11,6 @@ import jonathan.modern_design.banking.domain.services.AccountValidator;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
 import jonathan.modern_design.banking.domain.store.AccountRepoInMemory;
 import jonathan.modern_design.banking.domain.store.TransactionRepo;
-import jonathan.modern_design.user.api.UserApi;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;

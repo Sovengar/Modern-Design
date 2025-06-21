@@ -7,7 +7,7 @@ import jonathan.modern_design.banking.application.Deposit;
 import jonathan.modern_design.banking.application.GenericUpdateAccount;
 import jonathan.modern_design.banking.application.TransferMoney;
 import jonathan.modern_design.banking.application.queries.FindAccount;
-import jonathan.modern_design.banking.domain.models.account.vo.AccountNumber;
+import jonathan.modern_design.banking.domain.vo.AccountNumber;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

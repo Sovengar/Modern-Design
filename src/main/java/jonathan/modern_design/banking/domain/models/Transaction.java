@@ -6,7 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import jonathan.modern_design._shared.tags.AggregateRoot;
-import jonathan.modern_design.banking.domain.models.account.vo.AccountMoney;
+import jonathan.modern_design._shared.vo.AccountMoney;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

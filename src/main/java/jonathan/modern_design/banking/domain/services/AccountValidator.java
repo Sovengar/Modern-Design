@@ -2,7 +2,7 @@ package jonathan.modern_design.banking.domain.services;
 
 import jonathan.modern_design._shared.tags.DomainService;
 import jonathan.modern_design.banking.domain.exceptions.AccountIsInactiveException;
-import jonathan.modern_design.banking.domain.models.account.Account;
+import jonathan.modern_design.banking.domain.models.Account;
 
 @DomainService
 public class AccountValidator {

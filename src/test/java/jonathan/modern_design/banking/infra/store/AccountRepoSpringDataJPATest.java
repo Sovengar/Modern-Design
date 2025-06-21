@@ -2,7 +2,7 @@ package jonathan.modern_design.banking.infra.store;
 
 import jonathan.modern_design.__config.ITConfig;
 import jonathan.modern_design._shared.Currency;
-import jonathan.modern_design.banking.domain.models.account.AccountEntity;
+import jonathan.modern_design.banking.domain.models.AccountEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;

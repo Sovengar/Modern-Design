@@ -1,8 +1,8 @@
 package jonathan.modern_design.banking.api.dtos;
 
-import jonathan.modern_design.banking.domain.models.account.Account;
-import jonathan.modern_design.banking.domain.models.account.AccountEntity;
-import jonathan.modern_design.user.domain.models.User;
+import jonathan.modern_design.auth.domain.models.User;
+import jonathan.modern_design.banking.domain.models.Account;
+import jonathan.modern_design.banking.domain.models.AccountEntity;
 
 import java.math.BigDecimal;
 
@@ -10,7 +10,6 @@ public record AccountDto(
         String accountNumber,
         BigDecimal balance,
         String currency,
-        String address,
         Account.Status status,
         User.Id userId) {
 
@@ -21,7 +20,6 @@ public record AccountDto(
                 account.getAccountNumber().getAccountNumber(),
                 account.getMoney().getBalance(),
                 account.getMoney().getCurrency().getDescription(),
-                account.getAddress().toString(),
                 account.getStatus(),
                 account.getUserId()
         );
@@ -32,7 +30,6 @@ public record AccountDto(
                 account.getAccountNumber(),
                 account.getBalance(),
                 account.getCurrency().getDescription(),
-                account.getAddress(),
                 account.getStatus(),
                 account.getUserId()
         );

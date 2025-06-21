@@ -1,8 +1,8 @@
 package jonathan.modern_design.banking.infra.store;
 
+import jonathan.modern_design.auth.domain.models.User;
 import jonathan.modern_design.banking.api.dtos.AccountDto;
-import jonathan.modern_design.banking.domain.models.account.AccountEntity;
-import jonathan.modern_design.user.domain.models.User;
+import jonathan.modern_design.banking.domain.models.AccountEntity;
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

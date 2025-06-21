@@ -1,7 +1,7 @@
 package jonathan.modern_design._shared.notification;
 
 import jonathan.modern_design._shared.tags.ApplicationService;
-import jonathan.modern_design.user.domain.models.User;
+import jonathan.modern_design.auth.domain.models.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,9 +20,8 @@ public class Notifier {
     private Email getEmail(final User user) {
         final var from = "Welcome!";
         final var subject = "Dear %s, welcome! Sincerely, %s".formatted(user.getUsername().getUsername(), getCEOName());
-        final var realname = user.getRealNameOrPlaceHolder();
         final var email = user.getEmail().getEmail();
-        return new Email(email, getCcs(), from, subject, realname);
+        return new Email(email, getCcs(), from, subject, "TODO");
     }
 
     private String getCEOName() {

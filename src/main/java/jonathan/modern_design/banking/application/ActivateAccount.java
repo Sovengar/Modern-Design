@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jonathan.modern_design._shared.api.Response;
 import jonathan.modern_design._shared.tags.ApplicationService;
 import jonathan.modern_design._shared.tags.WebAdapter;
-import jonathan.modern_design.banking.domain.models.account.Account;
+import jonathan.modern_design.banking.domain.models.Account;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

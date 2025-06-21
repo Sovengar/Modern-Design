@@ -2,7 +2,7 @@ package jonathan.modern_design.banking.application;
 
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design._shared.tags.ApplicationService;
-import jonathan.modern_design.banking.domain.models.account.vo.AccountMoney;
+import jonathan.modern_design._shared.vo.AccountMoney;
 import jonathan.modern_design.banking.domain.services.CurrencyChanger;
 import lombok.RequiredArgsConstructor;
 

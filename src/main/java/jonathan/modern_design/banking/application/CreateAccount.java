@@ -9,16 +9,15 @@ import jonathan.modern_design._shared.api.Response;
 import jonathan.modern_design._shared.tags.ApplicationService;
 import jonathan.modern_design._shared.tags.DomainService;
 import jonathan.modern_design._shared.tags.WebAdapter;
+import jonathan.modern_design._shared.vo.AccountMoney;
+import jonathan.modern_design.auth.api.UserApi;
+import jonathan.modern_design.auth.application.RegisterUser;
+import jonathan.modern_design.auth.domain.models.User;
 import jonathan.modern_design.banking.api.dtos.AccountDto;
 import jonathan.modern_design.banking.api.events.AccountCreated;
-import jonathan.modern_design.banking.domain.models.account.Account;
-import jonathan.modern_design.banking.domain.models.account.vo.AccountAddress;
-import jonathan.modern_design.banking.domain.models.account.vo.AccountMoney;
-import jonathan.modern_design.banking.domain.models.account.vo.AccountNumber;
+import jonathan.modern_design.banking.domain.models.Account;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
-import jonathan.modern_design.user.api.UserApi;
-import jonathan.modern_design.user.application.RegisterUser;
-import jonathan.modern_design.user.domain.models.User;
+import jonathan.modern_design.banking.domain.vo.AccountNumber;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
@@ -83,7 +82,7 @@ public class CreateAccount {
 
         var userId = registerUser(message);
         final var currency = Currency.fromCode(message.currency());
-        final var account = Account.Factory.create(AccountNumber.of(AccountNumberGenerator.generate()), AccountMoney.of(BigDecimal.ZERO, currency), AccountAddress.of(message.address()), userId);
+        final var account = Account.Factory.create(AccountNumber.of(AccountNumberGenerator.generate()), AccountMoney.of(BigDecimal.ZERO, currency), userId);
         publisher.publishEvent(new AccountCreated(account.getAccountNumber().getAccountNumber()));
 
         var accountNumber = repository.create(account);

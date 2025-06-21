@@ -2,15 +2,15 @@ package jonathan.modern_design._fake_data;
 
 import jonathan.modern_design.__config.Stub;
 import jonathan.modern_design._shared.country.Country;
-import jonathan.modern_design.user.application.RegisterUser;
-import jonathan.modern_design.user.domain.catalogs.Roles;
-import jonathan.modern_design.user.domain.models.Role;
-import jonathan.modern_design.user.domain.models.User;
-import jonathan.modern_design.user.domain.models.vo.UserEmail;
-import jonathan.modern_design.user.domain.models.vo.UserPassword;
-import jonathan.modern_design.user.domain.models.vo.UserPhoneNumbers;
-import jonathan.modern_design.user.domain.models.vo.UserRealName;
-import jonathan.modern_design.user.domain.models.vo.UserUserName;
+import jonathan.modern_design.auth.application.RegisterUser;
+import jonathan.modern_design.auth.domain.catalogs.Roles;
+import jonathan.modern_design.auth.domain.models.Role;
+import jonathan.modern_design.auth.domain.models.User;
+import jonathan.modern_design.auth.domain.vo.UserEmail;
+import jonathan.modern_design.auth.domain.vo.UserName;
+import jonathan.modern_design.auth.domain.vo.UserPassword;
+import jonathan.modern_design.banking.domain.vo.AccountHolderName;
+import jonathan.modern_design.banking.domain.vo.AccountHolderPhoneNumbers;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,24 +26,24 @@ public class UserStub extends Stub {
     public static User normalUser() {
         return User.Factory.register(
                 User.Id.of(DEFAULT_UUID),
-                UserRealName.of(faker.name().fullName()),
-                UserUserName.of(faker.name().username()),
+                AccountHolderName.of(faker.name().fullName()),
+                UserName.of(faker.name().username()),
                 UserEmail.of(faker.internet().emailAddress()),
                 UserPassword.of(VALID_PASSWORD),
                 SPAIN,
-                UserPhoneNumbers.of(List.of(faker.phoneNumber().phoneNumber())),
+                AccountHolderPhoneNumbers.of(List.of(faker.phoneNumber().phoneNumber())),
                 Role.of(Roles.TECHNICIAN));
     }
 
     public static User adminUser() {
         return User.Factory.registerAdmin(
                 User.Id.of(DEFAULT_UUID),
-                UserRealName.of(faker.name().fullName()),
-                UserUserName.of(faker.name().username()),
+                AccountHolderName.of(faker.name().fullName()),
+                UserName.of(faker.name().username()),
                 UserEmail.of(faker.internet().emailAddress()),
                 UserEmail.of(faker.internet().emailAddress()),
                 UserPassword.of(VALID_PASSWORD),
-                UserPhoneNumbers.of(List.of(faker.phoneNumber().phoneNumber())),
+                AccountHolderPhoneNumbers.of(List.of(faker.phoneNumber().phoneNumber())),
                 SPAIN);
     }
 

@@ -7,14 +7,11 @@ create TABLE MD.ROLES (
 
 create TABLE MD.USERS (
     user_id UUID PRIMARY KEY,
-    realname TEXT,
     username TEXT,
     email TEXT,
     internal_enterprise_email TEXT,
     password VARCHAR(70),
     status TEXT,
-    country TEXT,
-    phone_numbers TEXT,
     role_code TEXT,
     version INTEGER,
     created_by TEXT,
@@ -38,8 +35,24 @@ create TABLE MD.ACCOUNTS (
     created_by TEXT,
     created_at TIMESTAMP WITHOUT TIME ZONE,
     modified_by TEXT,
+    modified_at TIMESTAMP WITHOUT TIME ZONE
+);
+
+create TABLE MD.ACCOUNT_HOLDERS (
+    account_holder_id UUID PRIMARY KEY,
+    name TEXT,
+    personal_id_value TEXT,
+    personal_id_type TEXT CHECK (personal_id_type IN ('DNI', 'NIE', 'PASSPORT')),
+    country TEXT,
+    birthdate DATE,
+    phone_numbers TEXT,
+    user_id UUID,
+    version INTEGER,
+    created_by TEXT,
+    created_at TIMESTAMP WITHOUT TIME ZONE,
+    modified_by TEXT,
     modified_at TIMESTAMP WITHOUT TIME ZONE,
-    FOREIGN KEY (user_id) REFERENCES MD.USERS(user_id)
+    deleted BOOLEAN DEFAULT FALSE
 );
 
 create TABLE MD.TRANSACTIONS (

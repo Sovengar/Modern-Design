@@ -8,12 +8,11 @@ import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design._shared.api.Response;
 import jonathan.modern_design._shared.tags.ApplicationService;
 import jonathan.modern_design._shared.tags.WebAdapter;
+import jonathan.modern_design._shared.vo.AccountMoney;
 import jonathan.modern_design.banking.api.dtos.AccountDto;
-import jonathan.modern_design.banking.domain.models.account.Account;
-import jonathan.modern_design.banking.domain.models.account.vo.AccountAddress;
-import jonathan.modern_design.banking.domain.models.account.vo.AccountMoney;
-import jonathan.modern_design.banking.domain.models.account.vo.AccountNumber;
+import jonathan.modern_design.banking.domain.models.Account;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
+import jonathan.modern_design.banking.domain.vo.AccountNumber;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -43,7 +42,6 @@ class GenericUpdateAccountHttpController {
                 requestDto.accountNumber(),
                 requestDto.balance(),
                 requestDto.currency(),
-                null,
                 Account.Status.valueOf(requestDto.status()),
                 null
         );
@@ -96,7 +94,6 @@ public class GenericUpdateAccount {
         account.genericUpdate(
                 AccountNumber.of(dto.accountNumber()),
                 AccountMoney.of(dto.balance(), Currency.valueOf(dto.currency())),
-                AccountAddress.of(dto.address()),
                 dto.status(),
                 dto.userId()
         );

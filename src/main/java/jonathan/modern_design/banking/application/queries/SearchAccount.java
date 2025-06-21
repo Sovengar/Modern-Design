@@ -12,8 +12,8 @@ import jonathan.modern_design._shared.api.Response;
 import jonathan.modern_design._shared.tags.DataAdapter;
 import jonathan.modern_design._shared.tags.WebAdapter;
 import jonathan.modern_design.banking.api.dtos.AccountDto;
-import jonathan.modern_design.banking.domain.models.account.Account;
-import jonathan.modern_design.banking.domain.models.account.AccountEntity;
+import jonathan.modern_design.banking.domain.models.Account;
+import jonathan.modern_design.banking.domain.models.AccountEntity;
 import jonathan.modern_design.banking.infra.store.AccountRepoSpringDataJPA;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
@@ -35,8 +35,8 @@ import java.util.Optional;
 
 import static java.lang.String.join;
 import static java.util.Optional.ofNullable;
+import static jonathan.modern_design.auth.domain.models.QUser.user;
 import static jonathan.modern_design.banking.domain.models.account.QAccountEntity.accountEntity;
-import static jonathan.modern_design.user.domain.models.QUser.user;
 
 public interface SearchAccount {
     List<AccountSearchResult> searchWithJPQL(Criteria filters);

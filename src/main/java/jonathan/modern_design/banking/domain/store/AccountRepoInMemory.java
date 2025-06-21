@@ -1,8 +1,8 @@
 package jonathan.modern_design.banking.domain.store;
 
 import jonathan.modern_design._shared.tags.Fake;
-import jonathan.modern_design.banking.domain.models.account.Account;
-import jonathan.modern_design.banking.domain.models.account.vo.AccountNumber;
+import jonathan.modern_design.banking.domain.models.Account;
+import jonathan.modern_design.banking.domain.vo.AccountNumber;
 
 import java.util.ArrayList;
 import java.util.List;

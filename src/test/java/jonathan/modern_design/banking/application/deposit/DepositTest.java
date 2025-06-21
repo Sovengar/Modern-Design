@@ -1,10 +1,10 @@
 package jonathan.modern_design.banking.application.deposit;
 
+import jonathan.modern_design.auth.api.UserApi;
 import jonathan.modern_design.banking.api.AccountApi;
 import jonathan.modern_design.banking.application.Deposit;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
 import jonathan.modern_design.banking.infra.AccountingConfig;
-import jonathan.modern_design.user.api.UserApi;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;

@@ -2,12 +2,12 @@ package jonathan.modern_design._fake_data;
 
 import jonathan.modern_design.__config.Stub;
 import jonathan.modern_design._shared.Currency;
+import jonathan.modern_design._shared.vo.AccountMoney;
 import jonathan.modern_design.banking.application.CreateAccount;
 import jonathan.modern_design.banking.application.TransferMoney;
-import jonathan.modern_design.banking.domain.models.account.Account;
-import jonathan.modern_design.banking.domain.models.account.vo.AccountAddress;
-import jonathan.modern_design.banking.domain.models.account.vo.AccountMoney;
-import jonathan.modern_design.banking.domain.models.account.vo.AccountNumber;
+import jonathan.modern_design.banking.domain.models.Account;
+import jonathan.modern_design.banking.domain.vo.AccountHolderAddress;
+import jonathan.modern_design.banking.domain.vo.AccountNumber;
 
 import java.math.BigDecimal;
 
@@ -55,7 +55,7 @@ public class AccountStub extends Stub {
 
         private static Account builder(String accountId, AccountMoney money, boolean isActive) {
             var accountNumber = AccountNumber.of(accountId);
-            var address = AccountAddress.of("street", "city", "state", "zipCode");
+            var address = AccountHolderAddress.of("street", "city", "state", "zipCode");
             var userId = normalUser().getId();
 
             var account = Account.Factory.create(accountNumber, money, address, userId);

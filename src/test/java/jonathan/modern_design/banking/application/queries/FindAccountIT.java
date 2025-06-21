@@ -3,7 +3,7 @@ package jonathan.modern_design.banking.application.queries;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jonathan.modern_design.__config.ITConfig;
-import jonathan.modern_design.banking.domain.models.account.AccountEntity;
+import jonathan.modern_design.banking.domain.models.AccountEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
