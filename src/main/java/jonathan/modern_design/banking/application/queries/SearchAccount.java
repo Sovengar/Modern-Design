@@ -13,7 +13,6 @@ import jonathan.modern_design._shared.tags.DataAdapter;
 import jonathan.modern_design._shared.tags.WebAdapter;
 import jonathan.modern_design.banking.api.dtos.AccountDto;
 import jonathan.modern_design.banking.domain.models.Account;
-import jonathan.modern_design.banking.domain.models.AccountEntity;
 import jonathan.modern_design.banking.infra.store.AccountRepoSpringDataJPA;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
@@ -167,7 +166,7 @@ class SearchAccountQueryImpl implements SearchAccount {
         List<Account> accounts = repository.findAll(pageable)
                 .getContent()
                 .stream()
-                .map(AccountEntity::toDomain)
+                .map(Account::new)
                 .toList();
 
         //This is bad, there is no filter. Just showing findAll pageable from Spring Data JPA

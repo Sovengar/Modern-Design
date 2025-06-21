@@ -12,8 +12,6 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import jonathan.modern_design._shared.AuditingColumns;
 import jonathan.modern_design._shared.Currency;
-import jonathan.modern_design._shared.vo.AccountMoney;
-import jonathan.modern_design.banking.domain.vo.AccountNumber;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -44,10 +42,6 @@ public class AccountEntity extends AuditingColumns {
     private Currency currency;
     @Version
     private Integer version;
-
-    public Account toDomain() {
-        return new Account(Account.Id.of(accountId), AccountNumber.of(accountNumber), status, AccountMoney.of(balance, currency));
-    }
 
     public void updateFrom(Account account) {
         this.accountId = account.getAccountId().id();

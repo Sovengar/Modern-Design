@@ -32,7 +32,7 @@ class AccountRepoSpringDataJPATest extends ITConfig {
     private AccountRepoSpringDataJPA accountRepository;
 
     AccountEntity givenAnAccount() {
-        var acc = AccountEntity.Factory.create(null, "ES123456789", new BigDecimal("1500.00"), Currency.EUR, "C/ Paseo de Gràcia 42", null);
+        var acc = AccountEntity.Factory.create(null, "ES123456789", new BigDecimal("1500.00"), Currency.EUR);
         accountRepository.save(acc);
         return acc;
     }

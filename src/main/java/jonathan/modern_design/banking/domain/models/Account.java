@@ -19,12 +19,11 @@ import static lombok.AccessLevel.PRIVATE;
 @Getter
 @AggregateRoot
 public final class Account {
-    private Id accountId;
+    private Id accountId; //No behavior, but keep it to make debugging easier
     private AccountNumber accountNumber;
     private Status status;
     private AccountMoney money;
 
-    //TODO THIS MAKES 0 SENSE, EXTRACT FIELDS THAT HAS NO LOGIC ASSOCIATED
     public Account(AccountEntity accountEntity) {
         this.accountId = Id.of(accountEntity.getAccountId());
         this.accountNumber = AccountNumber.of(accountEntity.getAccountNumber());
@@ -79,13 +78,12 @@ public final class Account {
     @NoArgsConstructor(access = PRIVATE)
     public static class Factory {
         public static Account create(AccountNumber accountNumber, AccountMoney money) {
-
             return new Account(
                     null,
                     requireNonNull(accountNumber),
                     Status.ACTIVE,
-                    requireNonNull(money));
+                    requireNonNull(money)
+            );
         }
     }
-
 }

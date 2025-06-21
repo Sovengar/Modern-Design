@@ -25,7 +25,7 @@ class AccountStore implements AccountRepo {
 
     @Override
     public Optional<Account> findByAccNumber(final String accountNumber) {
-        return findOneEntity(accountNumber).map(AccountEntity::toDomain);
+        return findOneEntity(accountNumber).map(Account::new);
     }
 
     @Override
@@ -38,7 +38,7 @@ class AccountStore implements AccountRepo {
     @Override
     public void update(final Account account) {
         var accountEntity = findOneEntityOrElseThrow(account.getAccountNumber().getAccountNumber());
-        AccountDataMapper.updateEntity(accountEntity, account);
+        AccountDataMapper.mapFromDomainToDataModel(accountEntity, account);
         repositoryJPA.save(accountEntity);
     }
 
@@ -50,7 +50,7 @@ class AccountStore implements AccountRepo {
 
     @Override
     public Optional<Account> findById(final Account.Id id) {
-        return repositoryJPA.findById(id.id()).map(AccountEntity::toDomain);
+        return repositoryJPA.findById(id.id()).map(Account::new);
     }
 
     @Transactional(readOnly = true) //When using Streams, a transaction is needed to keep the session open
@@ -64,7 +64,7 @@ class AccountStore implements AccountRepo {
 
     @Override
     public List<Account> findAll() {
-        return repositoryJPA.findAll().stream().map(AccountEntity::toDomain).toList();
+        return repositoryJPA.findAll().stream().map(Account::new).toList();
     }
 
     private Optional<AccountEntity> findOneEntity(@NonNull final String accountNumber) {
@@ -78,7 +78,7 @@ class AccountStore implements AccountRepo {
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 class AccountDataMapper {
-    public static void updateEntity(AccountEntity accountEntity, Account account) {
+    public static void mapFromDomainToDataModel(AccountEntity accountEntity, Account account) {
         accountEntity.updateFrom(account);
     }
 }
