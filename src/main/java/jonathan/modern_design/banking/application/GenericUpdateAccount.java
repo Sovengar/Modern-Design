@@ -42,8 +42,7 @@ class GenericUpdateAccountHttpController {
                 requestDto.accountNumber(),
                 requestDto.balance(),
                 requestDto.currency(),
-                Account.Status.valueOf(requestDto.status()),
-                null
+                Account.Status.valueOf(requestDto.status())
         );
 
         updater.handle(accountDto);
@@ -94,8 +93,7 @@ public class GenericUpdateAccount {
         account.genericUpdate(
                 AccountNumber.of(dto.accountNumber()),
                 AccountMoney.of(dto.balance(), Currency.valueOf(dto.currency())),
-                dto.status(),
-                dto.userId()
+                dto.status()
         );
 
         repository.update(account);

@@ -1,6 +1,5 @@
 package jonathan.modern_design.banking.domain.models;
 
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -14,7 +13,6 @@ import jakarta.persistence.Version;
 import jonathan.modern_design._shared.AuditingColumns;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design._shared.vo.AccountMoney;
-import jonathan.modern_design.auth.domain.models.User;
 import jonathan.modern_design.banking.domain.vo.AccountNumber;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,13 +42,11 @@ public class AccountEntity extends AuditingColumns {
     private BigDecimal balance;
     @Enumerated(value = EnumType.STRING)
     private Currency currency;
-    @Embedded
-    private User.Id userId;
     @Version
     private Integer version;
 
     public Account toDomain() {
-        return new Account(Account.Id.of(accountId), AccountNumber.of(accountNumber), status, AccountMoney.of(balance, currency), userId);
+        return new Account(Account.Id.of(accountId), AccountNumber.of(accountNumber), status, AccountMoney.of(balance, currency));
     }
 
     public void updateFrom(Account account) {
@@ -59,7 +55,6 @@ public class AccountEntity extends AuditingColumns {
         this.balance = account.getMoney().getBalance();
         this.currency = account.getMoney().getCurrency();
         this.status = account.getStatus();
-        this.userId = account.getUserId();
     }
 
     @PrePersist
@@ -76,20 +71,18 @@ public class AccountEntity extends AuditingColumns {
             var active = Account.Status.ACTIVE;
             var balance = account.getMoney().getBalance();
             var currency = account.getMoney().getCurrency();
-            var userId = account.getUserId();
             var version = 0;
 
-            return new AccountEntity(accountId, accountNumber, active, balance, currency, userId, version);
+            return new AccountEntity(accountId, accountNumber, active, balance, currency, version);
         }
 
-        public static AccountEntity create(Long accountId, String accountNumber, BigDecimal balance, Currency currency, User.Id userId) {
+        public static AccountEntity create(Long accountId, String accountNumber, BigDecimal balance, Currency currency) {
             return new AccountEntity(
                     accountId,
                     accountNumber,
                     Account.Status.ACTIVE,
                     balance,
                     currency,
-                    userId,
                     0
             );
         }

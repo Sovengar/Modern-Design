@@ -3,7 +3,6 @@ package jonathan.modern_design.banking.domain.models;
 import jonathan.modern_design._shared.tags.AggregateRoot;
 import jonathan.modern_design._shared.tags.MicroType;
 import jonathan.modern_design._shared.vo.AccountMoney;
-import jonathan.modern_design.auth.domain.models.User;
 import jonathan.modern_design.banking.domain.exceptions.AccountIsAlreadyActiveException;
 import jonathan.modern_design.banking.domain.exceptions.AccountIsInactiveException;
 import jonathan.modern_design.banking.domain.vo.AccountNumber;
@@ -23,14 +22,12 @@ public final class Account {
     private AccountNumber accountNumber;
     private Status status;
     private AccountMoney money;
-    private User.Id userId;
 
     //TODO THIS MAKES 0 SENSE, EXTRACT FIELDS THAT HAS NO LOGIC ASSOCIATED
     public Account(AccountEntity accountEntity) {
         this.accountId = Id.of(accountEntity.getAccountId());
         this.accountNumber = AccountNumber.of(accountEntity.getAccountNumber());
         this.money = AccountMoney.of(accountEntity.getBalance(), accountEntity.getCurrency());
-        this.userId = accountEntity.getUserId();
         this.status = accountEntity.getStatus();
     }
 
@@ -39,11 +36,10 @@ public final class Account {
      * If we keep making the method more generic, the method will grow complex.
      * Logic will be dispersed since the client now has the burden to provide the right fields to support his need.
      */
-    public void genericUpdate(AccountNumber accountNumber, AccountMoney money, Status status, User.Id userId) {
+    public void genericUpdate(AccountNumber accountNumber, AccountMoney money, Status status) {
         this.accountNumber = accountNumber;
         this.money = money;
         this.status = status;
-        this.userId = userId;
     }
 
     public void generateNewAccountNumber() {
@@ -80,15 +76,13 @@ public final class Account {
 
     @NoArgsConstructor(access = PRIVATE)
     public static class Factory {
-        public static Account create(AccountNumber accountNumber, AccountMoney money, User.Id userId) {
+        public static Account create(AccountNumber accountNumber, AccountMoney money) {
 
             return new Account(
                     null,
                     requireNonNull(accountNumber),
                     Status.ACTIVE,
-                    requireNonNull(money),
-                    requireNonNull(userId)
-            );
+                    requireNonNull(money));
         }
     }
 

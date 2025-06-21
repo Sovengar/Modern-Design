@@ -32,7 +32,6 @@ create TABLE BANKING.ACCOUNTS (
     currency VARCHAR(5),
     address TEXT,
     status TEXT,
-    user_id UUID,
     version INTEGER,
     created_by TEXT,
     created_at TIMESTAMP WITHOUT TIME ZONE,

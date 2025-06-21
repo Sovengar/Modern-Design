@@ -1,6 +1,5 @@
 package jonathan.modern_design.banking.infra.store;
 
-import jonathan.modern_design.auth.domain.models.User;
 import jonathan.modern_design.banking.api.dtos.AccountDto;
 import jonathan.modern_design.banking.domain.models.AccountEntity;
 import lombok.NonNull;
@@ -23,11 +22,6 @@ public interface AccountRepoSpringDataJPA extends JpaRepository<AccountEntity, L
     // ✨ Stream para procesamiento eficiente de grandes cantidades de datos
     @Query("SELECT a FROM AccountEntity a WHERE a.status = ACTIVE")
     Stream<AccountEntity> streamAllActiveAccounts();
-
-    @Query("SELECT a FROM AccountEntity a WHERE a.userId = :userId AND a.status = ACTIVE")
-    List<AccountEntity> findActiveAccountsByUserId(@Param("userId") User.Id userId);
-
-    List<AccountEntity> findByUserIdOrderByBalanceDesc(User.Id userId);
 
     //long countByCurrency();
 

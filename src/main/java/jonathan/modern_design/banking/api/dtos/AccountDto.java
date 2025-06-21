@@ -1,6 +1,5 @@
 package jonathan.modern_design.banking.api.dtos;
 
-import jonathan.modern_design.auth.domain.models.User;
 import jonathan.modern_design.banking.domain.models.Account;
 import jonathan.modern_design.banking.domain.models.AccountEntity;
 
@@ -10,8 +9,7 @@ public record AccountDto(
         String accountNumber,
         BigDecimal balance,
         String currency,
-        Account.Status status,
-        User.Id userId) {
+        Account.Status status) {
 
     //We can use Account.Status or create here an StatusDto if needed.
 
@@ -20,8 +18,7 @@ public record AccountDto(
                 account.getAccountNumber().getAccountNumber(),
                 account.getMoney().getBalance(),
                 account.getMoney().getCurrency().getDescription(),
-                account.getStatus(),
-                account.getUserId()
+                account.getStatus()
         );
     }
 
@@ -30,8 +27,7 @@ public record AccountDto(
                 account.getAccountNumber(),
                 account.getBalance(),
                 account.getCurrency().getDescription(),
-                account.getStatus(),
-                account.getUserId()
+                account.getStatus()
         );
     }
 }

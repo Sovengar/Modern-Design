@@ -11,8 +11,6 @@ import jonathan.modern_design._shared.tags.DomainService;
 import jonathan.modern_design._shared.tags.WebAdapter;
 import jonathan.modern_design._shared.vo.AccountMoney;
 import jonathan.modern_design.auth.api.UserApi;
-import jonathan.modern_design.auth.application.RegisterUser;
-import jonathan.modern_design.auth.domain.models.User;
 import jonathan.modern_design.banking.api.dtos.AccountDto;
 import jonathan.modern_design.banking.api.events.AccountCreated;
 import jonathan.modern_design.banking.domain.models.Account;
@@ -33,7 +31,6 @@ import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
-import static java.util.Optional.ofNullable;
 import static jonathan.modern_design._shared.TraceIdGenerator.generateTraceId;
 
 
@@ -80,29 +77,13 @@ public class CreateAccount {
     public AccountNumber handle(final Command message) {
         log.info("START - Creating account with command: {}", message);
 
-        var userId = registerUser(message);
         final var currency = Currency.fromCode(message.currency());
-        final var account = Account.Factory.create(AccountNumber.of(AccountNumberGenerator.generate()), AccountMoney.of(BigDecimal.ZERO, currency), userId);
+        final var account = Account.Factory.create(AccountNumber.of(AccountNumberGenerator.generate()), AccountMoney.of(BigDecimal.ZERO, currency));
         publisher.publishEvent(new AccountCreated(account.getAccountNumber().getAccountNumber()));
 
         var accountNumber = repository.create(account);
         log.info("END - Account created  with number: {}", accountNumber);
         return accountNumber;
-    }
-
-    private User.Id registerUser(final Command message) {
-        var userId = UUID.randomUUID();
-        var userCreateCommand = new RegisterUser.Command(
-                userId,
-                ofNullable(message.realname()),
-                message.username(),
-                message.email(),
-                message.password(),
-                message.country(),
-                List.of("+34123456789")); //TODO
-
-        userFacade.registerUser(userCreateCommand);
-        return User.Id.of(userId);
     }
 
     @DomainService
