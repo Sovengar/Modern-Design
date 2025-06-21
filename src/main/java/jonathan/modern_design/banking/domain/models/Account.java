@@ -5,6 +5,7 @@ import jonathan.modern_design._shared.tags.MicroType;
 import jonathan.modern_design._shared.vo.AccountMoney;
 import jonathan.modern_design.banking.domain.exceptions.AccountIsAlreadyActiveException;
 import jonathan.modern_design.banking.domain.exceptions.AccountIsInactiveException;
+import jonathan.modern_design.banking.domain.policies.AccountNumberGenerator;
 import jonathan.modern_design.banking.domain.vo.AccountNumber;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -42,8 +43,9 @@ public final class Account {
         this.status = status;
     }
 
-    public void generateNewAccountNumber() {
-        //TODO TRY TO USE DOBLE DISPATCH
+    //Double Dispatch
+    public void generateNewAccountNumber(AccountNumberGenerator generator) {
+        this.accountNumber = AccountNumber.of(generator.generate(this));
     }
 
     public void deposit(AccountMoney money) {

@@ -14,6 +14,7 @@ import jonathan.modern_design.auth.api.UserApi;
 import jonathan.modern_design.banking.api.dtos.AccountDto;
 import jonathan.modern_design.banking.api.events.AccountCreated;
 import jonathan.modern_design.banking.domain.models.Account;
+import jonathan.modern_design.banking.domain.policies.AccountNumberGenerator;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
 import jonathan.modern_design.banking.domain.vo.AccountNumber;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.util.List;
-import java.util.UUID;
 
 import static jonathan.modern_design._shared.TraceIdGenerator.generateTraceId;
 
@@ -72,13 +72,16 @@ public class CreateAccount {
     private final AccountRepo repository;
     private final UserApi userFacade;
     private final ApplicationEventPublisher publisher;
+    private final AccountNumberGenerator accountNumberGenerator;
 
     @Transactional
     public AccountNumber handle(final Command message) {
         log.info("START - Creating account with command: {}", message);
 
+        ComplexDomainService.handle();
+
         final var currency = Currency.fromCode(message.currency());
-        final var account = Account.Factory.create(AccountNumber.of(AccountNumberGenerator.generate()), AccountMoney.of(BigDecimal.ZERO, currency));
+        final var account = Account.Factory.create(AccountNumber.of(accountNumberGenerator.generate()), AccountMoney.of(BigDecimal.ZERO, currency));
         publisher.publishEvent(new AccountCreated(account.getAccountNumber().getAccountNumber()));
 
         var accountNumber = repository.create(account);
@@ -87,10 +90,13 @@ public class CreateAccount {
     }
 
     @DomainService
-    private static class AccountNumberGenerator {
-        //Complex logic here... If it grows too big, move to a domainService
-        public static String generate() {
-            return UUID.randomUUID().toString();
+    @Slf4j
+    private static class ComplexDomainService {
+        // Imagine complex logic here... If it grows too large or has to be consumed by other use cases, move to the domain / service folder
+
+        public static void handle() {
+            log.info("Doing complex logic...");
+            log.info("Ended doing complex logic...");
         }
     }
 

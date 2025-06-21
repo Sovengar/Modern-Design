@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import jonathan.modern_design._shared.api.Response;
 import jonathan.modern_design._shared.tags.ApplicationService;
 import jonathan.modern_design._shared.tags.WebAdapter;
+import jonathan.modern_design.banking.domain.policies.AccountNumberGenerator;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,10 +43,11 @@ class SetNewAccountNumberHttpController {
 @ApplicationService
 class SetNewAccountNumber {
     private final AccountRepo repository;
+    private final AccountNumberGenerator accountNumberGenerator;
 
     String handle(final String accountNumber) {
         var account = repository.findByAccNumberOrElseThrow(accountNumber);
-        account.generateNewAccountNumber();
+        account.generateNewAccountNumber(accountNumberGenerator);
         return account.getAccountNumber().getAccountNumber();
     }
 }

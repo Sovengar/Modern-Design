@@ -7,6 +7,8 @@ import jonathan.modern_design.banking.application.Deposit;
 import jonathan.modern_design.banking.application.GenericUpdateAccount;
 import jonathan.modern_design.banking.application.TransferMoney;
 import jonathan.modern_design.banking.application.queries.FindAccount;
+import jonathan.modern_design.banking.domain.policies.AccountNumberGenerator;
+import jonathan.modern_design.banking.domain.services.AccountNumberDefaultGenerator;
 import jonathan.modern_design.banking.domain.services.AccountValidator;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
 import jonathan.modern_design.banking.domain.store.AccountRepoInMemory;
@@ -24,14 +26,15 @@ public class AccountingConfig {
             TransactionRepo transactionRepo,
             FindAccount findAccount,
             UserApi userFacade,
-            ApplicationEventPublisher applicationEventPublisher
+            ApplicationEventPublisher applicationEventPublisher,
+            AccountNumberGenerator accountNumberGenerator
     ) {
         AccountValidator accountValidator = new AccountValidator();
 
         return new AccountApi.Internal(
                 findAccount,
                 new TransferMoney(accountRepo, transactionRepo, accountValidator),
-                new CreateAccount(accountRepo, userFacade, applicationEventPublisher),
+                new CreateAccount(accountRepo, userFacade, applicationEventPublisher, accountNumberGenerator),
                 new GenericUpdateAccount(accountRepo),
                 new Deposit(accountRepo, transactionRepo)
         );
@@ -44,7 +47,8 @@ public class AccountingConfig {
         TransactionRepo transactionRepo = null; //TODO CREARLE INMEMORY
         ApplicationEventPublisher applicationEventPublisher = null; //TODO
 
-        return accountApi(accountRepo, transactionRepo, findAccount, userApi, applicationEventPublisher);
+        AccountNumberGenerator accountNumberGenerator = new AccountNumberDefaultGenerator();
+        return accountApi(accountRepo, transactionRepo, findAccount, userApi, applicationEventPublisher, accountNumberGenerator);
     }
 
     @Profile("test")
