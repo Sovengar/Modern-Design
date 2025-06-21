@@ -1,11 +1,13 @@
-create SCHEMA IF NOT EXISTS md; --AUTHORIZATION admin
+create SCHEMA IF NOT EXISTS banking;
+create SCHEMA IF NOT EXISTS auth;
+create SCHEMA IF NOT EXISTS md;
 
-create TABLE MD.ROLES (
+create TABLE AUTH.ROLES (
     role_code TEXT PRIMARY KEY,
     description TEXT
 );
 
-create TABLE MD.USERS (
+create TABLE AUTH.USERS (
     user_id UUID PRIMARY KEY,
     username TEXT,
     email TEXT,
@@ -19,11 +21,11 @@ create TABLE MD.USERS (
     modified_by TEXT,
     modified_at TIMESTAMP WITHOUT TIME ZONE,
     deleted BOOLEAN DEFAULT FALSE,
-    FOREIGN KEY (role_code) REFERENCES MD.ROLES(role_code)
+    FOREIGN KEY (role_code) REFERENCES AUTH.ROLES(role_code)
 );
 
-create sequence MD.ACCOUNTS_SQ start with 1;
-create TABLE MD.ACCOUNTS (
+create sequence BANKING.ACCOUNTS_SQ start with 1;
+create TABLE BANKING.ACCOUNTS (
     account_id BIGINT PRIMARY KEY,
     account_number VARCHAR(48),
     balance DECIMAL(19,2),
@@ -38,7 +40,7 @@ create TABLE MD.ACCOUNTS (
     modified_at TIMESTAMP WITHOUT TIME ZONE
 );
 
-create TABLE MD.ACCOUNT_HOLDERS (
+create TABLE BANKING.ACCOUNT_HOLDERS (
     account_holder_id UUID PRIMARY KEY,
     name TEXT,
     personal_id_value TEXT,
@@ -55,7 +57,7 @@ create TABLE MD.ACCOUNT_HOLDERS (
     deleted BOOLEAN DEFAULT FALSE
 );
 
-create TABLE MD.TRANSACTIONS (
+create TABLE BANKING.TRANSACTIONS (
     transaction_id VARCHAR(150) PRIMARY KEY,
     origin TEXT,
     destination TEXT,
@@ -65,8 +67,7 @@ create TABLE MD.TRANSACTIONS (
     transaction_date TIMESTAMP WITHOUT TIME ZONE
 );
 
-
-create TABLE deleted_rows (
+create TABLE MD.deleted_rows (
     id SERIAL PRIMARY KEY,
     origin_table TEXT NOT NULL,
     origin_id TEXT NOT NULL,

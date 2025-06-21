@@ -13,11 +13,11 @@ import javax.sql.DataSource;
 @Configuration
 @RequiredArgsConstructor
 public class FlywayConfig {
-
-    private final static String SCHEMA = "md";
-    private final static String ENCODING = "UTF-8";
+    public static final String[] SCHEMAS = new String[]{"md", "banking", "auth"};
+    private static final String ENCODING = "UTF-8";
     private final DataSource dataSource;
     private final Environment env;
+
     @Value("${flyway.cleandb:false}")
     private boolean cleanDatabase;
 
@@ -31,7 +31,7 @@ public class FlywayConfig {
                 .dataSource(dataSource)
                 .cleanDisabled(!cleanDatabase)
                 .locations(migrationLocations)
-                .schemas(SCHEMA)
+                .schemas(SCHEMAS)
                 .encoding(ENCODING)
                 .baselineOnMigrate(true)
                 .validateOnMigrate(true)

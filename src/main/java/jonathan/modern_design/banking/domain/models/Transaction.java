@@ -20,7 +20,7 @@ import java.util.UUID;
 import static lombok.AccessLevel.PRIVATE;
 
 @Entity
-@Table(name = "transactions", schema = "md")
+@Table(name = "transactions", schema = "banking")
 @Getter
 @NoArgsConstructor(access = PRIVATE) //For Hibernate
 @AllArgsConstructor(access = PRIVATE)

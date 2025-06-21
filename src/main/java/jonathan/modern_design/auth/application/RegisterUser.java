@@ -17,9 +17,11 @@ import jonathan.modern_design.auth.domain.store.UserRepo;
 import jonathan.modern_design.auth.domain.vo.UserEmail;
 import jonathan.modern_design.auth.domain.vo.UserName;
 import jonathan.modern_design.auth.domain.vo.UserPassword;
+import jonathan.modern_design.banking.api.events.AccountHolderRegistered;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.modulith.events.ApplicationModuleListener;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -125,6 +127,11 @@ public class RegisterUser {
 
         log.info("END RegisterUser");
         return user.getId().getUserId();
+    }
+
+    @ApplicationModuleListener
+    void handle(AccountHolderRegistered event) {
+        //TODO CREATE USER
     }
 
     private static class UserAlreadyExistsException extends RootException {

@@ -10,10 +10,13 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
+import static jonathan.modern_design._shared.config.database.FlywayConfig.SCHEMAS;
+
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Testcontainers
 public abstract class RepositoryITConfig extends TestConfig {
+
     @Container
     @ServiceConnection
     protected static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(DockerImageName.parse("postgres:15.7"));
@@ -26,7 +29,7 @@ public abstract class RepositoryITConfig extends TestConfig {
                         postgres.getPassword()
                 )
                 .locations("db/migrations")
-                .schemas("md")
+                .schemas(SCHEMAS)
                 .load();
         flyway.migrate();
     }

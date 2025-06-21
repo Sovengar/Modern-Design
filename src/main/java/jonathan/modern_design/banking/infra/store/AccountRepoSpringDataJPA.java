@@ -33,7 +33,7 @@ public interface AccountRepoSpringDataJPA extends JpaRepository<AccountEntity, L
 
     // ✨ Native query
     @Query(
-            value = "SELECT * FROM md.accounts WHERE balance > :minBalance",
+            value = "SELECT * FROM banking.accounts WHERE balance > :minBalance",
             nativeQuery = true
     )
     List<AccountEntity> findAccountsWithBalanceGreaterThan(@Param("minBalance") BigDecimal minBalance);

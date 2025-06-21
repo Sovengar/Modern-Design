@@ -16,6 +16,8 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
+import static jonathan.modern_design._shared.config.database.FlywayConfig.SCHEMAS;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 //Better than @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) to avoid 2 threads
@@ -32,6 +34,7 @@ public abstract class ITConfig extends TestConfig {
     @Autowired
     protected MockMvc mockMvc;
 
+
     @BeforeAll
     public static void beforeAll() {
         Flyway flyway = Flyway.configure().dataSource(
@@ -40,7 +43,7 @@ public abstract class ITConfig extends TestConfig {
                         postgres.getPassword()
                 )
                 .locations("db/migrations")
-                .schemas("md")
+                .schemas(SCHEMAS)
                 .load();
         flyway.migrate();
     }

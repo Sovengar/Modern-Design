@@ -22,7 +22,7 @@ import static lombok.AccessLevel.PACKAGE;
 import static lombok.AccessLevel.PRIVATE;
 
 @Entity
-@Table(name = "roles", schema = "md")
+@Table(name = "roles", schema = "auth")
 @Getter
 @NoArgsConstructor(access = PACKAGE) //For Hibernate
 @AllArgsConstructor(access = PRIVATE)

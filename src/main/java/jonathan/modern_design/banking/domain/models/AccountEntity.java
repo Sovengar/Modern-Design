@@ -28,7 +28,7 @@ import static lombok.AccessLevel.PACKAGE;
 import static lombok.AccessLevel.PRIVATE;
 
 @Entity
-@Table(name = "accounts", schema = "md")
+@Table(name = "accounts", schema = "banking")
 @Getter
 @NoArgsConstructor(access = PACKAGE) //For Hibernate
 @AllArgsConstructor(access = PRIVATE)
@@ -36,7 +36,7 @@ import static lombok.AccessLevel.PRIVATE;
 public class AccountEntity extends AuditingColumns {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ACCOUNTS_SQ")
-    @SequenceGenerator(name = "ACCOUNTS_SQ", sequenceName = "MD.ACCOUNTS_SQ", allocationSize = 1)
+    @SequenceGenerator(name = "ACCOUNTS_SQ", sequenceName = "BANKING.ACCOUNTS_SQ", allocationSize = 1)
     private Long accountId; //Can't use microType with a sequence
     private String accountNumber;
     @Enumerated(value = jakarta.persistence.EnumType.STRING)

@@ -55,7 +55,7 @@ public class DeleteAccount {
         log.info("BEGIN DeleteAccount");
         var account = repository.findByAccNumberOrElseThrow(message.accountNumber());
 
-        deletedRowService.saveDeletedEntity(account, "md.accounts", String.valueOf(account.getAccountId().id()), message.username(), message.reason());
+        deletedRowService.saveDeletedEntity(account, "banking.accounts", String.valueOf(account.getAccountId().id()), message.username(), message.reason());
         repository.delete(message.accountNumber());
 
         //TODO DELETE USER DIRECTLY OR PUBLISHING AN EVENT
