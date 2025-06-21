@@ -17,7 +17,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class UserStub extends Stub {
-    public static final Country DEFAULT_COUNTRY = new Country("ES", "Spain");
+    public static final Country SPAIN = new Country("ES", "Spain");
+    public static final String DEFAULT_COUNTRY = "ES";
     public static final UUID DEFAULT_UUID = UUID.fromString("47611f29-731c-4dcc-966b-3537c35e8ace");
 
     public static final String VALID_PASSWORD = faker.internet().password(4, 12, true, true, true) + "1ºAa";
@@ -29,7 +30,7 @@ public class UserStub extends Stub {
                 UserUserName.of(faker.name().username()),
                 UserEmail.of(faker.internet().emailAddress()),
                 UserPassword.of(VALID_PASSWORD),
-                DEFAULT_COUNTRY,
+                SPAIN,
                 UserPhoneNumbers.of(List.of(faker.phoneNumber().phoneNumber())),
                 Role.of(Roles.TECHNICIAN));
     }
@@ -43,7 +44,7 @@ public class UserStub extends Stub {
                 UserEmail.of(faker.internet().emailAddress()),
                 UserPassword.of(VALID_PASSWORD),
                 UserPhoneNumbers.of(List.of(faker.phoneNumber().phoneNumber())),
-                DEFAULT_COUNTRY);
+                SPAIN);
     }
 
     public static class CreateValidUser extends Stub {

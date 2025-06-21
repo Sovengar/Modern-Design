@@ -11,6 +11,7 @@ import jonathan.modern_design.account_module.domain.store.AccountRepo;
 import jonathan.modern_design.account_module.domain.store.AccountRepoInMemory;
 import jonathan.modern_design.account_module.domain.store.TransactionRepo;
 import jonathan.modern_design.user.api.UserApi;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
@@ -22,14 +23,15 @@ public class AccountingConfig {
             AccountRepo accountRepo,
             TransactionRepo transactionRepo,
             FindAccount findAccount,
-            UserApi userFacade
+            UserApi userFacade,
+            ApplicationEventPublisher applicationEventPublisher
     ) {
         AccountValidator accountValidator = new AccountValidator();
 
         return new AccountApi.Internal(
                 findAccount,
                 new TransferMoney(accountRepo, transactionRepo, accountValidator),
-                new CreateAccount(accountRepo, userFacade),
+                new CreateAccount(accountRepo, userFacade, applicationEventPublisher),
                 new GenericUpdateAccount(accountRepo),
                 new Deposit(accountRepo, transactionRepo)
         );
@@ -39,10 +41,10 @@ public class AccountingConfig {
     public AccountApi accountApi(UserApi userApi) {
         //For Unit testing
         FindAccount findAccount = null; //TODO
-
         TransactionRepo transactionRepo = null; //TODO CREARLE INMEMORY
+        ApplicationEventPublisher applicationEventPublisher = null; //TODO
 
-        return accountApi(accountRepo, transactionRepo, findAccount, userApi);
+        return accountApi(accountRepo, transactionRepo, findAccount, userApi, applicationEventPublisher);
     }
 
     @Profile("test")

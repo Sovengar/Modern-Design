@@ -4,11 +4,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jonathan.modern_design._common.api.Response;
-import jonathan.modern_design._common.tags.ApplicationService;
-import jonathan.modern_design._common.tags.WebAdapter;
-import jonathan.modern_design._internal.config.exception.RootException;
+import jonathan.modern_design._shared.api.Response;
+import jonathan.modern_design._shared.config.exception.RootException;
 import jonathan.modern_design._shared.country.CountriesInventory;
+import jonathan.modern_design._shared.tags.ApplicationService;
+import jonathan.modern_design._shared.tags.WebAdapter;
 import jonathan.modern_design.user.domain.catalogs.Roles;
 import jonathan.modern_design.user.domain.models.Role;
 import jonathan.modern_design.user.domain.models.User;
@@ -32,7 +32,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static java.lang.String.format;
-import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
+import static jonathan.modern_design._shared.TraceIdGenerator.generateTraceId;
 
 @Slf4j
 @RequiredArgsConstructor

@@ -1,6 +1,6 @@
 package jonathan.modern_design._shared.notification;
 
-import jonathan.modern_design._common.tags.ApplicationService;
+import jonathan.modern_design._shared.tags.ApplicationService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

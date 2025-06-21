@@ -2,9 +2,9 @@ package jonathan.modern_design.user.application;
 
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
-import jonathan.modern_design._common.api.Response;
-import jonathan.modern_design._common.tags.ApplicationService;
-import jonathan.modern_design._common.tags.WebAdapter;
+import jonathan.modern_design._shared.api.Response;
+import jonathan.modern_design._shared.tags.ApplicationService;
+import jonathan.modern_design._shared.tags.WebAdapter;
 import jonathan.modern_design.user.domain.models.Role;
 import jonathan.modern_design.user.domain.models.User;
 import jonathan.modern_design.user.domain.store.RoleStore;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.UUID;
 
-import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
+import static jonathan.modern_design._shared.TraceIdGenerator.generateTraceId;
 
 @Slf4j
 @RequiredArgsConstructor

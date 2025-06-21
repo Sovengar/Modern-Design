@@ -1,8 +1,8 @@
 package jonathan.modern_design.account_module.domain.models.account.vo;
 
 import jakarta.persistence.Embeddable;
-import jonathan.modern_design._common.tags.ValueObject;
-import jonathan.modern_design._internal.config.exception.RootException;
+import jonathan.modern_design._shared.config.exception.RootException;
+import jonathan.modern_design._shared.tags.ValueObject;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Value;

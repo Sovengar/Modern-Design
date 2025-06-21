@@ -13,10 +13,10 @@ import jakarta.persistence.PostPersist;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
-import jonathan.modern_design._common.AuditingColumns;
-import jonathan.modern_design._common.tags.AggregateRoot;
-import jonathan.modern_design._common.tags.MicroType;
+import jonathan.modern_design._shared.AuditingColumns;
 import jonathan.modern_design._shared.country.Country;
+import jonathan.modern_design._shared.tags.AggregateRoot;
+import jonathan.modern_design._shared.tags.MicroType;
 import jonathan.modern_design.user.domain.catalogs.Roles;
 import jonathan.modern_design.user.domain.models.vo.UserEmail;
 import jonathan.modern_design.user.domain.models.vo.UserPassword;
@@ -29,6 +29,7 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import org.hibernate.annotations.SQLRestriction;
+import org.springframework.modulith.NamedInterface;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -133,6 +134,7 @@ public class User extends AuditingColumns {
     @Value //Not a record for Hibernate
     @NoArgsConstructor(access = PACKAGE, force = true) //For Hibernate
     @RequiredArgsConstructor(staticName = "of")
+    @NamedInterface //Exposed outside his module
     public static class Id implements Serializable, MicroType {
         @Serial private static final long serialVersionUID = -2753108705494085826L;
         UUID userId;

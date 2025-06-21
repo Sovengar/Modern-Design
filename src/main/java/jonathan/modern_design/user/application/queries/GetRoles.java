@@ -1,9 +1,9 @@
 package jonathan.modern_design.user.application.queries;
 
 import io.swagger.v3.oas.annotations.Operation;
-import jonathan.modern_design._common.api.Response;
-import jonathan.modern_design._common.tags.Injectable;
-import jonathan.modern_design._common.tags.WebAdapter;
+import jonathan.modern_design._shared.api.Response;
+import jonathan.modern_design._shared.tags.Injectable;
+import jonathan.modern_design._shared.tags.WebAdapter;
 import jonathan.modern_design.user.api.dtos.RoleDto;
 import jonathan.modern_design.user.domain.models.Role;
 import jonathan.modern_design.user.domain.store.RoleStore;

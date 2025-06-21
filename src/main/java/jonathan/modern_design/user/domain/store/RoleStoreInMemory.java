@@ -1,6 +1,6 @@
 package jonathan.modern_design.user.domain.store;
 
-import jonathan.modern_design._common.tags.Fake;
+import jonathan.modern_design._shared.tags.Fake;
 import jonathan.modern_design.user.domain.catalogs.Roles;
 import jonathan.modern_design.user.domain.models.Role;
 

@@ -8,9 +8,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
-import jonathan.modern_design._common.api.Response;
-import jonathan.modern_design._common.tags.DataAdapter;
-import jonathan.modern_design._common.tags.WebAdapter;
+import jonathan.modern_design._shared.api.Response;
+import jonathan.modern_design._shared.tags.DataAdapter;
+import jonathan.modern_design._shared.tags.WebAdapter;
 import jonathan.modern_design.account_module.api.dtos.AccountDto;
 import jonathan.modern_design.account_module.domain.models.account.Account;
 import jonathan.modern_design.account_module.domain.models.account.AccountEntity;
@@ -204,37 +204,5 @@ class SearchAccountQueryImpl implements SearchAccount {
         return builder;
     }
 }
-
-//region CriteriaAPI alternative
-// add to pom <dependency>
-//            <!--Generate Criteria API metamodel in target/generated-sources/tags-->
-//            <groupId>org.hibernate</groupId>
-//            <artifactId>hibernate-jpamodelgen</artifactId>
-//        </dependency>
-//   public List<CustomerSearchResult> searchWithCriteria(CustomerSearchCriteria criteria) {
-//      CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-//      CriteriaQuery<CustomerSearchResult> criteriaQuery = cb.createQuery(CustomerSearchResult.class);
-//      Root<Customer> root = criteriaQuery.from(Customer.class);
-//      criteriaQuery.select(cb.construct(CustomerSearchResult.class, root.get(Customer_.id), root.get(Customer_.name)));
-//      List<Predicate> predicates = new ArrayList<>();
-//      predicates.add(cb.isTrue(cb.literal(true)));
-//
-//      if (criteria.getName() != null) {
-//         predicates.add(cb.like(cb.upper(root.get(Customer_.name)), cb.upper(cb.literal("%" + criteria.getName() + "%"))));
-//      }
-//
-//      if (criteria.getEmail() != null) {
-//         predicates.add(cb.equal(cb.upper(root.get(Customer_.email)), cb.upper(cb.literal(criteria.getEmail()))));
-//      }
-//
-//      if (criteria.getCountryId() != null) {
-//         predicates.add(cb.equal(root.get(Customer_.country).get(Country_.id), criteria.getCountryId()));
-//      }
-//      criteriaQuery.where(cb.and(predicates.toArray(new Predicate[0])));
-//
-//      TypedQuery<CustomerSearchResult> query = entityManager.createQuery(criteriaQuery);
-//      return query.getResultList();
-//   }
-//endregion
 
 

@@ -5,9 +5,9 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jonathan.modern_design._common.api.Response;
-import jonathan.modern_design._common.tags.DataAdapter;
-import jonathan.modern_design._common.tags.WebAdapter;
+import jonathan.modern_design._shared.api.Response;
+import jonathan.modern_design._shared.tags.DataAdapter;
+import jonathan.modern_design._shared.tags.WebAdapter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.math.BigDecimal;
 
-import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
+import static jonathan.modern_design._shared.TraceIdGenerator.generateTraceId;
 import static jonathan.modern_design.account_module.domain.models.account.QAccountEntity.accountEntity;
 
 @Slf4j

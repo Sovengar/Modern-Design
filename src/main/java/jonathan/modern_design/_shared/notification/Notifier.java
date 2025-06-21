@@ -1,6 +1,6 @@
 package jonathan.modern_design._shared.notification;
 
-import jonathan.modern_design._common.tags.ApplicationService;
+import jonathan.modern_design._shared.tags.ApplicationService;
 import jonathan.modern_design.user.domain.models.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

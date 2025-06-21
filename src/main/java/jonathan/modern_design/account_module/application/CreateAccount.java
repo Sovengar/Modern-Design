@@ -4,12 +4,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jonathan.modern_design._common.api.Response;
-import jonathan.modern_design._common.tags.ApplicationService;
-import jonathan.modern_design._common.tags.DomainService;
-import jonathan.modern_design._common.tags.WebAdapter;
 import jonathan.modern_design._shared.Currency;
+import jonathan.modern_design._shared.api.Response;
+import jonathan.modern_design._shared.tags.ApplicationService;
+import jonathan.modern_design._shared.tags.DomainService;
+import jonathan.modern_design._shared.tags.WebAdapter;
 import jonathan.modern_design.account_module.api.dtos.AccountDto;
+import jonathan.modern_design.account_module.api.events.AccountCreated;
 import jonathan.modern_design.account_module.domain.models.account.Account;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountAddress;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;
@@ -20,6 +21,7 @@ import jonathan.modern_design.user.application.RegisterUser;
 import jonathan.modern_design.user.domain.models.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +35,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static java.util.Optional.ofNullable;
-import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
+import static jonathan.modern_design._shared.TraceIdGenerator.generateTraceId;
 
 
 @Slf4j
@@ -73,6 +75,7 @@ class CreateAccountHttpController {
 public class CreateAccount {
     private final AccountRepo repository;
     private final UserApi userFacade;
+    private final ApplicationEventPublisher publisher;
 
     @Transactional
     public AccountNumber handle(final Command message) {
@@ -81,6 +84,7 @@ public class CreateAccount {
         var userId = registerUser(message);
         final var currency = Currency.fromCode(message.currency());
         final var account = Account.Factory.create(AccountNumber.of(AccountNumberGenerator.generate()), AccountMoney.of(BigDecimal.ZERO, currency), AccountAddress.of(message.address()), userId);
+        publisher.publishEvent(new AccountCreated(account.getAccountNumber().getAccountNumber()));
 
         var accountNumber = repository.create(account);
         log.info("END - Account created  with number: {}", accountNumber);

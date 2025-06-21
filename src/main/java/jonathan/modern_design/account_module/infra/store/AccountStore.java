@@ -1,6 +1,6 @@
 package jonathan.modern_design.account_module.infra.store;
 
-import jonathan.modern_design._common.tags.DataAdapter;
+import jonathan.modern_design._shared.tags.DataAdapter;
 import jonathan.modern_design.account_module.domain.exceptions.AccountNotFoundException;
 import jonathan.modern_design.account_module.domain.models.account.Account;
 import jonathan.modern_design.account_module.domain.models.account.AccountEntity;

@@ -4,10 +4,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
-import jonathan.modern_design._common.api.Response;
-import jonathan.modern_design._common.delete_table.DeletedRowService;
-import jonathan.modern_design._common.tags.ApplicationService;
-import jonathan.modern_design._common.tags.WebAdapter;
+import jonathan.modern_design._shared.api.Response;
+import jonathan.modern_design._shared.delete_table.DeletedRowService;
+import jonathan.modern_design._shared.tags.ApplicationService;
+import jonathan.modern_design._shared.tags.WebAdapter;
 import jonathan.modern_design.account_module.domain.store.AccountRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import static jonathan.modern_design._common.TraceIdGenerator.generateTraceId;
+import static jonathan.modern_design._shared.TraceIdGenerator.generateTraceId;
 
 @WebAdapter("/v1/accounts")
 @Slf4j

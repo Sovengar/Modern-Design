@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.math.BigDecimal;
 
@@ -26,7 +25,7 @@ class TransferMoneyRepositoryIT extends ITConfig {
     private AccountApi accountFacade;
     @Autowired
     private AccountRepo repository;
-    @MockitoBean
+    //@MockitoBean
     private UserApi userApi;
 
     private Account getAccountWithMoney(final AccountMoney money) {

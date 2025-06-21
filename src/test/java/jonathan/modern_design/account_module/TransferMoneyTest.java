@@ -14,7 +14,6 @@ import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -38,7 +37,7 @@ class TransferMoneyTest {
     private final AccountingConfig accountingConfig = new AccountingConfig();
     @RegisterExtension
     TimeExtension timeExtension = new TimeExtension(supposedToBeNow);
-    @MockitoBean
+    //@MockitoBean
     private UserApi userApi;
     private final AccountApi accountFacade = accountingConfig.accountApi(userApi);
 

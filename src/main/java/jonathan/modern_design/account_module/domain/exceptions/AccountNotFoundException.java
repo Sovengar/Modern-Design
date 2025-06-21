@@ -1,6 +1,6 @@
 package jonathan.modern_design.account_module.domain.exceptions;
 
-import jonathan.modern_design._internal.config.exception.RootException;
+import jonathan.modern_design._shared.config.exception.RootException;
 
 import java.io.Serial;
 

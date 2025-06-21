@@ -1,6 +1,6 @@
 package jonathan.modern_design._shared.country;
 
-import jonathan.modern_design._common.tags.Stub;
+import jonathan.modern_design._shared.tags.Stub;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;

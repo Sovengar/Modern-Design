@@ -1,6 +1,6 @@
 package jonathan.modern_design.user.infra;
 
-import jonathan.modern_design._common.tags.DataAdapter;
+import jonathan.modern_design._shared.tags.DataAdapter;
 import jonathan.modern_design.user.domain.models.User;
 import jonathan.modern_design.user.domain.store.UserRepo;
 import lombok.RequiredArgsConstructor;

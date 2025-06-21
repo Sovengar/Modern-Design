@@ -11,7 +11,7 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
-import jonathan.modern_design._common.AuditingColumns;
+import jonathan.modern_design._shared.AuditingColumns;
 import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountAddress;
 import jonathan.modern_design.account_module.domain.models.account.vo.AccountMoney;

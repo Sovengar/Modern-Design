@@ -1,2 +1,5 @@
-@org.springframework.modulith.ApplicationModule(displayName = "Shared module", allowedDependencies = {})
+@ApplicationModule(displayName = "Shared module", type = ApplicationModule.Type.OPEN)
+//@NamedInterface
 package jonathan.modern_design._shared;
+
+import org.springframework.modulith.ApplicationModule;

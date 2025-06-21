@@ -8,7 +8,6 @@ import jonathan.modern_design.user.api.UserApi;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.NoSuchElementException;
 
@@ -22,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class DepositTest {
     private final AccountingConfig accountingConfig = new AccountingConfig();
     final AccountRepo accountRepo = accountingConfig.getAccountRepo();
-    @MockitoBean
+    //why got broke @MockitoBean
     private UserApi userApi;
     private final AccountApi accountApi = accountingConfig.accountApi(userApi);
 
