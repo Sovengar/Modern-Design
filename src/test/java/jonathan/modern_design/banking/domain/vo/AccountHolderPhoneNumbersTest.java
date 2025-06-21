@@ -1,6 +1,5 @@
-package jonathan.modern_design.auth.domain.models.vo;
+package jonathan.modern_design.banking.domain.vo;
 
-import jonathan.modern_design.banking.domain.vo.AccountHolderPhoneNumbers;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
