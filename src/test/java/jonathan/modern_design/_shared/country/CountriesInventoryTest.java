@@ -1,6 +1,8 @@
 package jonathan.modern_design._shared.country;
 
 import jonathan.modern_design.__config.PrettyTestNames;
+import jonathan.modern_design._shared.other.country.CountriesInventory;
+import jonathan.modern_design._shared.other.country.CountriesInventoryStub;
 import lombok.val;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Test;

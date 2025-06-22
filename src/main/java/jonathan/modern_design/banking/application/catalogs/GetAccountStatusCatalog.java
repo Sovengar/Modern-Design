@@ -1,7 +1,7 @@
 package jonathan.modern_design.banking.application.catalogs;
 
 import jonathan.modern_design._shared.api.Response;
-import jonathan.modern_design._shared.tags.WebAdapter;
+import jonathan.modern_design._shared.domain.tags.WebAdapter;
 import jonathan.modern_design.banking.domain.models.Account;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

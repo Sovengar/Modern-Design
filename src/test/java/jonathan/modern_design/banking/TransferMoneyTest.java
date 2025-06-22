@@ -2,11 +2,11 @@ package jonathan.modern_design.banking;
 
 import jonathan.modern_design.__config.PrettyTestNames;
 import jonathan.modern_design.__config.TimeExtension;
-import jonathan.modern_design._shared.vo.AccountMoney;
+import jonathan.modern_design._shared.domain.exceptions.OperationWithDifferentCurrenciesException;
+import jonathan.modern_design._shared.domain.vo.AccountMoney;
 import jonathan.modern_design.auth.api.UserApi;
 import jonathan.modern_design.banking.api.AccountApi;
 import jonathan.modern_design.banking.domain.exceptions.AccountIsInactiveException;
-import jonathan.modern_design.banking.domain.exceptions.OperationWithDifferentCurrenciesException;
 import jonathan.modern_design.banking.domain.models.Account;
 import jonathan.modern_design.banking.infra.AccountingConfig;
 import org.junit.jupiter.api.Disabled;
@@ -27,7 +27,7 @@ import static jonathan.modern_design._fake_data.AccountStub.AccountMother.target
 import static jonathan.modern_design._fake_data.AccountStub.AccountMother.targetAccountWithBalance;
 import static jonathan.modern_design._fake_data.AccountStub.AccountMother.targetAccountWithDifferentCurrency;
 import static jonathan.modern_design._fake_data.AccountStub.TransferMoneyMother.transactionWithAmount;
-import static jonathan.modern_design._shared.Currency.EUR;
+import static jonathan.modern_design._shared.domain.Currency.EUR;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 

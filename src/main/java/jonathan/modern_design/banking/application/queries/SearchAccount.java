@@ -1,7 +1,6 @@
 package jonathan.modern_design.banking.application.queries;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLTemplates;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,8 +8,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
 import jonathan.modern_design._shared.api.Response;
-import jonathan.modern_design._shared.tags.DataAdapter;
-import jonathan.modern_design._shared.tags.WebAdapter;
+import jonathan.modern_design._shared.domain.tags.DataAdapter;
+import jonathan.modern_design._shared.domain.tags.WebAdapter;
 import jonathan.modern_design.banking.api.dtos.AccountDto;
 import jonathan.modern_design.banking.domain.models.Account;
 import jonathan.modern_design.banking.infra.store.AccountRepoSpringDataJPA;
@@ -33,9 +32,9 @@ import java.util.Map;
 import java.util.Optional;
 
 import static java.lang.String.join;
+import static java.util.Optional.empty;
 import static java.util.Optional.ofNullable;
-import static jonathan.modern_design.auth.domain.models.QUser.user;
-import static jonathan.modern_design.banking.domain.models.account.QAccountEntity.accountEntity;
+import static jonathan.modern_design.banking.domain.models.QAccountEntity.accountEntity;
 
 public interface SearchAccount {
     List<AccountSearchResult> searchWithJPQL(Criteria filters);
@@ -51,8 +50,7 @@ public interface SearchAccount {
     @Builder
     record Criteria(
             String username,
-            String email,
-            String countryCode
+            String email
     ) {
     }
 
@@ -124,12 +122,6 @@ class SearchAccountQueryImpl implements SearchAccount {
                     params.put("email", email);
                 });
 
-        ofNullable(filters.countryCode())
-                .ifPresent(countryCode -> {
-                    jpqlParts.add("c.country.code = :countryCode");
-                    params.put("countryCode", countryCode);
-                });
-
         String whereCriteria = join(" AND ", jpqlParts);
         var query = entityManager.createQuery(jpql + whereCriteria, SearchAccount.AccountSearchResult.class);
         for (var entry : params.entrySet()) {
@@ -140,13 +132,15 @@ class SearchAccountQueryImpl implements SearchAccount {
 
     @Override
     public List<AccountSearchResult> searchWithQueryDSL(Criteria filters) {
-        var filtersBuilded = buildFilters(filters);
-
-        return queryFactory
-                .select(Projections.constructor(AccountSearchResult.class, accountEntity.accountId, user.username.username))
-                .from(accountEntity)
-                .where(filtersBuilded.and(accountEntity.userId.userId.eq(user.id.userId)))
-                .fetch();
+        return List.of();
+        //TODO
+//        var filtersBuilded = buildFilters(filters);
+//
+//        return queryFactory
+//                .select(Projections.constructor(AccountSearchResult.class, accountEntity.accountId, user.username.username))
+//                .from(accountEntity)
+//                .where(filtersBuilded.and(accountEntity.userId.userId.eq(user.id.userId)))
+//                .fetch();
     }
 
     @Override
@@ -155,7 +149,7 @@ class SearchAccountQueryImpl implements SearchAccount {
 
         var accounts = queryFactory
                 .selectFrom(accountEntity)
-                .where(filtersBuilded.and(accountEntity.userId.userId.eq(user.id.userId)))
+                //TODO .where(filtersBuilded.and(accountEntity.userId.userId.eq(user.id.userId)))
                 .fetch();
 
         return accounts.stream().map(AccountDto::new).toList();
@@ -176,29 +170,29 @@ class SearchAccountQueryImpl implements SearchAccount {
 
     @Override
     public Optional<AccountDto> searchWithUserPassword(final String password) {
-        var userFound = queryFactory.selectFrom(user)
-                .where(user.password.password.eq(password))
-                .fetchOne();
-
-        assert userFound != null;
-        var accountFound = queryFactory.selectFrom(accountEntity)
-                .where(accountEntity.userId.eq(userFound.getId()))
-                .fetchOne();
-
-        return ofNullable(accountFound).map(AccountDto::new);
+        return empty();
+        //TODO
+//        var userFound = queryFactory.selectFrom(user)
+//                .where(user.password.password.eq(password))
+//                .fetchOne();
+//
+//        assert userFound != null;
+//        var accountFound = queryFactory.selectFrom(accountEntity)
+//                .where(accountEntity.userId.eq(userFound.getId()))
+//                .fetchOne();
+//
+//        return ofNullable(accountFound).map(AccountDto::new);
     }
 
     private BooleanBuilder buildFilters(final SearchAccount.Criteria filters) {
         BooleanBuilder builder = new BooleanBuilder();
 
-        ofNullable(filters.username())
-                .ifPresent(username -> builder.and(user.username.username.likeIgnoreCase("%" + username + "%")));
-
-        ofNullable(filters.email())
-                .ifPresent(email -> builder.and(user.email.email.eq(email)));
-
-        ofNullable(filters.countryCode())
-                .ifPresent(countryCode -> builder.and(user.country.eq(countryCode)));
+        //TODO
+//        ofNullable(filters.username())
+//                .ifPresent(username -> builder.and(user.username.username.likeIgnoreCase("%" + username + "%")));
+//
+//        ofNullable(filters.email())
+//                .ifPresent(email -> builder.and(user.email.email.eq(email)));
 
         return builder;
     }

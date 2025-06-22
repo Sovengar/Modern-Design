@@ -1,21 +1,19 @@
 package jonathan.modern_design._fake_data;
 
 import jonathan.modern_design.__config.Stub;
-import jonathan.modern_design._shared.Currency;
-import jonathan.modern_design._shared.vo.AccountMoney;
+import jonathan.modern_design._shared.domain.Currency;
+import jonathan.modern_design._shared.domain.vo.AccountMoney;
 import jonathan.modern_design.banking.application.CreateAccount;
 import jonathan.modern_design.banking.application.TransferMoney;
 import jonathan.modern_design.banking.domain.models.Account;
-import jonathan.modern_design.banking.domain.vo.AccountHolderAddress;
 import jonathan.modern_design.banking.domain.vo.AccountNumber;
 
 import java.math.BigDecimal;
 
 import static jonathan.modern_design._fake_data.UserStub.DEFAULT_COUNTRY;
 import static jonathan.modern_design._fake_data.UserStub.VALID_PASSWORD;
-import static jonathan.modern_design._fake_data.UserStub.normalUser;
-import static jonathan.modern_design._shared.Currency.EUR;
-import static jonathan.modern_design._shared.Currency.USD;
+import static jonathan.modern_design._shared.domain.Currency.EUR;
+import static jonathan.modern_design._shared.domain.Currency.USD;
 
 public class AccountStub extends Stub {
 
@@ -55,10 +53,7 @@ public class AccountStub extends Stub {
 
         private static Account builder(String accountId, AccountMoney money, boolean isActive) {
             var accountNumber = AccountNumber.of(accountId);
-            var address = AccountHolderAddress.of("street", "city", "state", "zipCode");
-            var userId = normalUser().getId();
-
-            var account = Account.Factory.create(accountNumber, money, address, userId);
+            var account = Account.Factory.create(accountNumber, money);
 
             if (!isActive) {
                 account.deactivate();

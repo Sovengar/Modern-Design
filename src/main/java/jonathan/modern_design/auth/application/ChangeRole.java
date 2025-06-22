@@ -3,8 +3,8 @@ package jonathan.modern_design.auth.application;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jonathan.modern_design._shared.api.Response;
-import jonathan.modern_design._shared.tags.ApplicationService;
-import jonathan.modern_design._shared.tags.WebAdapter;
+import jonathan.modern_design._shared.domain.tags.ApplicationService;
+import jonathan.modern_design._shared.domain.tags.WebAdapter;
 import jonathan.modern_design.auth.domain.models.Role;
 import jonathan.modern_design.auth.domain.models.User;
 import jonathan.modern_design.auth.domain.store.RoleStore;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.UUID;
 
-import static jonathan.modern_design._shared.TraceIdGenerator.generateTraceId;
+import static jonathan.modern_design._shared.infra.TraceIdGenerator.generateTraceId;
 
 @Slf4j
 @RequiredArgsConstructor

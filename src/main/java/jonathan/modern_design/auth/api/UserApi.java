@@ -1,6 +1,6 @@
 package jonathan.modern_design.auth.api;
 
-import jonathan.modern_design._shared.tags.Injectable;
+import jonathan.modern_design._shared.domain.tags.Injectable;
 import jonathan.modern_design.auth.api.dtos.UserDto;
 import jonathan.modern_design.auth.application.RegisterUser;
 import jonathan.modern_design.auth.application.queries.FindUser;

@@ -1,7 +1,7 @@
 package jonathan.modern_design._fake_data;
 
 import jonathan.modern_design.__config.Stub;
-import jonathan.modern_design._shared.country.Country;
+import jonathan.modern_design._shared.other.country.Country;
 import jonathan.modern_design.auth.application.RegisterUser;
 import jonathan.modern_design.auth.domain.catalogs.Roles;
 import jonathan.modern_design.auth.domain.models.Role;
@@ -9,8 +9,6 @@ import jonathan.modern_design.auth.domain.models.User;
 import jonathan.modern_design.auth.domain.vo.UserEmail;
 import jonathan.modern_design.auth.domain.vo.UserName;
 import jonathan.modern_design.auth.domain.vo.UserPassword;
-import jonathan.modern_design.banking.domain.vo.AccountHolderName;
-import jonathan.modern_design.banking.domain.vo.AccountHolderPhoneNumbers;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,25 +24,21 @@ public class UserStub extends Stub {
     public static User normalUser() {
         return User.Factory.register(
                 User.Id.of(DEFAULT_UUID),
-                AccountHolderName.of(faker.name().fullName()),
                 UserName.of(faker.name().username()),
                 UserEmail.of(faker.internet().emailAddress()),
                 UserPassword.of(VALID_PASSWORD),
-                SPAIN,
-                AccountHolderPhoneNumbers.of(List.of(faker.phoneNumber().phoneNumber())),
-                Role.of(Roles.TECHNICIAN));
+                Role.of(Roles.TECHNICIAN)
+        );
     }
 
     public static User adminUser() {
         return User.Factory.registerAdmin(
                 User.Id.of(DEFAULT_UUID),
-                AccountHolderName.of(faker.name().fullName()),
                 UserName.of(faker.name().username()),
                 UserEmail.of(faker.internet().emailAddress()),
                 UserEmail.of(faker.internet().emailAddress()),
-                UserPassword.of(VALID_PASSWORD),
-                AccountHolderPhoneNumbers.of(List.of(faker.phoneNumber().phoneNumber())),
-                SPAIN);
+                UserPassword.of(VALID_PASSWORD)
+        );
     }
 
     public static class CreateValidUser extends Stub {

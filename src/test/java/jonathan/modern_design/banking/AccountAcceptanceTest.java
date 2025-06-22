@@ -3,7 +3,7 @@ package jonathan.modern_design.banking;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jonathan.modern_design.__config.ITConfig;
 import jonathan.modern_design._fake_data.AccountStub;
-import jonathan.modern_design._shared.vo.AccountMoney;
+import jonathan.modern_design._shared.domain.vo.AccountMoney;
 import jonathan.modern_design.banking.api.AccountApi;
 import jonathan.modern_design.banking.application.Deposit;
 import jonathan.modern_design.banking.domain.models.Account;
@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 import static java.math.BigDecimal.ZERO;
 import static jonathan.modern_design._fake_data.AccountStub.CreateAccountMother.randomAccountWithCurrency;
 import static jonathan.modern_design._fake_data.AccountStub.TransferMoneyMother.fromAccountToAccountWithAmount;
-import static jonathan.modern_design._shared.Currency.EUR;
+import static jonathan.modern_design._shared.domain.Currency.EUR;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 

@@ -13,9 +13,9 @@ import jakarta.persistence.PostPersist;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
-import jonathan.modern_design._shared.AuditingColumns;
-import jonathan.modern_design._shared.tags.AggregateRoot;
-import jonathan.modern_design._shared.tags.MicroType;
+import jonathan.modern_design._shared.domain.tags.AggregateRoot;
+import jonathan.modern_design._shared.domain.tags.MicroType;
+import jonathan.modern_design._shared.infra.AuditingColumns;
 import jonathan.modern_design.auth.domain.catalogs.Roles;
 import jonathan.modern_design.auth.domain.vo.UserEmail;
 import jonathan.modern_design.auth.domain.vo.UserName;
@@ -118,7 +118,7 @@ public class User extends AuditingColumns {
     @Value //Not a record for Hibernate
     @NoArgsConstructor(access = PACKAGE, force = true) //For Hibernate
     @RequiredArgsConstructor(staticName = "of")
-    @NamedInterface //Exposed outside his module
+    @NamedInterface //Exposed to other modules
     public static class Id implements Serializable, MicroType {
         @Serial private static final long serialVersionUID = -2753108705494085826L;
         UUID userId;

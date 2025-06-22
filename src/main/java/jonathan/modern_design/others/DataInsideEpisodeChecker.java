@@ -1,6 +1,6 @@
 package jonathan.modern_design.others;
 
-import jonathan.modern_design._shared.tags.DomainService;
+import jonathan.modern_design._shared.domain.tags.DomainService;
 
 import java.time.LocalDateTime;
 

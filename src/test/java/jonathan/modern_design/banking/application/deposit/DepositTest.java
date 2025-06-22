@@ -13,7 +13,7 @@ import java.util.NoSuchElementException;
 
 import static java.math.BigDecimal.TEN;
 import static jonathan.modern_design._fake_data.AccountStub.AccountMother.sourceAccountEmpty;
-import static jonathan.modern_design._shared.Currency.EUR;
+import static jonathan.modern_design._shared.domain.Currency.EUR;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

@@ -1,6 +1,6 @@
 package jonathan.modern_design.auth.infra;
 
-import jonathan.modern_design._shared.tags.DataAdapter;
+import jonathan.modern_design._shared.domain.tags.DataAdapter;
 import jonathan.modern_design.auth.domain.models.User;
 import jonathan.modern_design.auth.domain.store.UserRepo;
 import lombok.RequiredArgsConstructor;

@@ -2,8 +2,8 @@ package jonathan.modern_design.auth.application;
 
 import io.swagger.v3.oas.annotations.Operation;
 import jonathan.modern_design._shared.api.Response;
-import jonathan.modern_design._shared.tags.ApplicationService;
-import jonathan.modern_design._shared.tags.WebAdapter;
+import jonathan.modern_design._shared.domain.tags.ApplicationService;
+import jonathan.modern_design._shared.domain.tags.WebAdapter;
 import jonathan.modern_design.auth.domain.models.User;
 import jonathan.modern_design.auth.domain.store.UserRepo;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.UUID;
 
-import static jonathan.modern_design._shared.TraceIdGenerator.generateTraceId;
+import static jonathan.modern_design._shared.infra.TraceIdGenerator.generateTraceId;
 
 @WebAdapter("/v1/users")
 @Slf4j

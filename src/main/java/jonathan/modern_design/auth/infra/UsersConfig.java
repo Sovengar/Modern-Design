@@ -1,7 +1,7 @@
 package jonathan.modern_design.auth.infra;
 
-import jonathan.modern_design._shared.country.CountriesInventory;
-import jonathan.modern_design._shared.country.CountriesInventoryStub;
+import jonathan.modern_design._shared.other.country.CountriesInventory;
+import jonathan.modern_design._shared.other.country.CountriesInventoryStub;
 import jonathan.modern_design.auth.api.UserApi;
 import jonathan.modern_design.auth.application.RegisterUser;
 import jonathan.modern_design.auth.application.queries.FindUser;

@@ -5,10 +5,10 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jonathan.modern_design._shared.api.Response;
-import jonathan.modern_design._shared.config.exception.RootException;
-import jonathan.modern_design._shared.country.CountriesInventory;
-import jonathan.modern_design._shared.tags.ApplicationService;
-import jonathan.modern_design._shared.tags.WebAdapter;
+import jonathan.modern_design._shared.domain.tags.ApplicationService;
+import jonathan.modern_design._shared.domain.tags.WebAdapter;
+import jonathan.modern_design._shared.infra.config.exception.RootException;
+import jonathan.modern_design._shared.other.country.CountriesInventory;
 import jonathan.modern_design.auth.domain.catalogs.Roles;
 import jonathan.modern_design.auth.domain.models.Role;
 import jonathan.modern_design.auth.domain.models.User;
@@ -17,11 +17,9 @@ import jonathan.modern_design.auth.domain.store.UserRepo;
 import jonathan.modern_design.auth.domain.vo.UserEmail;
 import jonathan.modern_design.auth.domain.vo.UserName;
 import jonathan.modern_design.auth.domain.vo.UserPassword;
-import jonathan.modern_design.banking.api.events.AccountHolderRegistered;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.modulith.events.ApplicationModuleListener;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,7 +30,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static java.lang.String.format;
-import static jonathan.modern_design._shared.TraceIdGenerator.generateTraceId;
+import static jonathan.modern_design._shared.infra.TraceIdGenerator.generateTraceId;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -129,10 +127,10 @@ public class RegisterUser {
         return user.getId().getUserId();
     }
 
-    @ApplicationModuleListener
-    void handle(AccountHolderRegistered event) {
-        //TODO CREATE USER
-    }
+//    @ApplicationModuleListener
+//    void handle(AccountHolderRegistered event) {
+//        //TODO CREATE USER
+//    }
 
     private static class UserAlreadyExistsException extends RootException {
         @Serial private static final long serialVersionUID = 1604523616703390261L;

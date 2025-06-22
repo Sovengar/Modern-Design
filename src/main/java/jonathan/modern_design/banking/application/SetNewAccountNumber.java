@@ -2,8 +2,8 @@ package jonathan.modern_design.banking.application;
 
 import io.swagger.v3.oas.annotations.Operation;
 import jonathan.modern_design._shared.api.Response;
-import jonathan.modern_design._shared.tags.ApplicationService;
-import jonathan.modern_design._shared.tags.WebAdapter;
+import jonathan.modern_design._shared.domain.tags.ApplicationService;
+import jonathan.modern_design._shared.domain.tags.WebAdapter;
 import jonathan.modern_design.banking.domain.policies.AccountNumberGenerator;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PutMapping;
 
-import static jonathan.modern_design._shared.TraceIdGenerator.generateTraceId;
+import static jonathan.modern_design._shared.infra.TraceIdGenerator.generateTraceId;
 
 @Slf4j
 @RequiredArgsConstructor

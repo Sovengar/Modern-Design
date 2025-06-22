@@ -1,8 +1,8 @@
 package jonathan.modern_design.banking.domain.models;
 
-import jonathan.modern_design._shared.tags.AggregateRoot;
-import jonathan.modern_design._shared.tags.MicroType;
-import jonathan.modern_design._shared.vo.AccountMoney;
+import jonathan.modern_design._shared.domain.tags.AggregateRoot;
+import jonathan.modern_design._shared.domain.tags.MicroType;
+import jonathan.modern_design._shared.domain.vo.AccountMoney;
 import jonathan.modern_design.banking.domain.exceptions.AccountIsAlreadyActiveException;
 import jonathan.modern_design.banking.domain.exceptions.AccountIsInactiveException;
 import jonathan.modern_design.banking.domain.policies.AccountNumberGenerator;
