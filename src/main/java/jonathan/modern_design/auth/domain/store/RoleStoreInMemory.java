@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-//This class is for unit tests, also, don't evaluate his state, pointless, rather evaluate the state of the objects
 @Fake
 public class RoleStoreInMemory implements RoleStore {
     private final ConcurrentHashMap<Role.Code, Role> codes = new ConcurrentHashMap<>();

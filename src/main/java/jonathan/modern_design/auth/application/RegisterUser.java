@@ -8,7 +8,6 @@ import jonathan.modern_design._shared.api.Response;
 import jonathan.modern_design._shared.domain.tags.ApplicationService;
 import jonathan.modern_design._shared.domain.tags.WebAdapter;
 import jonathan.modern_design._shared.infra.config.exception.RootException;
-import jonathan.modern_design._shared.other.country.CountriesInventory;
 import jonathan.modern_design.auth.domain.catalogs.Roles;
 import jonathan.modern_design.auth.domain.models.Role;
 import jonathan.modern_design.auth.domain.models.User;
@@ -99,7 +98,6 @@ class RegisterUserController {
 public class RegisterUser {
     private final UserRepo repository;
     private final RoleStore roleStore;
-    private final CountriesInventory countriesInventory;
 
     public UUID handle(final @Valid Command message) {
         log.info("BEGIN RegisterUser");
@@ -126,11 +124,6 @@ public class RegisterUser {
         log.info("END RegisterUser");
         return user.getId().getUserId();
     }
-
-//    @ApplicationModuleListener
-//    void handle(AccountHolderRegistered event) {
-//        //TODO CREATE USER
-//    }
 
     private static class UserAlreadyExistsException extends RootException {
         @Serial private static final long serialVersionUID = 1604523616703390261L;

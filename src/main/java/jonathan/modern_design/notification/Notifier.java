@@ -1,8 +1,10 @@
-package jonathan.modern_design._shared.other.notification;
+package jonathan.modern_design.notification;
 
 import jonathan.modern_design._shared.domain.tags.ApplicationService;
+import jonathan.modern_design.banking.api.events.AccountHolderRegistered;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.modulith.events.ApplicationModuleListener;
 
 import java.util.List;
 
@@ -12,17 +14,18 @@ import java.util.List;
 public class Notifier {
     private final EmailSender emailSender;
 
-    //TODO
-//    public void sendWelcomeEmail(User user) {
-//        emailSender.sendEmail(getEmail(user));
-//    }
-//
-//    private Email getEmail(final User user) {
-//        final var from = "Welcome!";
-//        final var subject = "Dear %s, welcome! Sincerely, %s".formatted(user.getUsername().getUsername(), getCEOName());
-//        final var email = user.getEmail().getEmail();
-//        return new Email(email, getCcs(), from, subject, "TODO");
-//    }
+    @ApplicationModuleListener
+    void sendWelcomeEmail(AccountHolderRegistered event) {
+        //TODO
+        final var from = "Welcome!";
+        final var to = "";
+        final var username = "";
+
+        final var subject = "Dear %s, welcome! Sincerely, %s".formatted(username, getCEOName());
+        var email = new Email(to, getCcs(), from, subject, "TODO");
+
+        emailSender.sendEmail(email);
+    }
 
     private String getCEOName() {
         // Find the CEO in an external system

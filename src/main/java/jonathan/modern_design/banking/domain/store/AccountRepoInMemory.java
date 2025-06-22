@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
 
-@Fake //This class is for unit tests, also, don't evaluate his state, pointless, rather evaluate the state of the objects
+@Fake
 public class AccountRepoInMemory implements AccountRepo {
     private final ConcurrentHashMap<String, Account> accountsByNumber = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<Account.Id, Account> accountsById = new ConcurrentHashMap<>();

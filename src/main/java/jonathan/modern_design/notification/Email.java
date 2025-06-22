@@ -1,4 +1,4 @@
-package jonathan.modern_design._shared.other.notification;
+package jonathan.modern_design.notification;
 
 import java.util.List;
 

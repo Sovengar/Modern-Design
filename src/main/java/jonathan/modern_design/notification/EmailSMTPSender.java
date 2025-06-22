@@ -1,4 +1,4 @@
-package jonathan.modern_design._shared.other.notification;
+package jonathan.modern_design.notification;
 
 import jonathan.modern_design._shared.domain.tags.ApplicationService;
 import lombok.extern.slf4j.Slf4j;
