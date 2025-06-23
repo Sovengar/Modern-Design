@@ -15,7 +15,9 @@ import jonathan.modern_design.auth.application.RegisterUser;
 import jonathan.modern_design.auth.domain.models.User;
 import jonathan.modern_design.banking.api.dtos.AccountDto;
 import jonathan.modern_design.banking.domain.models.Account;
+import jonathan.modern_design.banking.domain.models.AccountHolder;
 import jonathan.modern_design.banking.domain.policies.AccountNumberGenerator;
+import jonathan.modern_design.banking.domain.store.AccountHolderRepo;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
 import jonathan.modern_design.banking.domain.vo.AccountNumber;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.math.BigDecimal;
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -72,33 +75,39 @@ class CreateAccountHttpController {
 @ApplicationService
 public class CreateAccount {
     private final AccountRepo repository;
+    private final AccountHolderRepo accountHolderRepo;
     private final UserApi userApi;
     private final AccountNumberGenerator accountNumberGenerator;
 
     @Transactional
-    public AccountNumber handle(final Command message) {
-        log.info("START - Creating account with command: {}", message);
+    public AccountNumber handle(final Command cmd) {
+        log.info("START - Creating account with command: {}", cmd);
 
         ComplexDomainService.handle();
 
-        final var currency = Currency.fromCode(message.currency());
+        final var currency = Currency.fromCode(cmd.currency());
         final var account = Account.Factory.create(AccountNumber.of(accountNumberGenerator.generate()), Money.of(BigDecimal.ZERO, currency));
-
         var accountNumber = repository.create(account);
+
+        var userId = registerUser(cmd);
+
+        var accountHolder = AccountHolder.create(cmd.realname(), null, cmd.country(), cmd.address(), cmd.birthdate(), cmd.phoneNumbers(), userId.getUserId());
+        accountHolderRepo.save(accountHolder);
+
         log.info("END - Account created  with number: {}", accountNumber);
         return accountNumber;
     }
 
-    private User.Id registerUser(final Command message) {
+    private User.Id registerUser(final Command cmd) {
         var userId = UUID.randomUUID();
         var userCreateCommand = new RegisterUser.Command(
                 userId,
-                ofNullable(message.realname()),
-                message.username(),
-                message.email(),
-                message.password(),
-                message.country(),
-                List.of("+34123456789"));//TODO
+                ofNullable(cmd.realname()),
+                cmd.username(),
+                cmd.email(),
+                cmd.password(),
+                cmd.country(),
+                cmd.phoneNumbers());
 
         userApi.registerUser(userCreateCommand);
         return User.Id.of(userId);
@@ -122,7 +131,10 @@ public class CreateAccount {
             @NotEmpty(message = "Address is required") String address,
             @NotEmpty(message = "Password is required") String password,
             @NotEmpty(message = "Country is required") String country,
-            @NotNull(message = "Currency is required") String currency) {
+            @NotNull(message = "Currency is required") String currency,
+            @NotEmpty(message = "PhoneNumbers is required") List<String> phoneNumbers,
+            @NotEmpty(message = "Birthdate is required") LocalDate birthdate
+    ) {
     }
 }
 

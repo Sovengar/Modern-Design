@@ -12,7 +12,7 @@ import jonathan.modern_design._shared.domain.tags.DataAdapter;
 import jonathan.modern_design._shared.domain.tags.WebAdapter;
 import jonathan.modern_design.banking.api.dtos.AccountDto;
 import jonathan.modern_design.banking.domain.models.Account;
-import jonathan.modern_design.banking.infra.store.AccountRepoSpringDataJPA;
+import jonathan.modern_design.banking.infra.store.spring.AccountRepoSpringDataJPA;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

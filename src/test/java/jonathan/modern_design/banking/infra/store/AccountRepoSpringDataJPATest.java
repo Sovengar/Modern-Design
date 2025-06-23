@@ -6,6 +6,7 @@ import jonathan.modern_design._shared.domain.vo.Money;
 import jonathan.modern_design.banking.domain.models.Account;
 import jonathan.modern_design.banking.domain.models.AccountEntity;
 import jonathan.modern_design.banking.domain.vo.AccountNumber;
+import jonathan.modern_design.banking.infra.store.spring.AccountRepoSpringDataJPA;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;

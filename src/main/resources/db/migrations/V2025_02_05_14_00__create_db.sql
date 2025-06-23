@@ -33,21 +33,6 @@ create TABLE AUTH.USERS (
     FOREIGN KEY (role_code) REFERENCES AUTH.ROLES(role_code)
 );
 
-create sequence BANKING.ACCOUNTS_SQ start with 1;
-create TABLE BANKING.ACCOUNTS (
-    account_id BIGINT PRIMARY KEY,
-    account_number VARCHAR(48),
-    balance DECIMAL(19,2),
-    currency VARCHAR(5),
-    address TEXT,
-    status TEXT,
-    version BIGINT,
-    created_by TEXT,
-    created_at TIMESTAMP WITHOUT TIME ZONE,
-    modified_by TEXT,
-    modified_at TIMESTAMP WITHOUT TIME ZONE
-);
-
 create TABLE BANKING.ACCOUNT_HOLDERS (
     account_holder_id UUID PRIMARY KEY,
     name TEXT,
@@ -57,12 +42,29 @@ create TABLE BANKING.ACCOUNT_HOLDERS (
     birthdate DATE,
     phone_numbers TEXT,
     user_id UUID,
-    version INTEGER,
+    version BIGINT,
     created_by TEXT,
     created_at TIMESTAMP WITHOUT TIME ZONE,
     modified_by TEXT,
     modified_at TIMESTAMP WITHOUT TIME ZONE,
     deleted BOOLEAN DEFAULT FALSE
+);
+
+create sequence BANKING.ACCOUNTS_SQ start with 1;
+create TABLE BANKING.ACCOUNTS (
+    account_id BIGINT PRIMARY KEY,
+    account_number VARCHAR(48),
+    balance DECIMAL(19,2),
+    currency VARCHAR(5),
+    address TEXT,
+    status TEXT,
+    account_holder_id UUID,
+    version BIGINT,
+    created_by TEXT,
+    created_at TIMESTAMP WITHOUT TIME ZONE,
+    modified_by TEXT,
+    modified_at TIMESTAMP WITHOUT TIME ZONE,
+    FOREIGN KEY (account_holder_id) REFERENCES BANKING.ACCOUNT_HOLDERS(account_holder_id)
 );
 
 create TABLE BANKING.TRANSACTIONS (

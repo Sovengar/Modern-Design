@@ -1,4 +1,4 @@
-package jonathan.modern_design.banking.infra.store;
+package jonathan.modern_design.banking.infra.store.spring;
 
 import jonathan.modern_design.banking.api.dtos.AccountDto;
 import jonathan.modern_design.banking.domain.models.AccountEntity;

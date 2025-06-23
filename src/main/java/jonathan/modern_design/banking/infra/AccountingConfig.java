@@ -10,6 +10,7 @@ import jonathan.modern_design.banking.application.queries.FindAccount;
 import jonathan.modern_design.banking.domain.policies.AccountNumberGenerator;
 import jonathan.modern_design.banking.domain.services.AccountNumberDefaultGenerator;
 import jonathan.modern_design.banking.domain.services.AccountValidator;
+import jonathan.modern_design.banking.domain.store.AccountHolderRepo;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
 import jonathan.modern_design.banking.domain.store.AccountRepoInMemory;
 import jonathan.modern_design.banking.domain.store.TransactionRepo;
@@ -22,6 +23,7 @@ public class AccountingConfig {
 
     public AccountApi accountApi(
             AccountRepo accountRepo,
+            AccountHolderRepo accountHolderRepo,
             TransactionRepo transactionRepo,
             FindAccount findAccount,
             UserApi userFacade,
@@ -32,7 +34,7 @@ public class AccountingConfig {
         return new AccountApi.Internal(
                 findAccount,
                 new TransferMoney(accountRepo, transactionRepo, accountValidator),
-                new CreateAccount(accountRepo, userFacade, accountNumberGenerator),
+                new CreateAccount(accountRepo, accountHolderRepo, userFacade, accountNumberGenerator),
                 new GenericUpdateAccount(accountRepo),
                 new Deposit(accountRepo, transactionRepo)
         );
@@ -43,9 +45,10 @@ public class AccountingConfig {
         //For Unit testing
         FindAccount findAccount = null; //TODO
         TransactionRepo transactionRepo = null; //TODO CREARLE INMEMORY
+        AccountHolderRepo accountHolderRepo = null; //TODO
 
         AccountNumberGenerator accountNumberGenerator = new AccountNumberDefaultGenerator();
-        return accountApi(accountRepo, transactionRepo, findAccount, userApi, accountNumberGenerator);
+        return accountApi(accountRepo, accountHolderRepo, transactionRepo, findAccount, userApi, accountNumberGenerator);
     }
 
     @Profile("test")

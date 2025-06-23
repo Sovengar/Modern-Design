@@ -6,6 +6,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -40,6 +42,9 @@ public class AccountEntity extends BaseAggregateRoot<AccountEntity> {
     private BigDecimal balance;
     @Enumerated(value = EnumType.STRING)
     private Currency currency;
+    @OneToOne
+    @JoinColumn(name = "account_holder_id")
+    private AccountHolder accountHolder;
 
     //Doesn't need to be a static method, coupling is managed, if it needs to be changed, there will be 3-4 occurrences only
     public AccountEntity(Account account) {

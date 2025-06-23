@@ -6,6 +6,7 @@ import jonathan.modern_design.banking.domain.models.Account;
 import jonathan.modern_design.banking.domain.models.AccountEntity;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
 import jonathan.modern_design.banking.domain.vo.AccountNumber;
+import jonathan.modern_design.banking.infra.store.spring.AccountRepoSpringDataJPA;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
