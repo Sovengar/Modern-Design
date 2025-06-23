@@ -2,7 +2,7 @@ package jonathan.modern_design._fake_data;
 
 import jonathan.modern_design.__config.Stub;
 import jonathan.modern_design._shared.domain.Currency;
-import jonathan.modern_design._shared.domain.vo.AccountMoney;
+import jonathan.modern_design._shared.domain.vo.Money;
 import jonathan.modern_design.banking.application.CreateAccount;
 import jonathan.modern_design.banking.application.TransferMoney;
 import jonathan.modern_design.banking.domain.models.Account;
@@ -22,36 +22,36 @@ public class AccountStub extends Stub {
 
     public static class AccountMother {
         public static Account sourceAccountWithBalance(double balance) {
-            return builder(sourceAccountId, AccountMoney.of(BigDecimal.valueOf(balance), EUR), true);
+            return builder(sourceAccountId, Money.of(BigDecimal.valueOf(balance), EUR), true);
         }
 
         public static Account targetAccountWithBalance(double balance) {
-            return builder(targetAccountId, AccountMoney.of(BigDecimal.valueOf(balance), EUR), true);
+            return builder(targetAccountId, Money.of(BigDecimal.valueOf(balance), EUR), true);
         }
 
         /// //////////////
 
         public static Account sourceAccountEmpty() {
-            return builder(sourceAccountId, AccountMoney.of(BigDecimal.ZERO, EUR), true);
+            return builder(sourceAccountId, Money.of(BigDecimal.ZERO, EUR), true);
         }
 
         public static Account sourceAccountInactive() {
-            return builder(sourceAccountId, AccountMoney.of(BigDecimal.ZERO, EUR), false);
+            return builder(sourceAccountId, Money.of(BigDecimal.ZERO, EUR), false);
         }
 
         public static Account targetAccountEmpty() {
-            return builder(targetAccountId, AccountMoney.of(BigDecimal.ZERO, EUR), true);
+            return builder(targetAccountId, Money.of(BigDecimal.ZERO, EUR), true);
         }
 
         public static Account targetAccountInactive() {
-            return builder(targetAccountId, AccountMoney.of(BigDecimal.ZERO, EUR), false);
+            return builder(targetAccountId, Money.of(BigDecimal.ZERO, EUR), false);
         }
 
         public static Account targetAccountWithDifferentCurrency() {
-            return builder(targetAccountId, AccountMoney.of(BigDecimal.ZERO, USD), true);
+            return builder(targetAccountId, Money.of(BigDecimal.ZERO, USD), true);
         }
 
-        private static Account builder(String accountId, AccountMoney money, boolean isActive) {
+        private static Account builder(String accountId, Money money, boolean isActive) {
             var accountNumber = AccountNumber.of(accountId);
             var account = Account.Factory.create(accountNumber, money);
 
@@ -93,20 +93,20 @@ public class AccountStub extends Stub {
     }
 
     public static class TransferMoneyMother extends Stub {
-        public static TransferMoney.Command fromAccountToAccountWithAmount(String sourceAccountId, String targetAccountId, AccountMoney money) {
+        public static TransferMoney.Command fromAccountToAccountWithAmount(String sourceAccountId, String targetAccountId, Money money) {
             return new TransferMoney.Command(sourceAccountId, targetAccountId, money.getBalance(), money.getCurrency());
         }
 
-        public static TransferMoney.Command transactionWithAmount(AccountMoney money) {
+        public static TransferMoney.Command transactionWithAmount(Money money) {
             return fromAccountToAccountWithAmount(sourceAccountId, targetAccountId, money);
         }
 
         public static TransferMoney.Command insufficientFundsTransaction() {
-            return fromAccountToAccountWithAmount(sourceAccountId, targetAccountId, AccountMoney.of(BigDecimal.valueOf(100.0), EUR));
+            return fromAccountToAccountWithAmount(sourceAccountId, targetAccountId, Money.of(BigDecimal.valueOf(100.0), EUR));
         }
 
         public static TransferMoney.Command negativeAmountTransaction() {
-            return fromAccountToAccountWithAmount(sourceAccountId, targetAccountId, AccountMoney.of(BigDecimal.valueOf(-100), EUR));
+            return fromAccountToAccountWithAmount(sourceAccountId, targetAccountId, Money.of(BigDecimal.valueOf(-100), EUR));
         }
     }
 }

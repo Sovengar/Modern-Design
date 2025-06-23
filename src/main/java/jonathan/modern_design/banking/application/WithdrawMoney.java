@@ -8,7 +8,7 @@ import jonathan.modern_design._shared.api.Response;
 import jonathan.modern_design._shared.domain.Currency;
 import jonathan.modern_design._shared.domain.tags.ApplicationService;
 import jonathan.modern_design._shared.domain.tags.WebAdapter;
-import jonathan.modern_design._shared.domain.vo.AccountMoney;
+import jonathan.modern_design._shared.domain.vo.Money;
 import jonathan.modern_design.banking.domain.models.Transaction;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
 import jonathan.modern_design.banking.domain.store.TransactionRepo;
@@ -55,7 +55,7 @@ class WithdrawMoney {
         log.info("BEGIN WithdrawMoney");
         var account = repository.findByAccNumber(message.accountNumber()).orElseThrow();
 
-        var money = AccountMoney.of(message.amount(), message.currency());
+        var money = Money.of(message.amount(), message.currency());
         account.withdrawal(money);
         var tx = Transaction.Factory.withdrawal(money, account.getAccountNumber().getAccountNumber());
 

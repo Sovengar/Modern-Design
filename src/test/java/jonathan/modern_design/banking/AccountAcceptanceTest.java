@@ -3,7 +3,7 @@ package jonathan.modern_design.banking;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jonathan.modern_design.__config.ITConfig;
 import jonathan.modern_design._fake_data.AccountStub;
-import jonathan.modern_design._shared.domain.vo.AccountMoney;
+import jonathan.modern_design._shared.domain.vo.Money;
 import jonathan.modern_design.banking.api.AccountApi;
 import jonathan.modern_design.banking.application.Deposit;
 import jonathan.modern_design.banking.domain.models.Account;
@@ -33,7 +33,7 @@ final class AccountAcceptanceTest extends ITConfig {
     @Autowired
     private AccountApi accountFacade;
 
-    private Account getAccountWithMoney(final AccountMoney money) {
+    private Account getAccountWithMoney(final Money money) {
         Assertions.assertNotNull(money.getCurrency());
         var accountNumber = accountFacade.createAccount(randomAccountWithCurrency(money.getCurrency())).getAccountNumber();
 
@@ -62,13 +62,13 @@ final class AccountAcceptanceTest extends ITConfig {
     class WithValidAccountsShould {
         @Test
         void transfer_money_into_the_target_account_check_source_approval() {
-            var source = getAccountWithMoney(AccountMoney.of(BigDecimal.valueOf(100.0), EUR));
-            var target = getAccountWithMoney(AccountMoney.of(ZERO, EUR));
+            var source = getAccountWithMoney(Money.of(BigDecimal.valueOf(100.0), EUR));
+            var target = getAccountWithMoney(Money.of(ZERO, EUR));
 
             accountFacade.transferMoney(fromAccountToAccountWithAmount(
                     source.getAccountNumber().getAccountNumber(),
                     target.getAccountNumber().getAccountNumber(),
-                    AccountMoney.of(BigDecimal.valueOf(50.0), EUR))
+                    Money.of(BigDecimal.valueOf(50.0), EUR))
             );
 
             source = repository.findByAccNumberOrElseThrow(source.getAccountNumber().getAccountNumber());
@@ -77,13 +77,13 @@ final class AccountAcceptanceTest extends ITConfig {
 
         @Test
         void transfer_money_into_the_target_account_check_target_approval() {
-            var source = getAccountWithMoney(AccountMoney.of(BigDecimal.valueOf(100.0), EUR));
-            var target = getAccountWithMoney(AccountMoney.of(ZERO, EUR));
+            var source = getAccountWithMoney(Money.of(BigDecimal.valueOf(100.0), EUR));
+            var target = getAccountWithMoney(Money.of(ZERO, EUR));
 
             accountFacade.transferMoney(fromAccountToAccountWithAmount(
                     source.getAccountNumber().getAccountNumber(),
                     target.getAccountNumber().getAccountNumber(),
-                    AccountMoney.of(BigDecimal.valueOf(50.0), EUR))
+                    Money.of(BigDecimal.valueOf(50.0), EUR))
             );
 
             target = repository.findByAccNumberOrElseThrow(target.getAccountNumber().getAccountNumber());

@@ -8,7 +8,7 @@ import jonathan.modern_design._shared.api.Response;
 import jonathan.modern_design._shared.domain.Currency;
 import jonathan.modern_design._shared.domain.tags.ApplicationService;
 import jonathan.modern_design._shared.domain.tags.WebAdapter;
-import jonathan.modern_design._shared.domain.vo.AccountMoney;
+import jonathan.modern_design._shared.domain.vo.Money;
 import jonathan.modern_design.banking.api.dtos.AccountDto;
 import jonathan.modern_design.banking.domain.models.Account;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
@@ -92,7 +92,7 @@ public class GenericUpdateAccount {
         var account = repository.findByAccNumberOrElseThrow(dto.accountNumber());
         account.genericUpdate(
                 AccountNumber.of(dto.accountNumber()),
-                AccountMoney.of(dto.balance(), Currency.valueOf(dto.currency())),
+                Money.of(dto.balance(), Currency.valueOf(dto.currency())),
                 dto.status()
         );
 

@@ -2,16 +2,16 @@ package jonathan.modern_design.banking.domain.services;
 
 import jonathan.modern_design._shared.domain.Currency;
 import jonathan.modern_design._shared.domain.tags.DomainService;
-import jonathan.modern_design._shared.domain.vo.AccountMoney;
+import jonathan.modern_design._shared.domain.vo.Money;
 
 @DomainService
 public class CurrencyChanger {
     //Complex or reused logic
 
-    private AccountMoney a;
+    private Money a;
     private Currency b;
 
-    public void changeCurrency(AccountMoney money, Currency newCurrency) {
+    public void changeCurrency(Money money, Currency newCurrency) {
 
         this.a = money;
         this.b = newCurrency;

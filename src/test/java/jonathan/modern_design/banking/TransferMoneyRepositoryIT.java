@@ -1,7 +1,7 @@
 package jonathan.modern_design.banking;
 
 import jonathan.modern_design.__config.ITConfig;
-import jonathan.modern_design._shared.domain.vo.AccountMoney;
+import jonathan.modern_design._shared.domain.vo.Money;
 import jonathan.modern_design.auth.api.UserApi;
 import jonathan.modern_design.banking.api.AccountApi;
 import jonathan.modern_design.banking.application.Deposit;
@@ -28,7 +28,7 @@ class TransferMoneyRepositoryIT extends ITConfig {
     //@MockitoBean
     private UserApi userApi;
 
-    private Account getAccountWithMoney(final AccountMoney money) {
+    private Account getAccountWithMoney(final Money money) {
         Assertions.assertNotNull(money.getCurrency());
         var accountNumber = accountFacade.createAccount(randomAccountWithCurrency(money.getCurrency())).getAccountNumber();
 
@@ -43,9 +43,9 @@ class TransferMoneyRepositoryIT extends ITConfig {
     class WithValidAccountsShould {
         @Test
         void transfer_money_into_the_target_account() {
-            var source = getAccountWithMoney(AccountMoney.of(BigDecimal.valueOf(100.0), EUR));
-            var target = getAccountWithMoney(AccountMoney.of(ZERO, EUR));
-            accountFacade.transferMoney(fromAccountToAccountWithAmount(source.getAccountNumber().getAccountNumber(), target.getAccountNumber().getAccountNumber(), AccountMoney.of(BigDecimal.valueOf(60.0), EUR)));
+            var source = getAccountWithMoney(Money.of(BigDecimal.valueOf(100.0), EUR));
+            var target = getAccountWithMoney(Money.of(ZERO, EUR));
+            accountFacade.transferMoney(fromAccountToAccountWithAmount(source.getAccountNumber().getAccountNumber(), target.getAccountNumber().getAccountNumber(), Money.of(BigDecimal.valueOf(60.0), EUR)));
 
             assertThat(source.getMoney().getBalance()).isEqualTo(BigDecimal.valueOf(40.0));
             assertThat(target.getMoney().getBalance()).isEqualTo(BigDecimal.valueOf(60.0));

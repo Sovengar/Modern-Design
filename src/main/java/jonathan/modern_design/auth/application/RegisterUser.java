@@ -19,6 +19,7 @@ import jonathan.modern_design.auth.domain.vo.UserPassword;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.modulith.NamedInterface;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -133,6 +134,7 @@ public class RegisterUser {
         }
     }
 
+    @NamedInterface
     public record Command(
             @NotNull(message = "User id must not be null")
             UUID id,

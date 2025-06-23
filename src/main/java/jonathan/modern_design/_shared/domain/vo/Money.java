@@ -21,18 +21,18 @@ import static lombok.AccessLevel.PRIVATE;
 @Value //No record for Hibernate
 @NoArgsConstructor(access = PRIVATE, force = true) //For Hibernate
 @AllArgsConstructor(staticName = "of")
-public class AccountMoney implements ValueObject {
+public class Money implements ValueObject {
     BigDecimal balance;
     @Enumerated(value = EnumType.STRING)
     Currency currency;
 
-    public AccountMoney add(AccountMoney other) {
+    public Money add(Money other) {
         checkCurrency(other);
         assert this.balance != null;
-        return new AccountMoney(this.balance.add(other.balance), this.currency);
+        return new Money(this.balance.add(other.balance), this.currency);
     }
 
-    public AccountMoney subtract(AccountMoney other) {
+    public Money subtract(Money other) {
         checkCurrency(other);
 
         if (checkLowerThan(other.balance)) {
@@ -40,10 +40,10 @@ public class AccountMoney implements ValueObject {
         }
 
         assert this.balance != null;
-        return new AccountMoney(this.balance.subtract(other.balance), this.currency);
+        return new Money(this.balance.subtract(other.balance), this.currency);
     }
 
-    private void checkCurrency(AccountMoney other) {
+    private void checkCurrency(Money other) {
         if (this.currency == null || other == null || other.currency == null) {
             throw new OperationWithDifferentCurrenciesException();
         }

@@ -2,7 +2,10 @@ package jonathan.modern_design.banking.infra.store;
 
 import jonathan.modern_design.__config.ITConfig;
 import jonathan.modern_design._shared.domain.Currency;
+import jonathan.modern_design._shared.domain.vo.Money;
+import jonathan.modern_design.banking.domain.models.Account;
 import jonathan.modern_design.banking.domain.models.AccountEntity;
+import jonathan.modern_design.banking.domain.vo.AccountNumber;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -32,9 +35,10 @@ class AccountRepoSpringDataJPATest extends ITConfig {
     private AccountRepoSpringDataJPA accountRepository;
 
     AccountEntity givenAnAccount() {
-        var acc = AccountEntity.Factory.create(null, "ES123456789", new BigDecimal("1500.00"), Currency.EUR);
-        accountRepository.save(acc);
-        return acc;
+        var account = Account.Factory.create(AccountNumber.of("ES123456789"), Money.of(new BigDecimal("1500.00"), Currency.EUR));
+        var accountEntity = AccountEntity.Factory.create(account);
+        accountRepository.save(accountEntity);
+        return accountEntity;
     }
 
     @Test

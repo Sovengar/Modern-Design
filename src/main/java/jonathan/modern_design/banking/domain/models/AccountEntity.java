@@ -9,9 +9,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jakarta.persistence.Version;
 import jonathan.modern_design._shared.domain.Currency;
-import jonathan.modern_design._shared.infra.AuditingColumns;
+import jonathan.modern_design._shared.infra.BaseAggregateRoot;
+import jonathan.modern_design.banking.api.events.AccountSnapshot;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,7 +29,7 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor(access = PACKAGE) //For Hibernate
 @AllArgsConstructor(access = PRIVATE)
 @Builder //Allowed because is a class without biz logic, use only for mapping or testing purposes
-public class AccountEntity extends AuditingColumns {
+public class AccountEntity extends BaseAggregateRoot<AccountEntity> {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ACCOUNTS_SQ")
     @SequenceGenerator(name = "ACCOUNTS_SQ", sequenceName = "BANKING.ACCOUNTS_SQ", allocationSize = 1)
@@ -40,8 +40,16 @@ public class AccountEntity extends AuditingColumns {
     private BigDecimal balance;
     @Enumerated(value = EnumType.STRING)
     private Currency currency;
-    @Version
-    private Integer version;
+
+    private AccountEntity(Account account) {
+        //If we start to use id from the client, we could assign the id directly
+        this.accountId = nonNull(account.getAccountId()) ? account.getAccountId().id() : null;
+        this.accountNumber = account.getAccountNumber().getAccountNumber();
+        this.status = Account.Status.ACTIVE;
+        this.balance = account.getMoney().getBalance();
+        this.currency = account.getMoney().getCurrency();
+        moveEventsFrom(account);
+    }
 
     public void updateFrom(Account account) {
         this.accountId = account.getAccountId().id();
@@ -49,6 +57,13 @@ public class AccountEntity extends AuditingColumns {
         this.balance = account.getMoney().getBalance();
         this.currency = account.getMoney().getCurrency();
         this.status = account.getStatus();
+        moveEventsFrom(account);
+    }
+
+    private void moveEventsFrom(Account account) {
+        var domainEvents = account.moveEventsToDataModel();
+        domainEvents.forEach(this::registerEvent);
+        this.registerEvent(new AccountSnapshot(account.getAccountNumber().getAccountNumber(), account.getMoney(), account.getStatus()));
     }
 
     @PrePersist
@@ -59,26 +74,7 @@ public class AccountEntity extends AuditingColumns {
     @NoArgsConstructor(access = PRIVATE)
     public static class Factory {
         public static AccountEntity create(Account account) {
-            //If we start to use id from the client, we could assign the id directly
-            var accountId = nonNull(account.getAccountId()) ? account.getAccountId().id() : null;
-            var accountNumber = account.getAccountNumber().getAccountNumber();
-            var active = Account.Status.ACTIVE;
-            var balance = account.getMoney().getBalance();
-            var currency = account.getMoney().getCurrency();
-            var version = 0;
-
-            return new AccountEntity(accountId, accountNumber, active, balance, currency, version);
-        }
-
-        public static AccountEntity create(Long accountId, String accountNumber, BigDecimal balance, Currency currency) {
-            return new AccountEntity(
-                    accountId,
-                    accountNumber,
-                    Account.Status.ACTIVE,
-                    balance,
-                    currency,
-                    0
-            );
+            return new AccountEntity(account);
         }
     }
 }

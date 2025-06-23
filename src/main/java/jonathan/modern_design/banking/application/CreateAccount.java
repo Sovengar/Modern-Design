@@ -9,17 +9,17 @@ import jonathan.modern_design._shared.domain.Currency;
 import jonathan.modern_design._shared.domain.tags.ApplicationService;
 import jonathan.modern_design._shared.domain.tags.DomainService;
 import jonathan.modern_design._shared.domain.tags.WebAdapter;
-import jonathan.modern_design._shared.domain.vo.AccountMoney;
+import jonathan.modern_design._shared.domain.vo.Money;
 import jonathan.modern_design.auth.api.UserApi;
+import jonathan.modern_design.auth.application.RegisterUser;
+import jonathan.modern_design.auth.domain.models.User;
 import jonathan.modern_design.banking.api.dtos.AccountDto;
-import jonathan.modern_design.banking.api.events.AccountCreated;
 import jonathan.modern_design.banking.domain.models.Account;
 import jonathan.modern_design.banking.domain.policies.AccountNumberGenerator;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
 import jonathan.modern_design.banking.domain.vo.AccountNumber;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +30,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
+import static java.util.Optional.ofNullable;
 import static jonathan.modern_design._shared.infra.TraceIdGenerator.generateTraceId;
 
 
@@ -70,8 +72,7 @@ class CreateAccountHttpController {
 @ApplicationService
 public class CreateAccount {
     private final AccountRepo repository;
-    private final UserApi userFacade;
-    private final ApplicationEventPublisher publisher;
+    private final UserApi userApi;
     private final AccountNumberGenerator accountNumberGenerator;
 
     @Transactional
@@ -81,12 +82,26 @@ public class CreateAccount {
         ComplexDomainService.handle();
 
         final var currency = Currency.fromCode(message.currency());
-        final var account = Account.Factory.create(AccountNumber.of(accountNumberGenerator.generate()), AccountMoney.of(BigDecimal.ZERO, currency));
-        publisher.publishEvent(new AccountCreated(account.getAccountNumber().getAccountNumber()));
+        final var account = Account.Factory.create(AccountNumber.of(accountNumberGenerator.generate()), Money.of(BigDecimal.ZERO, currency));
 
         var accountNumber = repository.create(account);
         log.info("END - Account created  with number: {}", accountNumber);
         return accountNumber;
+    }
+
+    private User.Id registerUser(final Command message) {
+        var userId = UUID.randomUUID();
+        var userCreateCommand = new RegisterUser.Command(
+                userId,
+                ofNullable(message.realname()),
+                message.username(),
+                message.email(),
+                message.password(),
+                message.country(),
+                List.of("+34123456789"));//TODO
+
+        userApi.registerUser(userCreateCommand);
+        return User.Id.of(userId);
     }
 
     @DomainService

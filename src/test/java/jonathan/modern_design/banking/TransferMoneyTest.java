@@ -3,7 +3,7 @@ package jonathan.modern_design.banking;
 import jonathan.modern_design.__config.PrettyTestNames;
 import jonathan.modern_design.__config.TimeExtension;
 import jonathan.modern_design._shared.domain.exceptions.OperationWithDifferentCurrenciesException;
-import jonathan.modern_design._shared.domain.vo.AccountMoney;
+import jonathan.modern_design._shared.domain.vo.Money;
 import jonathan.modern_design.auth.api.UserApi;
 import jonathan.modern_design.banking.api.AccountApi;
 import jonathan.modern_design.banking.domain.exceptions.AccountIsInactiveException;
@@ -55,7 +55,7 @@ class TransferMoneyTest {
             var target = targetAccountEmpty();
             populatePersistenceLayer(source, target);
 
-            accountFacade.transferMoney(transactionWithAmount(AccountMoney.of(BigDecimal.valueOf(50.0), EUR)));
+            accountFacade.transferMoney(transactionWithAmount(Money.of(BigDecimal.valueOf(50.0), EUR)));
 
             assertThat(target.getMoney().getBalance()).isEqualTo(BigDecimal.valueOf(50.0));
         }
@@ -67,7 +67,7 @@ class TransferMoneyTest {
             var target = targetAccountEmpty();
             populatePersistenceLayer(source, target);
 
-            accountFacade.transferMoney(transactionWithAmount(AccountMoney.of(BigDecimal.valueOf(50.0), EUR)));
+            accountFacade.transferMoney(transactionWithAmount(Money.of(BigDecimal.valueOf(50.0), EUR)));
 
             //TODO assertThat(target.dateOfLastTransaction()).isEqualTo(supposedToBeNow);
         }
@@ -81,8 +81,8 @@ class TransferMoneyTest {
             var target = targetAccountWithBalance(100.0);
             populatePersistenceLayer(source, target);
 
-            assertThatThrownBy(() -> accountFacade.transferMoney(transactionWithAmount(AccountMoney.of(BigDecimal.valueOf(50.0), EUR))))
-                    .isInstanceOf(AccountMoney.InsufficientFundsException.class);
+            assertThatThrownBy(() -> accountFacade.transferMoney(transactionWithAmount(Money.of(BigDecimal.valueOf(50.0), EUR))))
+                    .isInstanceOf(Money.InsufficientFundsException.class);
         }
 
         @Test
@@ -91,7 +91,7 @@ class TransferMoneyTest {
             var target = targetAccountEmpty();
             populatePersistenceLayer(source, target);
 
-            assertThatThrownBy(() -> accountFacade.transferMoney(transactionWithAmount(AccountMoney.of(BigDecimal.valueOf(50.0), EUR))))
+            assertThatThrownBy(() -> accountFacade.transferMoney(transactionWithAmount(Money.of(BigDecimal.valueOf(50.0), EUR))))
                     .isInstanceOf(AccountIsInactiveException.class);
         }
 
@@ -101,7 +101,7 @@ class TransferMoneyTest {
             var target = targetAccountInactive();
             populatePersistenceLayer(source, target);
 
-            assertThatThrownBy(() -> accountFacade.transferMoney(transactionWithAmount(AccountMoney.of(BigDecimal.valueOf(50.0), EUR))))
+            assertThatThrownBy(() -> accountFacade.transferMoney(transactionWithAmount(Money.of(BigDecimal.valueOf(50.0), EUR))))
                     .isInstanceOf(AccountIsInactiveException.class);
         }
 
@@ -111,7 +111,7 @@ class TransferMoneyTest {
             var target = targetAccountWithDifferentCurrency();
             populatePersistenceLayer(source, target);
 
-            assertThatThrownBy(() -> accountFacade.transferMoney(transactionWithAmount(AccountMoney.of(BigDecimal.valueOf(50.0), EUR))))
+            assertThatThrownBy(() -> accountFacade.transferMoney(transactionWithAmount(Money.of(BigDecimal.valueOf(50.0), EUR))))
                     .isInstanceOf(OperationWithDifferentCurrenciesException.class);
         }
     }

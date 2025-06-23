@@ -9,7 +9,7 @@ import jonathan.modern_design._shared.api.Response;
 import jonathan.modern_design._shared.domain.Currency;
 import jonathan.modern_design._shared.domain.tags.ApplicationService;
 import jonathan.modern_design._shared.domain.tags.WebAdapter;
-import jonathan.modern_design._shared.domain.vo.AccountMoney;
+import jonathan.modern_design._shared.domain.vo.Money;
 import jonathan.modern_design.banking.domain.exceptions.OperationForbiddenForSameAccount;
 import jonathan.modern_design.banking.domain.models.Account;
 import jonathan.modern_design.banking.domain.models.Transaction;
@@ -93,7 +93,7 @@ public class TransferMoney {
     }
 
     private void transfer(Account source, Account target, final BigDecimal amount, final Currency currency) {
-        var money = AccountMoney.of(amount, currency);
+        var money = Money.of(amount, currency);
 
         source.withdrawal(money);
         target.deposit(money);

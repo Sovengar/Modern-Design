@@ -6,7 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import jonathan.modern_design._shared.domain.tags.AggregateRoot;
-import jonathan.modern_design._shared.domain.vo.AccountMoney;
+import jonathan.modern_design._shared.domain.vo.Money;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,7 +30,7 @@ public class Transaction {
     private Id transactionId;
     private LocalDateTime transactionDate;
     @Embedded
-    private AccountMoney money;
+    private Money money;
     @Enumerated(value = jakarta.persistence.EnumType.STRING)
     private TransactionType transactionType;
     private String origin;
@@ -54,15 +54,15 @@ public class Transaction {
 
     @NoArgsConstructor(access = PRIVATE)
     public static class Factory {
-        public static Transaction deposit(AccountMoney money, String destination) {
+        public static Transaction deposit(Money money, String destination) {
             return new Transaction(Id.of(UUID.randomUUID(), TransactionType.DEPOSIT), LocalDateTime.now(), money, TransactionType.DEPOSIT, null, destination);
         }
 
-        public static Transaction withdrawal(AccountMoney money, String origin) {
+        public static Transaction withdrawal(Money money, String origin) {
             return new Transaction(Id.of(UUID.randomUUID(), TransactionType.WITHDRAWAL), LocalDateTime.now(), money, TransactionType.WITHDRAWAL, origin, null);
         }
 
-        public static Transaction transfer(AccountMoney money, String origin, String destination) {
+        public static Transaction transfer(Money money, String origin, String destination) {
             return new Transaction(Id.of(UUID.randomUUID(), TransactionType.TRANSFER), LocalDateTime.now(), money, TransactionType.TRANSFER, origin, destination);
         }
     }

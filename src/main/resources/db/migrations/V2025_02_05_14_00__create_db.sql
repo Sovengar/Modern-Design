@@ -2,6 +2,15 @@ create SCHEMA IF NOT EXISTS banking;
 create SCHEMA IF NOT EXISTS auth;
 create SCHEMA IF NOT EXISTS md;
 
+create TABLE MD.event_publication (
+    id UUID PRIMARY KEY,
+    completion_date timestamp,
+    event_type VARCHAR(255),
+    listener_id VARCHAR(255),
+    publication_date timestamp,
+    serialized_event VARCHAR(255)
+);
+
 create TABLE AUTH.ROLES (
     role_code TEXT PRIMARY KEY,
     description TEXT
@@ -32,7 +41,7 @@ create TABLE BANKING.ACCOUNTS (
     currency VARCHAR(5),
     address TEXT,
     status TEXT,
-    version INTEGER,
+    version BIGINT,
     created_by TEXT,
     created_at TIMESTAMP WITHOUT TIME ZONE,
     modified_by TEXT,

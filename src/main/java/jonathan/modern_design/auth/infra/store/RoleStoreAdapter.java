@@ -1,4 +1,4 @@
-package jonathan.modern_design.auth.infra;
+package jonathan.modern_design.auth.infra.store;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;

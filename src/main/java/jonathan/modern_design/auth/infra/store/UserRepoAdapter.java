@@ -1,4 +1,4 @@
-package jonathan.modern_design.auth.infra;
+package jonathan.modern_design.auth.infra.store;
 
 import jonathan.modern_design._shared.domain.tags.DataAdapter;
 import jonathan.modern_design.auth.domain.models.User;

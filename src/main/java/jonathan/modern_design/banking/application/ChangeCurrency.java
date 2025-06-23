@@ -2,7 +2,7 @@ package jonathan.modern_design.banking.application;
 
 import jonathan.modern_design._shared.domain.Currency;
 import jonathan.modern_design._shared.domain.tags.ApplicationService;
-import jonathan.modern_design._shared.domain.vo.AccountMoney;
+import jonathan.modern_design._shared.domain.vo.Money;
 import jonathan.modern_design.banking.domain.services.CurrencyChanger;
 import lombok.RequiredArgsConstructor;
 
@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 class ChangeCurrency {
     private final CurrencyChanger currencyChanger;
 
-    public void handle(AccountMoney money, Currency newCurrency) {
+    public void handle(Money money, Currency newCurrency) {
         currencyChanger.changeCurrency(money, newCurrency);
     }
 
