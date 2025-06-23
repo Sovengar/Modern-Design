@@ -41,7 +41,8 @@ public class AccountEntity extends BaseAggregateRoot<AccountEntity> {
     @Enumerated(value = EnumType.STRING)
     private Currency currency;
 
-    private AccountEntity(Account account) {
+    //Doesn't need to be a static method, coupling is managed, if it needs to be changed, there will be 3-4 occurrences only
+    public AccountEntity(Account account) {
         //If we start to use id from the client, we could assign the id directly
         this.accountId = nonNull(account.getAccountId()) ? account.getAccountId().id() : null;
         this.accountNumber = account.getAccountNumber().getAccountNumber();
@@ -69,12 +70,5 @@ public class AccountEntity extends BaseAggregateRoot<AccountEntity> {
     @PrePersist
     public void prePersist() {
         this.status = Account.Status.ACTIVE;
-    }
-
-    @NoArgsConstructor(access = PRIVATE)
-    public static class Factory {
-        public static AccountEntity create(Account account) {
-            return new AccountEntity(account);
-        }
     }
 }

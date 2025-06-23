@@ -36,7 +36,7 @@ class AccountRepoSpringDataJPATest extends ITConfig {
 
     AccountEntity givenAnAccount() {
         var account = Account.Factory.create(AccountNumber.of("ES123456789"), Money.of(new BigDecimal("1500.00"), Currency.EUR));
-        var accountEntity = AccountEntity.Factory.create(account);
+        var accountEntity = new AccountEntity(account);
         accountRepository.save(accountEntity);
         return accountEntity;
     }
