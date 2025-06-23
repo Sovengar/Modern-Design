@@ -1,13 +1,13 @@
 package jonathan.modern_design.banking.api;
 
-import jonathan.modern_design._shared.domain.tags.Injectable;
+import jonathan.modern_design._shared.tags.Injectable;
 import jonathan.modern_design.banking.api.dtos.AccountDto;
 import jonathan.modern_design.banking.application.CreateAccount;
 import jonathan.modern_design.banking.application.Deposit;
 import jonathan.modern_design.banking.application.GenericUpdateAccount;
 import jonathan.modern_design.banking.application.TransferMoney;
-import jonathan.modern_design.banking.application.queries.FindAccount;
 import jonathan.modern_design.banking.domain.vo.AccountNumber;
+import jonathan.modern_design.banking.queries.FindAccount;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

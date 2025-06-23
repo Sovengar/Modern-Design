@@ -1,8 +1,8 @@
 package jonathan.modern_design.banking.domain.services;
 
 import jonathan.modern_design._shared.domain.Currency;
-import jonathan.modern_design._shared.domain.tags.DomainService;
 import jonathan.modern_design._shared.domain.vo.Money;
+import jonathan.modern_design._shared.tags.DomainService;
 
 @DomainService
 public class CurrencyChanger {

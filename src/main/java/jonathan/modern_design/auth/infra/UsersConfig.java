@@ -2,11 +2,11 @@ package jonathan.modern_design.auth.infra;
 
 import jonathan.modern_design.auth.api.UserApi;
 import jonathan.modern_design.auth.application.RegisterUser;
-import jonathan.modern_design.auth.application.queries.FindUser;
 import jonathan.modern_design.auth.domain.store.RoleStore;
 import jonathan.modern_design.auth.domain.store.RoleStoreInMemory;
 import jonathan.modern_design.auth.domain.store.UserInMemoryRepo;
 import jonathan.modern_design.auth.domain.store.UserRepo;
+import jonathan.modern_design.auth.queries.FindUser;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 

@@ -1,6 +1,6 @@
 package jonathan.modern_design.banking.infra.store;
 
-import jonathan.modern_design._shared.domain.tags.DataAdapter;
+import jonathan.modern_design._shared.tags.DataAdapter;
 import jonathan.modern_design.banking.domain.models.AccountHolder;
 import jonathan.modern_design.banking.domain.store.AccountHolderRepo;
 import jonathan.modern_design.banking.infra.store.spring.AccountHolderRepoSpringDataJPA;

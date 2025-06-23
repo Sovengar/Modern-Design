@@ -2,8 +2,8 @@ package jonathan.modern_design.banking.application.automatic_account_closer;
 
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.transaction.Transactional;
-import jonathan.modern_design._shared.domain.tags.ApplicationService;
-import jonathan.modern_design._shared.domain.tags.WebAdapter;
+import jonathan.modern_design._shared.tags.ApplicationService;
+import jonathan.modern_design._shared.tags.WebAdapter;
 import jonathan.modern_design.banking.application.DeactivateAccount;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
 import lombok.RequiredArgsConstructor;

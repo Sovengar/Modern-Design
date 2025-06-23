@@ -3,7 +3,7 @@ package jonathan.modern_design.auth.infra.store;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
-import jonathan.modern_design._shared.domain.tags.DataAdapter;
+import jonathan.modern_design._shared.tags.DataAdapter;
 import jonathan.modern_design.auth.domain.models.Role;
 import jonathan.modern_design.auth.domain.store.RoleStore;
 import lombok.RequiredArgsConstructor;

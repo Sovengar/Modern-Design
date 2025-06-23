@@ -1,6 +1,6 @@
 package jonathan.modern_design.others;
 
-import jonathan.modern_design._shared.domain.tags.ApplicationService;
+import jonathan.modern_design._shared.tags.ApplicationService;
 import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

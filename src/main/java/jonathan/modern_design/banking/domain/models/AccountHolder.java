@@ -6,7 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jonathan.modern_design._shared.domain.vo.BirthDate;
-import jonathan.modern_design._shared.infra.BaseAggregateRoot;
+import jonathan.modern_design._shared.infra.db.BaseAggregateRoot;
 import jonathan.modern_design.banking.api.events.AccountHolderRegistered;
 import jonathan.modern_design.banking.domain.vo.AccountHolderAddress;
 import jonathan.modern_design.banking.domain.vo.AccountHolderName;

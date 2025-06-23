@@ -2,8 +2,8 @@ package jonathan.modern_design.auth.domain.vo;
 
 
 import jakarta.persistence.Embeddable;
-import jonathan.modern_design._shared.domain.tags.ValueObject;
-import jonathan.modern_design._shared.infra.config.exception.RootException;
+import jonathan.modern_design._config.exception.RootException;
+import jonathan.modern_design._shared.tags.ValueObject;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Value;

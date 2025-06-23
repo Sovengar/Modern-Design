@@ -6,7 +6,6 @@ import jonathan.modern_design.banking.application.CreateAccount;
 import jonathan.modern_design.banking.application.Deposit;
 import jonathan.modern_design.banking.application.GenericUpdateAccount;
 import jonathan.modern_design.banking.application.TransferMoney;
-import jonathan.modern_design.banking.application.queries.FindAccount;
 import jonathan.modern_design.banking.domain.policies.AccountNumberGenerator;
 import jonathan.modern_design.banking.domain.services.AccountNumberDefaultGenerator;
 import jonathan.modern_design.banking.domain.services.AccountValidator;
@@ -14,6 +13,7 @@ import jonathan.modern_design.banking.domain.store.AccountHolderRepo;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
 import jonathan.modern_design.banking.domain.store.AccountRepoInMemory;
 import jonathan.modern_design.banking.domain.store.TransactionRepo;
+import jonathan.modern_design.banking.queries.FindAccount;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 

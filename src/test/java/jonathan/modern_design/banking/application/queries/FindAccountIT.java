@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jonathan.modern_design.__config.ITConfig;
 import jonathan.modern_design.banking.domain.models.AccountEntity;
+import jonathan.modern_design.banking.queries.FindAccount;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

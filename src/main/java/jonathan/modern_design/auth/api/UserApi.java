@@ -1,10 +1,10 @@
 package jonathan.modern_design.auth.api;
 
-import jonathan.modern_design._shared.domain.tags.Injectable;
+import jonathan.modern_design._shared.tags.Injectable;
 import jonathan.modern_design.auth.api.dtos.UserDto;
 import jonathan.modern_design.auth.application.RegisterUser;
-import jonathan.modern_design.auth.application.queries.FindUser;
 import jonathan.modern_design.auth.domain.models.User;
+import jonathan.modern_design.auth.queries.FindUser;
 import lombok.RequiredArgsConstructor;
 
 public interface UserApi {

@@ -2,8 +2,8 @@ package jonathan.modern_design.banking.application;
 
 import io.swagger.v3.oas.annotations.Operation;
 import jonathan.modern_design._shared.api.Response;
-import jonathan.modern_design._shared.domain.tags.ApplicationService;
-import jonathan.modern_design._shared.domain.tags.WebAdapter;
+import jonathan.modern_design._shared.tags.ApplicationService;
+import jonathan.modern_design._shared.tags.WebAdapter;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

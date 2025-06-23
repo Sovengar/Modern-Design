@@ -1,6 +1,6 @@
 package jonathan.modern_design.banking.domain.exceptions;
 
-import jonathan.modern_design._shared.infra.config.exception.RootException;
+import jonathan.modern_design._config.exception.RootException;
 
 import java.io.Serial;
 

@@ -1,7 +1,7 @@
 package jonathan.modern_design._fake_data;
 
 import jonathan.modern_design.__config.Stub;
-import jonathan.modern_design._shared.other.country.Country;
+import jonathan.modern_design._shared.domain.Country;
 import jonathan.modern_design.auth.application.RegisterUser;
 import jonathan.modern_design.auth.domain.catalogs.Roles;
 import jonathan.modern_design.auth.domain.models.Role;

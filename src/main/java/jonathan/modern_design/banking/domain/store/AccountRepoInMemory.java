@@ -1,6 +1,6 @@
 package jonathan.modern_design.banking.domain.store;
 
-import jonathan.modern_design._shared.domain.tags.Fake;
+import jonathan.modern_design._shared.tags.Fake;
 import jonathan.modern_design.banking.domain.models.Account;
 import jonathan.modern_design.banking.domain.vo.AccountNumber;
 

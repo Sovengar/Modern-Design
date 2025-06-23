@@ -1,6 +1,6 @@
 package jonathan.modern_design._shared.domain;
 
-import jonathan.modern_design._shared.infra.config.exception.RootException;
+import jonathan.modern_design._config.exception.RootException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

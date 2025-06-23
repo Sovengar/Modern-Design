@@ -12,7 +12,7 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jonathan.modern_design._shared.domain.Currency;
-import jonathan.modern_design._shared.infra.BaseAggregateRoot;
+import jonathan.modern_design._shared.infra.db.BaseAggregateRoot;
 import jonathan.modern_design.banking.api.events.AccountSnapshot;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

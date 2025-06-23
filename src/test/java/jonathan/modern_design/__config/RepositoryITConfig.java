@@ -10,7 +10,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
-import static jonathan.modern_design._shared.infra.config.database.FlywayConfig.SCHEMAS;
+import static jonathan.modern_design._config.database.FlywayConfig.SCHEMAS;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
