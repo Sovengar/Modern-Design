@@ -22,13 +22,13 @@ public class BirthDate implements ValueObject {
     public static BirthDate of(final LocalDate birthdate) {
         Objects.requireNonNull(birthdate, "Birthdate cannot be null");
 
-        var notBorn = LocalDate.now().isAfter(birthdate);
+        var notBorn = LocalDate.now().isBefore(birthdate);
 
         var aDecadeAgo = LocalDate.now().minusYears(100);
         var eighteenYearsAgo = LocalDate.now().minusYears(18);
 
         var isTooOld = birthdate.isBefore(aDecadeAgo) || birthdate.isEqual(aDecadeAgo);
-        var isTooYoung = birthdate.isBefore(eighteenYearsAgo);
+        var isTooYoung = birthdate.isAfter(eighteenYearsAgo);
 
         if (notBorn) {
             throw new InvalidBirthDateException("You can't be born yet");

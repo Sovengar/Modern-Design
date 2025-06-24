@@ -89,9 +89,10 @@ public class CreateAccount {
         final var account = Account.Factory.create(AccountNumber.of(accountNumberGenerator.generate()), Money.of(BigDecimal.ZERO, currency));
         var accountNumber = repository.create(account);
 
+        //If you want temporal decoupling, send the command to a queue.
         var userId = registerUser(cmd);
 
-        var accountHolder = AccountHolder.create(cmd.realname(), null, cmd.country(), cmd.address(), cmd.birthdate(), cmd.phoneNumbers(), userId.getUserId());
+        var accountHolder = AccountHolder.create(cmd.realname(), cmd.personalId(), cmd.country(), cmd.address(), cmd.birthdate(), cmd.phoneNumbers(), userId.getUserId());
         accountHolderRepo.save(accountHolder);
 
         log.info("END - Account created  with number: {}", accountNumber);
@@ -132,8 +133,9 @@ public class CreateAccount {
             @NotEmpty(message = "Password is required") String password,
             @NotEmpty(message = "Country is required") String country,
             @NotNull(message = "Currency is required") String currency,
-            @NotEmpty(message = "PhoneNumbers is required") List<String> phoneNumbers,
-            @NotEmpty(message = "Birthdate is required") LocalDate birthdate
+            @NotNull(message = "PhoneNumbers is required") List<String> phoneNumbers,
+            @NotNull(message = "Birthdate is required") LocalDate birthdate,
+            @NotEmpty(message = "Personal Id is required") String personalId
     ) {
     }
 }

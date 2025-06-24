@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ser.BeanSerializer;
 import com.fasterxml.jackson.databind.ser.BeanSerializerModifier;
 import com.fasterxml.jackson.databind.ser.impl.ObjectIdWriter;
 import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jonathan.modern_design._shared.tags.MicroType;
 import jonathan.modern_design._shared.tags.ValueObject;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +23,7 @@ class JacksonConfig {
     @Bean
     public ObjectMapper objectMapper() {
         ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
 
         SimpleModule module = new SimpleModule();
         module.setSerializerModifier(buildSerializerModifier());
