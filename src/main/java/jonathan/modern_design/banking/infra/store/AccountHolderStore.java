@@ -22,6 +22,6 @@ class AccountHolderStore implements AccountHolderRepo {
     @Override
     public UUID save(final AccountHolder accountHolder) {
         var accHolder = repositoryJPA.save(accountHolder);
-        return accHolder.getAccountHolderId();
+        return accHolder.getId();
     }
 }

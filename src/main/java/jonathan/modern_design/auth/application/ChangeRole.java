@@ -48,8 +48,6 @@ class ChangeRole {
     private final UserRepo userRepo;
     private final RoleStore roleStore;
 
-    //TODO GET THE USER THAT TRIGGERED THE COMMAND AND VALIDATE IF IT CAN CHANGE ROLES OF OTHER USERS
-
     //If logic grows complex, move to a domain service
     public void handle(final @Valid ChangeRole.Command message) {
         log.info("BEGIN - ChangeRole");

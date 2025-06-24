@@ -9,7 +9,6 @@ import jonathan.modern_design.banking.api.AccountApi;
 import jonathan.modern_design.banking.domain.exceptions.AccountIsInactiveException;
 import jonathan.modern_design.banking.domain.models.Account;
 import jonathan.modern_design.banking.infra.AccountingConfig;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -58,18 +57,6 @@ class TransferMoneyTest {
             accountFacade.transferMoney(transactionWithAmount(Money.of(BigDecimal.valueOf(50.0), EUR)));
 
             assertThat(target.getMoney().getBalance()).isEqualTo(BigDecimal.valueOf(50.0));
-        }
-
-        @Test
-        @Disabled
-        void update_date_of_last_transaction() {
-            var source = sourceAccountWithBalance(100.0);
-            var target = targetAccountEmpty();
-            populatePersistenceLayer(source, target);
-
-            accountFacade.transferMoney(transactionWithAmount(Money.of(BigDecimal.valueOf(50.0), EUR)));
-
-            //TODO assertThat(target.dateOfLastTransaction()).isEqualTo(supposedToBeNow);
         }
     }
 

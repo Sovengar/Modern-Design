@@ -15,10 +15,7 @@ class ChangeCurrency {
         currencyChanger.changeCurrency(money, newCurrency);
     }
 
-    // TODO
     // Change currency taking in consideration updated exchange rates
-    // Change amount of money based on the calculation with the new exchange rates
-
-
+    // Change the amount of money based on the calculation with the new exchange rates
 }
 

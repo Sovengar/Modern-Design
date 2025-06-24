@@ -24,8 +24,6 @@ import static lombok.AccessLevel.PRIVATE;
 public class UserPassword implements ValueObject {
     String password;
 
-    //TODO ADD DOUBLE DISPATCH TO ENCRYPT THE PASSWORD
-
     public static UserPassword of(String password) {
         PasswordValidator.validatePassword(password);
         return new UserPassword(password);

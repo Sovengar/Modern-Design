@@ -1,5 +1,6 @@
 package jonathan.modern_design.banking.domain.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -32,10 +33,13 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor(access = PRIVATE)
 @Builder //Allowed because is a class without biz logic, use only for mapping or testing purposes
 public class AccountEntity extends BaseAggregateRoot<AccountEntity> {
+    public static final String DB_PATH = "banking.accounts";
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ACCOUNTS_SQ")
     @SequenceGenerator(name = "ACCOUNTS_SQ", sequenceName = "BANKING.ACCOUNTS_SQ", allocationSize = 1)
-    private Long accountId; //Can't use microType with a sequence
+    @Column(name = "account_id")
+    private Long id; //Can't use microType with a sequence
     private String accountNumber;
     @Enumerated(value = jakarta.persistence.EnumType.STRING)
     private Account.Status status;
@@ -49,7 +53,7 @@ public class AccountEntity extends BaseAggregateRoot<AccountEntity> {
     //Doesn't need to be a static method, coupling is managed, if it needs to be changed, there will be 3-4 occurrences only
     public AccountEntity(Account account) {
         //If we start to use id from the client, we could assign the id directly
-        this.accountId = nonNull(account.getAccountId()) ? account.getAccountId().id() : null;
+        this.id = nonNull(account.getAccountId()) ? account.getAccountId().id() : null;
         this.accountNumber = account.getAccountNumber().getAccountNumber();
         this.status = Account.Status.ACTIVE;
         this.balance = account.getMoney().getBalance();
@@ -58,7 +62,7 @@ public class AccountEntity extends BaseAggregateRoot<AccountEntity> {
     }
 
     public void updateFrom(Account account) {
-        this.accountId = account.getAccountId().id();
+        this.id = account.getAccountId().id();
         this.accountNumber = account.getAccountNumber().getAccountNumber();
         this.balance = account.getMoney().getBalance();
         this.currency = account.getMoney().getCurrency();

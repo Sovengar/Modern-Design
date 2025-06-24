@@ -32,7 +32,7 @@ public final class Account {
     private Money money;
 
     public Account(AccountEntity accountEntity) {
-        this.accountId = Id.of(accountEntity.getAccountId());
+        this.accountId = Id.of(accountEntity.getId());
         this.accountNumber = AccountNumber.of(accountEntity.getAccountNumber());
         this.money = Money.of(accountEntity.getBalance(), accountEntity.getCurrency());
         this.status = accountEntity.getStatus();

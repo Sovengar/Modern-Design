@@ -6,8 +6,10 @@ import jonathan.modern_design._shared.tags.ApplicationService;
 import jonathan.modern_design._shared.tags.WebAdapter;
 import jonathan.modern_design.auth.domain.models.User;
 import jonathan.modern_design.auth.domain.store.UserRepo;
+import jonathan.modern_design.banking.api.events.AccountHolderDeleted;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.event.EventListener;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -48,5 +50,11 @@ class DeleteUser {
         log.info("BEGIN - deleteUser");
         userRepo.delete(userId);
         log.info("END - deleteUser");
+    }
+
+    //Sync deletion, move to async if required with according compensations in case of async error...
+    @EventListener
+    void handle(AccountHolderDeleted event) {
+        handle(User.Id.of(event.userId()));
     }
 }

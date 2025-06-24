@@ -27,8 +27,11 @@ import static lombok.AccessLevel.PRIVATE;
 @Getter
 @NoArgsConstructor(access = PACKAGE) //For Hibernate
 public class AccountHolder extends BaseAggregateRoot<AccountHolder> {
+    public static final String DB_PATH = "banking.account_holders";
+
     @Id
-    private UUID accountHolderId;
+    @Column(name = "account_holder_id", nullable = false, updatable = false)
+    private UUID id;
     @Embedded
     @Getter(PRIVATE)
     private AccountHolderName name;
@@ -45,8 +48,8 @@ public class AccountHolder extends BaseAggregateRoot<AccountHolder> {
     @Column(nullable = false)
     private boolean deleted = false;
 
-    private AccountHolder(UUID accountHolderId, AccountHolderName name, PersonalId personalId, String country, BirthDate birthdate, AccountHolderPhoneNumbers phoneNumbers, UUID userId) {
-        this.accountHolderId = accountHolderId;
+    private AccountHolder(UUID id, AccountHolderName name, PersonalId personalId, String country, BirthDate birthdate, AccountHolderPhoneNumbers phoneNumbers, UUID userId) {
+        this.id = id;
         this.name = name;
         this.personalId = personalId;
         this.country = country;
@@ -55,7 +58,7 @@ public class AccountHolder extends BaseAggregateRoot<AccountHolder> {
         this.userId = userId;
         this.deleted = false;
 
-        this.registerEvent(new AccountHolderRegistered(accountHolderId));
+        this.registerEvent(new AccountHolderRegistered(id));
     }
 
     public static AccountHolder create(String name, String personalId, String country, String address, LocalDate birthDate, List<String> phoneNumbers, UUID userId) {

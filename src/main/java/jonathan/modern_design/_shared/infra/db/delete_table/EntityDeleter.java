@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class DeletedRowService {
+public class EntityDeleter {
     private final DeletedRowRepository deletedRowRepository;
     private final ObjectMapper objectMapper;
 

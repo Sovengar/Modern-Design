@@ -46,7 +46,7 @@ class AccountStore implements AccountRepo {
     @Override
     public void delete(final String accountNumber) {
         var accountEntity = repositoryJPA.findByAccountNumber(accountNumber).orElseThrow();
-        repositoryJPA.deleteById(accountEntity.getAccountId());
+        repositoryJPA.deleteById(accountEntity.getId());
     }
 
     @Override
