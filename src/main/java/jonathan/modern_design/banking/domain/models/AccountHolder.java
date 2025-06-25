@@ -14,6 +14,8 @@ import jonathan.modern_design.banking.domain.vo.AccountHolderPhoneNumbers;
 import jonathan.modern_design.banking.domain.vo.PersonalId;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -38,8 +40,9 @@ public class AccountHolder extends BaseAggregateRoot<AccountHolder> {
     @Embedded
     private PersonalId personalId;
     private String country;
-    //@Embedded
-    //TODO CONVERTIR EN JSONB private AccountHolderAddress address;
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "jsonb")
+    private AccountHolderAddress address;
     @Embedded
     private BirthDate birthdate;
     @Embedded
@@ -48,11 +51,12 @@ public class AccountHolder extends BaseAggregateRoot<AccountHolder> {
     @Column(nullable = false)
     private boolean deleted = false;
 
-    private AccountHolder(UUID id, AccountHolderName name, PersonalId personalId, String country, BirthDate birthdate, AccountHolderPhoneNumbers phoneNumbers, UUID userId) {
+    private AccountHolder(UUID id, AccountHolderName name, PersonalId personalId, String country, AccountHolderAddress address, BirthDate birthdate, AccountHolderPhoneNumbers phoneNumbers, UUID userId) {
         this.id = id;
         this.name = name;
         this.personalId = personalId;
         this.country = country;
+        this.address = address;
         this.birthdate = birthdate;
         this.phoneNumbers = phoneNumbers;
         this.userId = userId;
@@ -61,10 +65,10 @@ public class AccountHolder extends BaseAggregateRoot<AccountHolder> {
         this.registerEvent(new AccountHolderRegistered(id));
     }
 
-    public static AccountHolder create(String name, String personalId, String country, String address, LocalDate birthDate, List<String> phoneNumbers, UUID userId) {
+    public static AccountHolder create(String name, String personalId, String country, AccountHolderAddress address, LocalDate birthDate, List<String> phoneNumbers, UUID userId) {
         var accountHolderName = AccountHolderName.of(name);
         var personalIdVO = PersonalId.of(personalId);
-        var addressVO = AccountHolderAddress.of(address);
+        //var addressVO = AccountHolderAddress.of(address);
         var birthDateVO = BirthDate.of(birthDate);
         var phoneNumbersVO = AccountHolderPhoneNumbers.of(phoneNumbers);
 
@@ -73,7 +77,7 @@ public class AccountHolder extends BaseAggregateRoot<AccountHolder> {
                 accountHolderName,
                 personalIdVO,
                 country,
-                //addressVO,
+                address,
                 birthDateVO,
                 phoneNumbersVO,
                 userId

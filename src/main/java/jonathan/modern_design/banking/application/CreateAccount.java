@@ -19,6 +19,7 @@ import jonathan.modern_design.banking.domain.models.AccountHolder;
 import jonathan.modern_design.banking.domain.policies.AccountNumberGenerator;
 import jonathan.modern_design.banking.domain.store.AccountHolderRepo;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
+import jonathan.modern_design.banking.domain.vo.AccountHolderAddress;
 import jonathan.modern_design.banking.domain.vo.AccountNumber;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -129,7 +130,7 @@ public class CreateAccount {
             String realname,
             @NotEmpty(message = "Email is required") String email,
             @NotEmpty(message = "Username is required") String username,
-            @NotEmpty(message = "Address is required") String address,
+            @NotNull(message = "Address is required") AccountHolderAddress address,
             @NotEmpty(message = "Password is required") String password,
             @NotEmpty(message = "Country is required") String country,
             @NotNull(message = "Currency is required") String currency,
