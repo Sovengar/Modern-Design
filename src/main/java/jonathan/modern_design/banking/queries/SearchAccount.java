@@ -12,6 +12,8 @@ import jonathan.modern_design._shared.tags.DataAdapter;
 import jonathan.modern_design._shared.tags.WebAdapter;
 import jonathan.modern_design.banking.api.dtos.AccountDto;
 import jonathan.modern_design.banking.domain.models.Account;
+import jonathan.modern_design.banking.domain.models.AccountEntity;
+import jonathan.modern_design.banking.domain.vo.AccountHolderAddress;
 import jonathan.modern_design.banking.infra.store.spring.AccountRepoSpringDataJPA;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,11 +32,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 import static java.lang.String.join;
 import static java.util.Optional.empty;
 import static java.util.Optional.ofNullable;
+import static jonathan.modern_design._shared.infra.TraceIdGenerator.generateTraceId;
 import static jonathan.modern_design.banking.domain.models.QAccountEntity.accountEntity;
 
 public interface SearchAccount {
@@ -46,6 +51,8 @@ public interface SearchAccount {
     List<AccountDto> searchForXXXPage(Criteria filters);
 
     Page<AccountDto> searchWithPagination(final Pageable pageable, final Criteria filters);
+
+    List<AccountDto> searchWithCity(final AccountHolderAddress address);
 
     @Builder
     record Criteria(
@@ -83,6 +90,20 @@ class SearchAccountHttpController {
     public ResponseEntity<Response<List<SearchAccount.AccountSearchResult>>> searchProjectionForXXXPage(@RequestBody SearchAccount.Criteria filters) {
         var accountSearchResults = querier.searchWithQueryDSL(filters);
         return ResponseEntity.ok(new Response.Builder<List<SearchAccount.AccountSearchResult>>().data(accountSearchResults).withDefaultMetadataV1());
+    }
+
+    @Operation(description = "Find Accounts")
+    @GetMapping(path = "/search/address")
+    ResponseEntity<Response<List<AccountDto>>> loadAccount(@RequestBody AccountHolderAddress address) {
+        Assert.state(Objects.nonNull(address), "Address is required");
+        generateTraceId();
+        //Authentication + Authorization
+
+        log.info("BEGIN FindAccount for address: {}", address);
+        var accounts = querier.searchWithCity(address);
+        log.info("END FindAccount for address: {}", address);
+
+        return ResponseEntity.ok(new Response.Builder<List<AccountDto>>().data(accounts).withDefaultMetadataV1());
     }
 }
 
@@ -166,6 +187,21 @@ class SearchAccountQueryImpl implements SearchAccount {
         //This is bad, there is no filter. Just showing findAll pageable from Spring Data JPA
         var accountsDto = accounts.stream().map(AccountDto::new).toList();
         return new PageImpl<>(accountsDto, pageable, accounts.size());
+    }
+
+    @Override
+    public List<AccountDto> searchWithCity(final AccountHolderAddress address) {
+
+        List<AccountEntity> accounts = entityManager
+                .createNativeQuery("""
+                        SELECT a.* FROM banking.accounts a
+                        INNER JOIN banking.account_holders ah ON a.account_holder_id = ah.account_holder_id
+                        WHERE ah.address->>'city' = :city
+                        """, AccountEntity.class)
+                .setParameter("city", address.getCity())
+                .getResultList();
+
+        return accounts.stream().map(AccountDto::new).toList();
     }
 
     @Override

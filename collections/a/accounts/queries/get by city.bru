@@ -1,0 +1,17 @@
+meta {
+  name: get by city
+  type: http
+  seq: 3
+}
+
+get {
+  url: http://localhost:8080/api/v1/accounts/search/address
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "city": "Barcelona"
+  }
+}

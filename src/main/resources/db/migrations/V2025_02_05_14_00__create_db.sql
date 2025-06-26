@@ -50,6 +50,7 @@ create TABLE BANKING.ACCOUNT_HOLDERS (
     modified_at TIMESTAMP WITHOUT TIME ZONE,
     deleted BOOLEAN DEFAULT FALSE
 );
+create index idx_ah_address_city on BANKING.ACCOUNT_HOLDERS ((address->>'city'));
 
 create sequence BANKING.ACCOUNTS_SQ start with 1;
 create TABLE BANKING.ACCOUNTS (
