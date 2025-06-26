@@ -1,4 +1,4 @@
-package jonathan.modern_design.payment.infra;
+package jonathan.modern_design.amazon.payment.infra;
 
 //This example shows how to contralize endpoints in a single private file
 

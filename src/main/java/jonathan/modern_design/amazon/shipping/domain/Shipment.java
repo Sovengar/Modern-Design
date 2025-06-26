@@ -1,4 +1,4 @@
-package jonathan.modern_design.shipping.domain;
+package jonathan.modern_design.amazon.shipping.domain;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,8 +1,8 @@
-package jonathan.modern_design.shipping;
+package jonathan.modern_design.amazon.shipping;
 
-import jonathan.modern_design.shipping.domain.Shipment;
-import jonathan.modern_design.shipping.domain.Stop;
-import jonathan.modern_design.shipping.domain.StopEntity;
+import jonathan.modern_design.amazon.shipping.domain.Shipment;
+import jonathan.modern_design.amazon.shipping.domain.Stop;
+import jonathan.modern_design.amazon.shipping.domain.StopEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
