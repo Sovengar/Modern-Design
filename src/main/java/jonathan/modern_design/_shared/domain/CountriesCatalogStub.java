@@ -10,7 +10,7 @@ import static java.util.Arrays.asList;
 
 @Stub
 @Primary
-public final class CountriesInventoryStub implements CountriesInventory {
+public final class CountriesCatalogStub implements CountriesCatalog {
     private static final List<Country> DEFAULT_COUNTRIES = asList(
             new Country("ES", "Spain"),
             new Country("US", "United States"),
@@ -38,11 +38,11 @@ public final class CountriesInventoryStub implements CountriesInventory {
 
     private final List<Country> countries;
 
-    public CountriesInventoryStub() {
+    public CountriesCatalogStub() {
         countries = DEFAULT_COUNTRIES;
     }
 
-    public CountriesInventoryStub(List<Country> countries) {
+    public CountriesCatalogStub(List<Country> countries) {
         this.countries = countries;
     }
 

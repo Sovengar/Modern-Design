@@ -1,6 +1,6 @@
 package jonathan.modern_design._shared.infra.country;
 
-import jonathan.modern_design._shared.domain.CountriesInventory;
+import jonathan.modern_design._shared.domain.CountriesCatalog;
 import jonathan.modern_design._shared.domain.Country;
 import jonathan.modern_design._shared.tags.Injectable;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 @Injectable
-class TheCompaniesAPIClient implements CountriesInventory {
+class TheCompaniesAPIClient implements CountriesCatalog {
     private final RestTemplate restTemplate;
 
     @Value("${thecompaniesapi.base-uri}")

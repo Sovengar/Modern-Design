@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.Serial;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static java.lang.String.format;
@@ -46,7 +45,7 @@ class RegisterUserController {
         //Authentication + Authorization
 
         log.info("BEGIN RegisterUser for userId: {}", request.id());
-        var command = new RegisterUser.Command(request.id(), Optional.ofNullable(request.realname()), request.username(), request.email(), request.password(), request.country(), request.phoneNumbers());
+        var command = new RegisterUser.Command(request.id(), request.username(), request.email(), request.password());
         var userId = handler.handle(command);
         var user = repository.findById(User.Id.of(userId)).orElseThrow();
         log.info("END RegisterUser for userId: {}", request.id());
@@ -77,17 +76,12 @@ class RegisterUserController {
     public record Request(
             @NotNull(message = "User id must not be null")
             UUID id,
-            String realname,
             @NotEmpty(message = "User username must not be empty")
             String username,
             @NotEmpty(message = "User email must not be empty")
             String email,
             @NotEmpty(message = "User password must not be empty")
-            String password,
-            @NotEmpty(message = "User country must not be empty")
-            String country,
-            @NotEmpty(message = "User phone numbers must not be empty")
-            List<String> phoneNumbers
+            String password
     ) {
     }
 }
@@ -138,17 +132,12 @@ public class RegisterUser {
     public record Command(
             @NotNull(message = "User id must not be null")
             UUID id,
-            Optional<String> realname,
             @NotEmpty(message = "User username must not be empty")
             String username,
             @NotEmpty(message = "User email must not be empty")
             String email,
             @NotEmpty(message = "User password must not be empty")
-            String password,
-            @NotEmpty(message = "User country must not be empty")
-            String country,
-            @NotEmpty(message = "User phone numbers must not be empty")
-            List<String> phoneNumbers
+            String password
     ) {
     }
 }

@@ -20,11 +20,12 @@ import static java.util.Optional.ofNullable;
 public class AccountHolderName implements ValueObject {
     String name;
 
-    public static AccountHolderName of(String name) {
-        if (name == null || name.isBlank()) {
+    public static AccountHolderName of(Optional<String> nameOpt) {
+        if (nameOpt.isEmpty()) {
             return new AccountHolderName(null);
         }
 
+        var name = nameOpt.get();
         if (name.matches(".*\\d.*")) {
             throw new UserRealNameNotValidException("Your name cannot contain numbers.");
         }

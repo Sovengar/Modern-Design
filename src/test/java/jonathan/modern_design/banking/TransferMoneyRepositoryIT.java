@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.math.BigDecimal;
 
 import static java.math.BigDecimal.ZERO;
-import static jonathan.modern_design._fake_data.AccountStub.CreateAccountMother.randomAccountWithCurrency;
+import static jonathan.modern_design._fake_data.AccountStub.CreateAccountMother.createAccountCommand;
 import static jonathan.modern_design._fake_data.AccountStub.TransferMoneyMother.fromAccountToAccountWithAmount;
 import static jonathan.modern_design._shared.domain.Currency.EUR;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,7 +30,7 @@ class TransferMoneyRepositoryIT extends ITConfig {
 
     private Account getAccountWithMoney(final Money money) {
         Assertions.assertNotNull(money.getCurrency());
-        var accountNumber = accountFacade.createAccount(randomAccountWithCurrency(money.getCurrency())).getAccountNumber();
+        var accountNumber = accountFacade.createAccount(createAccountCommand(money.getCurrency().getCode())).getAccountNumber();
 
         if (money.checkPositive()) {
             accountFacade.deposit(new Deposit.Command(accountNumber, money.getBalance(), money.getCurrency()));

@@ -1,5 +1,7 @@
 package jonathan.modern_design.banking.infra;
 
+import jonathan.modern_design._shared.domain.CountriesCatalog;
+import jonathan.modern_design._shared.domain.CountriesCatalogStub;
 import jonathan.modern_design.auth.api.UserApi;
 import jonathan.modern_design.banking.api.AccountApi;
 import jonathan.modern_design.banking.application.CreateAccount;
@@ -27,14 +29,15 @@ public class AccountingConfig {
             TransactionRepo transactionRepo,
             FindAccount findAccount,
             UserApi userFacade,
-            AccountNumberGenerator accountNumberGenerator
+            AccountNumberGenerator accountNumberGenerator,
+            CountriesCatalog countriesCatalog
     ) {
         AccountValidator accountValidator = new AccountValidator();
 
         return new AccountApi.Internal(
                 findAccount,
                 new TransferMoney(accountRepo, transactionRepo, accountValidator),
-                new CreateAccount(accountRepo, accountHolderRepo, userFacade, accountNumberGenerator),
+                new CreateAccount(accountRepo, accountHolderRepo, userFacade, accountNumberGenerator, countriesCatalog),
                 new GenericUpdateAccount(accountRepo),
                 new Deposit(accountRepo, transactionRepo)
         );
@@ -47,8 +50,9 @@ public class AccountingConfig {
         TransactionRepo transactionRepo = null; //TODO CREARLE INMEMORY
         AccountHolderRepo accountHolderRepo = null; //TODO
 
+        CountriesCatalog countriesCatalog = new CountriesCatalogStub();
         AccountNumberGenerator accountNumberGenerator = new AccountNumberDefaultGenerator();
-        return accountApi(accountRepo, accountHolderRepo, transactionRepo, findAccount, userApi, accountNumberGenerator);
+        return accountApi(accountRepo, accountHolderRepo, transactionRepo, findAccount, userApi, accountNumberGenerator, countriesCatalog);
     }
 
     @Profile("test")

@@ -18,7 +18,7 @@ import org.springframework.http.MediaType;
 import java.math.BigDecimal;
 
 import static java.math.BigDecimal.ZERO;
-import static jonathan.modern_design._fake_data.AccountStub.CreateAccountMother.randomAccountWithCurrency;
+import static jonathan.modern_design._fake_data.AccountStub.CreateAccountMother.createAccountCommand;
 import static jonathan.modern_design._fake_data.AccountStub.TransferMoneyMother.fromAccountToAccountWithAmount;
 import static jonathan.modern_design._shared.domain.Currency.EUR;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -35,7 +35,7 @@ final class AccountAcceptanceTest extends ITConfig {
 
     private Account getAccountWithMoney(final Money money) {
         Assertions.assertNotNull(money.getCurrency());
-        var accountNumber = accountFacade.createAccount(randomAccountWithCurrency(money.getCurrency())).getAccountNumber();
+        var accountNumber = accountFacade.createAccount(createAccountCommand(money.getCurrency().getCode())).getAccountNumber();
 
         if (money.checkPositive()) {
             accountFacade.deposit(new Deposit.Command(accountNumber, money.getBalance(), money.getCurrency()));
@@ -48,7 +48,7 @@ final class AccountAcceptanceTest extends ITConfig {
     class WithValidDataForCreatingAccountShould {
         @Test
         void create_account() throws Exception {
-            String json = mapper.writeValueAsString(AccountStub.CreateAccountMother.createAccountCommandWithValidData());
+            String json = mapper.writeValueAsString(AccountStub.CreateAccountMother.createAccountCommand());
             //Use jsonPath("$.starships") ?
 
             mockMvc.perform(post("/api/v1/accounts")

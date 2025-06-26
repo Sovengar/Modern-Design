@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
 
-import static jonathan.modern_design._fake_data.AccountStub.CreateAccountMother.randomAccountWithCurrency;
+import static jonathan.modern_design._fake_data.AccountStub.CreateAccountMother.createAccountCommand;
 import static jonathan.modern_design._shared.domain.Currency.EUR;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -22,7 +22,7 @@ class DepositHttpControllerIT extends ITConfig {
 
     @Test
     void should_deposit_funds_via_http_request() throws Exception {
-        var accountNumber = accountFacade.createAccount(randomAccountWithCurrency(EUR)).getAccountNumber();
+        var accountNumber = accountFacade.createAccount(createAccountCommand(EUR.getCode())).getAccountNumber();
 
         // Act
         mockMvc.perform(put("/api/v1/accounts/" + accountNumber + "/deposit/100/EUR"))

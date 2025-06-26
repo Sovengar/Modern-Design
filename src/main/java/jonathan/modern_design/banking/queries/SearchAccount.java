@@ -46,13 +46,15 @@ public interface SearchAccount {
 
     List<AccountSearchResult> searchWithQueryDSL(Criteria filters);
 
+    List<AccountDto> searchWithAddress(AccountHolderAddress address);
+
     Optional<AccountDto> searchWithUserPassword(final String password);
 
     List<AccountDto> searchForXXXPage(Criteria filters);
 
     Page<AccountDto> searchWithPagination(final Pageable pageable, final Criteria filters);
 
-    List<AccountDto> searchWithCity(final AccountHolderAddress address);
+    List<AccountDto> searchWithCity(final String city);
 
     @Builder
     record Criteria(
@@ -100,7 +102,8 @@ class SearchAccountHttpController {
         //Authentication + Authorization
 
         log.info("BEGIN FindAccount for address: {}", address);
-        var accounts = querier.searchWithCity(address);
+        var accounts = querier.searchWithAddress(address);
+        var accountsByCity = querier.searchWithCity(address.getCity());
         log.info("END FindAccount for address: {}", address);
 
         return ResponseEntity.ok(new Response.Builder<List<AccountDto>>().data(accounts).withDefaultMetadataV1());
@@ -190,7 +193,7 @@ class SearchAccountQueryImpl implements SearchAccount {
     }
 
     @Override
-    public List<AccountDto> searchWithCity(final AccountHolderAddress address) {
+    public List<AccountDto> searchWithCity(final String city) {
 
         List<AccountEntity> accounts = entityManager
                 .createNativeQuery("""
@@ -198,7 +201,22 @@ class SearchAccountQueryImpl implements SearchAccount {
                         INNER JOIN banking.account_holders ah ON a.account_holder_id = ah.account_holder_id
                         WHERE ah.address->>'city' = :city
                         """, AccountEntity.class)
-                .setParameter("city", address.getCity())
+                .setParameter("city", city)
+                .getResultList();
+
+        return accounts.stream().map(AccountDto::new).toList();
+    }
+
+    @Override
+    public List<AccountDto> searchWithAddress(final AccountHolderAddress address) {
+
+        List<AccountEntity> accounts = entityManager
+                .createNativeQuery("""
+                        SELECT a.* FROM banking.accounts a
+                        INNER JOIN banking.account_holders ah ON a.account_holder_id = ah.account_holder_id
+                        WHERE ah.address @>':address'
+                        """, AccountEntity.class)
+                .setParameter("address", address)
                 .getResultList();
 
         return accounts.stream().map(AccountDto::new).toList();
