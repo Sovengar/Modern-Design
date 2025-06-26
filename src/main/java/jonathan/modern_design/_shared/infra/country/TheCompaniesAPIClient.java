@@ -9,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -33,7 +34,7 @@ class TheCompaniesAPIClient implements CountriesCatalog {
             String url = theCompaniesApiBaseUri + "?page=" + currentPage;
             response = getCountriesFromTheCompaniesAPI(url);
 
-            if (response == null) {
+            if (Objects.isNull(response)) {
                 break;
             }
 

@@ -10,8 +10,6 @@ import jonathan.modern_design.auth.domain.vo.UserEmail;
 import jonathan.modern_design.auth.domain.vo.UserName;
 import jonathan.modern_design.auth.domain.vo.UserPassword;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public class UserStub extends Stub {
@@ -43,21 +41,21 @@ public class UserStub extends Stub {
 
     public static class CreateValidUser extends Stub {
         public static RegisterUser.Command createUserCommandWithValidData() {
-            return new RegisterUser.Command(DEFAULT_UUID, Optional.ofNullable(faker.name().fullName()), faker.name().username(), faker.internet().emailAddress(), VALID_PASSWORD, DEFAULT_COUNTRY, List.of(faker.phoneNumber().phoneNumber()));
+            return new RegisterUser.Command(DEFAULT_UUID, faker.name().username(), faker.internet().emailAddress(), VALID_PASSWORD);
         }
     }
 
     public static class CreateInvalidUser extends Stub {
         public static RegisterUser.Command createUserWithShortPassword() {
-            return new RegisterUser.Command(DEFAULT_UUID, Optional.ofNullable(faker.name().fullName()), faker.name().username(), faker.internet().emailAddress(), faker.internet().password(3, 6), DEFAULT_COUNTRY, List.of(faker.phoneNumber().phoneNumber()));
+            return new RegisterUser.Command(DEFAULT_UUID, faker.name().username(), faker.internet().emailAddress(), faker.internet().password(3, 6));
         }
 
         public static RegisterUser.Command createUserWithTooLongPassword() {
-            return new RegisterUser.Command(DEFAULT_UUID, Optional.ofNullable(faker.name().fullName()), faker.name().username(), faker.internet().emailAddress(), faker.internet().password(55, 55), DEFAULT_COUNTRY, List.of(faker.phoneNumber().phoneNumber()));
+            return new RegisterUser.Command(DEFAULT_UUID, faker.name().username(), faker.internet().emailAddress(), faker.internet().password(55, 55));
         }
 
         public static RegisterUser.Command createUserWithInvalidEmail() {
-            return new RegisterUser.Command(DEFAULT_UUID, Optional.ofNullable(faker.name().fullName()), faker.name().username(), "invalid_email", VALID_PASSWORD, DEFAULT_COUNTRY, List.of(faker.phoneNumber().phoneNumber()));
+            return new RegisterUser.Command(DEFAULT_UUID, faker.name().username(), "invalid_email", VALID_PASSWORD);
         }
     }
 }

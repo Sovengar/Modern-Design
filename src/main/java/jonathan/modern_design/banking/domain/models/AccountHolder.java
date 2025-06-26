@@ -82,6 +82,6 @@ public class AccountHolder extends BaseAggregateRoot<AccountHolder> {
     }
 
     public String getNameOrPlaceHolder() {
-        return name.getName().orElse("Not defined");
+        return name.getOptionalName().orElse("Not defined");
     }
 }

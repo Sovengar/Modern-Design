@@ -33,7 +33,7 @@ public class AccountHolderName implements ValueObject {
         return new AccountHolderName(name);
     }
 
-    public Optional<String> getName() {
+    public Optional<String> getOptionalName() {
         return ofNullable(name);
     }
 

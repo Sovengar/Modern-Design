@@ -13,6 +13,7 @@ import lombok.Value;
 
 import java.io.Serial;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import static java.math.BigDecimal.ZERO;
 import static lombok.AccessLevel.PRIVATE;
@@ -43,12 +44,12 @@ public class Money implements ValueObject {
         return new Money(this.balance.subtract(other.balance), this.currency);
     }
 
-    private void checkCurrency(Money other) {
-        if (this.currency == null || other == null || other.currency == null) {
+    private void checkCurrency(Money incomingMoney) {
+        if (this.currency == null || Objects.isNull(incomingMoney) || incomingMoney.currency == null) {
             throw new OperationWithDifferentCurrenciesException();
         }
 
-        if (!this.currency.equals(other.currency)) {
+        if (!this.currency.equals(incomingMoney.currency)) {
             throw new OperationWithDifferentCurrenciesException();
         }
     }

@@ -9,18 +9,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PostPersist;
-import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
-import jakarta.persistence.Version;
-import jonathan.modern_design._shared.infra.db.AuditingColumns;
+import jonathan.modern_design._shared.infra.db.BaseAggregateRoot;
 import jonathan.modern_design._shared.tags.AggregateRoot;
 import jonathan.modern_design._shared.tags.MicroType;
+import jonathan.modern_design.auth.api.events.UserSnapshot;
 import jonathan.modern_design.auth.domain.catalogs.Roles;
 import jonathan.modern_design.auth.domain.vo.UserEmail;
 import jonathan.modern_design.auth.domain.vo.UserName;
 import jonathan.modern_design.auth.domain.vo.UserPassword;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +27,7 @@ import org.springframework.modulith.NamedInterface;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -42,10 +40,9 @@ import static lombok.AccessLevel.PRIVATE;
 @Table(name = "users", schema = "auth")
 @Getter
 @NoArgsConstructor(access = PACKAGE) //For Hibernate
-@AllArgsConstructor(access = PRIVATE)
 @SQLRestriction("deleted <> true") //Make Hibernate ignore soft deleted entries
 @AggregateRoot
-public class User extends AuditingColumns {
+public class User extends BaseAggregateRoot<User> {
     @EmbeddedId
     private Id id;
     @Embedded
@@ -63,10 +60,21 @@ public class User extends AuditingColumns {
     @ManyToOne
     @JoinColumn(name = "role_code")
     private Role role; //Should be Role.Code, but since they are on the same BC and not a big graph, we can do the exception for pragmatism.
-    @Version
-    private Integer version;
     @Column(nullable = false)
     private boolean deleted = false;
+
+    private User(Id id, UserName username, UserEmail email, UserEmail internalEmail, UserPassword password, Status status, Role role) {
+        this.id = Objects.nonNull(id) ? id : Id.of(UUID.randomUUID());
+        this.username = requireNonNull(username);
+        this.email = requireNonNull(email);
+        this.internalEnterpriseEmail = internalEmail;
+        this.password = requireNonNull(password);
+        this.status = requireNonNull(status);
+        this.role = requireNonNull(role);
+        this.deleted = false;
+
+        this.registerEvent(new UserSnapshot(id.getUserId(), username.getUsername(), email.getEmail()));
+    }
 
     public Optional<String> getInternalEnterpriseEmail() {
         return internalEnterpriseEmail != null ? ofNullable(internalEnterpriseEmail.getEmail()) : Optional.empty();
@@ -80,16 +88,18 @@ public class User extends AuditingColumns {
         this.email = null;
         this.internalEnterpriseEmail = null;
         this.password = null;
+
+        this.registerEvent(new UserSnapshot(id.getUserId(), null, null));
     }
 
     public void changeRole(Role newRole) {
         requireNonNull(newRole);
 
         if (this.deleted) {
-            throw new IllegalStateException("Cannot change role of a deleted auth.");
+            throw new IllegalStateException("Cannot change role of a deleted user.");
         }
 
-        //An inactive auth can have their role changed to another role
+        //An inactive user can have their role changed to another role
 
         if (this.role.getCode().equals(newRole.getCode())) {
             throw new IllegalStateException("Cannot change role to the same role.");
@@ -100,14 +110,6 @@ public class User extends AuditingColumns {
         }
 
         this.role = newRole;
-    }
-
-    @PrePersist
-    public void prePersist() {
-    }
-
-    @PostPersist
-    public void postPersist() {
     }
 
     public enum Status {
@@ -127,19 +129,11 @@ public class User extends AuditingColumns {
     @NoArgsConstructor(access = PRIVATE)
     public static class Factory {
         public static User register(Id id, UserName username, UserEmail email, UserPassword password, Role role) {
-            var userId = id != null ? id : Id.of(UUID.randomUUID());
-            var version = 0;
-            var deleted = false;
-
-            return new User(userId, requireNonNull(username), requireNonNull(email), null, requireNonNull(password), Status.DRAFT, requireNonNull(role), version, deleted);
+            return new User(id, requireNonNull(username), requireNonNull(email), null, requireNonNull(password), Status.DRAFT, requireNonNull(role));
         }
 
         public static User registerAdmin(Id id, UserName username, UserEmail email, UserEmail internalEmail, UserPassword password) {
-            var userId = id != null ? id : Id.of(UUID.randomUUID());
-            var version = 0;
-            var deleted = false;
-
-            return new User(userId, requireNonNull(username), requireNonNull(email), internalEmail, requireNonNull(password), Status.ACTIVE, Role.of(Roles.ADMIN), version, deleted);
+            return new User(id, requireNonNull(username), requireNonNull(email), internalEmail, requireNonNull(password), Status.ACTIVE, Role.of(Roles.ADMIN));
         }
     }
 }

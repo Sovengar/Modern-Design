@@ -6,6 +6,7 @@ import jonathan.modern_design._shared.tags.ValueObject;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Value;
+import org.springframework.util.StringUtils;
 
 import java.io.Serial;
 
@@ -20,7 +21,7 @@ public class AccountNumber implements ValueObject {
     String accountNumber;
 
     public static AccountNumber of(String accountNumber) {
-        if (accountNumber == null || accountNumber.isEmpty()) {
+        if (!StringUtils.hasText(accountNumber)) {
             throw new InvalidAccountNumberException("Account number cannot be empty or null.");
         }
 

@@ -7,6 +7,7 @@ import jonathan.modern_design._shared.tags.ValueObject;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Value;
+import org.springframework.util.StringUtils;
 
 import java.io.Serial;
 
@@ -22,7 +23,7 @@ public class UserEmail implements ValueObject {
     String email;
 
     public static UserEmail of(String email) {
-        if (email == null || email.isBlank()) {
+        if (!StringUtils.hasText(email)) {
             throw new InvalidEmailException("Email cannot be null.");
         }
 
