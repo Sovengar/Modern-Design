@@ -12,10 +12,11 @@ import jonathan.modern_design.banking.domain.policies.AccountNumberGenerator;
 import jonathan.modern_design.banking.domain.services.AccountNumberDefaultGenerator;
 import jonathan.modern_design.banking.domain.services.AccountValidator;
 import jonathan.modern_design.banking.domain.store.AccountHolderRepo;
+import jonathan.modern_design.banking.domain.store.AccountHolderRepoInMemory;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
 import jonathan.modern_design.banking.domain.store.AccountRepoInMemory;
 import jonathan.modern_design.banking.domain.store.TransactionRepo;
-import jonathan.modern_design.banking.queries.FindAccount;
+import jonathan.modern_design.banking.domain.store.TransactionRepoInMemory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
@@ -27,15 +28,13 @@ public class AccountingConfig {
             AccountRepo accountRepo,
             AccountHolderRepo accountHolderRepo,
             TransactionRepo transactionRepo,
-            FindAccount findAccount,
             UserApi userFacade,
             AccountNumberGenerator accountNumberGenerator,
             CountriesCatalog countriesCatalog
     ) {
         AccountValidator accountValidator = new AccountValidator();
 
-        return new AccountApi.Internal(
-                findAccount,
+        return new AccountApiInternal(
                 new TransferMoney(accountRepo, transactionRepo, accountValidator),
                 new CreateAccount(accountRepo, accountHolderRepo, userFacade, accountNumberGenerator, countriesCatalog),
                 new GenericUpdateAccount(accountRepo),
@@ -46,13 +45,12 @@ public class AccountingConfig {
     @Profile("test")
     public AccountApi accountApi(UserApi userApi) {
         //For Unit testing
-        FindAccount findAccount = null; //TODO
-        TransactionRepo transactionRepo = null; //TODO CREARLE INMEMORY
-        AccountHolderRepo accountHolderRepo = null; //TODO
-
+        TransactionRepo transactionRepo = new TransactionRepoInMemory();
+        AccountHolderRepo accountHolderRepo = new AccountHolderRepoInMemory();
         CountriesCatalog countriesCatalog = new CountriesCatalogStub();
         AccountNumberGenerator accountNumberGenerator = new AccountNumberDefaultGenerator();
-        return accountApi(accountRepo, accountHolderRepo, transactionRepo, findAccount, userApi, accountNumberGenerator, countriesCatalog);
+
+        return accountApi(accountRepo, accountHolderRepo, transactionRepo, userApi, accountNumberGenerator, countriesCatalog);
     }
 
     @Profile("test")

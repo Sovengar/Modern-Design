@@ -1,18 +1,19 @@
 package jonathan.modern_design.auth.api;
 
-import jonathan.modern_design._shared.tags.Injectable;
+import jonathan.modern_design._shared.tags.Facade;
 import jonathan.modern_design.auth.api.dtos.UserDto;
 import jonathan.modern_design.auth.application.RegisterUser;
 import jonathan.modern_design.auth.domain.models.User;
 import jonathan.modern_design.auth.queries.FindUser;
 import lombok.RequiredArgsConstructor;
 
+//Here we have the behavior we want to expose to other modules, my UI can call more methods because is on the same logical boundary
 public interface UserApi {
     void registerUser(RegisterUser.Command command);
 
     UserDto findUser(User.Id userId);
 
-    @Injectable
+    @Facade
     @RequiredArgsConstructor
     class UserInternalApi implements UserApi {
         private final RegisterUser registerUser;

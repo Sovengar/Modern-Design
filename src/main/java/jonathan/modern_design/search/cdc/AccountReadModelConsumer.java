@@ -1,4 +1,4 @@
-package jonathan.modern_design.auth.infra;
+package jonathan.modern_design.search.cdc;
 
 import jonathan.modern_design.banking.api.events.AccountSnapshot;
 import lombok.extern.slf4j.Slf4j;
