@@ -26,7 +26,8 @@ class AccountStore implements AccountRepo {
 
     @Override
     public Optional<Account> findByAccNumber(final String accountNumber) {
-        return findOneEntity(accountNumber).map(Account::new);
+        var accountEntity = findOneEntity(accountNumber);
+        return accountEntity.map(Account::new);
     }
 
     @Override

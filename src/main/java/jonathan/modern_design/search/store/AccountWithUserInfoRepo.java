@@ -1,6 +1,6 @@
-package jonathan.modern_design.search.read_models;
+package jonathan.modern_design.search.store;
 
-import jonathan.modern_design.search.store.AccountWithUserInfoReadModel;
+import jonathan.modern_design.search.read_models.AccountWithUserInfoReadModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

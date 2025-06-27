@@ -1,4 +1,4 @@
-package jonathan.modern_design.search.store;
+package jonathan.modern_design.search.read_models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

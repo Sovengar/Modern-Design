@@ -1,8 +1,8 @@
 package jonathan.modern_design.search.listeners;
 
 import jonathan.modern_design.banking.api.events.AccountSnapshot;
-import jonathan.modern_design.search.read_models.AccountWithUserInfoRepo;
-import jonathan.modern_design.search.store.AccountWithUserInfoReadModel;
+import jonathan.modern_design.search.read_models.AccountWithUserInfoReadModel;
+import jonathan.modern_design.search.store.AccountWithUserInfoRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

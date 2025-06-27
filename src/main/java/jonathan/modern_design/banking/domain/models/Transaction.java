@@ -6,11 +6,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import jonathan.modern_design._shared.domain.vo.Money;
-import jonathan.modern_design._shared.tags.AggregateRoot;
+import jonathan.modern_design.banking.domain.events.TransactionRegistered;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Value;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -23,9 +24,7 @@ import static lombok.AccessLevel.PRIVATE;
 @Table(name = "transactions", schema = "banking")
 @Getter
 @NoArgsConstructor(access = PRIVATE) //For Hibernate
-@AllArgsConstructor(access = PRIVATE)
-@AggregateRoot
-public class Transaction {
+public class Transaction extends AbstractAggregateRoot<Transaction> {
     @EmbeddedId
     private Id transactionId;
     private LocalDateTime transactionDate;
@@ -35,6 +34,17 @@ public class Transaction {
     private TransactionType transactionType;
     private String origin;
     private String destination;
+
+    Transaction(Id transactionId, LocalDateTime transactionDate, Money money, TransactionType transactionType, String origin, String destination) {
+        this.transactionId = transactionId;
+        this.transactionDate = transactionDate;
+        this.money = money;
+        this.transactionType = transactionType;
+        this.origin = origin;
+        this.destination = destination;
+
+        this.registerEvent(new TransactionRegistered(transactionId.getTransactionId(), origin, destination));
+    }
 
     public enum TransactionType {
         DEPOSIT, WITHDRAWAL, TRANSFER

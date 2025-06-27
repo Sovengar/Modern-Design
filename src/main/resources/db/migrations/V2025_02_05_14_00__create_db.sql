@@ -34,6 +34,12 @@ create TABLE AUTH.USERS (
     FOREIGN KEY (role_code) REFERENCES AUTH.ROLES(role_code)
 );
 
+
+
+
+
+
+
 create TABLE BANKING.ACCOUNT_HOLDERS (
     account_holder_id UUID PRIMARY KEY,
     name TEXT,
@@ -78,6 +84,26 @@ create TABLE BANKING.TRANSACTIONS (
     transaction_type TEXT,
     transaction_date TIMESTAMP WITHOUT TIME ZONE
 );
+
+create materialized view banking.transactions_by_account_view as
+select
+    t.transaction_id,
+    t.transaction_date,
+    t.balance,
+    t.currency,
+    t.transaction_type,
+    t.origin as origin_account,
+    t.destination as destination_account
+from banking.transactions t;
+
+create unique index transactions_by_account_view_idx on banking.transactions_by_account_view (transaction_id);
+create index transactions_by_account_view_origin_idx on banking.transactions_by_account_view (origin_account);
+create index transactions_by_account_view_destination_idx on banking.transactions_by_account_view (destination_account);
+
+
+
+
+
 
 create TABLE MD.deleted_rows (
     id SERIAL PRIMARY KEY,

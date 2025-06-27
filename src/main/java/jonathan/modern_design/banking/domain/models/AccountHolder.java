@@ -19,6 +19,7 @@ import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -52,7 +53,7 @@ public class AccountHolder extends BaseAggregateRoot<AccountHolder> {
     private boolean deleted = false;
 
     private AccountHolder(UUID id, AccountHolderName name, PersonalId personalId, AccountHolderAddress address, BirthDate birthdate, AccountHolderPhoneNumbers phoneNumbers, UUID userId) {
-        this.id = id;
+        this.id = Objects.nonNull(id) ? id : UUID.randomUUID();
         this.name = name;
         this.personalId = personalId;
         this.address = address;
@@ -64,14 +65,14 @@ public class AccountHolder extends BaseAggregateRoot<AccountHolder> {
         this.registerEvent(new AccountHolderRegistered(id));
     }
 
-    public static AccountHolder create(Optional<String> name, String personalId, AccountHolderAddress address, LocalDate birthDate, List<String> phoneNumbers, UUID userId) {
+    public static AccountHolder create(final UUID accountHolderId, Optional<String> name, String personalId, AccountHolderAddress address, LocalDate birthDate, List<String> phoneNumbers, UUID userId) {
         var accountHolderName = AccountHolderName.of(name);
         var personalIdVO = PersonalId.of(personalId);
         var birthDateVO = BirthDate.of(birthDate);
         var phoneNumbersVO = AccountHolderPhoneNumbers.of(phoneNumbers);
 
         return new AccountHolder(
-                UUID.randomUUID(),
+                accountHolderId,
                 accountHolderName,
                 personalIdVO,
                 address,

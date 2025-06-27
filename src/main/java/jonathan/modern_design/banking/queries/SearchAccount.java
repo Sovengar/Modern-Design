@@ -14,6 +14,7 @@ import jonathan.modern_design.banking.api.dtos.AccountDto;
 import jonathan.modern_design.banking.domain.models.Account;
 import jonathan.modern_design.banking.domain.models.AccountEntity;
 import jonathan.modern_design.banking.domain.vo.AccountHolderAddress;
+import jonathan.modern_design.banking.infra.store.read_model.AccountTransactionsViewRepository;
 import jonathan.modern_design.banking.infra.store.spring.AccountRepoSpringDataJPA;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
@@ -99,7 +100,7 @@ class SearchAccountQueryImpl implements SearchAccount {
     private final AccountRepoSpringDataJPA repository;
     private final JPAQueryFactory queryFactory;
 
-    public SearchAccountQueryImpl(EntityManager entityManager, AccountRepoSpringDataJPA repository) {
+    public SearchAccountQueryImpl(EntityManager entityManager, AccountRepoSpringDataJPA repository, AccountTransactionsViewRepository viewRepository) {
         this.repository = repository;
         this.entityManager = entityManager;
         this.queryFactory = new JPAQueryFactory(JPQLTemplates.DEFAULT, entityManager);

@@ -35,8 +35,9 @@ public final class Account {
     public Account(AccountEntity accountEntity) {
         this.accountId = Id.of(accountEntity.getId());
         this.accountNumber = AccountNumber.of(accountEntity.getAccountNumber());
-        this.money = Money.of(accountEntity.getBalance(), accountEntity.getCurrency());
         this.status = accountEntity.getStatus();
+        this.money = Money.of(accountEntity.getBalance(), accountEntity.getCurrency());
+        this.accountHolder = accountEntity.getAccountHolder();
     }
 
     private Account(AccountNumber accountNumber, Status status, Money money, AccountHolder accountHolder) {

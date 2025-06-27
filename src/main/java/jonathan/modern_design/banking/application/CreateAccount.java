@@ -104,7 +104,7 @@ public class CreateAccount {
 
         var country = countriesCatalog.findByCodeOrElseThrow(cmd.address().countryCode());
         var address = AccountHolderAddress.of(cmd.address().street, cmd.address().city, cmd.address().state, cmd.address().zipCode, country);
-        var accountHolder = AccountHolder.create(cmd.fullName(), cmd.personalId(), address, cmd.birthdate(), cmd.phoneNumbers(), userId.getUserId());
+        var accountHolder = AccountHolder.create(UUID.randomUUID(), cmd.fullName(), cmd.personalId(), address, cmd.birthdate(), cmd.phoneNumbers(), userId.getUserId());
         accountHolderRepo.save(accountHolder);
 
         final var currency = Currency.fromCode(cmd.currency());

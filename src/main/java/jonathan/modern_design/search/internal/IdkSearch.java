@@ -11,7 +11,7 @@ import jonathan.modern_design.auth.domain.models.User;
 import jonathan.modern_design.banking.api.AccountQueryApi;
 import jonathan.modern_design.banking.api.dtos.AccountDto;
 import jonathan.modern_design.banking.queries.SearchAccount;
-import jonathan.modern_design.search.read_models.AccountWithUserInfoRepo;
+import jonathan.modern_design.search.store.AccountWithUserInfoRepo;
 import jonathan.modern_design.search.view_models.AccountWithUserInfo;
 
 import java.util.List;

@@ -61,7 +61,7 @@ public class AccountStub extends Stub {
 
         private static Account builder(String accountId, Money money, boolean isActive) {
             var accountNumber = AccountNumber.of(accountId);
-            var account = Account.Factory.create(accountNumber, money);
+            var account = Account.Factory.create(accountNumber, money, null);
 
             if (!isActive) {
                 account.deactivate();
