@@ -17,8 +17,11 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.UUID;
+
 import static jonathan.modern_design._shared.infra.TraceIdGenerator.generateTraceId;
 import static jonathan.modern_design.banking.domain.models.QAccountEntity.accountEntity;
+import static jonathan.modern_design.banking.domain.models.QAccountHolder.accountHolder;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -43,16 +46,29 @@ class FindAccountHttpController {
 }
 
 @DataAdapter
-@RequiredArgsConstructor
 public class FindAccount {
     @PersistenceContext
     private final EntityManager entityManager;
+    private final JPAQueryFactory queryFactory;
+
+    FindAccount(EntityManager entityManager) {
+        this.entityManager = entityManager;
+        this.queryFactory = new JPAQueryFactory(JPQLTemplates.DEFAULT, entityManager);
+    }
 
     public AccountDto queryWith(final String accountNumber) {
-        final JPAQueryFactory queryFactory = new JPAQueryFactory(JPQLTemplates.DEFAULT, entityManager);
-
         var account = queryFactory.selectFrom(accountEntity)
                 .where(accountEntity.accountNumber.eq(accountNumber))
+                .fetchOne();
+
+        assert account != null;
+        return new AccountDto(account);
+    }
+
+    public AccountDto queryWithUserId(final UUID userId) {
+        var account = queryFactory.selectFrom(accountEntity)
+                .join(accountEntity.accountHolder)
+                .where(accountHolder.userId.eq(userId))
                 .fetchOne();
 
         assert account != null;

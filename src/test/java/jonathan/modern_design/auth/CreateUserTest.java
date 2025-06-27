@@ -1,7 +1,7 @@
 package jonathan.modern_design.auth;
 
 import jonathan.modern_design.__config.PrettyTestNames;
-import jonathan.modern_design.auth.api.UserApi;
+import jonathan.modern_design.auth.api.AuthApi;
 import jonathan.modern_design.auth.domain.models.User;
 import jonathan.modern_design.auth.infra.UsersConfig;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayNameGeneration(PrettyTestNames.class)
 class CreateUserTest {
-    private final UserApi userFacade = new UsersConfig().userApi();
+    private final AuthApi userFacade = new UsersConfig().userApi();
 
     @Nested
     class WithValidUserShould {

@@ -11,7 +11,7 @@ import jonathan.modern_design._shared.domain.vo.Money;
 import jonathan.modern_design._shared.tags.ApplicationService;
 import jonathan.modern_design._shared.tags.DomainService;
 import jonathan.modern_design._shared.tags.WebAdapter;
-import jonathan.modern_design.auth.api.UserApi;
+import jonathan.modern_design.auth.api.AuthApi;
 import jonathan.modern_design.auth.application.RegisterUser;
 import jonathan.modern_design.auth.domain.models.User;
 import jonathan.modern_design.banking.domain.models.Account;
@@ -89,7 +89,7 @@ class CreateAccountHttpController {
 public class CreateAccount {
     private final AccountRepo repository;
     private final AccountHolderRepo accountHolderRepo;
-    private final UserApi userApi;
+    private final AuthApi authApi;
     private final AccountNumberGenerator accountNumberGenerator;
     private final CountriesCatalog countriesCatalog;
 
@@ -118,7 +118,7 @@ public class CreateAccount {
     private User.Id registerUser(final Command cmd) {
         var userId = UUID.randomUUID();
         var userCreateCommand = new RegisterUser.Command(userId, cmd.username(), cmd.email(), cmd.password());
-        userApi.registerUser(userCreateCommand);
+        authApi.registerUser(userCreateCommand);
         return User.Id.of(userId);
     }
 

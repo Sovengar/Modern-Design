@@ -2,7 +2,7 @@ package jonathan.modern_design.banking;
 
 import jonathan.modern_design.__config.ITConfig;
 import jonathan.modern_design._shared.domain.vo.Money;
-import jonathan.modern_design.auth.api.UserApi;
+import jonathan.modern_design.auth.api.AuthApi;
 import jonathan.modern_design.banking.api.AccountApi;
 import jonathan.modern_design.banking.application.Deposit;
 import jonathan.modern_design.banking.domain.models.Account;
@@ -26,7 +26,7 @@ class TransferMoneyRepositoryIT extends ITConfig {
     @Autowired
     private AccountRepo repository;
     //@MockitoBean
-    private UserApi userApi;
+    private AuthApi authApi;
 
     private Account getAccountWithMoney(final Money money) {
         Assertions.assertNotNull(money.getCurrency());

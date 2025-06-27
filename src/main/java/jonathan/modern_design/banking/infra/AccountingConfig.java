@@ -2,7 +2,7 @@ package jonathan.modern_design.banking.infra;
 
 import jonathan.modern_design._shared.domain.CountriesCatalog;
 import jonathan.modern_design._shared.domain.CountriesCatalogStub;
-import jonathan.modern_design.auth.api.UserApi;
+import jonathan.modern_design.auth.api.AuthApi;
 import jonathan.modern_design.banking.api.AccountApi;
 import jonathan.modern_design.banking.application.CreateAccount;
 import jonathan.modern_design.banking.application.Deposit;
@@ -28,7 +28,7 @@ public class AccountingConfig {
             AccountRepo accountRepo,
             AccountHolderRepo accountHolderRepo,
             TransactionRepo transactionRepo,
-            UserApi userFacade,
+            AuthApi userFacade,
             AccountNumberGenerator accountNumberGenerator,
             CountriesCatalog countriesCatalog
     ) {
@@ -43,14 +43,14 @@ public class AccountingConfig {
     }
 
     @Profile("test")
-    public AccountApi accountApi(UserApi userApi) {
+    public AccountApi accountApi(AuthApi authApi) {
         //For Unit testing
         TransactionRepo transactionRepo = new TransactionRepoInMemory();
         AccountHolderRepo accountHolderRepo = new AccountHolderRepoInMemory();
         CountriesCatalog countriesCatalog = new CountriesCatalogStub();
         AccountNumberGenerator accountNumberGenerator = new AccountNumberDefaultGenerator();
 
-        return accountApi(accountRepo, accountHolderRepo, transactionRepo, userApi, accountNumberGenerator, countriesCatalog);
+        return accountApi(accountRepo, accountHolderRepo, transactionRepo, authApi, accountNumberGenerator, countriesCatalog);
     }
 
     @Profile("test")

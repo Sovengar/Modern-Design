@@ -1,10 +1,10 @@
 package jonathan.modern_design.search.view_models;
 
-import java.util.UUID;
+import java.math.BigDecimal;
 
 public record AccountWithUserInfo(
         String accountNumber,
-        UUID userId,
+        BigDecimal balance,
         String username,
         String email
 ) {

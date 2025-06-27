@@ -1,0 +1,1 @@
+This module serves as a API Gateway/BFF (Backend for Fronted), his purpose is doing the composition in runtime on viewModels or in design time with readModels populated with event carried state transfer.

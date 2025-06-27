@@ -4,7 +4,7 @@ import jonathan.modern_design.__config.PrettyTestNames;
 import jonathan.modern_design.__config.TimeExtension;
 import jonathan.modern_design._shared.domain.exceptions.OperationWithDifferentCurrenciesException;
 import jonathan.modern_design._shared.domain.vo.Money;
-import jonathan.modern_design.auth.api.UserApi;
+import jonathan.modern_design.auth.api.AuthApi;
 import jonathan.modern_design.banking.api.AccountApi;
 import jonathan.modern_design.banking.domain.exceptions.AccountIsInactiveException;
 import jonathan.modern_design.banking.domain.models.Account;
@@ -37,8 +37,8 @@ class TransferMoneyTest {
     @RegisterExtension
     TimeExtension timeExtension = new TimeExtension(supposedToBeNow);
     //@MockitoBean
-    private UserApi userApi;
-    private final AccountApi accountFacade = accountingConfig.accountApi(userApi);
+    private AuthApi authApi;
+    private final AccountApi accountFacade = accountingConfig.accountApi(authApi);
 
     private void populatePersistenceLayer(Account source, Account target) {
         final var accountRepo = accountingConfig.getAccountRepo();

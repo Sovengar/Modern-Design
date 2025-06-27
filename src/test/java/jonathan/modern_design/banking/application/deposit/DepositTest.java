@@ -1,6 +1,6 @@
 package jonathan.modern_design.banking.application.deposit;
 
-import jonathan.modern_design.auth.api.UserApi;
+import jonathan.modern_design.auth.api.AuthApi;
 import jonathan.modern_design.banking.api.AccountApi;
 import jonathan.modern_design.banking.application.Deposit;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
@@ -22,8 +22,8 @@ class DepositTest {
     private final AccountingConfig accountingConfig = new AccountingConfig();
     final AccountRepo accountRepo = accountingConfig.getAccountRepo();
     //why got broke @MockitoBean
-    private UserApi userApi;
-    private final AccountApi accountApi = accountingConfig.accountApi(userApi);
+    private AuthApi authApi;
+    private final AccountApi accountApi = accountingConfig.accountApi(authApi);
 
     @Test
     void should_deposit_money_successfully() {

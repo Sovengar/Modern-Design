@@ -8,14 +8,14 @@ import jonathan.modern_design.auth.queries.FindUser;
 import lombok.RequiredArgsConstructor;
 
 //Here we have the behavior we want to expose to other modules, my UI can call more methods because is on the same logical boundary
-public interface UserApi {
+public interface AuthApi {
     void registerUser(RegisterUser.Command command);
 
     UserDto findUser(User.Id userId);
 
     @Facade
     @RequiredArgsConstructor
-    class UserInternalApi implements UserApi {
+    class AuthInternalApi implements AuthApi {
         private final RegisterUser registerUser;
         private final FindUser findUser;
 

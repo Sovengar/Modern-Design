@@ -24,7 +24,7 @@ create TABLE AUTH.USERS (
     password VARCHAR(70),
     status TEXT,
     role_code TEXT,
-    version INTEGER,
+    version BIGINT,
     created_by TEXT,
     created_at TIMESTAMP WITHOUT TIME ZONE,
     modified_by TEXT,
