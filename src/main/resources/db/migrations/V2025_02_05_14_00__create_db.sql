@@ -1,6 +1,7 @@
 create SCHEMA IF NOT EXISTS banking;
 create SCHEMA IF NOT EXISTS auth;
 create SCHEMA IF NOT EXISTS md;
+create SCHEMA IF NOT EXISTS search;
 
 create TABLE MD.event_publication (
     id UUID PRIMARY KEY,
@@ -88,6 +89,21 @@ create TABLE MD.deleted_rows (
     data JSONB NOT NULL
 );
 
-create index idx_deleted_rows_origin_table on deleted_rows(origin_table);
-create index idx_deleted_rows_origin_id on deleted_rows(origin_id);
-create index idx_deleted_rows_deleted_at on deleted_rows(deleted_at);
+create index idx_deleted_rows_origin_table on MD.deleted_rows(origin_table);
+create index idx_deleted_rows_origin_id on MD.deleted_rows(origin_id);
+create index idx_deleted_rows_deleted_at on MD.deleted_rows(deleted_at);
+
+
+
+
+
+
+
+
+create TABLE SEARCH.account_with_user_info (
+    user_id UUID PRIMARY KEY,
+    account_number VARCHAR(48),
+    balance DECIMAL(19,2),
+    username TEXT,
+    email TEXT
+);

@@ -30,6 +30,7 @@ public final class Account {
     private AccountNumber accountNumber;
     private Status status;
     private Money money;
+    private AccountHolder accountHolder;
 
     public Account(AccountEntity accountEntity) {
         this.accountId = Id.of(accountEntity.getId());
@@ -38,11 +39,12 @@ public final class Account {
         this.status = accountEntity.getStatus();
     }
 
-    private Account(AccountNumber accountNumber, Status status, Money money) {
+    private Account(AccountNumber accountNumber, Status status, Money money, AccountHolder accountHolder) {
         this.accountId = null;
         this.accountNumber = accountNumber;
         this.status = status;
         this.money = money;
+        this.accountHolder = accountHolder;
 
         new AccountCreated(accountNumber.getAccountNumber());
     }
@@ -104,8 +106,8 @@ public final class Account {
 
     @NoArgsConstructor(access = PRIVATE)
     public static class Factory {
-        public static Account create(AccountNumber accountNumber, Money money) {
-            return new Account(requireNonNull(accountNumber), Status.ACTIVE, requireNonNull(money));
+        public static Account create(AccountNumber accountNumber, Money money, AccountHolder accountHolder) {
+            return new Account(requireNonNull(accountNumber), Status.ACTIVE, requireNonNull(money), accountHolder);
         }
     }
 }

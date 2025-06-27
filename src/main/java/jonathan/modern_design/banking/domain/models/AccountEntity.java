@@ -58,6 +58,7 @@ public class AccountEntity extends BaseAggregateRoot<AccountEntity> {
         this.status = Account.Status.ACTIVE;
         this.balance = account.getMoney().getBalance();
         this.currency = account.getMoney().getCurrency();
+        this.accountHolder = account.getAccountHolder();
         moveEventsFrom(account);
     }
 
@@ -73,7 +74,7 @@ public class AccountEntity extends BaseAggregateRoot<AccountEntity> {
     private void moveEventsFrom(Account account) {
         var domainEvents = account.moveEventsToDataModel();
         domainEvents.forEach(this::registerEvent);
-        this.registerEvent(new AccountSnapshot(account.getAccountNumber().getAccountNumber(), account.getMoney(), account.getStatus()));
+        this.registerEvent(new AccountSnapshot(account.getAccountNumber().getAccountNumber(), account.getMoney(), account.getStatus(), account.getAccountHolder().getId()));
     }
 
     @PrePersist

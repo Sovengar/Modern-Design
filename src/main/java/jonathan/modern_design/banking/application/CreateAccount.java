@@ -99,10 +99,6 @@ public class CreateAccount {
 
         ComplexDomainService.handle();
 
-        final var currency = Currency.fromCode(cmd.currency());
-        final var account = Account.Factory.create(AccountNumber.of(accountNumberGenerator.generate()), Money.of(BigDecimal.ZERO, currency));
-        var accountNumber = repository.create(account);
-
         //If you want temporal decoupling, send the command to a queue.
         var userId = registerUser(cmd);
 
@@ -110,6 +106,10 @@ public class CreateAccount {
         var address = AccountHolderAddress.of(cmd.address().street, cmd.address().city, cmd.address().state, cmd.address().zipCode, country);
         var accountHolder = AccountHolder.create(cmd.fullName(), cmd.personalId(), address, cmd.birthdate(), cmd.phoneNumbers(), userId.getUserId());
         accountHolderRepo.save(accountHolder);
+
+        final var currency = Currency.fromCode(cmd.currency());
+        final var account = Account.Factory.create(AccountNumber.of(accountNumberGenerator.generate()), Money.of(BigDecimal.ZERO, currency), accountHolder);
+        var accountNumber = repository.create(account);
 
         log.info("END - Account created  with number: {}", accountNumber);
         return accountNumber;
