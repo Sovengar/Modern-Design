@@ -20,7 +20,7 @@ import static jonathan.modern_design._config.database.FlywayConfig.SCHEMAS;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-//Better than @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) to avoid 2 threads
+//Better than @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) to avoid 2 threads which means 2 transactions
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Testcontainers
 @Transactional

@@ -2,12 +2,14 @@ package jonathan.modern_design.banking.queries;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jonathan.modern_design.__config.ITConfig;
 import jonathan.modern_design.banking.domain.models.AccountEntity;
 import jonathan.modern_design.banking.domain.models.AccountHolder;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -15,24 +17,24 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
-class FindAccountIT {
+//NOT WORKING
+@Slf4j
+class FindAccountIT extends ITConfig {
     private EntityManagerFactory emf;
+    @Autowired
     private EntityManager em;
     private FindAccount findAccount;
 
     @BeforeEach
     void setUp() {
-        em = emf.createEntityManager();
+        //em = emf.createEntityManager();
         em.getTransaction().begin();
         findAccount = new FindAccount(em);
     }
 
     @AfterEach
     void tearDown() {
-        if (em != null) {
-            em.close();
-        }
+        em.clear();
     }
 
     @Test
@@ -84,9 +86,6 @@ class FindAccountIT {
         // Assert
         assertThat(result).isNotNull();
         assertThat(result.accountNumber()).isEqualTo("ACC123");
-
-        em.getTransaction().rollback();
     }
-
 
 }
