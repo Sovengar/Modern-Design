@@ -17,7 +17,7 @@ import java.time.OffsetDateTime;
 import static lombok.AccessLevel.PACKAGE;
 
 @Entity
-@Table(name = "deleted_rows")
+@Table(name = "deleted_rows", schema = "shared")
 @Getter
 @NoArgsConstructor(access = PACKAGE)
 @AllArgsConstructor
