@@ -5,7 +5,6 @@ import jakarta.persistence.EntityNotFoundException;
 import jonathan.modern_design._shared.api.Response;
 import jonathan.modern_design._shared.tags.WebAdapter;
 import jonathan.modern_design.banking.api.dtos.AccountDto;
-import jonathan.modern_design.banking.queries.SearchAccount;
 import jonathan.modern_design.search.view_models.AccountWithUserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +25,7 @@ class IdkHttpController {
 
     @Operation(description = "Search Account")
     @PostMapping("/xxx")
-    public ResponseEntity<Response<List<AccountDto>>> searchForXXXPage(@RequestBody SearchAccount.Criteria filters) {
+    public ResponseEntity<Response<List<AccountDto>>> searchForXXXPage(@RequestBody IdkSearch.AccountCriteria filters) {
         var accountDtos = querier.searchForXXXPage(filters);
         return ResponseEntity.ok(new Response.Builder<List<AccountDto>>().data(accountDtos).withDefaultMetadataV1());
     }

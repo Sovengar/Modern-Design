@@ -9,7 +9,7 @@ create table inventory.stock (
 create sequence inventory.stock_reservations_sq start with 1;
 create table inventory.stock_reservations (
     reservation_id BIGINT primary key,
-    order_id BIGINT not null,
+    order_id UUID not null,
     product_id varchar(100) not null,
     quantity_on_hand int not null,
     created_at timestamp not null

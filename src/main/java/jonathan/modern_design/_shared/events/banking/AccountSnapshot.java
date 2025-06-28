@@ -1,4 +1,4 @@
-package jonathan.modern_design.banking.api.events;
+package jonathan.modern_design._shared.events.banking;
 
 import jonathan.modern_design._shared.domain.vo.Money;
 import jonathan.modern_design.banking.domain.models.Account;

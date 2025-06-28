@@ -3,15 +3,20 @@ package jonathan.modern_design;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Slf4j
-@SpringBootApplication
+// allow classes with the same name in different packages, e.g. "InitialData"
+@SpringBootApplication //(nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class)
 @EnableJpaRepositories
 @EnableJpaAuditing
 @EnableTransactionManagement
+@EnableFeignClients
+@ConfigurationPropertiesScan
 public class AppRunner {
 
     static {

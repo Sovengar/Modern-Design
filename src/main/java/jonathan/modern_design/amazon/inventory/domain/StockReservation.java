@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import static java.time.LocalDateTime.now;
 
@@ -29,7 +30,7 @@ public class StockReservation {
     private Long id;
 
     @NotNull
-    private Long orderId;
+    private UUID orderId;
 
     @NotNull
     private String productId;
@@ -39,7 +40,7 @@ public class StockReservation {
 
     private LocalDateTime createdAt = now();
 
-    public StockReservation(Long orderId, String productId, Integer quantityOnHand) {
+    public StockReservation(UUID orderId, String productId, Integer quantityOnHand) {
         this.orderId = orderId;
         this.productId = productId;
         this.quantityOnHand = quantityOnHand;

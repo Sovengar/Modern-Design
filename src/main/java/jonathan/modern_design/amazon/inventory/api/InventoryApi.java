@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -18,11 +19,11 @@ public class InventoryApi {
     private final StockService stockService;
     private final StockRepo stockRepo;
 
-    public void reserveStock(long orderId, List<LineItem> items) {
+    public void reserveStock(UUID orderId, List<LineItem> items) {
         stockService.reserveStock(orderId, items);
     }
 
-    public void confirmReservation(long orderId) {
+    public void confirmReservation(UUID orderId) {
         stockService.confirmReservation(orderId);
     }
 }
@@ -35,14 +36,14 @@ class StockService {
     private final StockReservationRepo stockReservationRepo;
 
     @Transactional
-    public void reserveStock(long orderId, List<LineItem> items) {
+    public void reserveStock(UUID orderId, List<LineItem> items) {
         for (var item : items) {
             subtractStock(item.productId(), item.count());
             createReservation(orderId, item.productId(), item.count());
         }
     }
 
-    private void createReservation(long orderId, String productId, Integer count) {
+    private void createReservation(UUID orderId, String productId, Integer count) {
         StockReservation reservation = new StockReservation(orderId, productId, count);
         stockReservationRepo.save(reservation);
     }
@@ -54,7 +55,7 @@ class StockService {
     }
 
     @Transactional
-    public void confirmReservation(long orderId) {
+    public void confirmReservation(UUID orderId) {
         log.info("Stock reservation confirmed for order {}", orderId);
         stockReservationRepo.deleteAllByOrderId(orderId);
     }

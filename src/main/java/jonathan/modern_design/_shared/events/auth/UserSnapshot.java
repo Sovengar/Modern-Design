@@ -1,4 +1,4 @@
-package jonathan.modern_design.auth.api.events;
+package jonathan.modern_design._shared.events.auth;
 
 import java.util.UUID;
 

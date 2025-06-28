@@ -2,11 +2,11 @@ package jonathan.modern_design.auth.application;
 
 import io.swagger.v3.oas.annotations.Operation;
 import jonathan.modern_design._shared.api.Response;
+import jonathan.modern_design._shared.events.banking.AccountHolderDeleted;
 import jonathan.modern_design._shared.tags.ApplicationService;
 import jonathan.modern_design._shared.tags.WebAdapter;
 import jonathan.modern_design.auth.domain.models.User;
 import jonathan.modern_design.auth.domain.store.UserRepo;
-import jonathan.modern_design.banking.api.events.AccountHolderDeleted;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;

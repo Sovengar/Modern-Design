@@ -13,7 +13,7 @@ import javax.sql.DataSource;
 @Configuration
 @RequiredArgsConstructor
 public class FlywayConfig {
-    public static final String[] SCHEMAS = new String[]{"shared", "banking", "auth", "search", "catalog", "inventory"};
+    public static final String[] SCHEMAS = new String[]{"shared", "banking", "auth", "search", "catalog", "inventory", "orders"};
     private static final String ENCODING = "UTF-8";
     private final DataSource dataSource;
     private final Environment env;

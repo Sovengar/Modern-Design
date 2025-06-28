@@ -10,7 +10,6 @@ import jonathan.modern_design.auth.api.AuthApi;
 import jonathan.modern_design.auth.domain.models.User;
 import jonathan.modern_design.banking.api.AccountQueryApi;
 import jonathan.modern_design.banking.api.dtos.AccountDto;
-import jonathan.modern_design.banking.queries.SearchAccount;
 import jonathan.modern_design.search.store.AccountWithUserInfoRepo;
 import jonathan.modern_design.search.view_models.AccountWithUserInfo;
 
@@ -19,7 +18,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static java.util.Optional.empty;
-import static jonathan.modern_design.banking.domain.models.QAccountEntity.accountEntity;
 
 @DataAdapter
 class IdkSearch {
@@ -51,15 +49,16 @@ class IdkSearch {
         return result1.or(() -> result2);
     }
 
-    public List<AccountDto> searchForXXXPage(SearchAccount.Criteria filters) {
-        var filtersBuilded = buildFilters(filters);
-
-        var accounts = queryFactory
-                .selectFrom(accountEntity)
-                //TODO .where(filtersBuilded.and(accountEntity.userId.userId.eq(user.id.userId)))
-                .fetch();
-
-        return accounts.stream().map(AccountDto::new).toList();
+    public List<AccountDto> searchForXXXPage(AccountCriteria filters) {
+        return List.of();
+        //var filtersBuilded = buildFilters(filters);
+        //
+        //var accounts = queryFactory
+        //        .selectFrom(accountEntity)
+        //        .where(filtersBuilded.and(accountEntity.userId.userId.eq(user.id.userId)))
+        //        .fetch();
+        //
+        //return accounts.stream().map(AccountDto::new).toList();
     }
 
     public Optional<AccountDto> searchWithUserPassword(final String password) {
@@ -77,7 +76,7 @@ class IdkSearch {
 //        return ofNullable(accountFound).map(AccountDto::new);
     }
 
-    private BooleanBuilder buildFilters(final SearchAccount.Criteria filters) {
+    private BooleanBuilder buildFilters(final AccountCriteria filters) {
         BooleanBuilder builder = new BooleanBuilder();
 
         //TODO
@@ -88,5 +87,8 @@ class IdkSearch {
 //                .ifPresent(email -> builder.and(user.email.email.eq(email)));
 
         return builder;
+    }
+
+    public record AccountCriteria(String username, String email) {
     }
 }

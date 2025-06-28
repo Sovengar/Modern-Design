@@ -1,1 +1,0 @@
-No need for TransactionDto, nothing needs to be hidden, and i don't want to do a 1:1 map nonsense
