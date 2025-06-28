@@ -1,10 +1,10 @@
-package jonathan.modern_design.amazon.inventory;
+package jonathan.modern_design.amazon.inventory.api;
 
-import jonathan.modern_design.amazon.inventory.internal.domain.LineItem;
-import jonathan.modern_design.amazon.inventory.internal.domain.Stock;
-import jonathan.modern_design.amazon.inventory.internal.domain.StockRepo;
-import jonathan.modern_design.amazon.inventory.internal.domain.StockReservation;
-import jonathan.modern_design.amazon.inventory.internal.domain.StockReservationRepo;
+import jonathan.modern_design.amazon.inventory.domain.LineItem;
+import jonathan.modern_design.amazon.inventory.domain.Stock;
+import jonathan.modern_design.amazon.inventory.domain.StockRepo;
+import jonathan.modern_design.amazon.inventory.domain.StockReservation;
+import jonathan.modern_design.amazon.inventory.domain.StockReservationRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

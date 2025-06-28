@@ -1,4 +1,4 @@
-package jonathan.modern_design.amazon.inventory;
+package jonathan.modern_design.amazon.inventory.api;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

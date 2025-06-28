@@ -1,4 +1,4 @@
-package jonathan.modern_design.amazon.inventory.internal.domain;
+package jonathan.modern_design.amazon.inventory.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

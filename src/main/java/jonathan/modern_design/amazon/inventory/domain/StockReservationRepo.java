@@ -1,4 +1,4 @@
-package jonathan.modern_design.amazon.inventory.internal.domain;
+package jonathan.modern_design.amazon.inventory.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
