@@ -1,9 +1,10 @@
-package jonathan.modern_design._fake_data;
+package jonathan.modern_design.__config.dsl;
 
 import jonathan.modern_design.__config.Stub;
 import jonathan.modern_design._shared.domain.vo.Money;
-import jonathan.modern_design.banking.application.CreateAccount;
 import jonathan.modern_design.banking.application.TransferMoney;
+import jonathan.modern_design.banking.application.create_account.CreateAccount;
+import jonathan.modern_design.banking.application.create_account.CreateAccountRequest;
 import jonathan.modern_design.banking.domain.models.Account;
 import jonathan.modern_design.banking.domain.vo.AccountNumber;
 
@@ -12,8 +13,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static jonathan.modern_design._fake_data.UserStub.DEFAULT_COUNTRY;
-import static jonathan.modern_design._fake_data.UserStub.VALID_PASSWORD;
+import static jonathan.modern_design.__config.dsl.UserStub.DEFAULT_COUNTRY;
+import static jonathan.modern_design.__config.dsl.UserStub.VALID_PASSWORD;
 import static jonathan.modern_design._shared.domain.Currency.EUR;
 import static jonathan.modern_design._shared.domain.Currency.USD;
 
@@ -78,6 +79,10 @@ public class AccountStub extends Stub {
 
         public static CreateAccount.Command createAccountCommand(final String currencyCode) {
             return new CreateAccount.Command(Optional.of(fullName), email, username, address, VALID_PASSWORD, currencyCode, phoneNumbers, birthdate, personalId);
+        }
+
+        public static CreateAccountRequest createAccountRequest(final String currencyCode) {
+            return new CreateAccountRequest(fullName, email, username, address, VALID_PASSWORD, currencyCode, phoneNumbers, birthdate, personalId);
         }
     }
 

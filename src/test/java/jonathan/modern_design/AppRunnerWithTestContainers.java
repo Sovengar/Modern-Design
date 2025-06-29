@@ -1,10 +1,10 @@
-package jonathan.modern_design.__dev;
+package jonathan.modern_design;
 
 
-import jonathan.modern_design.AppRunner;
+import jonathan.modern_design.__config.dev.TestContainersConfig;
 import org.springframework.boot.SpringApplication;
 
-public class TestModernDesignApplication {
+public class AppRunnerWithTestContainers {
     public static void main(String[] args) {
         SpringApplication.from(AppRunner::main).with(TestContainersConfig.class).run(args);
     }

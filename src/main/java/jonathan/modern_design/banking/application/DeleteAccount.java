@@ -5,7 +5,7 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jonathan.modern_design._shared.api.Response;
-import jonathan.modern_design._shared.events.banking.AccountHolderDeleted;
+import jonathan.modern_design._shared.domain.events.banking.AccountHolderDeleted;
 import jonathan.modern_design._shared.infra.db.delete_table.EntityDeleter;
 import jonathan.modern_design._shared.tags.ApplicationService;
 import jonathan.modern_design._shared.tags.WebAdapter;

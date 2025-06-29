@@ -1,4 +1,4 @@
-package jonathan.modern_design._fake_data;
+package jonathan.modern_design.__config.dsl;
 
 import jonathan.modern_design.__config.Stub;
 import jonathan.modern_design._shared.domain.Country;

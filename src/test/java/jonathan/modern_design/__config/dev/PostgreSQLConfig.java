@@ -1,4 +1,4 @@
-package jonathan.modern_design.__dev;
+package jonathan.modern_design.__config.dev;
 
 import org.springframework.boot.devtools.restart.RestartScope;
 import org.springframework.boot.test.context.TestConfiguration;

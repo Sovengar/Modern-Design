@@ -1,4 +1,4 @@
-package jonathan.modern_design.banking.application;
+package jonathan.modern_design.banking.application.create_account;
 
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -48,13 +48,13 @@ class CreateAccountHttpController {
 
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     @Operation(description = "Create Account")
-    public ResponseEntity<Response<String>> createAccount(@RequestBody @Valid final Command cmd) {
+    public ResponseEntity<Response<String>> createAccount(@RequestBody @Valid final CreateAccountRequest request) {
         generateTraceId();
         //Authentication + Authorization
 
-        log.info("START createAccount with command: {}", cmd);
-        var appAddressCommand = new CreateAccount.Command.Address(cmd.address().street(), cmd.address().city(), cmd.address().state(), cmd.address().zipCode(), cmd.address().countryCode());
-        var appCommand = new CreateAccount.Command(Optional.ofNullable(cmd.fullName()), cmd.email(), cmd.username(), appAddressCommand, cmd.password(), cmd.currency(), cmd.phoneNumbers(), cmd.birthdate(), cmd.personalId());
+        log.info("START createAccount with command: {}", request);
+        var appAddressCommand = new CreateAccount.Command.Address(request.address().street(), request.address().city(), request.address().state(), request.address().zipCode(), request.address().countryCode());
+        var appCommand = new CreateAccount.Command(Optional.ofNullable(request.fullName()), request.email(), request.username(), appAddressCommand, request.password(), request.currency(), request.phoneNumbers(), request.birthdate(), request.personalId());
         final var accountNumber = createAccount.handle(appCommand).getAccountNumber();
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{accountNumber}").buildAndExpand(accountNumber).toUri();
@@ -67,19 +67,6 @@ class CreateAccountHttpController {
                         //Actions? This would have to be updated to support the new API, smells...
                         .withDefaultMetadataV1()
         );
-    }
-
-    public record Command(
-            String fullName,
-            @NotEmpty(message = "Email is required") String email,
-            @NotEmpty(message = "Username is required") String username,
-            @NotNull(message = "Address is required") CreateAccount.Command.Address address,
-            @NotEmpty(message = "Password is required") String password,
-            @NotNull(message = "Currency is required") String currency,
-            @NotNull(message = "PhoneNumbers is required") List<String> phoneNumbers,
-            @NotNull(message = "Birthdate is required") LocalDate birthdate,
-            @NotEmpty(message = "Personal Id is required") String personalId
-    ) {
     }
 }
 

@@ -1,8 +1,9 @@
-package jonathan.modern_design.banking;
+package jonathan.modern_design.banking.prueba;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jonathan.modern_design.__config.ITConfig;
-import jonathan.modern_design._fake_data.AccountStub;
+import jonathan.modern_design.__config.IntegrationConfig;
+import jonathan.modern_design.__config.dsl.AccountStub;
+import jonathan.modern_design.__config.shared_for_all_classes.EnableTestContainers;
 import jonathan.modern_design._shared.domain.vo.Money;
 import jonathan.modern_design.banking.api.AccountApi;
 import jonathan.modern_design.banking.application.Deposit;
@@ -13,25 +14,34 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
 
 import static java.math.BigDecimal.ZERO;
-import static jonathan.modern_design._fake_data.AccountStub.CreateAccountMother.createAccountCommand;
-import static jonathan.modern_design._fake_data.AccountStub.TransferMoneyMother.fromAccountToAccountWithAmount;
+import static jonathan.modern_design.__config.dsl.AccountStub.CreateAccountMother.createAccountCommand;
+import static jonathan.modern_design.__config.dsl.AccountStub.TransferMoneyMother.fromAccountToAccountWithAmount;
 import static jonathan.modern_design._shared.domain.Currency.EUR;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-final class AccountAcceptanceTest extends ITConfig {
-    ObjectMapper mapper = new ObjectMapper();
-
+@SpringBootTest
+@IntegrationConfig
+@EnableTestContainers
+final class AccountAcceptanceTest {
     @Autowired
     private AccountRepo repository;
 
     @Autowired
     private AccountApi accountFacade;
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper mapper;
 
     private Account getAccountWithMoney(final Money money) {
         Assertions.assertNotNull(money.getCurrency());
@@ -48,10 +58,20 @@ final class AccountAcceptanceTest extends ITConfig {
     class WithValidDataForCreatingAccountShould {
         @Test
         void create_account() throws Exception {
-            String json = mapper.writeValueAsString(AccountStub.CreateAccountMother.createAccountCommand());
+            String json = mapper.writeValueAsString(AccountStub.CreateAccountMother.createAccountRequest(EUR.getCode()));
             //Use jsonPath("$.starships") ?
 
-            mockMvc.perform(post("/api/v1/accounts")
+            mockMvc.perform(post("/v1/accounts")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(json))
+                    .andExpect(status().isCreated());
+        }
+
+        @Test
+        void create_account_again() throws Exception {
+            //Validate that @Rollback works
+            String json = mapper.writeValueAsString(AccountStub.CreateAccountMother.createAccountRequest(EUR.getCode()));
+            mockMvc.perform(post("/v1/accounts")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(json))
                     .andExpect(status().isCreated());

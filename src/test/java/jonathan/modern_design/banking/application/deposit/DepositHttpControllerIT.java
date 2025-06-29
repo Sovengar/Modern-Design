@@ -1,6 +1,6 @@
 package jonathan.modern_design.banking.application.deposit;
 
-import jonathan.modern_design.__config.ITConfig;
+import jonathan.modern_design.__config.shared_for_all_tests_in_class.ITConfig;
 import jonathan.modern_design.banking.api.AccountApi;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
 import org.junit.jupiter.api.Test;
@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
 
-import static jonathan.modern_design._fake_data.AccountStub.CreateAccountMother.createAccountCommand;
+import static jonathan.modern_design.__config.dsl.AccountStub.CreateAccountMother.createAccountCommand;
 import static jonathan.modern_design._shared.domain.Currency.EUR;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;

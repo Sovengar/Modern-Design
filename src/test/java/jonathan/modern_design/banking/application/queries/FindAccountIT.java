@@ -2,7 +2,7 @@ package jonathan.modern_design.banking.application.queries;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jonathan.modern_design.__config.ITConfig;
+import jonathan.modern_design.__config.shared_for_all_tests_in_class.ITConfig;
 import jonathan.modern_design.banking.domain.models.AccountEntity;
 import jonathan.modern_design.banking.queries.FindAccount;
 import org.junit.jupiter.api.Test;

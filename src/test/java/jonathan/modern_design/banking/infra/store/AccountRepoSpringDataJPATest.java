@@ -1,6 +1,6 @@
 package jonathan.modern_design.banking.infra.store;
 
-import jonathan.modern_design.__config.ITConfig;
+import jonathan.modern_design.__config.shared_for_all_tests_in_class.ITConfig;
 import jonathan.modern_design._shared.domain.Currency;
 import jonathan.modern_design._shared.domain.vo.Money;
 import jonathan.modern_design.banking.domain.models.Account;

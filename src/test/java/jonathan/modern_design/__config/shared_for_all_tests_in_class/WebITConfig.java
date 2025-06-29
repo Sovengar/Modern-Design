@@ -1,4 +1,4 @@
-package jonathan.modern_design.__config;
+package jonathan.modern_design.__config.shared_for_all_tests_in_class;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;

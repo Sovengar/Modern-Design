@@ -13,7 +13,7 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jonathan.modern_design._shared.domain.Currency;
-import jonathan.modern_design._shared.events.banking.AccountSnapshot;
+import jonathan.modern_design._shared.domain.events.banking.AccountSnapshot;
 import jonathan.modern_design._shared.infra.db.BaseAggregateRoot;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -74,7 +74,7 @@ public class AccountEntity extends BaseAggregateRoot<AccountEntity> {
     private void moveEventsFrom(Account account) {
         var domainEvents = account.moveEventsToDataModel();
         domainEvents.forEach(this::registerEvent);
-        this.registerEvent(new AccountSnapshot(account.getAccountNumber().getAccountNumber(), account.getMoney(), account.getStatus(), account.getAccountHolder().getId()));
+        this.registerEvent(new AccountSnapshot(account.getAccountNumber().getAccountNumber(), account.getMoney(), account.getStatus().name(), account.getAccountHolder().getId()));
     }
 
     @PrePersist

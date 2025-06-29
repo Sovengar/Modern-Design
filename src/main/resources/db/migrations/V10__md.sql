@@ -1,6 +1,6 @@
-create SCHEMA IF NOT EXISTS shared;
+create SCHEMA IF NOT EXISTS md;
 
-create TABLE shared.event_publication (
+create TABLE md.event_publication (
     id UUID PRIMARY KEY,
     completion_date timestamp,
     event_type VARCHAR(255),
@@ -9,7 +9,7 @@ create TABLE shared.event_publication (
     serialized_event VARCHAR(255)
 );
 
-create TABLE shared.deleted_rows (
+create TABLE md.deleted_rows (
     id SERIAL PRIMARY KEY,
     origin_table TEXT NOT NULL,
     origin_id TEXT NOT NULL,
@@ -19,6 +19,6 @@ create TABLE shared.deleted_rows (
     data JSONB NOT NULL
 );
 
-create index idx_deleted_rows_origin_table on shared.deleted_rows(origin_table);
-create index idx_deleted_rows_origin_id on shared.deleted_rows(origin_id);
-create index idx_deleted_rows_deleted_at on shared.deleted_rows(deleted_at);
+create index idx_deleted_rows_origin_table on md.deleted_rows(origin_table);
+create index idx_deleted_rows_origin_id on md.deleted_rows(origin_id);
+create index idx_deleted_rows_deleted_at on md.deleted_rows(deleted_at);

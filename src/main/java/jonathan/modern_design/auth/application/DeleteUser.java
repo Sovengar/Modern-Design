@@ -2,7 +2,7 @@ package jonathan.modern_design.auth.application;
 
 import io.swagger.v3.oas.annotations.Operation;
 import jonathan.modern_design._shared.api.Response;
-import jonathan.modern_design._shared.events.banking.AccountHolderDeleted;
+import jonathan.modern_design._shared.domain.events.banking.AccountHolderDeleted;
 import jonathan.modern_design._shared.tags.ApplicationService;
 import jonathan.modern_design._shared.tags.WebAdapter;
 import jonathan.modern_design.auth.domain.models.User;

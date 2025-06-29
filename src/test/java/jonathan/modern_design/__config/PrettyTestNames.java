@@ -5,27 +5,42 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 import java.lang.reflect.Method;
 
 // use via @DisplayNameGeneration on a test class
-public class PrettyTestNames extends DisplayNameGenerator.Standard {
+public class PrettyTestNames implements DisplayNameGenerator {
     private PrettyTestNames() {
     }
 
     @Override
     public String generateDisplayNameForClass(Class<?> testClass) {
-        return replaceCapitals(super.generateDisplayNameForClass(testClass));
+        String name = testClass.getSimpleName();
+        return replaceCapitals(name);
     }
 
     @Override
     public String generateDisplayNameForNestedClass(Class<?> nestedClass) {
-        return replaceCapitals(super.generateDisplayNameForNestedClass(nestedClass));
+        String name = nestedClass.getSimpleName();
+        return replaceCapitals(name);
     }
 
     @Override
     public String generateDisplayNameForMethod(Class<?> testClass, Method testMethod) {
-        return replaceCapitals(testMethod.getName());
+        String name = testMethod.getName();
+        return replaceUnderscoresAndTrim(name);
+    }
+
+    private String replaceUnderscoresAndTrim(final String name) {
+        var trim = name.replaceAll("_", " ")
+                .replaceAll("\\s+", " ")
+                .trim();
+        return trim;
     }
 
     private String replaceCapitals(String name) {
-        name = name.replaceAll("([A-Z])", " $1")
+        // First, handle special suffixes
+        name = name.replaceAll("(IT|DTO|API)$", "$1");
+
+        // Then handle a regular camel case
+        name = name.replaceAll("([A-Z])([A-Z][a-z])", "$1 $2")
+                .replaceAll("([a-z])([A-Z])", "$1 $2")
                 .replaceAll("_", " ")
                 .replaceAll("\\s+", " ")
                 .toLowerCase();
