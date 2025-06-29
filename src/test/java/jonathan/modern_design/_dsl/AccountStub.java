@@ -3,17 +3,13 @@ package jonathan.modern_design._dsl;
 import jonathan.modern_design.__config.Stub;
 import jonathan.modern_design._shared.domain.Country;
 import jonathan.modern_design._shared.domain.vo.Money;
-import jonathan.modern_design.banking.api.BankingApi;
-import jonathan.modern_design.banking.application.Deposit;
 import jonathan.modern_design.banking.application.TransferMoney;
 import jonathan.modern_design.banking.application.create_account.CreateAccount;
 import jonathan.modern_design.banking.application.create_account.CreateAccountRequest;
 import jonathan.modern_design.banking.domain.models.Account;
 import jonathan.modern_design.banking.domain.models.AccountHolder;
-import jonathan.modern_design.banking.domain.store.AccountRepo;
 import jonathan.modern_design.banking.domain.vo.AccountHolderAddress;
 import jonathan.modern_design.banking.domain.vo.AccountNumber;
-import org.junit.jupiter.api.Assertions;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -21,7 +17,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static jonathan.modern_design._dsl.AccountStub.CreateAccountMother.createAccountCommand;
 import static jonathan.modern_design._dsl.UserStub.VALID_PASSWORD;
 import static jonathan.modern_design._shared.domain.Currency.EUR;
 import static jonathan.modern_design._shared.domain.Currency.USD;
@@ -40,17 +35,6 @@ public class AccountStub extends Stub {
     public static String personalId = "48732228A";
     public static List<String> phoneNumbers = List.of(faker.phoneNumber().phoneNumber());
     public static LocalDate birthdate = LocalDate.of(1990, 1, 1);
-
-    public static Account givenAnAccountWithMoney(BankingApi bankingApi, AccountRepo repo, Money money) {
-        Assertions.assertNotNull(money.getCurrency());
-        var accountNumber = bankingApi.createAccount(createAccountCommand(money.getCurrency().getCode())).getAccountNumber();
-
-        if (money.checkPositive()) {
-            bankingApi.deposit(new Deposit.Command(accountNumber, money.getBalance(), money.getCurrency()));
-        }
-
-        return repo.findByAccNumberOrElseThrow(accountNumber);
-    }
 
     public static class AccountMother {
         public static Account sourceAccountWithBalance(double balance) {

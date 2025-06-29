@@ -41,7 +41,10 @@ public class AccountHolderPhoneNumbers implements ValueObject {
     String phoneNumbers;
 
     private AccountHolderPhoneNumbers(List<String> phoneNumbers) {
-        this.phoneNumbersSet = transformStringToSet(transformListToString(phoneNumbers));
+        if (!phoneNumbers.isEmpty()) {
+            this.phoneNumbersSet = transformStringToSet(transformListToString(phoneNumbers));
+        }
+        
         this.phoneNumbers = transformSetToString();
     }
 

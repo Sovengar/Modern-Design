@@ -2,7 +2,7 @@ package jonathan.modern_design.banking.application.transfer;
 
 import jonathan.modern_design.__config.shared_for_all_classes.AceptanceTest;
 import jonathan.modern_design.__config.shared_for_all_classes.EnableTestContainers;
-import jonathan.modern_design._dsl.AccountStub;
+import jonathan.modern_design._dsl.BankingDsl;
 import jonathan.modern_design._shared.domain.vo.Money;
 import jonathan.modern_design.banking.api.BankingApi;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
@@ -34,8 +34,8 @@ class TransferMoneyIT {
     class WithValidAccountsShould {
         @Test
         void transfer_money_into_the_target_account() {
-            var source = AccountStub.givenAnAccountWithMoney(bankingApi, repository, Money.of(BigDecimal.valueOf(100.0), EUR));
-            var target = AccountStub.givenAnAccountWithMoney(bankingApi, repository, Money.of(ZERO, EUR));
+            var source = BankingDsl.givenAnAccountWithMoney(Money.of(BigDecimal.valueOf(100.0), EUR), bankingApi, repository);
+            var target = BankingDsl.givenAnAccountWithMoney(Money.of(ZERO, EUR), bankingApi, repository);
 
             var command = fromAccountToAccountWithAmount(source.getAccountNumber().getAccountNumber(), target.getAccountNumber().getAccountNumber(), Money.of(BigDecimal.valueOf(60.0), EUR));
             bankingApi.transferMoney(command);
@@ -49,8 +49,8 @@ class TransferMoneyIT {
 
         @Test
         void transfer_money_into_the_target_account_check_source_approval() {
-            var source = AccountStub.givenAnAccountWithMoney(bankingApi, repository, Money.of(BigDecimal.valueOf(100.0), EUR));
-            var target = AccountStub.givenAnAccountWithMoney(bankingApi, repository, Money.of(ZERO, EUR));
+            var source = BankingDsl.givenAnAccountWithMoney(Money.of(BigDecimal.valueOf(100.0), EUR), bankingApi, repository);
+            var target = BankingDsl.givenAnAccountWithMoney(Money.of(ZERO, EUR), bankingApi, repository);
 
             var command = fromAccountToAccountWithAmount(source.getAccountNumber().getAccountNumber(), target.getAccountNumber().getAccountNumber(), Money.of(BigDecimal.valueOf(50.0), EUR));
             bankingApi.transferMoney(command);
@@ -61,8 +61,8 @@ class TransferMoneyIT {
 
         @Test
         void transfer_money_into_the_target_account_check_target_approval() {
-            var source = AccountStub.givenAnAccountWithMoney(bankingApi, repository, Money.of(BigDecimal.valueOf(100.0), EUR));
-            var target = AccountStub.givenAnAccountWithMoney(bankingApi, repository, Money.of(ZERO, EUR));
+            var source = BankingDsl.givenAnAccountWithMoney(Money.of(BigDecimal.valueOf(100.0), EUR), bankingApi, repository);
+            var target = BankingDsl.givenAnAccountWithMoney(Money.of(ZERO, EUR), bankingApi, repository);
 
             var command = fromAccountToAccountWithAmount(source.getAccountNumber().getAccountNumber(), target.getAccountNumber().getAccountNumber(), Money.of(BigDecimal.valueOf(50.0), EUR));
             bankingApi.transferMoney(command);

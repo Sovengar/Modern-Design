@@ -46,7 +46,7 @@ public class AccountEntity extends BaseAggregateRoot<AccountEntity> {
     private BigDecimal balance;
     @Enumerated(value = EnumType.STRING)
     private Currency currency;
-    @OneToOne
+    @OneToOne(cascade = {jakarta.persistence.CascadeType.PERSIST, jakarta.persistence.CascadeType.MERGE})
     @JoinColumn(name = "account_holder_id")
     private AccountHolder accountHolder;
 

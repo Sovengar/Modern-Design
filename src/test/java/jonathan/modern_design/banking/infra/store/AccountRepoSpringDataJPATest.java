@@ -13,10 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.math.BigDecimal;
 import java.util.List;
 
+import static jonathan.modern_design._dsl.BankingDsl.givenAnAccount;
 import static org.assertj.core.api.Assertions.assertThat;
 
 interface AccountProjection {
-    Long getAccountId();
+    Long getId();
 
     String getAccountNumber();
 
@@ -25,24 +26,18 @@ interface AccountProjection {
     String getCurrency();
 }
 
-@DatabaseTest
 @Slf4j
-//@TestInstance(TestInstance.Lifecycle.PER_CLASS) //Care with shared state
-@EnableTestContainers
+@DatabaseTest
 @IntegrationConfig
+@EnableTestContainers
 class AccountRepoSpringDataJPATest {
     @Autowired
     private AccountRepoSpringDataJPA accountRepository;
 
-    AccountEntity givenAnAccount() {
-        var accountEntity = new AccountEntity(AccountStub.AccountMother.sourceAccountEmpty());
-        accountRepository.save(accountEntity);
-        return accountEntity;
-    }
 
     @Test
     void testDynamicProjection() {
-        givenAnAccount();
+        givenAnAccount(accountRepository);
 
         //When
         List<AccountProjection> projectionList = accountRepository.findByAccountNumber(AccountStub.sourceAccountId, AccountProjection.class);
@@ -58,7 +53,7 @@ class AccountRepoSpringDataJPATest {
         //assertThat(domainModelList).isEqualTo(1);
 
         projectionList.forEach(projection -> log.info("Projection -> id: {}, number: {}, balance: {}, currency: {}",
-                projection.getAccountId(),
+                projection.getId(),
                 projection.getAccountNumber(),
                 projection.getBalance(),
                 projection.getCurrency()
