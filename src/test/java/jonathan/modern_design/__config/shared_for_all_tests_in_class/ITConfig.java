@@ -1,6 +1,7 @@
 package jonathan.modern_design.__config.shared_for_all_tests_in_class;
 
 import jonathan.modern_design.__config.DatabaseConfig;
+import jonathan.modern_design.__config.IntegrationConfig;
 import jonathan.modern_design.__config.WebConfig;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeAll;
@@ -16,10 +17,11 @@ import org.testcontainers.utility.DockerImageName;
 import static jonathan.modern_design._config.database.FlywayConfig.SCHEMAS;
 
 @SpringBootTest
+@IntegrationConfig
 @DatabaseConfig
 @WebConfig
 @Testcontainers
-public abstract class ITConfig extends TestConfig {
+public abstract class ITConfig {
     @Container
     @ServiceConnection
     protected static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(DockerImageName.parse("postgres:15.7"))

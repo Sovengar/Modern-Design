@@ -1,44 +1,44 @@
-package jonathan.modern_design.banking;
+package jonathan.modern_design.banking.application.transfer;
 
-import jonathan.modern_design.__config.PrettyTestNames;
 import jonathan.modern_design.__config.TimeExtension;
+import jonathan.modern_design.__config.shared_for_all_classes.UnitTest;
 import jonathan.modern_design._shared.domain.exceptions.OperationWithDifferentCurrenciesException;
 import jonathan.modern_design._shared.domain.vo.Money;
 import jonathan.modern_design.auth.api.AuthApi;
-import jonathan.modern_design.banking.api.AccountApi;
+import jonathan.modern_design.banking.api.BankingApi;
 import jonathan.modern_design.banking.domain.exceptions.AccountIsInactiveException;
 import jonathan.modern_design.banking.domain.models.Account;
 import jonathan.modern_design.banking.infra.AccountingConfig;
-import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static jonathan.modern_design.__config.dsl.AccountStub.AccountMother.sourceAccountEmpty;
-import static jonathan.modern_design.__config.dsl.AccountStub.AccountMother.sourceAccountInactive;
-import static jonathan.modern_design.__config.dsl.AccountStub.AccountMother.sourceAccountWithBalance;
-import static jonathan.modern_design.__config.dsl.AccountStub.AccountMother.targetAccountEmpty;
-import static jonathan.modern_design.__config.dsl.AccountStub.AccountMother.targetAccountInactive;
-import static jonathan.modern_design.__config.dsl.AccountStub.AccountMother.targetAccountWithBalance;
-import static jonathan.modern_design.__config.dsl.AccountStub.AccountMother.targetAccountWithDifferentCurrency;
-import static jonathan.modern_design.__config.dsl.AccountStub.TransferMoneyMother.transactionWithAmount;
+import static jonathan.modern_design._dsl.AccountStub.AccountMother.sourceAccountEmpty;
+import static jonathan.modern_design._dsl.AccountStub.AccountMother.sourceAccountInactive;
+import static jonathan.modern_design._dsl.AccountStub.AccountMother.sourceAccountWithBalance;
+import static jonathan.modern_design._dsl.AccountStub.AccountMother.targetAccountEmpty;
+import static jonathan.modern_design._dsl.AccountStub.AccountMother.targetAccountInactive;
+import static jonathan.modern_design._dsl.AccountStub.AccountMother.targetAccountWithBalance;
+import static jonathan.modern_design._dsl.AccountStub.AccountMother.targetAccountWithDifferentCurrency;
+import static jonathan.modern_design._dsl.AccountStub.TransferMoneyMother.transactionWithAmount;
 import static jonathan.modern_design._shared.domain.Currency.EUR;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-@DisplayNameGeneration(PrettyTestNames.class)
+@UnitTest
 class TransferMoneyTest {
     private final LocalDateTime supposedToBeNow = LocalDate.of(2020, 12, 25).atStartOfDay();
     private final AccountingConfig accountingConfig = new AccountingConfig();
     @RegisterExtension
     TimeExtension timeExtension = new TimeExtension(supposedToBeNow);
-    //@MockitoBean
+    @MockitoBean
     private AuthApi authApi;
-    private final AccountApi accountFacade = accountingConfig.accountApi(authApi);
+    private final BankingApi bankingApi = accountingConfig.accountApi(authApi);
 
     private void populatePersistenceLayer(Account source, Account target) {
         final var accountRepo = accountingConfig.getAccountRepo();
@@ -54,7 +54,7 @@ class TransferMoneyTest {
             var target = targetAccountEmpty();
             populatePersistenceLayer(source, target);
 
-            accountFacade.transferMoney(transactionWithAmount(Money.of(BigDecimal.valueOf(50.0), EUR)));
+            bankingApi.transferMoney(transactionWithAmount(Money.of(BigDecimal.valueOf(50.0), EUR)));
 
             assertThat(target.getMoney().getBalance()).isEqualTo(BigDecimal.valueOf(50.0));
         }
@@ -68,7 +68,7 @@ class TransferMoneyTest {
             var target = targetAccountWithBalance(100.0);
             populatePersistenceLayer(source, target);
 
-            assertThatThrownBy(() -> accountFacade.transferMoney(transactionWithAmount(Money.of(BigDecimal.valueOf(50.0), EUR))))
+            assertThatThrownBy(() -> bankingApi.transferMoney(transactionWithAmount(Money.of(BigDecimal.valueOf(50.0), EUR))))
                     .isInstanceOf(Money.InsufficientFundsException.class);
         }
 
@@ -78,7 +78,7 @@ class TransferMoneyTest {
             var target = targetAccountEmpty();
             populatePersistenceLayer(source, target);
 
-            assertThatThrownBy(() -> accountFacade.transferMoney(transactionWithAmount(Money.of(BigDecimal.valueOf(50.0), EUR))))
+            assertThatThrownBy(() -> bankingApi.transferMoney(transactionWithAmount(Money.of(BigDecimal.valueOf(50.0), EUR))))
                     .isInstanceOf(AccountIsInactiveException.class);
         }
 
@@ -88,7 +88,7 @@ class TransferMoneyTest {
             var target = targetAccountInactive();
             populatePersistenceLayer(source, target);
 
-            assertThatThrownBy(() -> accountFacade.transferMoney(transactionWithAmount(Money.of(BigDecimal.valueOf(50.0), EUR))))
+            assertThatThrownBy(() -> bankingApi.transferMoney(transactionWithAmount(Money.of(BigDecimal.valueOf(50.0), EUR))))
                     .isInstanceOf(AccountIsInactiveException.class);
         }
 
@@ -98,7 +98,7 @@ class TransferMoneyTest {
             var target = targetAccountWithDifferentCurrency();
             populatePersistenceLayer(source, target);
 
-            assertThatThrownBy(() -> accountFacade.transferMoney(transactionWithAmount(Money.of(BigDecimal.valueOf(50.0), EUR))))
+            assertThatThrownBy(() -> bankingApi.transferMoney(transactionWithAmount(Money.of(BigDecimal.valueOf(50.0), EUR))))
                     .isInstanceOf(OperationWithDifferentCurrenciesException.class);
         }
     }

@@ -1,7 +1,7 @@
 package jonathan.modern_design.banking.infra;
 
 import jonathan.modern_design._shared.tags.Facade;
-import jonathan.modern_design.banking.api.AccountApi;
+import jonathan.modern_design.banking.api.BankingApi;
 import jonathan.modern_design.banking.api.dtos.AccountDto;
 import jonathan.modern_design.banking.application.Deposit;
 import jonathan.modern_design.banking.application.GenericUpdateAccount;
@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Facade
 @RequiredArgsConstructor
 @Slf4j
-class AccountApiInternal implements AccountApi {
+class BankingApiInternal implements BankingApi {
     private final TransferMoney transferMoney;
     private final CreateAccount createAccount;
     private final GenericUpdateAccount genericUpdateAccount;

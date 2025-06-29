@@ -1,31 +1,42 @@
 package jonathan.modern_design.banking.application.deposit;
 
-import jonathan.modern_design.__config.shared_for_all_tests_in_class.ITConfig;
-import jonathan.modern_design.banking.api.AccountApi;
+import jonathan.modern_design.__config.shared_for_all_classes.AceptanceTest;
+import jonathan.modern_design.__config.shared_for_all_classes.EnableTestContainers;
+import jonathan.modern_design.banking.api.BankingApi;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
 
-import static jonathan.modern_design.__config.dsl.AccountStub.CreateAccountMother.createAccountCommand;
+import static jonathan.modern_design._dsl.AccountStub.CreateAccountMother.createAccountCommand;
 import static jonathan.modern_design._shared.domain.Currency.EUR;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class DepositHttpControllerIT extends ITConfig {
+//TODO ERROR WITH FEIGN @ApplicationModuleTest //Better than @SpringBootTest when using modules
+@SpringBootTest
+@AceptanceTest
+@EnableTestContainers
+class DepositIT {
     @Autowired
-    private AccountApi accountFacade;
+    private BankingApi bankingApi;
+
     @Autowired
     private AccountRepo repository;
 
+    @Autowired
+    private MockMvc mockMvc;
+
     @Test
     void should_deposit_funds_via_http_request() throws Exception {
-        var accountNumber = accountFacade.createAccount(createAccountCommand(EUR.getCode())).getAccountNumber();
+        var accountNumber = bankingApi.createAccount(createAccountCommand(EUR.getCode())).getAccountNumber();
 
         // Act
-        mockMvc.perform(put("/api/v1/accounts/" + accountNumber + "/deposit/100/EUR"))
+        mockMvc.perform(put("/v1/accounts/" + accountNumber + "/deposit/100/EUR"))
                 .andExpect(status().isOk());
 
         // Assert

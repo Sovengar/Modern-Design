@@ -33,7 +33,6 @@ public class AccountRepoInMemory implements AccountRepo {
     @Override
     public AccountNumber create(Account account) {
         accountsByNumber.put(account.getAccountNumber().getAccountNumber(), account);
-        accountsById.put(account.getAccountId(), account);
         return account.getAccountNumber();
     }
 
@@ -41,20 +40,13 @@ public class AccountRepoInMemory implements AccountRepo {
     public void update(Account account) {
         requireNonNull(account);
         accountsByNumber.put(account.getAccountNumber().getAccountNumber(), account);
-        accountsById.put(account.getAccountId(), account);
     }
 
     @Override
     public void delete(final String accountNumber) {
         var account = accountsByNumber.get(accountNumber);
         if (account != null) {
-            accountsById.remove(account.getAccountId());
             accountsByNumber.remove(accountNumber);
         }
-    }
-
-    @Override
-    public Optional<Account> findById(final Account.Id id) {
-        return ofNullable(accountsById.get(id));
     }
 }

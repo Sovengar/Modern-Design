@@ -1,91 +1,70 @@
 package jonathan.modern_design.banking.queries;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jonathan.modern_design.__config.shared_for_all_tests_in_class.ITConfig;
+import jakarta.persistence.PersistenceContext;
+import jonathan.modern_design.__config.IntegrationConfig;
+import jonathan.modern_design.__config.shared_for_all_classes.DatabaseTest;
+import jonathan.modern_design.__config.shared_for_all_classes.EnableTestContainers;
+import jonathan.modern_design._dsl.AccountStub;
 import jonathan.modern_design.banking.domain.models.AccountEntity;
-import jonathan.modern_design.banking.domain.models.AccountHolder;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.math.BigDecimal;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertThrows;
 
-//NOT WORKING
-@Slf4j
-class FindAccountIT extends ITConfig {
-    private EntityManagerFactory emf;
-    @Autowired
-    private EntityManager em;
+@DatabaseTest
+@IntegrationConfig
+@EnableTestContainers
+class FindAccountIT {
+    @PersistenceContext
+    private EntityManager entityManager;
+
     private FindAccount findAccount;
 
     @BeforeEach
     void setUp() {
-        //em = emf.createEntityManager();
-        em.getTransaction().begin();
-        findAccount = new FindAccount(em);
-    }
-
-    @AfterEach
-    void tearDown() {
-        em.clear();
+        findAccount = new FindAccount(entityManager);
     }
 
     @Test
     void shouldFindAccountByAccountNumber() {
-        // Arrange
-        var accountHolder = AccountHolder.create(UUID.randomUUID(), Optional.of("John Doe"), null, null, null, null, null);
+        var accountEntity = new AccountEntity(AccountStub.AccountMother.sourceAccountEmpty());
 
-        var account = AccountEntity.builder()
-                .accountNumber("ACC123")
-                .balance(BigDecimal.ZERO)
-                .accountHolder(accountHolder)
-                .build();
-
-        em.persist(accountHolder);
-        em.persist(account);
-        em.flush();
-        em.clear();
+        entityManager.persist(accountEntity);
+        entityManager.flush();
+        entityManager.clear();
 
         // Act
-        var result = findAccount.queryWith("ACC123");
+        var accountDto = findAccount.queryWith(AccountStub.sourceAccountId);
 
         // Assert
-        assertThat(result).isNotNull();
-        assertThat(result.accountNumber()).isEqualTo("ACC123");
-
-        em.getTransaction().rollback();
+        assertThat(accountDto.accountNumber()).isEqualTo(AccountStub.sourceAccountId);
     }
 
     @Test
     void shouldFindAccountByUserId() {
         // Arrange
         var userId = UUID.randomUUID();
-        var accountHolder = AccountHolder.create(UUID.randomUUID(), Optional.of("John Doe"), null, null, null, null, userId);
+        var accountEntity = new AccountEntity(AccountStub.AccountMother.accountWithUserId(userId));
 
-        var account = AccountEntity.builder()
-                .accountNumber("ACC123")
-                .balance(BigDecimal.ZERO)
-                .accountHolder(accountHolder)
-                .build();
-
-        em.persist(accountHolder);
-        em.persist(account);
-        em.flush();
-        em.clear();
+        //entityManager.persist(accountHolder);
+        entityManager.persist(accountEntity);
+        entityManager.flush();
+        entityManager.clear();
 
         // Act
         var result = findAccount.queryWithUserId(userId);
 
         // Assert
         assertThat(result).isNotNull();
-        assertThat(result.accountNumber()).isEqualTo("ACC123");
+        assertThat(result.accountNumber()).isEqualTo(AccountStub.sourceAccountId);
     }
 
+    @Test
+    void shouldFailIfAccountDoesNotExist() {
+        assertThrows(AssertionError.class, () -> findAccount.queryWith("NOT_FOUND"));
+    }
 }

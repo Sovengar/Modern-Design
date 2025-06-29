@@ -1,17 +1,14 @@
 package jonathan.modern_design.banking.infra.store;
 
-import jonathan.modern_design.__config.shared_for_all_tests_in_class.ITConfig;
-import jonathan.modern_design._shared.domain.Currency;
-import jonathan.modern_design._shared.domain.vo.Money;
-import jonathan.modern_design.banking.domain.models.Account;
+import jonathan.modern_design.__config.IntegrationConfig;
+import jonathan.modern_design.__config.shared_for_all_classes.DatabaseTest;
+import jonathan.modern_design.__config.shared_for_all_classes.EnableTestContainers;
+import jonathan.modern_design._dsl.AccountStub;
 import jonathan.modern_design.banking.domain.models.AccountEntity;
-import jonathan.modern_design.banking.domain.vo.AccountNumber;
 import jonathan.modern_design.banking.infra.store.spring.AccountRepoSpringDataJPA;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -28,16 +25,17 @@ interface AccountProjection {
     String getCurrency();
 }
 
-@SpringBootTest
+@DatabaseTest
 @Slf4j
-@TestInstance(TestInstance.Lifecycle.PER_CLASS) //Care with shared state
-class AccountRepoSpringDataJPATest extends ITConfig {
+//@TestInstance(TestInstance.Lifecycle.PER_CLASS) //Care with shared state
+@EnableTestContainers
+@IntegrationConfig
+class AccountRepoSpringDataJPATest {
     @Autowired
     private AccountRepoSpringDataJPA accountRepository;
 
     AccountEntity givenAnAccount() {
-        var account = Account.Factory.create(AccountNumber.of("ES123456789"), Money.of(new BigDecimal("1500.00"), Currency.EUR), null);
-        var accountEntity = new AccountEntity(account);
+        var accountEntity = new AccountEntity(AccountStub.AccountMother.sourceAccountEmpty());
         accountRepository.save(accountEntity);
         return accountEntity;
     }
@@ -47,8 +45,8 @@ class AccountRepoSpringDataJPATest extends ITConfig {
         givenAnAccount();
 
         //When
-        List<AccountProjection> projectionList = accountRepository.findByAccountNumber("ES123456789", AccountProjection.class);
-        List<AccountEntity> entityList = accountRepository.findByAccountNumber("ES123456789", AccountEntity.class);
+        List<AccountProjection> projectionList = accountRepository.findByAccountNumber(AccountStub.sourceAccountId, AccountProjection.class);
+        List<AccountEntity> entityList = accountRepository.findByAccountNumber(AccountStub.sourceAccountId, AccountEntity.class);
         //List<AccountDto> dtoList = accountRepository.findByAccountNumber("ES123456789", AccountDto.class);
         //Cannot set field 'currency' to instantiate 'jonathan.modern_design.banking.api.dtos.AccountDto'
         //List<Account> domainModelList = accountRepository.findByAccountNumber("ES123456789", Account.class);

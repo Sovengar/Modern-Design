@@ -3,7 +3,7 @@ package jonathan.modern_design.banking.infra;
 import jonathan.modern_design._shared.domain.CountriesCatalog;
 import jonathan.modern_design._shared.domain.CountriesCatalogStub;
 import jonathan.modern_design.auth.api.AuthApi;
-import jonathan.modern_design.banking.api.AccountApi;
+import jonathan.modern_design.banking.api.BankingApi;
 import jonathan.modern_design.banking.application.Deposit;
 import jonathan.modern_design.banking.application.GenericUpdateAccount;
 import jonathan.modern_design.banking.application.TransferMoney;
@@ -24,7 +24,7 @@ import org.springframework.context.annotation.Profile;
 public class AccountingConfig {
     final AccountRepo accountRepo = new AccountRepoInMemory();
 
-    public AccountApi accountApi(
+    public BankingApi accountApi(
             AccountRepo accountRepo,
             AccountHolderRepo accountHolderRepo,
             TransactionRepo transactionRepo,
@@ -34,7 +34,7 @@ public class AccountingConfig {
     ) {
         AccountValidator accountValidator = new AccountValidator();
 
-        return new AccountApiInternal(
+        return new BankingApiInternal(
                 new TransferMoney(accountRepo, transactionRepo, accountValidator),
                 new CreateAccount(accountRepo, accountHolderRepo, userFacade, accountNumberGenerator, countriesCatalog),
                 new GenericUpdateAccount(accountRepo),
@@ -43,7 +43,7 @@ public class AccountingConfig {
     }
 
     @Profile("test")
-    public AccountApi accountApi(AuthApi authApi) {
+    public BankingApi accountApi(AuthApi authApi) {
         //For Unit testing
         TransactionRepo transactionRepo = new TransactionRepoInMemory();
         AccountHolderRepo accountHolderRepo = new AccountHolderRepoInMemory();
@@ -55,7 +55,8 @@ public class AccountingConfig {
 
     @Profile("test")
     public AccountRepo getAccountRepo() {
-        //For Unit testing
+        //For Unit testing, very useful for midsized apps
+        //For very complex, avoid using accountRepo and access instead from the controller -> mockMvc.createAccount vs. accountRepo.createAccount
         return accountRepo;
     }
 }

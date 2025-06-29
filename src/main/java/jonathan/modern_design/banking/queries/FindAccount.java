@@ -51,7 +51,7 @@ public class FindAccount {
     private final EntityManager entityManager;
     private final JPAQueryFactory queryFactory;
 
-    FindAccount(EntityManager entityManager) {
+    public FindAccount(EntityManager entityManager) {
         this.entityManager = entityManager;
         this.queryFactory = new JPAQueryFactory(JPQLTemplates.DEFAULT, entityManager);
     }

@@ -50,11 +50,6 @@ class AccountStore implements AccountRepo {
         repositoryJPA.deleteById(accountEntity.getId());
     }
 
-    @Override
-    public Optional<Account> findById(final Account.Id id) {
-        return repositoryJPA.findById(id.id()).map(Account::new);
-    }
-
     @Transactional(readOnly = true) //When using Streams, a transaction is needed to keep the session open
     public void processAllActiveAccounts() {
         try (Stream<AccountEntity> stream = repositoryJPA.streamAllActiveAccounts()) {

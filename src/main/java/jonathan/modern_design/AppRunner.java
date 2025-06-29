@@ -7,6 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.modulith.Modulithic;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Slf4j
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @EnableFeignClients
 @ConfigurationPropertiesScan
+@Modulithic(sharedModules = "_shared") //For integration tests with @ApplicationModuleTest
 public class AppRunner {
 
     static {
