@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @EnableFeignClients
 @ConfigurationPropertiesScan
-@Modulithic(sharedModules = "_shared") //For integration tests with @ApplicationModuleTest
+@Modulithic(sharedModules = "_shared") //For Integrated/Contract/e2e tests with @ApplicationModuleTest
 public class AppRunner {
 
     static {

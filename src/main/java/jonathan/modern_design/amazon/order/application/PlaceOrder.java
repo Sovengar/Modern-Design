@@ -35,7 +35,7 @@ public class PlaceOrder {
     @PostMapping("order")
     public String handle(@RequestBody @Validated PlaceOrderRequest request) {
         Map<String, Integer> items = request.items.stream().collect(toMap(LineItem::productId, LineItem::count));
-        Order order = new Order(request.orderId(), request.customerId(), request.shippingAddress(), null, items);
+        Order order = Order.place(request.orderId(), request.customerId(), request.shippingAddress(), null, items);
 
         orderRepo.save(order);
         inventoryApi.reserveStock(order.getId(), request.items);

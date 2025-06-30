@@ -58,16 +58,20 @@ public class Order extends AbstractAggregateRoot<Order> {
     @NotEmpty
     private Map<String, Integer> items = new HashMap<>();
 
-    public Order(UUID id, String customerId, String shippingAddress, String shippingTrackingNumber, Map<String, Integer> items) {
+    private Order(UUID id, LocalDate placedOn, String customerId, String shippingAddress, String shippingTrackingNumber, OrderStatus status, Map<String, Integer> items) {
         this.id = Objects.nonNull(id) ? id : UUID.randomUUID();
-        this.placedOn = LocalDate.now();
+        this.placedOn = placedOn;
         this.customerId = customerId;
         this.shippingAddress = shippingAddress;
         this.shippingTrackingNumber = shippingTrackingNumber;
-        this.status = OrderStatus.AWAITING_PAYMENT;
+        this.status = status;
         this.items = items;
 
         this.registerEvent(new OrderPlaced(id));
+    }
+
+    public static Order place(UUID id, String customerId, String shippingAddress, String shippingTrackingNumber, Map<String, Integer> items) {
+        return new Order(id, LocalDate.now(), customerId, shippingAddress, shippingTrackingNumber, OrderStatus.AWAITING_PAYMENT, items);
     }
 
     public Order pay(boolean ok) {

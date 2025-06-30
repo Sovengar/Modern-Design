@@ -1,5 +1,6 @@
 package jonathan.modern_design.banking.application.create_account;
 
+import com.google.common.annotations.VisibleForTesting;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
@@ -100,6 +101,11 @@ public class CreateAccount {
 
         log.info("END - Account created  with number: {}", accountNumber);
         return accountNumber;
+    }
+
+    @VisibleForTesting
+    void complexLogicHere() {
+        log.info("Doing more complex logic...");
     }
 
     private User.Id registerUser(final Command cmd) {

@@ -94,14 +94,18 @@ class BoundaryTest {
             //new Documenter(modules).writeModuleCanvases();
             //Documenter.DiagramOptions.defaults().withStyle(Documenter.DiagramOptions.DiagramStyle.UML);
             //new Documenter(modules).writeAggregatingDocument();
-
         }
 
-        //Integration tests
-//    @ApplicationModuleTest
-//    class OrderIntegrationTests {
-//
-//        // Test methods go here
-//    }
+        @SuppressWarnings("java:S2699")
+        @Test
+        @Disabled
+        void generateAsciidoc() {
+            var canvasOptions = Documenter.CanvasOptions.defaults();
+
+            var docOptions = Documenter.DiagramOptions.defaults()
+                    .withStyle(Documenter.DiagramOptions.DiagramStyle.UML);
+
+            new Documenter(modules).writeDocumentation(docOptions, canvasOptions);
+        }
     }
 }
