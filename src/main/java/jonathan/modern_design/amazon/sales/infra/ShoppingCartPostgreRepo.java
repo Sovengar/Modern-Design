@@ -1,7 +1,6 @@
 package jonathan.modern_design.amazon.sales.infra;
 
 import jonathan.modern_design._shared.tags.DataAdapter;
-import jonathan.modern_design.amazon.sales.ShoppingCartRepo;
 import jonathan.modern_design.amazon.sales.domain.ShoppingCart;
 import lombok.RequiredArgsConstructor;
 
