@@ -1,8 +1,8 @@
 package jonathan.modern_design.banking.domain.models;
 
-import jonathan.modern_design._shared.domain.vo.Money;
 import jonathan.modern_design._shared.tags.AggregateRoot;
 import jonathan.modern_design._shared.tags.MicroType;
+import jonathan.modern_design._shared.vo.Money;
 import jonathan.modern_design.banking.api.events.AccountCreated;
 import jonathan.modern_design.banking.domain.events.AccountActivated;
 import jonathan.modern_design.banking.domain.events.AccountDeactivated;

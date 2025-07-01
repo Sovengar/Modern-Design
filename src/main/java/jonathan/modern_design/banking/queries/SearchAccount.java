@@ -37,7 +37,7 @@ import java.util.Objects;
 
 import static java.lang.String.join;
 import static java.util.Optional.ofNullable;
-import static jonathan.modern_design._shared.infra.TraceIdGenerator.generateTraceId;
+import static jonathan.modern_design._shared.TraceIdGenerator.generateTraceId;
 import static jonathan.modern_design.banking.domain.models.QAccountEntity.accountEntity;
 import static jonathan.modern_design.banking.domain.models.QAccountHolder.accountHolder;
 

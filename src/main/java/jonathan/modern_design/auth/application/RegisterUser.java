@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static java.lang.String.format;
-import static jonathan.modern_design._shared.infra.TraceIdGenerator.generateTraceId;
+import static jonathan.modern_design._shared.TraceIdGenerator.generateTraceId;
 
 @Slf4j
 @RequiredArgsConstructor

@@ -1,7 +1,7 @@
 package jonathan.modern_design.banking.infra;
 
-import jonathan.modern_design._shared.domain.CountriesCatalog;
-import jonathan.modern_design._shared.domain.CountriesCatalogStub;
+import jonathan.modern_design._shared.country.CountriesCatalog;
+import jonathan.modern_design._shared.country.CountriesCatalogStub;
 import jonathan.modern_design.auth.api.AuthApi;
 import jonathan.modern_design.banking.api.BankingApi;
 import jonathan.modern_design.banking.application.Deposit;

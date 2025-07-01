@@ -5,7 +5,7 @@ import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
-import jonathan.modern_design._shared.domain.vo.Money;
+import jonathan.modern_design._shared.vo.Money;
 import jonathan.modern_design.banking.domain.events.TransactionRegistered;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

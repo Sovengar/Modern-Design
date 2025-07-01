@@ -4,11 +4,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
+import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design._shared.api.Response;
-import jonathan.modern_design._shared.domain.Currency;
-import jonathan.modern_design._shared.domain.vo.Money;
 import jonathan.modern_design._shared.tags.ApplicationService;
 import jonathan.modern_design._shared.tags.WebAdapter;
+import jonathan.modern_design._shared.vo.Money;
 import jonathan.modern_design.banking.api.dtos.AccountDto;
 import jonathan.modern_design.banking.domain.models.Account;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.math.BigDecimal;
 
-import static jonathan.modern_design._shared.infra.TraceIdGenerator.generateTraceId;
+import static jonathan.modern_design._shared.TraceIdGenerator.generateTraceId;
 
 @Slf4j
 @RequiredArgsConstructor

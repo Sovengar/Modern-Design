@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import static jonathan.modern_design._shared.infra.TraceIdGenerator.generateTraceId;
+import static jonathan.modern_design._shared.TraceIdGenerator.generateTraceId;
 
 @WebAdapter("/v1/internal/accounts/closer")
 @Slf4j

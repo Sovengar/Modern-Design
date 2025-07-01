@@ -2,8 +2,8 @@ package jonathan.modern_design.banking.application.transfer;
 
 import jonathan.modern_design.__config.TimeExtension;
 import jonathan.modern_design.__config.shared_for_all_classes.UnitTest;
-import jonathan.modern_design._shared.domain.exceptions.OperationWithDifferentCurrenciesException;
-import jonathan.modern_design._shared.domain.vo.Money;
+import jonathan.modern_design._shared.exceptions.OperationWithDifferentCurrenciesException;
+import jonathan.modern_design._shared.vo.Money;
 import jonathan.modern_design.auth.api.AuthApi;
 import jonathan.modern_design.banking.api.BankingApi;
 import jonathan.modern_design.banking.domain.exceptions.AccountIsInactiveException;
@@ -26,7 +26,7 @@ import static jonathan.modern_design._dsl.AccountStub.AccountMother.targetAccoun
 import static jonathan.modern_design._dsl.AccountStub.AccountMother.targetAccountWithBalance;
 import static jonathan.modern_design._dsl.AccountStub.AccountMother.targetAccountWithDifferentCurrency;
 import static jonathan.modern_design._dsl.AccountStub.TransferMoneyMother.transactionWithAmount;
-import static jonathan.modern_design._shared.domain.Currency.EUR;
+import static jonathan.modern_design._shared.Currency.EUR;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 

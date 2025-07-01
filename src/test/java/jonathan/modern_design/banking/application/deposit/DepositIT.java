@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.math.BigDecimal;
 
 import static jonathan.modern_design._dsl.AccountStub.CreateAccountMother.createAccountCommand;
-import static jonathan.modern_design._shared.domain.Currency.EUR;
+import static jonathan.modern_design._shared.Currency.EUR;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

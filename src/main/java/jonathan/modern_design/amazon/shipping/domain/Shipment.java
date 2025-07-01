@@ -3,34 +3,24 @@ package jonathan.modern_design.amazon.shipping.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-//OrderAR
-/*
-public Shipment Ship(LocalDateTime expectedPickup, LocalDateTime expectedDelivery) {
-    var pickup = new PickupStop(expectedPickup);
-    var delivery = new DeliveryStop(expectedDelivery);
-    return new Shipment.Factory(pickup, delivery);
-}
-
- */
-
 public class Shipment {
 
+    private final List<Stop> stops;
     private List<StopEntity> stopsEntity = new ArrayList<>();
-    private List<Stop> stops = new ArrayList<>();
 
     private Shipment(List<Stop> stops) {
         this.stops = stops;
     }
 
     public boolean isComplete() {
-        return stopsEntity.stream().allMatch(stop -> stop.getStatus() == Stop.Status.DEPARTED);
+        return stops.stream().allMatch(stop -> stop.getStatus() == Stop.Status.DEPARTED);
     }
 
-    public void arrive(int stopId) {
+    public void arrive(Long stopId) {
         var currentStop = getCurrentStopOrElseThrow(stopId);
 
-        boolean previousAreNotDeparted = stopsEntity.stream()
-                .anyMatch(stop -> stop.getStatus() != Stop.Status.DEPARTED); //add stop.sequence() < currentStop.sequence() &&
+        boolean previousAreNotDeparted = stops.stream()
+                .anyMatch(stop -> stop.getStatus() != Stop.Status.DEPARTED && stop.getSequence() < currentStop.getSequence());
 
         if (previousAreNotDeparted) {
             throw new IllegalStateException("Previous stops have not departed");
@@ -43,7 +33,7 @@ public class Shipment {
         currentStop.arrive();
     }
 
-    public void pickup(int stopId) {
+    public void pickup(Long stopId) {
         var currentStop = getCurrentStopOrElseThrow(stopId);
 
         if (!(currentStop instanceof PickupStop)) {
@@ -53,7 +43,7 @@ public class Shipment {
         currentStop.depart();
     }
 
-    public void deliver(int stopId) {
+    public void deliver(Long stopId) {
         var currentStop = getCurrentStopOrElseThrow(stopId);
 
         if (!(currentStop instanceof DeliveryStop)) {
@@ -63,20 +53,26 @@ public class Shipment {
         currentStop.depart();
     }
 
-    private StopEntity getCurrentStopOrElseThrow(final Long stopId) {
-        return stopsEntity.stream()
-                .filter(stop -> stop.getId().equals(stopId))
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("Stop not found"));
-    }
-
-    private Stop getCurrentStopOrElseThrow(final int stopId) {
+    private Stop getCurrentStopOrElseThrow(final Long stopId) {
         return stops.stream()
-                .filter(stop -> stop.getStopId() == stopId)
+                .filter(stop -> stop.getStopId().equals(stopId))
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("Stop not found"));
     }
 
+    //private StopEntity getCurrentStopOrElseThrow(final Long stopId) {
+    //    return stopsEntity.stream()
+    //            .filter(stop -> stop.getId().equals(stopId))
+    //            .findFirst()
+    //            .orElseThrow(() -> new IllegalStateException("Stop not found"));
+    //}
+
+    //TODO ADD THIS ON ORDER AR
+    //public Shipment Ship(LocalDateTime expectedPickup, LocalDateTime expectedDelivery) {
+    //    var pickup = new PickupStop(expectedPickup);
+    //    var delivery = new DeliveryStop(expectedDelivery);
+    //    return new Shipment.Factory(pickup, delivery);
+    //}
     public static class Factory {
         public static Shipment create(PickupStop pickup, DeliveryStop delivery) {
             return new Shipment(List.of(pickup, delivery));
@@ -96,11 +92,6 @@ public class Shipment {
             }
 
             return new Shipment(stops);
-        }
-
-        public static Shipment createWithEntity(List<StopEntity> stopsEntity) {
-            return null;
-            //TODO return new Shipment(stopsEntity.toDomain());
         }
     }
 }

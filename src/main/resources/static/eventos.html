@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Últimos 20 Eventos</title>
+    <style>
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background: #f0f0f0; }
+    </style>
+</head>
+<body>
+<h2>Últimos 20 Eventos (Tiempo Real)</h2>
+<div style="margin-bottom: 1em;">
+    <button onclick="setFilter('all')">Todos</button>
+    <button onclick="setFilter('today')">Hoy</button>
+    <button onclick="setFilter('loaded')">Cargados</button>
+    <button onclick="setFilter('pending')">Pendientes</button>
+</div>
+<table id="eventTable">
+    <thead>
+    <tr id="headerRow">
+        <!-- Columnas dinámicas -->
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Filas de eventos -->
+    </tbody>
+</table>
+<script>
+    const eventTable = document.getElementById('eventTable').getElementsByTagName('tbody')[0];
+    let buffer = [];
+    let currentFilter = 'all';
+
+    // Definir columnas estándar de event_publication
+    const publicationColumns = [
+        'id',
+        'event_type',
+        'listener_id',
+        'payload',
+        'publication_date',
+        'completion_date',
+        'status'
+    ];
+
+    function isToday(dateString) {
+        if (!dateString) return false;
+        const date = new Date(dateString);
+        const today = new Date();
+        return date.getFullYear() === today.getFullYear() &&
+            date.getMonth() === today.getMonth() &&
+            date.getDate() === today.getDate();
+    }
+
+    function renderHeader() {
+        const headerRow = document.getElementById('headerRow');
+        headerRow.innerHTML = '';
+        publicationColumns.forEach(col => {
+            const th = document.createElement('th');
+            th.textContent = col;
+            headerRow.appendChild(th);
+        });
+    }
+
+    function renderTable(events) {
+        eventTable.innerHTML = '';
+        events.forEach(event => {
+            const row = document.createElement('tr');
+            publicationColumns.forEach(col => {
+                const td = document.createElement('td');
+                td.textContent = event[col] !== undefined ? event[col] : '';
+                row.appendChild(td);
+            });
+            eventTable.appendChild(row);
+        });
+    }
+
+    function applyFilter() {
+        let filtered = buffer;
+        if (currentFilter === 'today') {
+            filtered = buffer.filter(e => isToday(e.publication_date));
+        } else if (currentFilter === 'loaded') {
+            filtered = buffer.filter(e => e.status === 'LOADED');
+        } else if (currentFilter === 'pending') {
+            filtered = buffer.filter(e => e.status === 'PENDING');
+        }
+        renderTable(filtered);
+    }
+
+    function setFilter(filter) {
+        currentFilter = filter;
+        applyFilter();
+    }
+
+    renderHeader();
+
+    const evtSource = new EventSource('/api/events/stream');
+    evtSource.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        buffer.unshift(data);
+        if (buffer.length > 20) buffer = buffer.slice(0, 20);
+        applyFilter();
+    };
+    evtSource.onerror = function() {
+        evtSource.close();
+    };
+</script>
+</body>
+</html>

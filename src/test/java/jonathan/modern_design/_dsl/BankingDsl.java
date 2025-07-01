@@ -1,6 +1,6 @@
 package jonathan.modern_design._dsl;
 
-import jonathan.modern_design._shared.domain.vo.Money;
+import jonathan.modern_design._shared.vo.Money;
 import jonathan.modern_design.banking.api.BankingApi;
 import jonathan.modern_design.banking.application.Deposit;
 import jonathan.modern_design.banking.domain.models.Account;

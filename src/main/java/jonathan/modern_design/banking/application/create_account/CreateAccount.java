@@ -5,13 +5,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design._shared.api.Response;
-import jonathan.modern_design._shared.domain.CountriesCatalog;
-import jonathan.modern_design._shared.domain.Currency;
-import jonathan.modern_design._shared.domain.vo.Money;
+import jonathan.modern_design._shared.country.CountriesCatalog;
 import jonathan.modern_design._shared.tags.ApplicationService;
 import jonathan.modern_design._shared.tags.DomainService;
 import jonathan.modern_design._shared.tags.WebAdapter;
+import jonathan.modern_design._shared.vo.Money;
 import jonathan.modern_design.auth.api.AuthApi;
 import jonathan.modern_design.auth.application.RegisterUser;
 import jonathan.modern_design.auth.domain.models.User;
@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static jonathan.modern_design._shared.infra.TraceIdGenerator.generateTraceId;
+import static jonathan.modern_design._shared.TraceIdGenerator.generateTraceId;
 
 
 @Slf4j

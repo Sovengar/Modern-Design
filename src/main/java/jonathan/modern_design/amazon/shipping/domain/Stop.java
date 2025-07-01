@@ -6,13 +6,14 @@ import java.time.LocalDateTime;
 
 @Getter
 public abstract class Stop {
-    protected int stopId;
+    protected Long stopId;
     protected Status status = Status.IN_TRANSIT;
     protected Address address;
     protected LocalDateTime scheduled;
     protected LocalDateTime departed;
+    protected int sequence;
 
-    public Stop(int stopId, Address address, LocalDateTime scheduled) {
+    public Stop(Long stopId, Address address, LocalDateTime scheduled) {
         this.stopId = stopId;
         this.address = address;
         this.scheduled = scheduled;
@@ -47,13 +48,13 @@ public abstract class Stop {
 }
 
 class PickupStop extends Stop {
-    public PickupStop(int stopId, Address address, LocalDateTime scheduled) {
+    public PickupStop(Long stopId, Address address, LocalDateTime scheduled) {
         super(stopId, address, scheduled);
     }
 }
 
 class DeliveryStop extends Stop {
-    public DeliveryStop(int stopId, Address address, LocalDateTime scheduled) {
+    public DeliveryStop(Long stopId, Address address, LocalDateTime scheduled) {
         super(stopId, address, scheduled);
     }
 }

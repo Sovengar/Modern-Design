@@ -1,6 +1,5 @@
 package jonathan.modern_design.amazon.shipping.api;
 
-import jonathan.modern_design.amazon.shipping.domain.Shipment;
 import jonathan.modern_design.amazon.shipping.domain.StopEntity;
 import jonathan.modern_design.amazon.shipping.domain.StopRepo;
 import jonathan.modern_design.amazon.shipping.infra.ShippingProperties;
@@ -36,10 +35,10 @@ class ShippingService {
         return shippingProviderClient.requestShipment(shippingProperties.shippingFromAddress(), customerAddress, orderId);
     }
 
-    public void handleArrival(UUID shipmentId, int stopId) {
+    public void handleArrival(UUID shipmentId, Long stopId) {
         List<StopEntity> stops = stopRepo.findStopDataByShipmentId(shipmentId);
-        var shipment = Shipment.Factory.createWithEntity(stops);
-        shipment.arrive(stopId);
-        // Aquí se podrían publicar eventos, actualizar estado, etc.
+        //TODO
+        //var shipment = Shipment.Factory.create(stops);
+        //shipment.arrive(stopId);
     }
 }

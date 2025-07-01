@@ -1,6 +1,6 @@
 package jonathan.modern_design.banking.domain.vo;
 
-import jonathan.modern_design._shared.domain.Country;
+import jonathan.modern_design._shared.country.Country;
 import jonathan.modern_design._shared.tags.ValueObject;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

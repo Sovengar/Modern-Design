@@ -1,6 +1,6 @@
 package jonathan.modern_design.search.listeners;
 
-import jonathan.modern_design._shared.domain.events.banking.AccountSnapshot;
+import jonathan.modern_design._shared.events.banking.AccountSnapshot;
 import jonathan.modern_design.search.read_models.AccountWithUserInfoReadModel;
 import jonathan.modern_design.search.store.AccountWithUserInfoRepo;
 import lombok.RequiredArgsConstructor;

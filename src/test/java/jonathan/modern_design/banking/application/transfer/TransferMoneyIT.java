@@ -3,7 +3,7 @@ package jonathan.modern_design.banking.application.transfer;
 import jonathan.modern_design.__config.shared_for_all_classes.AceptanceTest;
 import jonathan.modern_design.__config.shared_for_all_classes.EnableTestContainers;
 import jonathan.modern_design._dsl.BankingDsl;
-import jonathan.modern_design._shared.domain.vo.Money;
+import jonathan.modern_design._shared.vo.Money;
 import jonathan.modern_design.banking.api.BankingApi;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
 import org.approvaltests.Approvals;
@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 
 import static java.math.BigDecimal.ZERO;
 import static jonathan.modern_design._dsl.AccountStub.TransferMoneyMother.fromAccountToAccountWithAmount;
-import static jonathan.modern_design._shared.domain.Currency.EUR;
+import static jonathan.modern_design._shared.Currency.EUR;
 import static org.assertj.core.api.Assertions.assertThat;
 
 //TODO ERROR WITH FEIGN @ApplicationModuleTest //Better than @SpringBootTest when using modules

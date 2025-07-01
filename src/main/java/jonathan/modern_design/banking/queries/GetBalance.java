@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.math.BigDecimal;
 
-import static jonathan.modern_design._shared.infra.TraceIdGenerator.generateTraceId;
+import static jonathan.modern_design._shared.TraceIdGenerator.generateTraceId;
 import static jonathan.modern_design.banking.domain.models.QAccountEntity.accountEntity;
 
 @Slf4j

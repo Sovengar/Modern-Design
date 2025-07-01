@@ -5,8 +5,8 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jonathan.modern_design._shared.api.Response;
-import jonathan.modern_design._shared.domain.events.banking.AccountHolderDeleted;
-import jonathan.modern_design._shared.infra.db.delete_table.EntityDeleter;
+import jonathan.modern_design._shared.delete_table.EntityDeleter;
+import jonathan.modern_design._shared.events.banking.AccountHolderDeleted;
 import jonathan.modern_design._shared.tags.ApplicationService;
 import jonathan.modern_design._shared.tags.WebAdapter;
 import jonathan.modern_design.banking.api.events.AccountDeleted;
@@ -23,7 +23,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import static jonathan.modern_design._shared.infra.TraceIdGenerator.generateTraceId;
+import static jonathan.modern_design._shared.TraceIdGenerator.generateTraceId;
 
 @WebAdapter("/v1/accounts")
 @Slf4j
