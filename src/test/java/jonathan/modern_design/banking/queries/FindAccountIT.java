@@ -38,10 +38,10 @@ class FindAccountIT {
         entityManager.clear();
 
         // Act
-        var accountDto = findAccount.queryWith(AccountStub.sourceAccountId);
+        var accountDto = findAccount.queryWith(AccountStub.DEFAULT_SOURCE_ACCOUNT_NUMBER);
 
         // Assert
-        assertThat(accountDto.accountNumber()).isEqualTo(AccountStub.sourceAccountId);
+        assertThat(accountDto.accountNumber()).isEqualTo(AccountStub.DEFAULT_SOURCE_ACCOUNT_NUMBER);
     }
 
     @Test
@@ -60,7 +60,7 @@ class FindAccountIT {
 
         // Assert
         assertThat(result).isNotNull();
-        assertThat(result.accountNumber()).isEqualTo(AccountStub.sourceAccountId);
+        assertThat(result.accountNumber()).isEqualTo(AccountStub.DEFAULT_SOURCE_ACCOUNT_NUMBER);
     }
 
     @Test

@@ -25,48 +25,49 @@ public class AccountStub extends Stub {
 
     public static final String DEFAULT_COUNTRY = "ES";
     public static final Country SPAIN = new Country(DEFAULT_COUNTRY, "Spain");
-    public static String sourceAccountId = "1e95e7f2-1b5b-4049-a37e-44385b3533e3";
-    public static String targetAccountId = "0db3c62f-c978-41ad-95a9-9230aa85593f";
-    public static String username = faker.name().username();
-    public static String email = faker.internet().emailAddress();
-    public static String fullName = faker.name().fullName();
-    public static CreateAccount.Command.Address address = new CreateAccount.Command.Address("Rupert", "Alicante", "Comunidad Valenciana", "033187", DEFAULT_COUNTRY);
-    public static AccountHolderAddress ahAddress = AccountHolderAddress.of(AccountHolderAddress.StreetType.AVENUE, address.street(), address.city(), address.state(), address.zipCode(), SPAIN);
-    public static String personalId = "48732228A";
-    public static List<String> phoneNumbers = List.of(faker.phoneNumber().phoneNumber());
-    public static LocalDate birthdate = LocalDate.of(1990, 1, 1);
+    public static final String DEFAULT_ACCOUNT_NUMBER = "1e95e7f2-1b5b-4049-a37e-44385b3533e3";
+    public static final String DEFAULT_SOURCE_ACCOUNT_NUMBER = "1e95e7f2-1b5b-4049-a37e-44385b3533e3";
+    public static final String DEFAULT_TARGET_ACCOUNT_NUMBER = "0db3c62f-c978-41ad-95a9-9230aa85593f";
+    public static final String username = faker.name().username();
+    public static final String email = faker.internet().emailAddress();
+    public static final String fullName = faker.name().fullName();
+    public static final CreateAccount.Command.Address address = new CreateAccount.Command.Address("Rupert", "Alicante", "Comunidad Valenciana", "033187", DEFAULT_COUNTRY);
+    public static final AccountHolderAddress ahAddress = AccountHolderAddress.of(AccountHolderAddress.StreetType.AVENUE, address.street(), address.city(), address.state(), address.zipCode(), SPAIN);
+    public static final String personalId = "48732228A";
+    public static final List<String> phoneNumbers = List.of(faker.phoneNumber().phoneNumber());
+    public static final LocalDate birthdate = LocalDate.of(1990, 1, 1);
 
     public static class AccountMother {
         public static Account sourceAccountWithBalance(double balance) {
-            return builder(sourceAccountId, Money.of(BigDecimal.valueOf(balance), EUR), true, AccountHolderMother.randomAccountHolder());
+            return builder(DEFAULT_SOURCE_ACCOUNT_NUMBER, Money.of(BigDecimal.valueOf(balance), EUR), true, AccountHolderMother.randomAccountHolder());
         }
 
         public static Account targetAccountWithBalance(double balance) {
-            return builder(targetAccountId, Money.of(BigDecimal.valueOf(balance), EUR), true, AccountHolderMother.randomAccountHolder());
+            return builder(DEFAULT_TARGET_ACCOUNT_NUMBER, Money.of(BigDecimal.valueOf(balance), EUR), true, AccountHolderMother.randomAccountHolder());
         }
 
         public static Account sourceAccountEmpty() {
-            return builder(sourceAccountId, Money.of(BigDecimal.ZERO, EUR), true, AccountHolderMother.randomAccountHolder());
+            return builder(DEFAULT_SOURCE_ACCOUNT_NUMBER, Money.of(BigDecimal.ZERO, EUR), true, AccountHolderMother.randomAccountHolder());
         }
 
         public static Account sourceAccountInactive() {
-            return builder(sourceAccountId, Money.of(BigDecimal.ZERO, EUR), false, AccountHolderMother.randomAccountHolder());
+            return builder(DEFAULT_SOURCE_ACCOUNT_NUMBER, Money.of(BigDecimal.ZERO, EUR), false, AccountHolderMother.randomAccountHolder());
         }
 
         public static Account targetAccountEmpty() {
-            return builder(targetAccountId, Money.of(BigDecimal.ZERO, EUR), true, AccountHolderMother.randomAccountHolder());
+            return builder(DEFAULT_TARGET_ACCOUNT_NUMBER, Money.of(BigDecimal.ZERO, EUR), true, AccountHolderMother.randomAccountHolder());
         }
 
         public static Account targetAccountInactive() {
-            return builder(targetAccountId, Money.of(BigDecimal.ZERO, EUR), false, AccountHolderMother.randomAccountHolder());
+            return builder(DEFAULT_TARGET_ACCOUNT_NUMBER, Money.of(BigDecimal.ZERO, EUR), false, AccountHolderMother.randomAccountHolder());
         }
 
         public static Account targetAccountWithDifferentCurrency() {
-            return builder(targetAccountId, Money.of(BigDecimal.ZERO, USD), true, AccountHolderMother.randomAccountHolder());
+            return builder(DEFAULT_TARGET_ACCOUNT_NUMBER, Money.of(BigDecimal.ZERO, USD), true, AccountHolderMother.randomAccountHolder());
         }
 
         public static Account accountWithUserId(UUID userId) {
-            return builder(sourceAccountId, Money.of(BigDecimal.ZERO, EUR), true, AccountHolderMother.accountHolder(UUID.randomUUID(), userId));
+            return builder(DEFAULT_SOURCE_ACCOUNT_NUMBER, Money.of(BigDecimal.ZERO, EUR), true, AccountHolderMother.accountHolder(UUID.randomUUID(), userId));
         }
 
         private static Account builder(String accountId, Money money, boolean isActive, AccountHolder accountHolder) {
@@ -111,15 +112,15 @@ public class AccountStub extends Stub {
         }
 
         public static TransferMoney.Command transactionWithAmount(Money money) {
-            return fromAccountToAccountWithAmount(sourceAccountId, targetAccountId, money);
+            return fromAccountToAccountWithAmount(DEFAULT_SOURCE_ACCOUNT_NUMBER, DEFAULT_TARGET_ACCOUNT_NUMBER, money);
         }
 
         public static TransferMoney.Command insufficientFundsTransaction() {
-            return fromAccountToAccountWithAmount(sourceAccountId, targetAccountId, Money.of(BigDecimal.valueOf(100.0), EUR));
+            return fromAccountToAccountWithAmount(DEFAULT_SOURCE_ACCOUNT_NUMBER, DEFAULT_TARGET_ACCOUNT_NUMBER, Money.of(BigDecimal.valueOf(100.0), EUR));
         }
 
         public static TransferMoney.Command negativeAmountTransaction() {
-            return fromAccountToAccountWithAmount(sourceAccountId, targetAccountId, Money.of(BigDecimal.valueOf(-100), EUR));
+            return fromAccountToAccountWithAmount(DEFAULT_SOURCE_ACCOUNT_NUMBER, DEFAULT_TARGET_ACCOUNT_NUMBER, Money.of(BigDecimal.valueOf(-100), EUR));
         }
     }
 }

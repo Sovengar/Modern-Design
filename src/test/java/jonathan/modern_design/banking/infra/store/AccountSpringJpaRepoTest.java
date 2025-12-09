@@ -40,8 +40,8 @@ class AccountSpringJpaRepoTest {
         givenAnAccount(accountRepository);
 
         //When
-        List<AccountProjection> projectionList = accountRepository.findByAccountNumber(AccountStub.sourceAccountId, AccountProjection.class);
-        List<AccountEntity> entityList = accountRepository.findByAccountNumber(AccountStub.sourceAccountId, AccountEntity.class);
+        List<AccountProjection> projectionList = accountRepository.findByAccountNumber(AccountStub.DEFAULT_SOURCE_ACCOUNT_NUMBER, AccountProjection.class);
+        List<AccountEntity> entityList = accountRepository.findByAccountNumber(AccountStub.DEFAULT_SOURCE_ACCOUNT_NUMBER, AccountEntity.class);
         //List<AccountDto> dtoList = accountRepository.findByAccountNumber("ES123456789", AccountDto.class);
         //Cannot set field 'currency' to instantiate 'jonathan.modern_design.banking.api.dtos.AccountDto'
         //List<Account> domainModelList = accountRepository.findByAccountNumber("ES123456789", Account.class);
