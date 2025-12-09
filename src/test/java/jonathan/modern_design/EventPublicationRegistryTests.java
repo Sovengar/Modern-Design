@@ -20,13 +20,10 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * A show case for how the Spring Modulith application event publication registry keeps track of incomplete publications
- * for failing transactional event listeners
+ * Integration test for the overall application.
  */
-//TODO @ApplicationModuleTest
 @SpringBootTest
 @EnableTestContainers
-///
 @Import(EventPublicationRegistryTests.FailingAsyncTransactionalEventListener.class)
 @DirtiesContext
 @RequiredArgsConstructor
@@ -36,15 +33,34 @@ class EventPublicationRegistryTests {
     private final FailingAsyncTransactionalEventListener listener;
     private final DefaultEventPublicationRegistry defaultRegistry;
 
+    @Test
+    void bootstrapsApplication(Scenario scenario) {
+        //TODO END WHEN WE DO INVENTORY LOGIC
+        //var placeOrderRequest = new PlaceOrder.PlaceOrderRequest(
+        //        UUID.randomUUID(),
+        //        "123",
+        //        List.of(new LineItem("1", 1)),
+        //        "address"
+        //);
+        //
+        //scenario.stimulate(() -> orderApi.placeOrder(placeOrderRequest))
+        //        .andWaitForStateChange(registry::findIncompletePublications)
+        //        .andExpect(InventoryUpdated.class) //Event from another Bounded Context
+        //        .toArrive();
+    }
 
     @Test
+    /*
+      A showcase for how the Spring Modulith application event publication registry keeps track of incomplete publications
+      for failing transactional event listeners
+     */
     void leavesPublicationIncompleteForFailingListener(Scenario scenario) throws Exception {
-
         var order = Order.place(UUID.randomUUID(), "", "", "", null);
 
         scenario.stimulate(() -> orderApi.complete(order))
                 .andWaitForStateChange(listener::getEx)
-                .andVerify((Exception __) -> assertThat(registry.findIncompletePublications()).hasSize(1));
+                .andVerify((Exception __) -> assertThat(registry.findIncompletePublications())
+                        .hasSize(1));
     }
 
     static class FailingAsyncTransactionalEventListener {

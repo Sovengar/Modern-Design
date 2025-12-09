@@ -13,6 +13,7 @@ import jonathan.modern_design.amazon.shipping.api.ShippingResultResolved;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.modulith.events.ApplicationModuleListener;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,13 +36,16 @@ public class PlaceOrder {
     private final PaymentApi paymentApi;
 
     @PostMapping
+    @Transactional
     public String handle(@RequestBody @Validated PlaceOrderRequest request) {
         Map<String, Integer> items = request.items.stream().collect(toMap(LineItem::productId, LineItem::count));
         Order order = Order.place(request.orderId(), request.customerId(), request.shippingAddress(), null, items);
 
         orderRepo.save(order);
-        inventoryApi.reserveStock(order.getId(), request.items);
-        return paymentApi.generatePaymentUrl(order.getId(), getTotalPrice(request));
+        //TODO inventoryApi.reserveStock(order.getId(), request.items);
+        //TODO var url = paymentApi.generatePaymentUrl(order.getId(), getTotalPrice(request));
+        String url = "123";
+        return url;
     }
 
     private double getTotalPrice(final PlaceOrderRequest request) {

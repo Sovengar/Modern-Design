@@ -31,7 +31,7 @@ public class AccountStub extends Stub {
     public static String email = faker.internet().emailAddress();
     public static String fullName = faker.name().fullName();
     public static CreateAccount.Command.Address address = new CreateAccount.Command.Address("Rupert", "Alicante", "Comunidad Valenciana", "033187", DEFAULT_COUNTRY);
-    public static AccountHolderAddress ahAddress = AccountHolderAddress.of(address.street(), address.city(), address.state(), address.zipCode(), SPAIN);
+    public static AccountHolderAddress ahAddress = AccountHolderAddress.of(AccountHolderAddress.StreetType.AVENUE, address.street(), address.city(), address.state(), address.zipCode(), SPAIN);
     public static String personalId = "48732228A";
     public static List<String> phoneNumbers = List.of(faker.phoneNumber().phoneNumber());
     public static LocalDate birthdate = LocalDate.of(1990, 1, 1);
