@@ -3,9 +3,9 @@ package jonathan.modern_design.auth.infra;
 import jonathan.modern_design.auth.api.AuthApi;
 import jonathan.modern_design.auth.application.RegisterUser;
 import jonathan.modern_design.auth.domain.store.RoleStore;
-import jonathan.modern_design.auth.domain.store.RoleStoreInMemory;
-import jonathan.modern_design.auth.domain.store.UserInMemoryRepo;
 import jonathan.modern_design.auth.domain.store.UserRepo;
+import jonathan.modern_design.auth.infra.store.repositories.inmemory.RoleInMemoryRepo;
+import jonathan.modern_design.auth.infra.store.repositories.inmemory.UserInMemoryRepo;
 import jonathan.modern_design.auth.queries.FindUser;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -23,7 +23,7 @@ public class UsersConfig {
     @Profile("test")
     public AuthApi userApi() {
         //For Unit testing
-        var roleRepo = new RoleStoreInMemory();
+        var roleRepo = new RoleInMemoryRepo();
 
         return userApi(userRepo, roleRepo);
     }

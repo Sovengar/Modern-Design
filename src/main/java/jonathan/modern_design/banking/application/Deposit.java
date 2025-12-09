@@ -4,11 +4,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design._shared.api.Response;
+import jonathan.modern_design._shared.domain.catalogs.Currency;
+import jonathan.modern_design._shared.domain.vo.Money;
 import jonathan.modern_design._shared.tags.ApplicationService;
-import jonathan.modern_design._shared.tags.WebAdapter;
-import jonathan.modern_design._shared.vo.Money;
+import jonathan.modern_design._shared.tags.adapters.WebAdapter;
 import jonathan.modern_design.banking.domain.models.Transaction;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
 import jonathan.modern_design.banking.domain.store.TransactionRepo;
@@ -21,11 +21,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import java.math.BigDecimal;
 
-import static jonathan.modern_design._shared.TraceIdGenerator.generateTraceId;
+import static jonathan.modern_design._shared.infra.AppUrls.BankingUrls.ACCOUNTS_RESOURCE_URL;
+import static jonathan.modern_design._shared.infra.AppUrls.BankingUrls.BANKING_MODULE_URL;
+import static jonathan.modern_design._shared.infra.TraceIdGenerator.generateTraceId;
 
 @Slf4j
 @RequiredArgsConstructor
-@WebAdapter("/v1/accounts")
+@WebAdapter(BANKING_MODULE_URL + ACCOUNTS_RESOURCE_URL)
 class DepositHttpController {
     private final Deposit deposit;
 
@@ -41,9 +43,8 @@ class DepositHttpController {
 
         final var message = new Deposit.Command(accountNumber, amount, Currency.fromCode(currency));
 
-        log.info("BEGIN Deposit for accountNumber: {} with amount: {} and currency: {}", accountNumber, amount, currency);
+        log.info("Request arrived to Deposit for accountNumber: {} with amount: {} and currency: {}", accountNumber, amount, currency);
         deposit.handle(message);
-        log.info("END Deposit for accountNumber: {} with amount: {} and currency: {}", accountNumber, amount, currency);
 
         return ResponseEntity.ok(new Response.Builder<Void>().withDefaultMetadataV1());
     }
@@ -58,7 +59,7 @@ public class Deposit {
 
     @Transactional
     public void handle(final @Valid Command message) {
-        log.info("BEGIN Deposit");
+        log.info("BEGIN Deposit for accountNumber: {} with amount: {} and currency: {}", message.accountNumber(), message.amount(), message.currency());
         var account = repository.findByAccNumberOrElseThrow(message.accountNumber());
 
         var money = Money.of(message.amount(), message.currency());
@@ -67,7 +68,7 @@ public class Deposit {
 
         transactionRepo.register(tx);
         repository.update(account);
-        log.info("END Deposit");
+        log.info("END Deposit for accountNumber: {} with amount: {} and currency: {}", message.accountNumber(), message.amount(), message.currency());
     }
 
     public record Command(

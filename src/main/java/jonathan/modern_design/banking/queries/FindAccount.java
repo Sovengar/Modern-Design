@@ -6,8 +6,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jonathan.modern_design._shared.api.Response;
-import jonathan.modern_design._shared.tags.DataAdapter;
-import jonathan.modern_design._shared.tags.WebAdapter;
+import jonathan.modern_design._shared.tags.adapters.DataAdapter;
+import jonathan.modern_design._shared.tags.adapters.WebAdapter;
 import jonathan.modern_design.banking.api.dtos.AccountDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,13 +19,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.UUID;
 
-import static jonathan.modern_design._shared.TraceIdGenerator.generateTraceId;
+import static jonathan.modern_design._shared.infra.AppUrls.BankingUrls.ACCOUNTS_RESOURCE_URL;
+import static jonathan.modern_design._shared.infra.AppUrls.BankingUrls.BANKING_MODULE_URL;
+import static jonathan.modern_design._shared.infra.TraceIdGenerator.generateTraceId;
 import static jonathan.modern_design.banking.domain.models.QAccountEntity.accountEntity;
 import static jonathan.modern_design.banking.domain.models.QAccountHolder.accountHolder;
 
 @Slf4j
 @RequiredArgsConstructor
-@WebAdapter("/v1/accounts")
+@WebAdapter(BANKING_MODULE_URL + ACCOUNTS_RESOURCE_URL)
 class FindAccountHttpController {
     private final FindAccount findAccount;
 

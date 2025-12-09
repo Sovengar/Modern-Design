@@ -5,7 +5,7 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Transient;
 import jonathan.modern_design._config.exception.RootException;
-import jonathan.modern_design._shared.tags.ValueObject;
+import jonathan.modern_design._shared.tags.models.ValueObject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,13 +19,15 @@ import java.util.Optional;
 import java.util.Set;
 
 import static com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat.E164;
+import static lombok.AccessLevel.PACKAGE;
 import static lombok.AccessLevel.PRIVATE;
 
 @Embeddable
+@ValueObject
 @Data //No record for Hibernate
 @NoArgsConstructor(access = PRIVATE, force = true) //For Hibernate
-@AllArgsConstructor(access = PRIVATE)
-public class AccountHolderPhoneNumbers implements ValueObject {
+@AllArgsConstructor(access = PACKAGE) //Use factory method
+public class AccountHolderPhoneNumbers {
     private static final String SEPARATOR = ";";
     private static final String PHONE_NUMBER_REGEX = "^(?:\\+?\\d{1,4}[\\s.-]?)?(?:\\(?\\d+\\)?[\\s.-]?)*\\d+(?:\\s?(?:x|ext\\.?)\\s?\\d{1,5})?$\n";
 
@@ -44,7 +46,7 @@ public class AccountHolderPhoneNumbers implements ValueObject {
         if (!phoneNumbers.isEmpty()) {
             this.phoneNumbersSet = transformStringToSet(transformListToString(phoneNumbers));
         }
-        
+
         this.phoneNumbers = transformSetToString();
     }
 

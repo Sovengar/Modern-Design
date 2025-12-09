@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -27,10 +28,11 @@ import static lombok.AccessLevel.PACKAGE;
 public class ShoppingCartEntity extends AbstractAggregateRoot<ShoppingCartEntity> {
     @Id
     @Column(name = "shopping_cart_id")
-    UUID id;
-    String customerId;
+    private UUID id;
+    private String customerId;
     @OneToMany(fetch = FetchType.EAGER)
-    List<ShoppingCartItem> items = new ArrayList<>();
+    @JoinColumn(name = "shopping_cart_id")
+    private List<ShoppingCartItem> items = new ArrayList<>();
 
     //TODO MIGRATE EVENTS TO THIS CLASS
 }

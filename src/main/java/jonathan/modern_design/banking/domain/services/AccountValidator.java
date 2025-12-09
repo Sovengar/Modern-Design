@@ -12,7 +12,7 @@ public class AccountValidator {
     }
 
     private void validateActive(Account account) {
-        if (account.getStatus() != Account.Status.ACTIVE) {
+        if (account.getStatus() != Account.AccountStatus.ACTIVE) {
             throw new AccountIsInactiveException(account.getAccountNumber().getAccountNumber());
         }
     }

@@ -8,14 +8,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jonathan.modern_design._shared.api.Response;
-import jonathan.modern_design._shared.tags.DataAdapter;
-import jonathan.modern_design._shared.tags.WebAdapter;
+import jonathan.modern_design._shared.tags.adapters.DataAdapter;
+import jonathan.modern_design._shared.tags.adapters.WebAdapter;
 import jonathan.modern_design.banking.api.dtos.AccountDto;
 import jonathan.modern_design.banking.domain.models.Account;
 import jonathan.modern_design.banking.domain.models.AccountEntity;
 import jonathan.modern_design.banking.domain.vo.AccountHolderAddress;
-import jonathan.modern_design.banking.infra.store.read_model.AccountTransactionsViewRepository;
-import jonathan.modern_design.banking.infra.store.spring.AccountRepoSpringDataJPA;
+import jonathan.modern_design.banking.infra.store.repositories.spring_jpa.AccountSpringJpaRepo;
+import jonathan.modern_design.banking.infra.store.repositories.spring_jpa.AccountTransactionsViewSpringJpaRepo;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +37,9 @@ import java.util.Objects;
 
 import static java.lang.String.join;
 import static java.util.Optional.ofNullable;
-import static jonathan.modern_design._shared.TraceIdGenerator.generateTraceId;
+import static jonathan.modern_design._shared.infra.AppUrls.BankingUrls.ACCOUNTS_RESOURCE_URL;
+import static jonathan.modern_design._shared.infra.AppUrls.BankingUrls.BANKING_MODULE_URL;
+import static jonathan.modern_design._shared.infra.TraceIdGenerator.generateTraceId;
 import static jonathan.modern_design.banking.domain.models.QAccountEntity.accountEntity;
 import static jonathan.modern_design.banking.domain.models.QAccountHolder.accountHolder;
 
@@ -65,7 +67,7 @@ public interface SearchAccount {
 
 @Slf4j
 @RequiredArgsConstructor
-@WebAdapter("/v1/accounts")
+@WebAdapter(BANKING_MODULE_URL + ACCOUNTS_RESOURCE_URL)
 class SearchAccountHttpController {
     private final SearchAccountQueryImpl querier;
 
@@ -97,10 +99,10 @@ class SearchAccountHttpController {
 class SearchAccountQueryImpl implements SearchAccount {
     @PersistenceContext
     private final EntityManager entityManager;
-    private final AccountRepoSpringDataJPA repository;
+    private final AccountSpringJpaRepo repository;
     private final JPAQueryFactory queryFactory;
 
-    public SearchAccountQueryImpl(EntityManager entityManager, AccountRepoSpringDataJPA repository, AccountTransactionsViewRepository viewRepository) {
+    public SearchAccountQueryImpl(EntityManager entityManager, AccountSpringJpaRepo repository, AccountTransactionsViewSpringJpaRepo viewRepository) {
         this.repository = repository;
         this.entityManager = entityManager;
         this.queryFactory = new JPAQueryFactory(JPQLTemplates.DEFAULT, entityManager);

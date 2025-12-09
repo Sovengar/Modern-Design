@@ -21,4 +21,6 @@ public interface AccountRepo {
     }
 
     List<Account> findAll();
+
+    List<Account> findActiveAccounts();
 }

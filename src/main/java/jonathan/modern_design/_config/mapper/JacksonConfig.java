@@ -10,8 +10,8 @@ import com.fasterxml.jackson.databind.ser.BeanSerializerModifier;
 import com.fasterxml.jackson.databind.ser.impl.ObjectIdWriter;
 import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import jonathan.modern_design._shared.tags.MicroType;
-import jonathan.modern_design._shared.tags.ValueObject;
+import jonathan.modern_design._shared.tags.persistence.MicroType;
+import jonathan.modern_design._shared.tags.models.ValueObject;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

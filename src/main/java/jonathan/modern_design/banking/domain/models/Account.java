@@ -1,8 +1,9 @@
 package jonathan.modern_design.banking.domain.models;
 
-import jonathan.modern_design._shared.tags.AggregateRoot;
-import jonathan.modern_design._shared.tags.MicroType;
-import jonathan.modern_design._shared.vo.Money;
+import jonathan.modern_design._shared.domain.vo.Money;
+import jonathan.modern_design._shared.tags.models.AggregateRoot;
+import jonathan.modern_design._shared.tags.persistence.InMemoryOnlyCatalog;
+import jonathan.modern_design._shared.tags.persistence.MicroType;
 import jonathan.modern_design.banking.api.events.AccountCreated;
 import jonathan.modern_design.banking.domain.events.AccountActivated;
 import jonathan.modern_design.banking.domain.events.AccountDeactivated;
@@ -28,7 +29,10 @@ public final class Account {
     private final List<Object> domainEvents = new ArrayList<>();
     private final Id accountId; //No behavior, but keep it to make debugging easier
     private AccountNumber accountNumber;
-    private Status status;
+
+    @InMemoryOnlyCatalog
+    private AccountStatus status;
+
     private Money money;
     private AccountHolder accountHolder;
 
@@ -40,7 +44,7 @@ public final class Account {
         this.accountHolder = accountEntity.getAccountHolder();
     }
 
-    private Account(AccountNumber accountNumber, Status status, Money money, AccountHolder accountHolder) {
+    private Account(AccountNumber accountNumber, AccountStatus status, Money money, AccountHolder accountHolder) {
         this.accountId = null;
         this.accountNumber = accountNumber;
         this.status = status;
@@ -55,7 +59,7 @@ public final class Account {
      * If we keep making the method more generic, the method will grow complex.
      * Logic will be dispersed since the client now has the burden to provide the right fields to support his need.
      */
-    public void genericUpdate(AccountNumber accountNumber, Money money, Status status) {
+    public void genericUpdate(AccountNumber accountNumber, Money money, AccountStatus status) {
         this.accountNumber = accountNumber;
         this.money = money;
         this.status = status;
@@ -78,14 +82,14 @@ public final class Account {
     }
 
     public void deactivate() {
-        if (this.status == Status.INACTIVE) throw new AccountIsInactiveException(this.accountNumber.getAccountNumber());
-        this.status = Status.INACTIVE;
+        if (this.status == AccountStatus.INACTIVE) throw new AccountIsInactiveException(this.accountNumber.getAccountNumber());
+        this.status = AccountStatus.INACTIVE;
         this.domainEvents.add(new AccountDeactivated(this.accountNumber.getAccountNumber()));
     }
 
     public void activate() {
-        if (this.status == Status.ACTIVE) throw new AccountIsAlreadyActiveException(this.accountNumber.getAccountNumber());
-        this.status = Status.ACTIVE;
+        if (this.status == AccountStatus.ACTIVE) throw new AccountIsAlreadyActiveException(this.accountNumber.getAccountNumber());
+        this.status = AccountStatus.ACTIVE;
         this.domainEvents.add(new AccountActivated(this.accountNumber.getAccountNumber()));
     }
 
@@ -95,7 +99,7 @@ public final class Account {
         return copy;
     }
 
-    public enum Status {
+    public enum AccountStatus {
         ACTIVE, INACTIVE
     }
 
@@ -108,7 +112,7 @@ public final class Account {
     @NoArgsConstructor(access = PRIVATE)
     public static class Factory {
         public static Account create(AccountNumber accountNumber, Money money, AccountHolder accountHolder) {
-            return new Account(requireNonNull(accountNumber), Status.ACTIVE, requireNonNull(money), accountHolder);
+            return new Account(requireNonNull(accountNumber), AccountStatus.ACTIVE, requireNonNull(money), accountHolder);
         }
     }
 }

@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jonathan.modern_design._shared.api.Response;
 import jonathan.modern_design._shared.tags.ApplicationService;
-import jonathan.modern_design._shared.tags.WebAdapter;
+import jonathan.modern_design._shared.tags.adapters.WebAdapter;
 import jonathan.modern_design.auth.domain.models.Role;
 import jonathan.modern_design.auth.domain.models.User;
 import jonathan.modern_design.auth.domain.store.RoleStore;
@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.UUID;
 
-import static jonathan.modern_design._shared.TraceIdGenerator.generateTraceId;
+import static jonathan.modern_design._shared.infra.AppUrls.AuthUrls.AUTH_MODULE_URL;
+import static jonathan.modern_design._shared.infra.AppUrls.AuthUrls.ROLE_RESOURCE_URL;
+import static jonathan.modern_design._shared.infra.TraceIdGenerator.generateTraceId;
 
 @Slf4j
 @RequiredArgsConstructor
-@WebAdapter("/v1/roles")
+@WebAdapter(AUTH_MODULE_URL + ROLE_RESOURCE_URL)
 class ChangeRoleHttpController {
     private final ChangeRole changeRole;
 
@@ -33,9 +35,8 @@ class ChangeRoleHttpController {
 
         var message = new ChangeRole.Command(User.Id.of(userId), Role.Code.of(roleCode));
 
-        log.info("BEGIN ChangeRole for userId: {} with role: {}", userId, roleCode);
+        log.info("Request arrived to ChangeRole for userId: {} with role: {}", userId, roleCode);
         changeRole.handle(message);
-        log.info("END ChangeRole for userId: {}, with role: {}", userId, roleCode);
 
         return ResponseEntity.ok(new Response.Builder<Void>().withDefaultMetadataV1());
     }
@@ -50,12 +51,12 @@ class ChangeRole {
 
     //If logic grows complex, move to a domain service
     public void handle(final @Valid ChangeRole.Command message) {
-        log.info("BEGIN - ChangeRole");
+        log.info("BEGIN - ChangeRole for userId: {} with role: {}", message.userId(), message.roleCode());
         var user = userRepo.findByUUIDOrElseThrow(message.userId());
         Role newRole = roleStore.findByCode(message.roleCode());
         user.changeRole(newRole);
         userRepo.updateUser(user);
-        log.info("END - ChangeRole");
+        log.info("END - ChangeRole for userId: {} with role: {}", message.userId(), message.roleCode());
     }
 
     record Command(User.Id userId, Role.Code roleCode) {

@@ -5,11 +5,11 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design._shared.api.Response;
+import jonathan.modern_design._shared.domain.catalogs.Currency;
+import jonathan.modern_design._shared.domain.vo.Money;
 import jonathan.modern_design._shared.tags.ApplicationService;
-import jonathan.modern_design._shared.tags.WebAdapter;
-import jonathan.modern_design._shared.vo.Money;
+import jonathan.modern_design._shared.tags.adapters.WebAdapter;
 import jonathan.modern_design.banking.domain.exceptions.OperationForbiddenForSameAccount;
 import jonathan.modern_design.banking.domain.models.Account;
 import jonathan.modern_design.banking.domain.models.Transaction;
@@ -26,11 +26,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.math.BigDecimal;
 
-import static jonathan.modern_design._shared.TraceIdGenerator.generateTraceId;
+import static jonathan.modern_design._shared.infra.AppUrls.BankingUrls.ACCOUNTS_RESOURCE_URL;
+import static jonathan.modern_design._shared.infra.AppUrls.BankingUrls.BANKING_MODULE_URL;
+import static jonathan.modern_design._shared.infra.TraceIdGenerator.generateTraceId;
 
 @Slf4j
 @RequiredArgsConstructor
-@WebAdapter("/v1/accounts")
+@WebAdapter(BANKING_MODULE_URL + ACCOUNTS_RESOURCE_URL)
 class TransferMoneyHttpController {
     private final TransferMoney transferMoney;
 
@@ -46,9 +48,8 @@ class TransferMoneyHttpController {
 
         val command = new TransferMoney.Command(sourceAccountId, targetAccountId, amount, Currency.fromCode(currency));
 
-        log.info("BEGIN Transfer money from {} to {} with balance {}", sourceAccountId, targetAccountId, amount);
+        log.info("Request arrived to Transfer money from {} to {} with balance {}", sourceAccountId, targetAccountId, amount);
         transferMoney.handle(command);
-        log.info("END Transfer money from {} to {} with balance {}", sourceAccountId, targetAccountId, amount);
 
         return ResponseEntity.ok(new Response.Builder<Void>().withDefaultMetadataV1());
     }
@@ -64,7 +65,7 @@ public class TransferMoney {
 
     @Transactional
     public void handle(final @Valid Command message) {
-        log.info("BEGIN TransferMoney");
+        log.info("BEGIN TransferMoney from {} to {}", message.sourceId(), message.targetId());
 
         Account source = getAccountValidated(message.sourceId());
         Account target = getAccountValidated(message.targetId());
@@ -75,7 +76,7 @@ public class TransferMoney {
         final var currency = message.currency();
 
         transfer(source, target, amount, currency);
-        log.info("END TransferMoney");
+        log.info("END TransferMoney from {} to {}", message.sourceId(), message.targetId());
     }
 
     private Account getAccountValidated(final String accountNumber) {

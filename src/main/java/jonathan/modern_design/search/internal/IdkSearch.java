@@ -5,7 +5,7 @@ import com.querydsl.jpa.JPQLTemplates;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jonathan.modern_design._shared.tags.DataAdapter;
+import jonathan.modern_design._shared.tags.adapters.DataAdapter;
 import jonathan.modern_design.auth.api.AuthApi;
 import jonathan.modern_design.auth.domain.models.User;
 import jonathan.modern_design.banking.api.AccountQueryApi;

@@ -1,8 +1,8 @@
 package jonathan.modern_design._dsl;
 
 import jonathan.modern_design.__config.Stub;
-import jonathan.modern_design._shared.country.Country;
-import jonathan.modern_design._shared.vo.Money;
+import jonathan.modern_design._shared.domain.models.Country;
+import jonathan.modern_design._shared.domain.vo.Money;
 import jonathan.modern_design.banking.application.TransferMoney;
 import jonathan.modern_design.banking.application.create_account.CreateAccount;
 import jonathan.modern_design.banking.application.create_account.CreateAccountRequest;
@@ -18,8 +18,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static jonathan.modern_design._dsl.UserStub.VALID_PASSWORD;
-import static jonathan.modern_design._shared.Currency.EUR;
-import static jonathan.modern_design._shared.Currency.USD;
+import static jonathan.modern_design._shared.domain.catalogs.Currency.EUR;
+import static jonathan.modern_design._shared.domain.catalogs.Currency.USD;
 
 public class AccountStub extends Stub {
 

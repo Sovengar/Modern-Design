@@ -4,10 +4,10 @@ import com.querydsl.jpa.JPQLTemplates;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jonathan.modern_design._shared.tags.DataAdapter;
-import jonathan.modern_design._shared.tags.WebAdapter;
-import jonathan.modern_design.banking.infra.store.read_model.AccountTransactionsViewRepository;
-import jonathan.modern_design.banking.infra.store.read_model.TransactionsByAccountView;
+import jonathan.modern_design._shared.tags.adapters.DataAdapter;
+import jonathan.modern_design._shared.tags.adapters.WebAdapter;
+import jonathan.modern_design.banking.infra.store.readmodels.TransactionsByAccountView;
+import jonathan.modern_design.banking.infra.store.repositories.spring_jpa.AccountTransactionsViewSpringJpaRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@WebAdapter("/v1/accounts")
+import static jonathan.modern_design._shared.infra.AppUrls.BankingUrls.ACCOUNTS_RESOURCE_URL;
+import static jonathan.modern_design._shared.infra.AppUrls.BankingUrls.BANKING_MODULE_URL;
+
+@WebAdapter(BANKING_MODULE_URL + ACCOUNTS_RESOURCE_URL)
 @Slf4j
 @RequiredArgsConstructor
 class FindAccountWithTransactionsHttpController {
@@ -35,9 +38,9 @@ class FindAccountWithTransactions {
     @PersistenceContext
     private final EntityManager entityManager;
     private final JPAQueryFactory queryFactory;
-    private final AccountTransactionsViewRepository viewRepository;
+    private final AccountTransactionsViewSpringJpaRepo viewRepository;
 
-    public FindAccountWithTransactions(EntityManager entityManager, AccountTransactionsViewRepository viewRepository) {
+    public FindAccountWithTransactions(EntityManager entityManager, AccountTransactionsViewSpringJpaRepo viewRepository) {
         this.entityManager = entityManager;
         this.queryFactory = new JPAQueryFactory(JPQLTemplates.DEFAULT, entityManager);
         this.viewRepository = viewRepository;

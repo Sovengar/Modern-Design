@@ -2,6 +2,7 @@ package jonathan.modern_design.amazon.order.application;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jonathan.modern_design._shared.tags.adapters.WebAdapter;
 import jonathan.modern_design.amazon.catalog.CatalogApi;
 import jonathan.modern_design.amazon.inventory.api.InventoryApi;
 import jonathan.modern_design.amazon.inventory.domain.LineItem;
@@ -15,16 +16,17 @@ import org.springframework.modulith.events.ApplicationModuleListener;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import static java.util.stream.Collectors.toMap;
+import static jonathan.modern_design._shared.infra.AppUrls.AmazonUrls.OrderUrls.ORDERS_RESOURCE_URL;
+import static jonathan.modern_design._shared.infra.AppUrls.AmazonUrls.OrderUrls.ORDER_MODULE_URL;
 
 @Slf4j
-@RestController
+@WebAdapter(ORDER_MODULE_URL + ORDERS_RESOURCE_URL)
 @RequiredArgsConstructor
 public class PlaceOrder {
     private final OrderRepo orderRepo;
@@ -32,7 +34,7 @@ public class PlaceOrder {
     private final InventoryApi inventoryApi;
     private final PaymentApi paymentApi;
 
-    @PostMapping("order")
+    @PostMapping
     public String handle(@RequestBody @Validated PlaceOrderRequest request) {
         Map<String, Integer> items = request.items.stream().collect(toMap(LineItem::productId, LineItem::count));
         Order order = Order.place(request.orderId(), request.customerId(), request.shippingAddress(), null, items);

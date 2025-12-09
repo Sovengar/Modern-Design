@@ -4,11 +4,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
-import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design._shared.api.Response;
+import jonathan.modern_design._shared.domain.catalogs.Currency;
+import jonathan.modern_design._shared.domain.vo.Money;
 import jonathan.modern_design._shared.tags.ApplicationService;
-import jonathan.modern_design._shared.tags.WebAdapter;
-import jonathan.modern_design._shared.vo.Money;
+import jonathan.modern_design._shared.tags.adapters.WebAdapter;
 import jonathan.modern_design.banking.api.dtos.AccountDto;
 import jonathan.modern_design.banking.domain.models.Account;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
@@ -23,11 +23,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.math.BigDecimal;
 
-import static jonathan.modern_design._shared.TraceIdGenerator.generateTraceId;
+import static jonathan.modern_design._shared.infra.AppUrls.BankingUrls.ACCOUNTS_RESOURCE_URL;
+import static jonathan.modern_design._shared.infra.AppUrls.BankingUrls.BANKING_MODULE_URL;
+import static jonathan.modern_design._shared.infra.TraceIdGenerator.generateTraceId;
 
 @Slf4j
 @RequiredArgsConstructor
-@WebAdapter("/v1/accounts")
+@WebAdapter(BANKING_MODULE_URL + ACCOUNTS_RESOURCE_URL)
 class GenericUpdateAccountHttpController {
     private final GenericUpdateAccount updater;
 
@@ -37,16 +39,15 @@ class GenericUpdateAccountHttpController {
         generateTraceId();
         //Authentication + Authorization
 
-        log.info("BEGIN Updating account with number {} with this JSON: {}", requestDto.accountNumber(), requestDto);
+        log.info("Request arrived to Updating account with number {} with this JSON: {}", requestDto.accountNumber(), requestDto);
         var accountDto = new AccountDto(
                 requestDto.accountNumber(),
                 requestDto.balance(),
                 requestDto.currency(),
-                Account.Status.valueOf(requestDto.status())
+                Account.AccountStatus.valueOf(requestDto.status())
         );
 
         updater.handle(accountDto);
-        log.info("END Account with number {} updated", requestDto.accountNumber());
 
         return ResponseEntity.ok().body(new Response.Builder<Void>().withDefaultMetadataV1());
     }
@@ -87,7 +88,7 @@ public class GenericUpdateAccount {
      */
     @Transactional
     public void handle(AccountDto dto) {
-        log.info("BEGIN Update");
+        log.info("BEGIN Update account with number {}", dto.accountNumber());
 
         var account = repository.findByAccNumberOrElseThrow(dto.accountNumber());
         account.genericUpdate(
@@ -98,6 +99,6 @@ public class GenericUpdateAccount {
 
         repository.update(account);
 
-        log.info("END Update");
+        log.info("END Update account with number {}", dto.accountNumber());
     }
 }

@@ -6,16 +6,18 @@ import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jonathan.modern_design._shared.BaseAggregateRoot;
-import jonathan.modern_design._shared.events.auth.UserSnapshot;
-import jonathan.modern_design._shared.tags.AggregateRoot;
-import jonathan.modern_design._shared.tags.MicroType;
+import jonathan.modern_design._shared.api.events.auth.UserSnapshot;
+import jonathan.modern_design._shared.domain.vo.Email;
+import jonathan.modern_design._shared.infra.BaseAggregateRoot;
+import jonathan.modern_design._shared.tags.models.AggregateRoot;
+import jonathan.modern_design._shared.tags.persistence.InMemoryOnlyCatalog;
+import jonathan.modern_design._shared.tags.persistence.MicroType;
 import jonathan.modern_design.auth.domain.catalogs.Roles;
-import jonathan.modern_design.auth.domain.vo.UserEmail;
 import jonathan.modern_design.auth.domain.vo.UserName;
 import jonathan.modern_design.auth.domain.vo.UserPassword;
 import lombok.Getter;
@@ -27,19 +29,19 @@ import org.springframework.modulith.NamedInterface;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
+import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
-import static java.util.Optional.ofNullable;
+import static java.util.Optional.empty;
 import static lombok.AccessLevel.PACKAGE;
 import static lombok.AccessLevel.PRIVATE;
 
 @Entity
 @Table(name = "users", schema = "auth")
 @Getter
-@NoArgsConstructor(access = PACKAGE) //For Hibernate
+@NoArgsConstructor(access = PRIVATE) //For Hibernate
 @SQLRestriction("deleted <> true") //Make Hibernate ignore soft deleted entries
 @AggregateRoot
 public class User extends BaseAggregateRoot<User> {
@@ -48,28 +50,31 @@ public class User extends BaseAggregateRoot<User> {
     @Embedded
     private UserName username;
     @Embedded
-    private UserEmail email;
+    private Email email;
     @Embedded
     @AttributeOverride(name = "email", column = @Column(name = "internal_enterprise_email"))
-    private UserEmail internalEnterpriseEmail;
+    private Email internalEnterpriseEmail;
     @Embedded
     @Getter(PRIVATE)
     private UserPassword password;
-    @Enumerated(value = jakarta.persistence.EnumType.STRING)
-    private Status status;
+
+    @InMemoryOnlyCatalog
+    @Enumerated(value = EnumType.STRING)
+    private UserStatus status;
+
     @ManyToOne
     @JoinColumn(name = "role_code")
     private Role role; //Should be Role.Code, but since they are on the same BC and not a big graph, we can do the exception for pragmatism.
     @Column(nullable = false)
     private boolean deleted = false;
 
-    private User(Id id, UserName username, UserEmail email, UserEmail internalEmail, UserPassword password, Status status, Role role) {
-        this.id = Objects.nonNull(id) ? id : Id.of(UUID.randomUUID());
+    private User(Id id, UserName username, Email email, Email internalEmail, UserPassword password, UserStatus userStatus, Role role) {
+        this.id = nonNull(id) ? id : Id.of(UUID.randomUUID());
         this.username = requireNonNull(username);
         this.email = requireNonNull(email);
         this.internalEnterpriseEmail = internalEmail;
         this.password = requireNonNull(password);
-        this.status = requireNonNull(status);
+        this.status = requireNonNull(userStatus);
         this.role = requireNonNull(role);
         this.deleted = false;
 
@@ -77,7 +82,11 @@ public class User extends BaseAggregateRoot<User> {
     }
 
     public Optional<String> getInternalEnterpriseEmail() {
-        return internalEnterpriseEmail != null ? ofNullable(internalEnterpriseEmail.getEmail()) : Optional.empty();
+        if (Roles.ADMIN.getCode().equals(this.role.getCode().getRoleCode())) {
+            return Optional.of(internalEnterpriseEmail.getEmail());
+        } else {
+            return empty();
+        }
     }
 
     public void delete() {
@@ -112,7 +121,8 @@ public class User extends BaseAggregateRoot<User> {
         this.role = newRole;
     }
 
-    public enum Status {
+    @Getter
+    public enum UserStatus {
         DRAFT, ACTIVE, INACTIVE
     }
 
@@ -128,12 +138,12 @@ public class User extends BaseAggregateRoot<User> {
 
     @NoArgsConstructor(access = PRIVATE)
     public static class Factory {
-        public static User register(Id id, UserName username, UserEmail email, UserPassword password, Role role) {
-            return new User(id, requireNonNull(username), requireNonNull(email), null, requireNonNull(password), Status.DRAFT, requireNonNull(role));
+        public static User register(Id id, UserName username, Email email, UserPassword password, Role role) {
+            return new User(id, requireNonNull(username), requireNonNull(email), null, requireNonNull(password), UserStatus.DRAFT, requireNonNull(role));
         }
 
-        public static User registerAdmin(Id id, UserName username, UserEmail email, UserEmail internalEmail, UserPassword password) {
-            return new User(id, requireNonNull(username), requireNonNull(email), internalEmail, requireNonNull(password), Status.ACTIVE, Role.of(Roles.ADMIN));
+        public static User registerAdmin(Id id, UserName username, Email email, Email internalEmail, UserPassword password) {
+            return new User(id, requireNonNull(username), requireNonNull(email), internalEmail, requireNonNull(password), UserStatus.ACTIVE, Role.of(Roles.ADMIN));
         }
     }
 }

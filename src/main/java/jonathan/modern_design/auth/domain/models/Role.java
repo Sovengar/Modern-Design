@@ -6,8 +6,8 @@ import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
-import jonathan.modern_design._shared.tags.AggregateRoot;
-import jonathan.modern_design._shared.tags.MicroType;
+import jonathan.modern_design._shared.tags.models.AggregateRoot;
+import jonathan.modern_design._shared.tags.persistence.MicroType;
 import jonathan.modern_design.auth.domain.catalogs.Roles;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,8 +24,8 @@ import static lombok.AccessLevel.PRIVATE;
 @Entity
 @Table(name = "roles", schema = "auth")
 @Getter
-@NoArgsConstructor(access = PACKAGE) //For Hibernate
-@AllArgsConstructor(access = PRIVATE)
+@NoArgsConstructor(access = PRIVATE) //For Hibernate
+@AllArgsConstructor(access = PACKAGE) //Use factory method
 @AggregateRoot
 public class Role {
     @EmbeddedId

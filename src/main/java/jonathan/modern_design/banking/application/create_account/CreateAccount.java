@@ -5,13 +5,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design._shared.api.Response;
-import jonathan.modern_design._shared.country.CountriesCatalog;
+import jonathan.modern_design._shared.domain.CountryRepo;
+import jonathan.modern_design._shared.domain.catalogs.Currency;
+import jonathan.modern_design._shared.domain.vo.Money;
 import jonathan.modern_design._shared.tags.ApplicationService;
 import jonathan.modern_design._shared.tags.DomainService;
-import jonathan.modern_design._shared.tags.WebAdapter;
-import jonathan.modern_design._shared.vo.Money;
+import jonathan.modern_design._shared.tags.adapters.WebAdapter;
 import jonathan.modern_design.auth.api.AuthApi;
 import jonathan.modern_design.auth.application.RegisterUser;
 import jonathan.modern_design.auth.domain.models.User;
@@ -38,12 +38,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static jonathan.modern_design._shared.TraceIdGenerator.generateTraceId;
+import static jonathan.modern_design._shared.infra.AppUrls.BankingUrls.ACCOUNTS_RESOURCE_URL;
+import static jonathan.modern_design._shared.infra.AppUrls.BankingUrls.BANKING_MODULE_URL;
+import static jonathan.modern_design._shared.infra.TraceIdGenerator.generateTraceId;
 
 
 @Slf4j
 @RequiredArgsConstructor
-@WebAdapter("/v1/accounts")
+@WebAdapter(BANKING_MODULE_URL + ACCOUNTS_RESOURCE_URL)
 class CreateAccountHttpController {
     private final CreateAccount createAccount;
 
@@ -53,14 +55,13 @@ class CreateAccountHttpController {
         generateTraceId();
         //Authentication + Authorization
 
-        log.info("START createAccount with command: {}", request);
+        log.info("Request arrived to createAccount with command: {}", request);
         var appAddressCommand = new CreateAccount.Command.Address(request.address().street(), request.address().city(), request.address().state(), request.address().zipCode(), request.address().countryCode());
         var appCommand = new CreateAccount.Command(Optional.ofNullable(request.fullName()), request.email(), request.username(), appAddressCommand, request.password(), request.currency(), request.phoneNumbers(), request.birthdate(), request.personalId());
         final var accountNumber = createAccount.handle(appCommand).getAccountNumber();
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{accountNumber}").buildAndExpand(accountNumber).toUri();
 
-        log.info("END Account created  with number: {}", accountNumber);
         return ResponseEntity.created(location).body(
                 new Response.Builder<String>()
                         .data(accountNumber)
@@ -79,7 +80,7 @@ public class CreateAccount {
     private final AccountHolderRepo accountHolderRepo;
     private final AuthApi authApi;
     private final AccountNumberGenerator accountNumberGenerator;
-    private final CountriesCatalog countriesCatalog;
+    private final CountryRepo countryRepo;
 
     @Transactional
     public AccountNumber handle(final Command cmd) {
@@ -90,8 +91,8 @@ public class CreateAccount {
         //If you want temporal decoupling, send the command to a queue.
         var userId = registerUser(cmd);
 
-        var country = countriesCatalog.findByCodeOrElseThrow(cmd.address().countryCode());
-        var address = AccountHolderAddress.of(cmd.address().street, cmd.address().city, cmd.address().state, cmd.address().zipCode, country);
+        var country = countryRepo.findByCodeOrElseThrow(cmd.address().countryCode());
+        var address = AccountHolderAddress.of(null, cmd.address().street, cmd.address().city, cmd.address().state, cmd.address().zipCode, country);
         var accountHolder = AccountHolder.create(UUID.randomUUID(), cmd.fullName(), cmd.personalId(), address, cmd.birthdate(), cmd.phoneNumbers(), userId.getUserId());
         accountHolderRepo.save(accountHolder);
 

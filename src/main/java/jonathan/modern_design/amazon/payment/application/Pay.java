@@ -1,5 +1,6 @@
 package jonathan.modern_design.amazon.payment.application;
 
+import jonathan.modern_design._shared.tags.adapters.WebAdapter;
 import jonathan.modern_design.amazon.inventory.api.InventoryApi;
 import jonathan.modern_design.amazon.order.OrderStatus;
 import jonathan.modern_design.amazon.order.domain.Order;
@@ -10,12 +11,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 
+import static jonathan.modern_design._shared.infra.AppUrls.AmazonUrls.PaymentUrls.PAYMENTS_RESOURCE_URL;
+import static jonathan.modern_design._shared.infra.AppUrls.AmazonUrls.PaymentUrls.PAYMENT_MODULE_URL;
+
 @Slf4j
-@RestController
+@WebAdapter(PAYMENT_MODULE_URL + PAYMENTS_RESOURCE_URL)
 @RequiredArgsConstructor
 // Webhook = a call back to me over HTTP
 public class Pay { //PaymentGatewayWebHookApi {
@@ -23,7 +26,7 @@ public class Pay { //PaymentGatewayWebHookApi {
     private final ShippingApi shippingApi;
     private final InventoryApi inventoryApi;
 
-    @PutMapping("payment/{orderId}/status")
+    @PutMapping("/{orderId}/status")
     public String confirmPayment(@PathVariable UUID orderId, @RequestBody boolean ok) {
         Order order = orderRepo.findById(orderId).orElseThrow();
         order.pay(ok);

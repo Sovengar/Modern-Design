@@ -1,12 +1,15 @@
 package jonathan.modern_design.banking.domain.models;
 
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jonathan.modern_design._shared.BaseAggregateRoot;
-import jonathan.modern_design._shared.vo.BirthDate;
+import jonathan.modern_design._shared.domain.vo.BirthDate;
+import jonathan.modern_design._shared.infra.BaseAggregateRoot;
+import jonathan.modern_design._shared.tags.persistence.FKWithoutDBLink;
 import jonathan.modern_design.banking.api.events.AccountHolderRegistered;
 import jonathan.modern_design.banking.domain.vo.AccountHolderAddress;
 import jonathan.modern_design.banking.domain.vo.AccountHolderName;
@@ -23,32 +26,43 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-import static lombok.AccessLevel.PACKAGE;
 import static lombok.AccessLevel.PRIVATE;
 
 @Entity
 @Table(name = "account_holders", schema = "banking")
 @Getter
-@NoArgsConstructor(access = PACKAGE) //For Hibernate
+@NoArgsConstructor(access = PRIVATE) //For Hibernate
 public class AccountHolder extends BaseAggregateRoot<AccountHolder> {
     public static final String DB_PATH = "banking.account_holders";
 
     @Id
     @Column(name = "account_holder_id", nullable = false, updatable = false)
     private UUID id;
+
     @Embedded
     @Getter(PRIVATE)
     private AccountHolderName name;
+
     @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "value", column = @Column(name = "personal_id_value", nullable = false, length = 20)),
+            @AttributeOverride(name = "type", column = @Column(name = "personal_id_type", nullable = false, length = 10)),
+    })
     private PersonalId personalId;
+
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
     private AccountHolderAddress address;
+
     @Embedded
     private BirthDate birthdate;
+
     @Embedded
     private AccountHolderPhoneNumbers phoneNumbers;
+
+    @FKWithoutDBLink
     private UUID userId;
+
     @Column(nullable = false)
     private boolean deleted = false;
 

@@ -2,7 +2,7 @@ package jonathan.modern_design.auth.domain.vo;
 
 import jakarta.persistence.Embeddable;
 import jonathan.modern_design._config.exception.RootException;
-import jonathan.modern_design._shared.tags.ValueObject;
+import jonathan.modern_design._shared.tags.models.ValueObject;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Value;
@@ -15,13 +15,15 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 import static java.util.regex.Pattern.matches;
+import static lombok.AccessLevel.PACKAGE;
 import static lombok.AccessLevel.PRIVATE;
 
 @Embeddable
+@ValueObject
 @Value //No record for Hibernate
 @NoArgsConstructor(access = PRIVATE, force = true) //For Hibernate
-@AllArgsConstructor(access = PRIVATE)
-public class UserPassword implements ValueObject {
+@AllArgsConstructor(access = PACKAGE) //Use factory method
+public class UserPassword {
     String password;
 
     public static UserPassword of(String password) {

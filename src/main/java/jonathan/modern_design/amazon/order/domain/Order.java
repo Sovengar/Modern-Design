@@ -12,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jonathan.modern_design._shared.tags.persistence.InMemoryOnlyCatalog;
 import jonathan.modern_design.amazon.order.OrderStatus;
 import jonathan.modern_design.amazon.order.OrderStatusChanged;
 import lombok.AccessLevel;
@@ -45,8 +46,11 @@ public class Order extends AbstractAggregateRoot<Order> {
     @Setter
     private String shippingAddress;
     private String shippingTrackingNumber;
+
+    @InMemoryOnlyCatalog
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
+
     @ElementCollection
     @CollectionTable(
             name = "order_items",

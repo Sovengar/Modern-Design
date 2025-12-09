@@ -3,7 +3,7 @@ package jonathan.modern_design.banking.application;
 import io.swagger.v3.oas.annotations.Operation;
 import jonathan.modern_design._shared.api.Response;
 import jonathan.modern_design._shared.tags.ApplicationService;
-import jonathan.modern_design._shared.tags.WebAdapter;
+import jonathan.modern_design._shared.tags.adapters.WebAdapter;
 import jonathan.modern_design.banking.domain.policies.AccountNumberGenerator;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
 import lombok.RequiredArgsConstructor;
@@ -14,11 +14,13 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PutMapping;
 
-import static jonathan.modern_design._shared.TraceIdGenerator.generateTraceId;
+import static jonathan.modern_design._shared.infra.AppUrls.BankingUrls.ACCOUNTS_RESOURCE_URL;
+import static jonathan.modern_design._shared.infra.AppUrls.BankingUrls.BANKING_MODULE_URL;
+import static jonathan.modern_design._shared.infra.TraceIdGenerator.generateTraceId;
 
 @Slf4j
 @RequiredArgsConstructor
-@WebAdapter("/v1/accounts")
+@WebAdapter(BANKING_MODULE_URL + ACCOUNTS_RESOURCE_URL)
 //Atomic Update, following Task UI Design
 class SetNewAccountNumberHttpController {
     private final SetNewAccountNumber updater;
@@ -30,9 +32,8 @@ class SetNewAccountNumberHttpController {
         generateTraceId();
         //Authentication + Authorization
 
-        log.info("BEGIN Updating account number of account: {}", accountNumber);
+        log.info("Request arrived to Updating account number of account: {}", accountNumber);
         var newAccountNumber = updater.handle(accountNumber);
-        log.info("END Account with old number {} updated to number {}", accountNumber, newAccountNumber);
 
         return ResponseEntity.ok(new Response.Builder<String>().data(newAccountNumber).withDefaultMetadataV1());
     }
@@ -46,8 +47,12 @@ class SetNewAccountNumber {
     private final AccountNumberGenerator accountNumberGenerator;
 
     String handle(final String accountNumber) {
+        log.info("BEGIN - Updating account number of account: {}", accountNumber);
         var account = repository.findByAccNumberOrElseThrow(accountNumber);
         account.generateNewAccountNumber(accountNumberGenerator);
+        repository.update(account);
+        log.info("END - Updating account number of account: {}", accountNumber);
+
         return account.getAccountNumber().getAccountNumber();
     }
 }

@@ -3,7 +3,7 @@ package jonathan.modern_design.auth.queries;
 import io.swagger.v3.oas.annotations.Operation;
 import jonathan.modern_design._shared.api.Response;
 import jonathan.modern_design._shared.tags.Injectable;
-import jonathan.modern_design._shared.tags.WebAdapter;
+import jonathan.modern_design._shared.tags.adapters.WebAdapter;
 import jonathan.modern_design.auth.api.dtos.UserDto;
 import jonathan.modern_design.auth.domain.models.User;
 import jonathan.modern_design.auth.domain.store.UserRepo;
@@ -17,12 +17,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.UUID;
 
-import static jonathan.modern_design._shared.TraceIdGenerator.generateTraceId;
-
+import static jonathan.modern_design._shared.infra.AppUrls.AuthUrls.AUTH_MODULE_URL;
+import static jonathan.modern_design._shared.infra.AppUrls.AuthUrls.USER_RESOURCE_URL;
+import static jonathan.modern_design._shared.infra.TraceIdGenerator.generateTraceId;
 
 @Slf4j
 @RequiredArgsConstructor
-@WebAdapter("/v1/users")
+@WebAdapter(AUTH_MODULE_URL + USER_RESOURCE_URL)
 //Generic FindUser, Implicit. Who calls this? For what? Cannot do HATEOAS if this is generic.
 class FindUserHttpController {
     private final FindUser querier;

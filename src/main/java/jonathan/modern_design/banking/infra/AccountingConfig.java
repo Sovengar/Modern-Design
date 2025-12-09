@@ -1,7 +1,7 @@
 package jonathan.modern_design.banking.infra;
 
-import jonathan.modern_design._shared.country.CountriesCatalog;
-import jonathan.modern_design._shared.country.CountriesCatalogStub;
+import jonathan.modern_design._shared.domain.CountryRepo;
+import jonathan.modern_design._shared.infra.repositories.CountryInMemoryRepo;
 import jonathan.modern_design.auth.api.AuthApi;
 import jonathan.modern_design.banking.api.BankingApi;
 import jonathan.modern_design.banking.application.Deposit;
@@ -12,17 +12,17 @@ import jonathan.modern_design.banking.domain.policies.AccountNumberGenerator;
 import jonathan.modern_design.banking.domain.services.AccountNumberDefaultGenerator;
 import jonathan.modern_design.banking.domain.services.AccountValidator;
 import jonathan.modern_design.banking.domain.store.AccountHolderRepo;
-import jonathan.modern_design.banking.domain.store.AccountHolderRepoInMemory;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
-import jonathan.modern_design.banking.domain.store.AccountRepoInMemory;
 import jonathan.modern_design.banking.domain.store.TransactionRepo;
-import jonathan.modern_design.banking.domain.store.TransactionRepoInMemory;
+import jonathan.modern_design.banking.infra.store.repositories.inmemory.AccountHolderInMemoryRepo;
+import jonathan.modern_design.banking.infra.store.repositories.inmemory.AccountInMemoryRepo;
+import jonathan.modern_design.banking.infra.store.repositories.inmemory.TransactionInMemoryRepo;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
 public class AccountingConfig {
-    final AccountRepo accountRepo = new AccountRepoInMemory();
+    final AccountRepo accountRepo = new AccountInMemoryRepo();
 
     public BankingApi accountApi(
             AccountRepo accountRepo,
@@ -30,13 +30,13 @@ public class AccountingConfig {
             TransactionRepo transactionRepo,
             AuthApi userFacade,
             AccountNumberGenerator accountNumberGenerator,
-            CountriesCatalog countriesCatalog
+            CountryRepo countryRepo
     ) {
         AccountValidator accountValidator = new AccountValidator();
 
         return new BankingApiInternal(
                 new TransferMoney(accountRepo, transactionRepo, accountValidator),
-                new CreateAccount(accountRepo, accountHolderRepo, userFacade, accountNumberGenerator, countriesCatalog),
+                new CreateAccount(accountRepo, accountHolderRepo, userFacade, accountNumberGenerator, countryRepo),
                 new GenericUpdateAccount(accountRepo),
                 new Deposit(accountRepo, transactionRepo)
         );
@@ -45,12 +45,12 @@ public class AccountingConfig {
     @Profile("test")
     public BankingApi accountApi(AuthApi authApi) {
         //For Unit testing
-        TransactionRepo transactionRepo = new TransactionRepoInMemory();
-        AccountHolderRepo accountHolderRepo = new AccountHolderRepoInMemory();
-        CountriesCatalog countriesCatalog = new CountriesCatalogStub();
+        TransactionRepo transactionRepo = new TransactionInMemoryRepo();
+        AccountHolderRepo accountHolderRepo = new AccountHolderInMemoryRepo();
+        CountryRepo countryRepo = new CountryInMemoryRepo();
         AccountNumberGenerator accountNumberGenerator = new AccountNumberDefaultGenerator();
 
-        return accountApi(accountRepo, accountHolderRepo, transactionRepo, authApi, accountNumberGenerator, countriesCatalog);
+        return accountApi(accountRepo, accountHolderRepo, transactionRepo, authApi, accountNumberGenerator, countryRepo);
     }
 
     @Profile("test")

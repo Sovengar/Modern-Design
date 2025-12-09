@@ -4,11 +4,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jonathan.modern_design._shared.Currency;
 import jonathan.modern_design._shared.api.Response;
+import jonathan.modern_design._shared.domain.catalogs.Currency;
+import jonathan.modern_design._shared.domain.vo.Money;
 import jonathan.modern_design._shared.tags.ApplicationService;
-import jonathan.modern_design._shared.tags.WebAdapter;
-import jonathan.modern_design._shared.vo.Money;
+import jonathan.modern_design._shared.tags.adapters.WebAdapter;
 import jonathan.modern_design.banking.domain.models.Transaction;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
 import jonathan.modern_design.banking.domain.store.TransactionRepo;
@@ -20,11 +20,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import java.math.BigDecimal;
 
-import static jonathan.modern_design._shared.TraceIdGenerator.generateTraceId;
+import static jonathan.modern_design._shared.infra.AppUrls.BankingUrls.ACCOUNTS_RESOURCE_URL;
+import static jonathan.modern_design._shared.infra.AppUrls.BankingUrls.BANKING_MODULE_URL;
+import static jonathan.modern_design._shared.infra.TraceIdGenerator.generateTraceId;
 
 @Slf4j
 @RequiredArgsConstructor
-@WebAdapter("/v1/accounts")
+@WebAdapter(BANKING_MODULE_URL + ACCOUNTS_RESOURCE_URL)
 class WithdrawMoneyHttpController {
     private final WithdrawMoney withdrawMoney;
 
@@ -36,9 +38,8 @@ class WithdrawMoneyHttpController {
 
         var withdrawMoneyCommand = new WithdrawMoney.WithdrawMoneyCommand(accountNumber, amount, Currency.fromCode(currency));
 
-        log.info("BEGIN WithdrawMoney for accountNumber: {} with amount: {} and currency: {}", accountNumber, amount, currency);
+        log.info("Request arrived to WithdrawMoney for accountNumber: {} with amount: {} and currency: {}", accountNumber, amount, currency);
         withdrawMoney.handle(withdrawMoneyCommand);
-        log.info("END WithdrawMoney for accountNumber: {} with amount: {} and currency: {}", accountNumber, amount, currency);
 
         return ResponseEntity.ok(new Response.Builder<Void>().withDefaultMetadataV1());
     }
@@ -52,7 +53,7 @@ class WithdrawMoney {
     private final TransactionRepo transactionRepo;
 
     public void handle(final @Valid WithdrawMoneyCommand message) {
-        log.info("BEGIN WithdrawMoney");
+        log.info("BEGIN WithdrawMoney for accountNumber: {} with amount: {} and currency: {}", message.accountNumber(), message.amount(), message.currency());
         var account = repository.findByAccNumber(message.accountNumber()).orElseThrow();
 
         var money = Money.of(message.amount(), message.currency());
@@ -61,7 +62,7 @@ class WithdrawMoney {
 
         transactionRepo.register(tx);
         repository.update(account);
-        log.info("END WithdrawMoney");
+        log.info("END WithdrawMoney for accountNumber: {} with amount: {} and currency: {}", message.accountNumber(), message.amount(), message.currency());
     }
 
     public record WithdrawMoneyCommand(

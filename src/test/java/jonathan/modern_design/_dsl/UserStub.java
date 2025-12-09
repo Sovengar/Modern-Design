@@ -1,11 +1,11 @@
 package jonathan.modern_design._dsl;
 
 import jonathan.modern_design.__config.Stub;
+import jonathan.modern_design._shared.domain.vo.Email;
 import jonathan.modern_design.auth.application.RegisterUser;
 import jonathan.modern_design.auth.domain.catalogs.Roles;
 import jonathan.modern_design.auth.domain.models.Role;
 import jonathan.modern_design.auth.domain.models.User;
-import jonathan.modern_design.auth.domain.vo.UserEmail;
 import jonathan.modern_design.auth.domain.vo.UserName;
 import jonathan.modern_design.auth.domain.vo.UserPassword;
 
@@ -19,7 +19,7 @@ public class UserStub extends Stub {
         return User.Factory.register(
                 User.Id.of(DEFAULT_ID),
                 UserName.of(faker.name().username()),
-                UserEmail.of(faker.internet().emailAddress()),
+                Email.of(faker.internet().emailAddress()),
                 UserPassword.of(VALID_PASSWORD),
                 Role.of(Roles.TECHNICIAN)
         );
@@ -29,8 +29,8 @@ public class UserStub extends Stub {
         return User.Factory.registerAdmin(
                 User.Id.of(DEFAULT_ID),
                 UserName.of(faker.name().username()),
-                UserEmail.of(faker.internet().emailAddress()),
-                UserEmail.of(faker.internet().emailAddress()),
+                Email.of(faker.internet().emailAddress()),
+                Email.of(faker.internet().emailAddress()),
                 UserPassword.of(VALID_PASSWORD)
         );
     }

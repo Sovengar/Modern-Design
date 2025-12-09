@@ -28,10 +28,9 @@ public class PrettyTestNames implements DisplayNameGenerator {
     }
 
     private String replaceUnderscoresAndTrim(final String name) {
-        var trim = name.replaceAll("_", " ")
+        return name.replaceAll("_", " ")
                 .replaceAll("\\s+", " ")
                 .trim();
-        return trim;
     }
 
     private String replaceCapitals(String name) {

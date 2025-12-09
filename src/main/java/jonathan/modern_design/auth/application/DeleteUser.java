@@ -2,9 +2,9 @@ package jonathan.modern_design.auth.application;
 
 import io.swagger.v3.oas.annotations.Operation;
 import jonathan.modern_design._shared.api.Response;
-import jonathan.modern_design._shared.events.banking.AccountHolderDeleted;
+import jonathan.modern_design._shared.domain.events.AccountHolderDeleted;
 import jonathan.modern_design._shared.tags.ApplicationService;
-import jonathan.modern_design._shared.tags.WebAdapter;
+import jonathan.modern_design._shared.tags.adapters.WebAdapter;
 import jonathan.modern_design.auth.domain.models.User;
 import jonathan.modern_design.auth.domain.store.UserRepo;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.UUID;
 
-import static jonathan.modern_design._shared.TraceIdGenerator.generateTraceId;
+import static jonathan.modern_design._shared.infra.AppUrls.AuthUrls.AUTH_MODULE_URL;
+import static jonathan.modern_design._shared.infra.AppUrls.AuthUrls.USER_RESOURCE_URL;
+import static jonathan.modern_design._shared.infra.TraceIdGenerator.generateTraceId;
 
-@WebAdapter("/v1/users")
+@WebAdapter(AUTH_MODULE_URL + USER_RESOURCE_URL)
 @Slf4j
 @RequiredArgsConstructor
 class DeleteUserHttpController {
@@ -32,9 +34,8 @@ class DeleteUserHttpController {
         generateTraceId();
         //Authentication + Authorization
 
-        log.info("BEGIN deleteUser for userId: {}", userId);
+        log.info("Request arrived to deleteUser for userId: {}", userId);
         deleteUser.handle(User.Id.of(userId));
-        log.info("END deleteUser for userId: {}", userId);
 
         return ResponseEntity.ok(new Response.Builder<Void>().withDefaultMetadataV1());
     }
@@ -47,9 +48,9 @@ class DeleteUser {
     private final UserRepo userRepo;
 
     public void handle(User.Id userId) {
-        log.info("BEGIN - deleteUser");
+        log.info("BEGIN - deleteUser for userId: {}", userId);
         userRepo.delete(userId);
-        log.info("END - deleteUser");
+        log.info("END - deleteUser for userId: {}", userId);
     }
 
     //Sync deletion, move to async if required with according compensations in case of async error...

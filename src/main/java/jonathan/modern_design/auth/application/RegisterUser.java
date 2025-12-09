@@ -6,14 +6,14 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jonathan.modern_design._config.exception.RootException;
 import jonathan.modern_design._shared.api.Response;
+import jonathan.modern_design._shared.domain.vo.Email;
 import jonathan.modern_design._shared.tags.ApplicationService;
-import jonathan.modern_design._shared.tags.WebAdapter;
+import jonathan.modern_design._shared.tags.adapters.WebAdapter;
 import jonathan.modern_design.auth.domain.catalogs.Roles;
 import jonathan.modern_design.auth.domain.models.Role;
 import jonathan.modern_design.auth.domain.models.User;
 import jonathan.modern_design.auth.domain.store.RoleStore;
 import jonathan.modern_design.auth.domain.store.UserRepo;
-import jonathan.modern_design.auth.domain.vo.UserEmail;
 import jonathan.modern_design.auth.domain.vo.UserName;
 import jonathan.modern_design.auth.domain.vo.UserPassword;
 import lombok.RequiredArgsConstructor;
@@ -29,11 +29,13 @@ import java.util.List;
 import java.util.UUID;
 
 import static java.lang.String.format;
-import static jonathan.modern_design._shared.TraceIdGenerator.generateTraceId;
+import static jonathan.modern_design._shared.infra.AppUrls.AuthUrls.AUTH_MODULE_URL;
+import static jonathan.modern_design._shared.infra.AppUrls.AuthUrls.USER_RESOURCE_URL;
+import static jonathan.modern_design._shared.infra.TraceIdGenerator.generateTraceId;
 
 @Slf4j
 @RequiredArgsConstructor
-@WebAdapter("/v1/users")
+@WebAdapter(AUTH_MODULE_URL + USER_RESOURCE_URL)
 class RegisterUserController {
     private final RegisterUser handler;
     private final UserRepo repository;
@@ -44,11 +46,10 @@ class RegisterUserController {
         generateTraceId();
         //Authentication + Authorization
 
-        log.info("BEGIN RegisterUser for userId: {}", request.id());
+        log.info("Request arrived to RegisterUser for userId: {}", request.id());
         var command = new RegisterUser.Command(request.id(), request.username(), request.email(), request.password());
         var userId = handler.handle(command);
         var user = repository.findById(User.Id.of(userId)).orElseThrow();
-        log.info("END RegisterUser for userId: {}", request.id());
 
         var roleDto = new DataResponse.RoleDto(
                 user.getRole().getCode().getRoleCode(),
@@ -95,7 +96,7 @@ public class RegisterUser {
     private final RoleStore roleStore;
 
     public UUID handle(final @Valid Command message) {
-        log.info("BEGIN RegisterUser");
+        log.info("BEGIN RegisterUser for userId: {} with username: {} and email: {}", message.id(), message.username(), message.email());
 
         repository.findById(User.Id.of(message.id())).ifPresent(user -> {
             throw new UserAlreadyExistsException(format("User [%s] already exists", message.id()));
@@ -110,13 +111,13 @@ public class RegisterUser {
         var user = User.Factory.register(
                 User.Id.of(message.id()),
                 UserName.of(message.username()),
-                UserEmail.of(message.email()),
+                Email.of(message.email()),
                 UserPassword.of(message.password()),
                 role
         );
         repository.registerUser(user);
 
-        log.info("END RegisterUser");
+        log.info("END RegisterUser for userId: {} with username: {} and email: {}", message.id(), message.username(), message.email());
         return user.getId().getUserId();
     }
 

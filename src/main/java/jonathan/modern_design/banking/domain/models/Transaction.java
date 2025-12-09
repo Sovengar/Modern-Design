@@ -3,9 +3,11 @@ package jonathan.modern_design.banking.domain.models;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
-import jonathan.modern_design._shared.vo.Money;
+import jonathan.modern_design._shared.domain.vo.Money;
+import jonathan.modern_design._shared.tags.persistence.InMemoryOnlyCatalog;
 import jonathan.modern_design.banking.domain.events.TransactionRegistered;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,11 +29,16 @@ import static lombok.AccessLevel.PRIVATE;
 public class Transaction extends AbstractAggregateRoot<Transaction> {
     @EmbeddedId
     private Id transactionId;
+
     private LocalDateTime transactionDate;
+
     @Embedded
     private Money money;
-    @Enumerated(value = jakarta.persistence.EnumType.STRING)
+
+    @InMemoryOnlyCatalog
+    @Enumerated(value = EnumType.STRING)
     private TransactionType transactionType;
+
     private String origin;
     private String destination;
 
@@ -46,6 +53,7 @@ public class Transaction extends AbstractAggregateRoot<Transaction> {
         this.registerEvent(new TransactionRegistered(transactionId.getTransactionId(), origin, destination));
     }
 
+    @Getter
     public enum TransactionType {
         DEPOSIT, WITHDRAWAL, TRANSFER
     }

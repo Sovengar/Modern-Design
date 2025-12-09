@@ -8,8 +8,9 @@ import lombok.Getter;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
+
+import static java.util.Objects.nonNull;
 
 public class ShoppingCart {
     final List<Object> events = new ArrayList<>();
@@ -28,13 +29,13 @@ public class ShoppingCart {
     }
 
     public void addItem(UUID productId, int quantity, BigDecimal price) {
-        var existingItem = shoppingCartEntity.getItems().stream().filter(item -> item.productId == productId).findFirst().orElse(null);
+        var existingItem = shoppingCartEntity.getItems().stream().filter(item -> item.getProductId() == productId).findFirst().orElse(null);
 
-        if (Objects.nonNull(existingItem)) {
-            existingItem.quantity += quantity;
+        if (nonNull(existingItem)) {
+            existingItem.addItem(quantity);
             events.add(new ShoppingCartItemQuantityIncreased(productId, quantity));
         } else {
-            shoppingCartEntity.items.add(new ShoppingCartItem(UUID.randomUUID(), shoppingCartEntity.id, productId, quantity, price));
+            shoppingCartEntity.getItems().add(new ShoppingCartItem(UUID.randomUUID(), shoppingCartEntity.getId(), productId, quantity, price));
             events.add(new ShoppingCartItemAdded(productId, quantity, price));
         }
     }

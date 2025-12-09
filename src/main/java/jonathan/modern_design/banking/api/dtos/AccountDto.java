@@ -9,7 +9,7 @@ public record AccountDto(
         String accountNumber,
         BigDecimal balance,
         String currency,
-        Account.Status status) {
+        Account.AccountStatus status) {
 
     //We can use Account.Status or create here an StatusDto if needed.
 

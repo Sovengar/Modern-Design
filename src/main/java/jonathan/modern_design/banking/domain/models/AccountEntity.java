@@ -12,9 +12,9 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jonathan.modern_design._shared.BaseAggregateRoot;
-import jonathan.modern_design._shared.Currency;
-import jonathan.modern_design._shared.events.banking.AccountSnapshot;
+import jonathan.modern_design._shared.api.events.banking.AccountSnapshot;
+import jonathan.modern_design._shared.domain.catalogs.Currency;
+import jonathan.modern_design._shared.infra.BaseAggregateRoot;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,8 +29,8 @@ import static lombok.AccessLevel.PRIVATE;
 @Entity
 @Table(name = "accounts", schema = "banking")
 @Getter
-@NoArgsConstructor(access = PACKAGE) //For Hibernate
-@AllArgsConstructor(access = PRIVATE)
+@NoArgsConstructor(access = PRIVATE) //For Hibernate
+@AllArgsConstructor(access = PACKAGE) //Use factory method
 @Builder //Allowed because is a class without biz logic, use only for mapping or testing purposes
 public class AccountEntity extends BaseAggregateRoot<AccountEntity> {
     public static final String DB_PATH = "banking.accounts";
@@ -42,7 +42,7 @@ public class AccountEntity extends BaseAggregateRoot<AccountEntity> {
     private Long id; //Can't use microType with a sequence
     private String accountNumber;
     @Enumerated(value = jakarta.persistence.EnumType.STRING)
-    private Account.Status status;
+    private Account.AccountStatus status;
     private BigDecimal balance;
     @Enumerated(value = EnumType.STRING)
     private Currency currency;
@@ -55,7 +55,7 @@ public class AccountEntity extends BaseAggregateRoot<AccountEntity> {
         //If we start to use id from the client, we could assign the id directly
         this.id = nonNull(account.getAccountId()) ? account.getAccountId().id() : null;
         this.accountNumber = account.getAccountNumber().getAccountNumber();
-        this.status = Account.Status.ACTIVE;
+        this.status = Account.AccountStatus.ACTIVE;
         this.balance = account.getMoney().getBalance();
         this.currency = account.getMoney().getCurrency();
         this.accountHolder = account.getAccountHolder();
@@ -79,6 +79,6 @@ public class AccountEntity extends BaseAggregateRoot<AccountEntity> {
 
     @PrePersist
     public void prePersist() {
-        this.status = Account.Status.ACTIVE;
+        this.status = Account.AccountStatus.ACTIVE;
     }
 }

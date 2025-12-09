@@ -2,8 +2,7 @@ package jonathan.modern_design.banking.domain.vo;
 
 import jakarta.persistence.Embeddable;
 import jonathan.modern_design._config.exception.RootException;
-import jonathan.modern_design._shared.tags.ValueObject;
-import lombok.AccessLevel;
+import jonathan.modern_design._shared.tags.models.ValueObject;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Value;
@@ -12,12 +11,15 @@ import java.io.Serial;
 import java.util.Optional;
 
 import static java.util.Optional.ofNullable;
+import static lombok.AccessLevel.PACKAGE;
+import static lombok.AccessLevel.PRIVATE;
 
 @Embeddable
+@ValueObject
 @Value //No record for Hibernate
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE) //For Hibernate
-public class AccountHolderName implements ValueObject {
+@NoArgsConstructor(access = PRIVATE, force = true) //For Hibernate
+@AllArgsConstructor(access = PACKAGE) //Use factory method
+public class AccountHolderName {
     String name;
 
     public static AccountHolderName of(Optional<String> nameOpt) {
