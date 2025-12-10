@@ -17,8 +17,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.Optional;
 import java.util.UUID;
 
+import static java.util.Optional.ofNullable;
 import static jonathan.modern_design._shared.infra.AppUrls.BankingUrls.ACCOUNTS_RESOURCE_URL;
 import static jonathan.modern_design._shared.infra.AppUrls.BankingUrls.BANKING_MODULE_URL;
 import static jonathan.modern_design._shared.infra.TraceIdGenerator.generateTraceId;
@@ -42,8 +44,9 @@ class FindAccountHttpController {
         var account = findAccount.queryWith(accountNumber);
         log.info("END FindAccount for accountNumber: {}", accountNumber);
 
-        return ResponseEntity.ok(new Response.Builder<AccountDto>().data(account).withDefaultMetadataV1());
         //Actions? This would have to be updated to support the new API, smells...
+        return account.map(accountDto -> ResponseEntity.ok(new Response.Builder<AccountDto>().data(accountDto).withDefaultMetadataV1()))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
 
@@ -58,22 +61,20 @@ public class FindAccount {
         this.queryFactory = new JPAQueryFactory(JPQLTemplates.DEFAULT, entityManager);
     }
 
-    public AccountDto queryWith(final String accountNumber) {
+    public Optional<AccountDto> queryWith(final String accountNumber) {
         var account = queryFactory.selectFrom(accountEntity)
                 .where(accountEntity.accountNumber.eq(accountNumber))
                 .fetchOne();
 
-        assert account != null;
-        return new AccountDto(account);
+        return ofNullable(account).map(AccountDto::new);
     }
 
-    public AccountDto queryWithUserId(final UUID userId) {
+    public Optional<AccountDto> queryWithUserId(final UUID userId) {
         var account = queryFactory.selectFrom(accountEntity)
                 .join(accountEntity.accountHolder)
                 .where(accountHolder.userId.eq(userId))
                 .fetchOne();
 
-        assert account != null;
-        return new AccountDto(account);
+        return ofNullable(account).map(AccountDto::new);
     }
 }

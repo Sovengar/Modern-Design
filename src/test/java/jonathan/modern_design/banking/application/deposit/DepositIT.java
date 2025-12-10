@@ -1,9 +1,9 @@
 package jonathan.modern_design.banking.application.deposit;
 
-import jonathan.modern_design.__config.shared_for_all_classes.AceptanceTest;
+import jonathan.modern_design.__config.shared_for_all_classes.AcceptanceTest;
 import jonathan.modern_design.__config.shared_for_all_classes.EnableTestContainers;
-import jonathan.modern_design._dsl.BankingDsl;
 import jonathan.modern_design._shared.domain.catalogs.Currency;
+import jonathan.modern_design.banking.BankingDsl;
 import jonathan.modern_design.banking.application.Deposit;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
 import org.junit.jupiter.api.Test;
@@ -12,11 +12,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 
-import static jonathan.modern_design._dsl.AccountStub.DEFAULT_ACCOUNT_NUMBER;
+import static jonathan.modern_design.banking.AccountStub.DEFAULT_ACCOUNT_NUMBER;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-@AceptanceTest
+@AcceptanceTest
 @EnableTestContainers
 class DepositIT extends BankingDsl {
     @Autowired
@@ -34,5 +34,4 @@ class DepositIT extends BankingDsl {
         var fetchedAccount = repository.findByAccNumberOrElseThrow(DEFAULT_ACCOUNT_NUMBER);
         assertThat(fetchedAccount.getMoney().getBalance()).isEqualTo(BigDecimal.TEN);
     }
-
 }

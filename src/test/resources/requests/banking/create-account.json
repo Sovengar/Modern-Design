@@ -1,0 +1,20 @@
+{
+  "fullName": "Juan Pérez",
+  "email": "juan.perez@example.com",
+  "username": "juanp",
+  "address": {
+    "street": "Rupertus",
+    "city": "Barcelona",
+    "zipCode": "08001",
+    "state": "Catalunya",
+    "countryCode": "ES"
+  },
+  "password": "iNeedAnewHopeToKeep123º",
+  "currency": "EUR",
+  "phoneNumbers": [
+    "+34646884470",
+    "+34646894480"
+  ],
+  "birthdate": "1997-12-01",
+  "personalId": "48632227A"
+}

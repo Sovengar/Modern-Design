@@ -1,4 +1,4 @@
-package jonathan.modern_design.auth;
+package jonathan.modern_design.auth.application;
 
 import jonathan.modern_design.__config.shared_for_all_classes.UnitTest;
 import jonathan.modern_design.auth.api.AuthApi;
@@ -7,10 +7,10 @@ import jonathan.modern_design.auth.infra.UsersConfig;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static jonathan.modern_design._dsl.UserStub.CreateInvalidUser.createUserWithInvalidEmail;
-import static jonathan.modern_design._dsl.UserStub.CreateInvalidUser.createUserWithShortPassword;
-import static jonathan.modern_design._dsl.UserStub.CreateInvalidUser.createUserWithTooLongPassword;
-import static jonathan.modern_design._dsl.UserStub.CreateValidUser.createUserCommandWithValidData;
+import static jonathan.modern_design.auth.UserStub.CreateInvalidUser.createUserWithInvalidEmail;
+import static jonathan.modern_design.auth.UserStub.CreateInvalidUser.createUserWithShortPassword;
+import static jonathan.modern_design.auth.UserStub.CreateInvalidUser.createUserWithTooLongPassword;
+import static jonathan.modern_design.auth.UserStub.CreateValidUser.createUserCommandWithValidData;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

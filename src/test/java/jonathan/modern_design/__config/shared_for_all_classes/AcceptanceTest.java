@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
 @IntegrationConfig
 @WebConfig
 @DatabaseConfig
-public @interface AceptanceTest {
+public @interface AcceptanceTest {
     //Add @SpringBoot or @SpringModulith in your test class with the configuration you need.
     //Add @EnableTestContainers in your test class to combine with testcontainers.
 }

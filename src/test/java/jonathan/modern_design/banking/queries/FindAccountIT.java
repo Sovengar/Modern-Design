@@ -5,10 +5,12 @@ import jakarta.persistence.PersistenceContext;
 import jonathan.modern_design.__config.IntegrationConfig;
 import jonathan.modern_design.__config.shared_for_all_classes.DatabaseTest;
 import jonathan.modern_design.__config.shared_for_all_classes.EnableTestContainers;
-import jonathan.modern_design._dsl.AccountStub;
+import jonathan.modern_design.banking.AccountStub;
+import jonathan.modern_design.banking.BankingDsl;
 import jonathan.modern_design.banking.domain.models.AccountEntity;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 
 import java.util.UUID;
 
@@ -18,29 +20,22 @@ import static org.junit.Assert.assertThrows;
 @DatabaseTest
 @IntegrationConfig
 @EnableTestContainers
-class FindAccountIT {
+@Import(FindAccount.class)
+class FindAccountIT extends BankingDsl {
     @PersistenceContext
     private EntityManager entityManager;
 
+    @Autowired
     private FindAccount findAccount;
-
-    @BeforeEach
-    void setUp() {
-        findAccount = new FindAccount(entityManager);
-    }
 
     @Test
     void shouldFindAccountByAccountNumber() {
-        var accountEntity = new AccountEntity(AccountStub.AccountMother.emptyAccount());
+        givenAnEmptyAccount();
+        givenARandomAccountWithBalance(10.0);
+        givenARandomAccountWithBalance(10.0);
 
-        entityManager.persist(accountEntity);
-        entityManager.flush();
-        entityManager.clear();
+        var accountDto = findAccount.queryWith(AccountStub.DEFAULT_SOURCE_ACCOUNT_NUMBER).orElseThrow();
 
-        // Act
-        var accountDto = findAccount.queryWith(AccountStub.DEFAULT_SOURCE_ACCOUNT_NUMBER);
-
-        // Assert
         assertThat(accountDto.accountNumber()).isEqualTo(AccountStub.DEFAULT_SOURCE_ACCOUNT_NUMBER);
     }
 
@@ -49,6 +44,8 @@ class FindAccountIT {
         // Arrange
         var userId = UUID.randomUUID();
         var accountEntity = new AccountEntity(AccountStub.AccountMother.accountWithUserId(userId));
+        givenARandomAccountWithBalance(10.0);
+        givenARandomAccountWithBalance(10.0);
 
         //entityManager.persist(accountHolder);
         entityManager.persist(accountEntity);
@@ -56,7 +53,7 @@ class FindAccountIT {
         entityManager.clear();
 
         // Act
-        var result = findAccount.queryWithUserId(userId);
+        var result = findAccount.queryWithUserId(userId).orElseThrow();
 
         // Assert
         assertThat(result).isNotNull();

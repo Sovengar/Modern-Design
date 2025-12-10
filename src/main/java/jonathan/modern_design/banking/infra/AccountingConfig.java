@@ -4,6 +4,7 @@ import jonathan.modern_design._shared.domain.CountryRepo;
 import jonathan.modern_design._shared.infra.repositories.CountryInMemoryRepo;
 import jonathan.modern_design.auth.api.AuthApi;
 import jonathan.modern_design.banking.api.BankingApi;
+import jonathan.modern_design.banking.application.DeactivateAccount;
 import jonathan.modern_design.banking.application.Deposit;
 import jonathan.modern_design.banking.application.GenericUpdateAccount;
 import jonathan.modern_design.banking.application.TransferMoney;
@@ -38,7 +39,8 @@ public class AccountingConfig {
                 new TransferMoney(accountRepo, transactionRepo, accountValidator),
                 new CreateAccount(accountRepo, accountHolderRepo, userFacade, accountNumberGenerator, countryRepo),
                 new GenericUpdateAccount(accountRepo),
-                new Deposit(accountRepo, transactionRepo)
+                new Deposit(accountRepo, transactionRepo),
+                new DeactivateAccount(accountRepo)
         );
     }
 

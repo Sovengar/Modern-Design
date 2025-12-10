@@ -1,4 +1,4 @@
-package jonathan.modern_design._dsl;
+package jonathan.modern_design.auth;
 
 import jonathan.modern_design.__config.Stub;
 import jonathan.modern_design._shared.domain.vo.Email;

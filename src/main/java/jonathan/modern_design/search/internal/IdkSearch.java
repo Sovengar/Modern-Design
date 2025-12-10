@@ -40,8 +40,9 @@ class IdkSearch {
         var user = authApi.findUser(User.Id.of(userId));
         var account = accountQueryApi.findByUserId(userId);
 
+
         //Searching doing query composition into a ViewModel
-        var result1 = Optional.of(new AccountWithUserInfo(account.accountNumber(), account.balance(), user.username(), user.email()));
+        var result1 = account.map(acc -> new AccountWithUserInfo(acc.accountNumber(), acc.balance(), user.username(), user.email()));
 
         //Searching our readModel to avoid querying other modules
         var result2 = accountWithUserInfoRepo.findById(userId).map(acc -> new AccountWithUserInfo(acc.getAccountNumber(), acc.getBalance(), acc.getUsername(), acc.getEmail()));

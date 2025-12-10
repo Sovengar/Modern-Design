@@ -1,4 +1,4 @@
-package jonathan.modern_design._dsl;
+package jonathan.modern_design.banking;
 
 import jonathan.modern_design.__config.Stub;
 import jonathan.modern_design._shared.domain.models.Country;
@@ -17,9 +17,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static jonathan.modern_design._dsl.UserStub.VALID_PASSWORD;
 import static jonathan.modern_design._shared.domain.catalogs.Currency.EUR;
 import static jonathan.modern_design._shared.domain.catalogs.Currency.USD;
+import static jonathan.modern_design.auth.UserStub.VALID_PASSWORD;
 
 public class AccountStub extends Stub {
 
@@ -38,27 +38,27 @@ public class AccountStub extends Stub {
     public static final LocalDate birthdate = LocalDate.of(1990, 1, 1);
 
     public static class AccountMother {
-        public static Account accountWithMoney(Money money, String accountNumber) {
+        public static Account givenAnAccountWithMoney(Money money, String accountNumber) {
             return builder(accountNumber, money, true, AccountHolderMother.randomAccountHolder());
         }
 
-        public static Account accountWithBalance(double balance, String accountNumber) {
+        public static Account givenAnAccountWithBalance(double balance, String accountNumber) {
             return builder(accountNumber, Money.of(balance, EUR), true, AccountHolderMother.randomAccountHolder());
         }
 
-        public static Account accountWithBalance(double balance) {
-            return accountWithBalance(balance, DEFAULT_SOURCE_ACCOUNT_NUMBER);
+        public static Account givenAnAccountWithBalance(double balance) {
+            return givenAnAccountWithBalance(balance, DEFAULT_SOURCE_ACCOUNT_NUMBER);
         }
 
-        public static Account emptyAccount() {
+        public static Account givenAnEmptyAccount() {
             return builder(DEFAULT_SOURCE_ACCOUNT_NUMBER, Money.of(BigDecimal.ZERO, EUR), true, AccountHolderMother.randomAccountHolder());
         }
 
-        public static Account inactiveAccount() {
+        public static Account givenAnInactiveAccount() {
             return builder(DEFAULT_SOURCE_ACCOUNT_NUMBER, Money.of(BigDecimal.ZERO, EUR), false, AccountHolderMother.randomAccountHolder());
         }
 
-        public static Account targetAccountWithDifferentCurrency() {
+        public static Account givenAntargetAccountWithDifferentCurrency() {
             return builder(DEFAULT_TARGET_ACCOUNT_NUMBER, Money.of(BigDecimal.ZERO, USD), true, AccountHolderMother.randomAccountHolder());
         }
 

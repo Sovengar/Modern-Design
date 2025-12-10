@@ -1,9 +1,9 @@
 package jonathan.modern_design.banking.application.transfer;
 
-import jonathan.modern_design.__config.shared_for_all_classes.AceptanceTest;
+import jonathan.modern_design.__config.shared_for_all_classes.AcceptanceTest;
 import jonathan.modern_design.__config.shared_for_all_classes.EnableTestContainers;
-import jonathan.modern_design._dsl.BankingDsl;
 import jonathan.modern_design._shared.domain.vo.Money;
+import jonathan.modern_design.banking.BankingDsl;
 import jonathan.modern_design.banking.application.TransferMoney;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
 import org.approvaltests.Approvals;
@@ -14,15 +14,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 
-import static jonathan.modern_design._dsl.AccountStub.DEFAULT_SOURCE_ACCOUNT_NUMBER;
-import static jonathan.modern_design._dsl.AccountStub.DEFAULT_TARGET_ACCOUNT_NUMBER;
-import static jonathan.modern_design._dsl.AccountStub.TransferMoneyMother.fromAccountToAccountWithAmount;
 import static jonathan.modern_design._shared.domain.catalogs.Currency.EUR;
+import static jonathan.modern_design.banking.AccountStub.DEFAULT_SOURCE_ACCOUNT_NUMBER;
+import static jonathan.modern_design.banking.AccountStub.DEFAULT_TARGET_ACCOUNT_NUMBER;
+import static jonathan.modern_design.banking.AccountStub.TransferMoneyMother.fromAccountToAccountWithAmount;
 import static org.assertj.core.api.Assertions.assertThat;
 
 //TODO ERROR WITH FEIGN @ApplicationModuleTest //Better than @SpringBootTest when using modules
 @SpringBootTest
-@AceptanceTest
+@AcceptanceTest
 @EnableTestContainers
 class TransferMoneyIT extends BankingDsl {
     @Autowired
