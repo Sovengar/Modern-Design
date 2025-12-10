@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import static java.math.BigDecimal.TEN;
-import static jonathan.modern_design._dsl.AccountStub.AccountMother.sourceAccountEmpty;
+import static jonathan.modern_design._dsl.AccountStub.AccountMother.emptyAccount;
 import static jonathan.modern_design._shared.domain.catalogs.Currency.EUR;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -26,7 +26,7 @@ class DepositTest {
 
     @Test
     void should_deposit_money_successfully() {
-        var source = sourceAccountEmpty();
+        var source = emptyAccount();
         var accountNumber = accountRepo.create(source);
 
         bankingApi.deposit(new Deposit.Command(accountNumber.getAccountNumber(), TEN, EUR));

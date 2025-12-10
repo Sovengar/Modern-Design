@@ -54,7 +54,7 @@ public class AccountEntity extends BaseAggregateRoot<AccountEntity> {
     public AccountEntity(Account account) {
         //If we start to use id from the client, we could assign the id directly
         this.id = nonNull(account.getAccountId()) ? account.getAccountId().id() : null;
-        this.accountNumber = account.getAccountNumber().getAccountNumber();
+        this.accountNumber = account.getAccountNumber();
         this.status = Account.AccountStatus.ACTIVE;
         this.balance = account.getMoney().getBalance();
         this.currency = account.getMoney().getCurrency();
@@ -64,7 +64,7 @@ public class AccountEntity extends BaseAggregateRoot<AccountEntity> {
 
     public void updateFrom(Account account) {
         this.id = account.getAccountId().id();
-        this.accountNumber = account.getAccountNumber().getAccountNumber();
+        this.accountNumber = account.getAccountNumber();
         this.balance = account.getMoney().getBalance();
         this.currency = account.getMoney().getCurrency();
         this.status = account.getStatus();
@@ -74,7 +74,7 @@ public class AccountEntity extends BaseAggregateRoot<AccountEntity> {
     private void moveEventsFrom(Account account) {
         var domainEvents = account.moveEventsToDataModel();
         domainEvents.forEach(this::registerEvent);
-        this.registerEvent(new AccountSnapshot(account.getAccountNumber().getAccountNumber(), account.getMoney(), account.getStatus().name(), account.getAccountHolder().getId()));
+        this.registerEvent(new AccountSnapshot(account.getAccountNumber(), account.getMoney(), account.getStatus().name(), account.getAccountHolder().getId()));
     }
 
     @PrePersist

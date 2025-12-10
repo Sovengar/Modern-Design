@@ -18,16 +18,16 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static jonathan.modern_design._dsl.AccountStub.AccountMother.sourceAccountEmpty;
-import static jonathan.modern_design._dsl.AccountStub.AccountMother.sourceAccountInactive;
-import static jonathan.modern_design._dsl.AccountStub.AccountMother.sourceAccountWithBalance;
-import static jonathan.modern_design._dsl.AccountStub.AccountMother.targetAccountEmpty;
-import static jonathan.modern_design._dsl.AccountStub.AccountMother.targetAccountInactive;
-import static jonathan.modern_design._dsl.AccountStub.AccountMother.targetAccountWithBalance;
+import static jonathan.modern_design._dsl.AccountStub.AccountMother.accountWithBalance;
+import static jonathan.modern_design._dsl.AccountStub.AccountMother.emptyAccount;
+import static jonathan.modern_design._dsl.AccountStub.AccountMother.emptyTargetAccount;
+import static jonathan.modern_design._dsl.AccountStub.AccountMother.inactiveAccount;
+import static jonathan.modern_design._dsl.AccountStub.AccountMother.inactiveTargetAccount;
 import static jonathan.modern_design._dsl.AccountStub.AccountMother.targetAccountWithDifferentCurrency;
+import static jonathan.modern_design._dsl.AccountStub.DEFAULT_TARGET_ACCOUNT_NUMBER;
 import static jonathan.modern_design._dsl.AccountStub.TransferMoneyMother.transactionWithAmount;
 import static jonathan.modern_design._shared.domain.catalogs.Currency.EUR;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 @UnitTest
@@ -50,11 +50,11 @@ class TransferMoneyTest {
     class WithValidAccountShould {
         @Test
         void transfer_money_into_the_target_account() {
-            var source = sourceAccountWithBalance(100.0);
-            var target = targetAccountEmpty();
+            var source = accountWithBalance(100.0);
+            var target = emptyTargetAccount();
             populatePersistenceLayer(source, target);
 
-            bankingApi.transferMoney(transactionWithAmount(Money.of(BigDecimal.valueOf(50.0), EUR)));
+            bankingApi.transferMoney(transactionWithAmount(Money.of(50.0, EUR)));
 
             assertThat(target.getMoney().getBalance()).isEqualTo(BigDecimal.valueOf(50.0));
         }
@@ -64,41 +64,41 @@ class TransferMoneyTest {
     class WithInvalidAccountShouldFailIf {
         @Test
         void transference_with_insufficient_money() {
-            var source = sourceAccountEmpty();
-            var target = targetAccountWithBalance(100.0);
+            var source = emptyAccount();
+            var target = accountWithBalance(100.0, DEFAULT_TARGET_ACCOUNT_NUMBER);
             populatePersistenceLayer(source, target);
 
-            assertThatThrownBy(() -> bankingApi.transferMoney(transactionWithAmount(Money.of(BigDecimal.valueOf(50.0), EUR))))
+            assertThatThrownBy(() -> bankingApi.transferMoney(transactionWithAmount(Money.of(50.0, EUR))))
                     .isInstanceOf(Money.InsufficientFundsException.class);
         }
 
         @Test
         void transference_with_inactive_source_account() {
-            var source = sourceAccountInactive();
-            var target = targetAccountEmpty();
+            var source = inactiveAccount();
+            var target = inactiveTargetAccount();
             populatePersistenceLayer(source, target);
 
-            assertThatThrownBy(() -> bankingApi.transferMoney(transactionWithAmount(Money.of(BigDecimal.valueOf(50.0), EUR))))
+            assertThatThrownBy(() -> bankingApi.transferMoney(transactionWithAmount(Money.of(50.0, EUR))))
                     .isInstanceOf(AccountIsInactiveException.class);
         }
 
         @Test
         void transference_with_inactive_target_account() {
-            var source = sourceAccountWithBalance(100.0);
-            var target = targetAccountInactive();
+            var source = accountWithBalance(100.0);
+            var target = inactiveTargetAccount();
             populatePersistenceLayer(source, target);
 
-            assertThatThrownBy(() -> bankingApi.transferMoney(transactionWithAmount(Money.of(BigDecimal.valueOf(50.0), EUR))))
+            assertThatThrownBy(() -> bankingApi.transferMoney(transactionWithAmount(Money.of(50.0, EUR))))
                     .isInstanceOf(AccountIsInactiveException.class);
         }
 
         @Test
         void accounts_have_distinct_currencies() {
-            var source = sourceAccountWithBalance(100.0);
+            var source = accountWithBalance(100.0);
             var target = targetAccountWithDifferentCurrency();
             populatePersistenceLayer(source, target);
 
-            assertThatThrownBy(() -> bankingApi.transferMoney(transactionWithAmount(Money.of(BigDecimal.valueOf(50.0), EUR))))
+            assertThatThrownBy(() -> bankingApi.transferMoney(transactionWithAmount(Money.of(50.0, EUR))))
                     .isInstanceOf(OperationWithDifferentCurrenciesException.class);
         }
     }

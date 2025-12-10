@@ -38,28 +38,24 @@ public class AccountStub extends Stub {
     public static final LocalDate birthdate = LocalDate.of(1990, 1, 1);
 
     public static class AccountMother {
-        public static Account sourceAccountWithBalance(double balance) {
-            return builder(DEFAULT_SOURCE_ACCOUNT_NUMBER, Money.of(BigDecimal.valueOf(balance), EUR), true, AccountHolderMother.randomAccountHolder());
+        public static Account accountWithMoney(Money money, String accountNumber) {
+            return builder(accountNumber, money, true, AccountHolderMother.randomAccountHolder());
         }
 
-        public static Account targetAccountWithBalance(double balance) {
-            return builder(DEFAULT_TARGET_ACCOUNT_NUMBER, Money.of(BigDecimal.valueOf(balance), EUR), true, AccountHolderMother.randomAccountHolder());
+        public static Account accountWithBalance(double balance, String accountNumber) {
+            return builder(accountNumber, Money.of(balance, EUR), true, AccountHolderMother.randomAccountHolder());
         }
 
-        public static Account sourceAccountEmpty() {
+        public static Account accountWithBalance(double balance) {
+            return accountWithBalance(balance, DEFAULT_SOURCE_ACCOUNT_NUMBER);
+        }
+
+        public static Account emptyAccount() {
             return builder(DEFAULT_SOURCE_ACCOUNT_NUMBER, Money.of(BigDecimal.ZERO, EUR), true, AccountHolderMother.randomAccountHolder());
         }
 
-        public static Account sourceAccountInactive() {
+        public static Account inactiveAccount() {
             return builder(DEFAULT_SOURCE_ACCOUNT_NUMBER, Money.of(BigDecimal.ZERO, EUR), false, AccountHolderMother.randomAccountHolder());
-        }
-
-        public static Account targetAccountEmpty() {
-            return builder(DEFAULT_TARGET_ACCOUNT_NUMBER, Money.of(BigDecimal.ZERO, EUR), true, AccountHolderMother.randomAccountHolder());
-        }
-
-        public static Account targetAccountInactive() {
-            return builder(DEFAULT_TARGET_ACCOUNT_NUMBER, Money.of(BigDecimal.ZERO, EUR), false, AccountHolderMother.randomAccountHolder());
         }
 
         public static Account targetAccountWithDifferentCurrency() {
@@ -68,6 +64,14 @@ public class AccountStub extends Stub {
 
         public static Account accountWithUserId(UUID userId) {
             return builder(DEFAULT_SOURCE_ACCOUNT_NUMBER, Money.of(BigDecimal.ZERO, EUR), true, AccountHolderMother.accountHolder(UUID.randomUUID(), userId));
+        }
+
+        public static Account emptyTargetAccount() {
+            return builder(DEFAULT_TARGET_ACCOUNT_NUMBER, Money.of(BigDecimal.ZERO, EUR), true, AccountHolderMother.randomAccountHolder());
+        }
+
+        public static Account inactiveTargetAccount() {
+            return builder(DEFAULT_TARGET_ACCOUNT_NUMBER, Money.of(BigDecimal.ZERO, EUR), false, AccountHolderMother.randomAccountHolder());
         }
 
         private static Account builder(String accountId, Money money, boolean isActive, AccountHolder accountHolder) {

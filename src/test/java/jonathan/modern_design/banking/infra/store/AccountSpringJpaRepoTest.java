@@ -4,6 +4,7 @@ import jonathan.modern_design.__config.IntegrationConfig;
 import jonathan.modern_design.__config.shared_for_all_classes.DatabaseTest;
 import jonathan.modern_design.__config.shared_for_all_classes.EnableTestContainers;
 import jonathan.modern_design._dsl.AccountStub;
+import jonathan.modern_design._dsl.BankingDsl;
 import jonathan.modern_design.banking.domain.models.AccountEntity;
 import jonathan.modern_design.banking.infra.store.repositories.spring_jpa.AccountSpringJpaRepo;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static jonathan.modern_design._dsl.BankingDsl.givenAnAccount;
 import static org.assertj.core.api.Assertions.assertThat;
 
 interface AccountProjection {
@@ -30,14 +30,13 @@ interface AccountProjection {
 @DatabaseTest
 @IntegrationConfig
 @EnableTestContainers
-class AccountSpringJpaRepoTest {
+class AccountSpringJpaRepoTest extends BankingDsl {
     @Autowired
     private AccountSpringJpaRepo accountRepository;
 
-
     @Test
     void testDynamicProjection() {
-        givenAnAccount(accountRepository);
+        givenAnEmptyAccount();
 
         //When
         List<AccountProjection> projectionList = accountRepository.findByAccountNumber(AccountStub.DEFAULT_SOURCE_ACCOUNT_NUMBER, AccountProjection.class);

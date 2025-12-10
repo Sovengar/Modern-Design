@@ -42,7 +42,7 @@ class QueryPlayGround {
     @Test
     void shouldFindAccountByAccountNumber() {
         // Arrange
-        var accountEntity = new AccountEntity(AccountStub.AccountMother.sourceAccountEmpty());
+        var accountEntity = new AccountEntity(AccountStub.AccountMother.emptyAccount());
 
         em.persist(accountEntity);
         em.flush();

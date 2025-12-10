@@ -23,13 +23,21 @@ import static lombok.AccessLevel.PRIVATE;
 @ValueObject
 @Value //No record for Hibernate
 @NoArgsConstructor(access = PRIVATE, force = true) //For Hibernate
-@AllArgsConstructor(staticName = "of") //Use factory method
+@AllArgsConstructor(access = PRIVATE) //Use factory method
 public class Money {
     BigDecimal balance;
 
     @InMemoryOnlyCatalog
     @Enumerated(value = EnumType.STRING)
     Currency currency;
+
+    public static Money of(BigDecimal balance, Currency currency) {
+        return new Money(balance, currency);
+    }
+
+    public static Money of(double balance, Currency currency) {
+        return new Money(BigDecimal.valueOf(balance), currency);
+    }
 
     public Money add(Money other) {
         checkCurrency(other);

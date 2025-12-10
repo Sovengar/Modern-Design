@@ -34,12 +34,12 @@ class AccountPostgreRepo implements AccountRepo {
     public AccountNumber create(final Account account) {
         var accountEntity = new AccountEntity(account);
         repositoryJPA.save(accountEntity);
-        return account.getAccountNumber();
+        return AccountNumber.of(account.getAccountNumber());
     }
 
     @Override
     public void update(final Account account) {
-        var accountEntity = findOneEntityOrElseThrow(account.getAccountNumber().getAccountNumber());
+        var accountEntity = findOneEntityOrElseThrow(account.getAccountNumber());
         AccountDataMapper.mapFromDomainToDataModel(accountEntity, account);
         repositoryJPA.save(accountEntity);
     }

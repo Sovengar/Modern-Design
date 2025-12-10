@@ -7,12 +7,11 @@ import jonathan.modern_design.banking.application.Deposit;
 import jonathan.modern_design.banking.domain.models.Account;
 import jonathan.modern_design.banking.domain.models.AccountEntity;
 import jonathan.modern_design.banking.domain.store.AccountRepo;
-import jonathan.modern_design.banking.infra.store.repositories.spring_jpa.AccountSpringJpaRepo;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static jonathan.modern_design._dsl.AccountStub.AccountMother.sourceAccountEmpty;
-import static jonathan.modern_design._dsl.AccountStub.AccountMother.sourceAccountWithBalance;
+import static jonathan.modern_design._dsl.AccountStub.AccountMother.accountWithBalance;
+import static jonathan.modern_design._dsl.AccountStub.AccountMother.emptyAccount;
 import static jonathan.modern_design._dsl.AccountStub.CreateAccountMother.createAccountCommand;
 
 public class BankingDsl {
@@ -30,28 +29,22 @@ public class BankingDsl {
         return repo.findByAccNumberOrElseThrow(accountNumber);
     }
 
-    public static AccountEntity givenAnAccount(AccountSpringJpaRepo repo) {
-        var accountEntity = new AccountEntity(sourceAccountEmpty());
-        repo.save(accountEntity);
-        return accountEntity;
-    }
-
-    protected Account givenAnAccountWithMoney(Money money) {
-        var account = sourceAccountWithBalance(money.getBalance().toBigInteger().doubleValue());
+    protected Account givenAnAccountWithBalance(double balance, String accountNumber) {
+        var account = accountWithBalance(balance, accountNumber);
         var accountEntity = new AccountEntity(account);
         entityManager.persist(accountEntity);
         return account;
     }
 
     protected Account givenAnAccountWithBalance(double balance) {
-        var account = sourceAccountWithBalance(balance);
+        var account = accountWithBalance(balance);
         var accountEntity = new AccountEntity(account);
         entityManager.persist(accountEntity);
         return account;
     }
 
     protected Account givenAnEmptyAccount() {
-        var account = sourceAccountEmpty();
+        var account = emptyAccount();
         var accountEntity = new AccountEntity(account);
         entityManager.persist(accountEntity);
         return account;

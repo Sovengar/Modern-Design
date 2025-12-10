@@ -70,7 +70,7 @@ public class TransferMoney {
         Account source = getAccountValidated(message.sourceId());
         Account target = getAccountValidated(message.targetId());
 
-        validateDifferentAccounts(source.getAccountNumber(), target.getAccountNumber());
+        validateDifferentAccounts(AccountNumber.of(source.getAccountNumber()), AccountNumber.of(target.getAccountNumber()));
 
         final var amount = message.amount();
         final var currency = message.currency();
@@ -102,7 +102,7 @@ public class TransferMoney {
         repository.update(source);
         repository.update(target);
 
-        var tx = Transaction.Factory.transfer(money, source.getAccountNumber().getAccountNumber(), target.getAccountNumber().getAccountNumber());
+        var tx = Transaction.Factory.transfer(money, source.getAccountNumber(), target.getAccountNumber());
         transactionRepo.register(tx);
     }
 

@@ -64,7 +64,7 @@ public class Deposit {
 
         var money = Money.of(message.amount(), message.currency());
         account.deposit(money);
-        var tx = Transaction.Factory.withdrawal(money, account.getAccountNumber().getAccountNumber());
+        var tx = Transaction.Factory.withdrawal(money, account.getAccountNumber());
 
         transactionRepo.register(tx);
         repository.update(account);

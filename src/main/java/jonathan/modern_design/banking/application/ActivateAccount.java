@@ -71,7 +71,7 @@ class ActivateAccountInstrumentation {
     private final Account account;
 
     public void accountActivated() {
-        log.info("Account with id: {} and number: {} has been activated", account.getAccountId().id(), account.getAccountNumber().getAccountNumber());
+        log.info("Account with id: {} and number: {} has been activated", account.getAccountId().id(), account.getAccountNumber());
     }
 
     public void voidExecutionWithLogs(Runnable action, String actionName) {

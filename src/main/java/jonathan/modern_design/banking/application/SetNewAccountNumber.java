@@ -42,6 +42,7 @@ class SetNewAccountNumberHttpController {
 @Slf4j
 @RequiredArgsConstructor
 @ApplicationService
+//A transaction script would be better, but it is done this way to show how would look if the domain gets more complex
 class SetNewAccountNumber {
     private final AccountRepo repository;
     private final AccountNumberGenerator accountNumberGenerator;
@@ -53,6 +54,6 @@ class SetNewAccountNumber {
         repository.update(account);
         log.info("END - Updating account number of account: {}", accountNumber);
 
-        return account.getAccountNumber().getAccountNumber();
+        return account.getAccountNumber();
     }
 }

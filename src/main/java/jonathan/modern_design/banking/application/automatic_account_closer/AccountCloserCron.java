@@ -45,7 +45,7 @@ class AccountCloserCron {
     void execute() {
         log.info("BEGIN CloseInactiveAccounts cron job execution.");
         var accounts = accountRepo.findAll();
-        accounts.forEach(account -> deactivator.handle(account.getAccountNumber().getAccountNumber()));
+        accounts.forEach(account -> deactivator.handle(account.getAccountNumber()));
         log.info("END CloseInactiveAccounts cron job execution.");
     }
 }

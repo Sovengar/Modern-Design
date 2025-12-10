@@ -15,7 +15,7 @@ public record AccountDto(
 
     public AccountDto(final Account account) {
         this(
-                account.getAccountNumber().getAccountNumber(),
+                account.getAccountNumber(),
                 account.getMoney().getBalance(),
                 account.getMoney().getCurrency().getDescription(),
                 account.getStatus()

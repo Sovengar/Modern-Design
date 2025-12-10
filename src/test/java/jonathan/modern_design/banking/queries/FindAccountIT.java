@@ -31,7 +31,7 @@ class FindAccountIT {
 
     @Test
     void shouldFindAccountByAccountNumber() {
-        var accountEntity = new AccountEntity(AccountStub.AccountMother.sourceAccountEmpty());
+        var accountEntity = new AccountEntity(AccountStub.AccountMother.emptyAccount());
 
         entityManager.persist(accountEntity);
         entityManager.flush();

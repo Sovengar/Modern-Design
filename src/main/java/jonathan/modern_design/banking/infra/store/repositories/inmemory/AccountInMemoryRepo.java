@@ -40,13 +40,13 @@ public class AccountInMemoryRepo implements AccountRepo {
 
     @Override
     public AccountNumber create(Account account) {
-        accountsByNumber.put(requireNonNull(account.getAccountNumber().getAccountNumber()), account);
-        return account.getAccountNumber();
+        accountsByNumber.put(requireNonNull(account.getAccountNumber()), account);
+        return AccountNumber.of(account.getAccountNumber());
     }
 
     @Override
     public void update(Account account) {
-        accountsByNumber.put(requireNonNull(account.getAccountNumber().getAccountNumber()), account);
+        accountsByNumber.put(requireNonNull(account.getAccountNumber()), account);
     }
 
     @Override

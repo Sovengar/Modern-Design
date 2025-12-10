@@ -99,6 +99,10 @@ public final class Account {
         return copy;
     }
 
+    public String getAccountNumber() {
+        return accountNumber.getAccountNumber();
+    }
+
     public enum AccountStatus {
         ACTIVE, INACTIVE
     }
