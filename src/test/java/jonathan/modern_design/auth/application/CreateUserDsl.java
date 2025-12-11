@@ -1,10 +1,9 @@
 package jonathan.modern_design.auth.application;
 
-import jonathan.modern_design.__config.Stub;
 import jonathan.modern_design.auth.domain.UserDsl;
 
 //It is more an ObjectMother than Dsl, migrate to Dsl if needed.
-public class CreateUserDsl extends Stub {
+public class CreateUserDsl {
     public static RegisterUser.Command withValidData() {
         return new RegisterUser.Command(UserDsl.DEFAULT_ID, UserDsl.faker.name().username(), UserDsl.faker.internet().emailAddress(), UserDsl.VALID_PASSWORD);
     }
