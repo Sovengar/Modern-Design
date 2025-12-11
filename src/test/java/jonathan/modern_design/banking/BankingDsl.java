@@ -1,7 +1,7 @@
 package jonathan.modern_design.banking;
 
 import jakarta.persistence.EntityManager;
-import jonathan.modern_design.banking.domain.AccountStub;
+import jonathan.modern_design.banking.domain.AccountDsl;
 import jonathan.modern_design.banking.domain.models.Account;
 import jonathan.modern_design.banking.domain.models.AccountEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,21 +13,21 @@ public class BankingDsl {
     protected EntityManager entityManager;
 
     protected Account givenAnAccountWithBalance(double balance, String accountNumber) {
-        var account = AccountStub.AccountMother.givenAnAccountWithBalance(balance, accountNumber);
+        var account = AccountDsl.givenAnAccountWithBalance(balance, accountNumber);
         var accountEntity = new AccountEntity(account);
         entityManager.persist(accountEntity);
         return account;
     }
 
     protected Account givenAnAccountWithBalance(double balance) {
-        var account = AccountStub.AccountMother.givenAnAccountWithBalance(balance);
+        var account = AccountDsl.givenAnAccountWithBalance(balance);
         var accountEntity = new AccountEntity(account);
         entityManager.persist(accountEntity);
         return account;
     }
 
     protected Account givenAnEmptyAccount() {
-        var account = AccountStub.AccountMother.givenAnEmptyAccount();
+        var account = AccountDsl.givenAnEmptyAccount();
         var accountEntity = new AccountEntity(account);
         entityManager.persist(accountEntity);
         return account;

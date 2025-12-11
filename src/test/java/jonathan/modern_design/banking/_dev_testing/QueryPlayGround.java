@@ -6,7 +6,6 @@ import jakarta.persistence.EntityManagerFactory;
 import jonathan.modern_design.__config.IntegrationConfig;
 import jonathan.modern_design.__config.shared_for_all_classes.DatabaseTest;
 import jonathan.modern_design.__config.shared_for_all_classes.EnableTestContainers;
-import jonathan.modern_design.banking.domain.AccountStub;
 import jonathan.modern_design.banking.domain.models.AccountEntity;
 import jonathan.modern_design.banking.domain.models.QAccountEntity;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +13,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import static jonathan.modern_design.banking.domain.AccountDsl.givenAnEmptyAccount;
 
 //NOT WORKING
 @Slf4j
@@ -42,7 +43,7 @@ class QueryPlayGround {
     @Test
     void shouldFindAccountByAccountNumber() {
         // Arrange
-        var accountEntity = new AccountEntity(AccountStub.AccountMother.givenAnEmptyAccount());
+        var accountEntity = new AccountEntity(givenAnEmptyAccount());
 
         em.persist(accountEntity);
         em.flush();

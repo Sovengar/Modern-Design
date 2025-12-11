@@ -3,7 +3,7 @@ package jonathan.modern_design.banking.application.transfer;
 import com.github.javafaker.Faker;
 import jonathan.modern_design._shared.domain.vo.Money;
 import jonathan.modern_design.banking.application.TransferMoney;
-import jonathan.modern_design.banking.domain.AccountStub;
+import jonathan.modern_design.banking.domain.AccountDsl;
 
 import java.math.BigDecimal;
 
@@ -18,14 +18,14 @@ public class TransferMoneyDsl {
     }
 
     public static TransferMoney.Command transactionWithAmount(Money money) {
-        return fromAccountToAccountWithAmount(AccountStub.DEFAULT_SOURCE_ACCOUNT_NUMBER, AccountStub.DEFAULT_TARGET_ACCOUNT_NUMBER, money);
+        return fromAccountToAccountWithAmount(AccountDsl.DEFAULT_SOURCE_ACCOUNT_NUMBER, AccountDsl.DEFAULT_TARGET_ACCOUNT_NUMBER, money);
     }
 
     public static TransferMoney.Command insufficientFundsTransaction() {
-        return fromAccountToAccountWithAmount(AccountStub.DEFAULT_SOURCE_ACCOUNT_NUMBER, AccountStub.DEFAULT_TARGET_ACCOUNT_NUMBER, Money.of(BigDecimal.valueOf(100.0), EUR));
+        return fromAccountToAccountWithAmount(AccountDsl.DEFAULT_SOURCE_ACCOUNT_NUMBER, AccountDsl.DEFAULT_TARGET_ACCOUNT_NUMBER, Money.of(BigDecimal.valueOf(100.0), EUR));
     }
 
     public static TransferMoney.Command negativeAmountTransaction() {
-        return fromAccountToAccountWithAmount(AccountStub.DEFAULT_SOURCE_ACCOUNT_NUMBER, AccountStub.DEFAULT_TARGET_ACCOUNT_NUMBER, Money.of(BigDecimal.valueOf(-100), EUR));
+        return fromAccountToAccountWithAmount(AccountDsl.DEFAULT_SOURCE_ACCOUNT_NUMBER, AccountDsl.DEFAULT_TARGET_ACCOUNT_NUMBER, Money.of(BigDecimal.valueOf(-100), EUR));
     }
 }

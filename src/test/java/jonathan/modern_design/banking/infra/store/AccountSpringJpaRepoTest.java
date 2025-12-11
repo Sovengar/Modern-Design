@@ -4,7 +4,7 @@ import jonathan.modern_design.__config.IntegrationConfig;
 import jonathan.modern_design.__config.shared_for_all_classes.DatabaseTest;
 import jonathan.modern_design.__config.shared_for_all_classes.EnableTestContainers;
 import jonathan.modern_design.banking.BankingDsl;
-import jonathan.modern_design.banking.domain.AccountStub;
+import jonathan.modern_design.banking.domain.AccountDsl;
 import jonathan.modern_design.banking.domain.models.AccountEntity;
 import jonathan.modern_design.banking.infra.store.repositories.spring_jpa.AccountSpringJpaRepo;
 import lombok.extern.slf4j.Slf4j;
@@ -39,8 +39,8 @@ class AccountSpringJpaRepoTest extends BankingDsl {
         givenAnEmptyAccount();
 
         //When
-        List<AccountProjection> projectionList = accountRepository.findByAccountNumber(AccountStub.DEFAULT_SOURCE_ACCOUNT_NUMBER, AccountProjection.class);
-        List<AccountEntity> entityList = accountRepository.findByAccountNumber(AccountStub.DEFAULT_SOURCE_ACCOUNT_NUMBER, AccountEntity.class);
+        List<AccountProjection> projectionList = accountRepository.findByAccountNumber(AccountDsl.DEFAULT_SOURCE_ACCOUNT_NUMBER, AccountProjection.class);
+        List<AccountEntity> entityList = accountRepository.findByAccountNumber(AccountDsl.DEFAULT_SOURCE_ACCOUNT_NUMBER, AccountEntity.class);
         //List<AccountDto> dtoList = accountRepository.findByAccountNumber("ES123456789", AccountDto.class);
         //Cannot set field 'currency' to instantiate 'jonathan.modern_design.banking.api.dtos.AccountDto'
         //List<Account> domainModelList = accountRepository.findByAccountNumber("ES123456789", Account.class);

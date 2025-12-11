@@ -4,7 +4,6 @@ import jonathan.modern_design.__config.TimeExtension;
 import jonathan.modern_design._shared.domain.exceptions.OperationWithDifferentCurrenciesException;
 import jonathan.modern_design._shared.domain.vo.Money;
 import jonathan.modern_design.banking.BankingUnitConfig;
-import jonathan.modern_design.banking.domain.AccountStub;
 import jonathan.modern_design.banking.domain.exceptions.AccountIsInactiveException;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -16,13 +15,13 @@ import java.time.LocalDateTime;
 
 import static jonathan.modern_design._shared.domain.catalogs.Currency.EUR;
 import static jonathan.modern_design.banking.application.transfer.TransferMoneyDsl.transactionWithAmount;
-import static jonathan.modern_design.banking.domain.AccountStub.AccountMother.emptyTargetAccount;
-import static jonathan.modern_design.banking.domain.AccountStub.AccountMother.givenAnAccountWithBalance;
-import static jonathan.modern_design.banking.domain.AccountStub.AccountMother.givenAnEmptyAccount;
-import static jonathan.modern_design.banking.domain.AccountStub.AccountMother.givenAnInactiveAccount;
-import static jonathan.modern_design.banking.domain.AccountStub.AccountMother.givenAntargetAccountWithDifferentCurrency;
-import static jonathan.modern_design.banking.domain.AccountStub.AccountMother.inactiveTargetAccount;
-import static jonathan.modern_design.banking.domain.AccountStub.DEFAULT_TARGET_ACCOUNT_NUMBER;
+import static jonathan.modern_design.banking.domain.AccountDsl.DEFAULT_TARGET_ACCOUNT_NUMBER;
+import static jonathan.modern_design.banking.domain.AccountDsl.emptyTargetAccount;
+import static jonathan.modern_design.banking.domain.AccountDsl.givenAnAccountWithBalance;
+import static jonathan.modern_design.banking.domain.AccountDsl.givenAnEmptyAccount;
+import static jonathan.modern_design.banking.domain.AccountDsl.givenAnInactiveAccount;
+import static jonathan.modern_design.banking.domain.AccountDsl.givenAntargetAccountWithDifferentCurrency;
+import static jonathan.modern_design.banking.domain.AccountDsl.inactiveTargetAccount;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
@@ -35,7 +34,7 @@ class TransferMoneyTest extends BankingUnitConfig {
     class WithValidAccountShould {
         @Test
         void transfer_money_into_the_target_account() {
-            var source = AccountStub.AccountMother.givenAnAccountWithBalance(100.0);
+            var source = givenAnAccountWithBalance(100.0);
             var target = emptyTargetAccount();
             accountRepo.create(source);
             accountRepo.create(target);
@@ -72,7 +71,7 @@ class TransferMoneyTest extends BankingUnitConfig {
 
         @Test
         void transference_with_inactive_target_account() {
-            var source = AccountStub.AccountMother.givenAnAccountWithBalance(100.0);
+            var source = givenAnAccountWithBalance(100.0);
             var target = inactiveTargetAccount();
             accountRepo.create(source);
             accountRepo.create(target);
@@ -83,7 +82,7 @@ class TransferMoneyTest extends BankingUnitConfig {
 
         @Test
         void accounts_have_distinct_currencies() {
-            var source = AccountStub.AccountMother.givenAnAccountWithBalance(100.0);
+            var source = givenAnAccountWithBalance(100.0);
             var target = givenAntargetAccountWithDifferentCurrency();
             accountRepo.create(source);
             accountRepo.create(target);

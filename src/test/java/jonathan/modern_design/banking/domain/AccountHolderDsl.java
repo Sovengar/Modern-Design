@@ -11,6 +11,6 @@ public class AccountHolderDsl {
     }
 
     public static AccountHolder accountHolder(UUID accountHolderId, UUID userId) {
-        return AccountHolder.create(accountHolderId, Optional.of(AccountStub.fullName), AccountStub.personalId, AccountStub.ahAddress, AccountStub.birthdate, AccountStub.phoneNumbers, userId);
+        return AccountHolder.create(accountHolderId, Optional.of(AccountDsl.fullName), AccountDsl.personalId, AccountDsl.ahAddress, AccountDsl.birthdate, AccountDsl.phoneNumbers, userId);
     }
 }

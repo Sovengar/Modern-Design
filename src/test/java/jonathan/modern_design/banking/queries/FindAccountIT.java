@@ -6,7 +6,7 @@ import jonathan.modern_design.__config.IntegrationConfig;
 import jonathan.modern_design.__config.shared_for_all_classes.DatabaseTest;
 import jonathan.modern_design.__config.shared_for_all_classes.EnableTestContainers;
 import jonathan.modern_design.banking.BankingDsl;
-import jonathan.modern_design.banking.domain.AccountStub;
+import jonathan.modern_design.banking.domain.AccountDsl;
 import jonathan.modern_design.banking.domain.models.AccountEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Import;
 
 import java.util.UUID;
 
+import static jonathan.modern_design.banking.domain.AccountDsl.givenAnAccountWithUserId;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertThrows;
 
@@ -34,16 +35,16 @@ class FindAccountIT extends BankingDsl {
         givenARandomAccountWithBalance(10.0);
         givenARandomAccountWithBalance(10.0);
 
-        var accountDto = findAccount.queryWith(AccountStub.DEFAULT_SOURCE_ACCOUNT_NUMBER).orElseThrow();
+        var accountDto = findAccount.queryWith(AccountDsl.DEFAULT_SOURCE_ACCOUNT_NUMBER).orElseThrow();
 
-        assertThat(accountDto.accountNumber()).isEqualTo(AccountStub.DEFAULT_SOURCE_ACCOUNT_NUMBER);
+        assertThat(accountDto.accountNumber()).isEqualTo(AccountDsl.DEFAULT_SOURCE_ACCOUNT_NUMBER);
     }
 
     @Test
     void shouldFindAccountByUserId() {
         // Arrange
         var userId = UUID.randomUUID();
-        var accountEntity = new AccountEntity(AccountStub.AccountMother.accountWithUserId(userId));
+        var accountEntity = new AccountEntity(givenAnAccountWithUserId(userId));
         givenARandomAccountWithBalance(10.0);
         givenARandomAccountWithBalance(10.0);
 
@@ -57,7 +58,7 @@ class FindAccountIT extends BankingDsl {
 
         // Assert
         assertThat(result).isNotNull();
-        assertThat(result.accountNumber()).isEqualTo(AccountStub.DEFAULT_SOURCE_ACCOUNT_NUMBER);
+        assertThat(result.accountNumber()).isEqualTo(AccountDsl.DEFAULT_SOURCE_ACCOUNT_NUMBER);
     }
 
     @Test

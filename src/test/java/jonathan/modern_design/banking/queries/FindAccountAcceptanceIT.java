@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 
-import static jonathan.modern_design.banking.domain.AccountStub.DEFAULT_ACCOUNT_NUMBER;
+import static jonathan.modern_design.banking.domain.AccountDsl.DEFAULT_ACCOUNT_NUMBER;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 

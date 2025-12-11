@@ -1,6 +1,6 @@
 package jonathan.modern_design.banking.application.create_account;
 
-import jonathan.modern_design.banking.domain.AccountStub;
+import jonathan.modern_design.banking.domain.AccountDsl;
 
 import java.util.Optional;
 
@@ -14,6 +14,6 @@ public class CreateAccountDsl {
     }
 
     public static CreateAccountCommand withCurrency(final String currencyCode) {
-        return new CreateAccountCommand(Optional.of(AccountStub.fullName), AccountStub.email, AccountStub.username, AccountStub.address, VALID_PASSWORD, currencyCode, AccountStub.phoneNumbers, AccountStub.birthdate, AccountStub.personalId);
+        return new CreateAccountCommand(Optional.of(AccountDsl.fullName), AccountDsl.email, AccountDsl.username, AccountDsl.address, VALID_PASSWORD, currencyCode, AccountDsl.phoneNumbers, AccountDsl.birthdate, AccountDsl.personalId);
     }
 }

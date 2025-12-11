@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 
-import static jonathan.modern_design.banking.domain.AccountStub.DEFAULT_ACCOUNT_NUMBER;
+import static jonathan.modern_design.banking.domain.AccountDsl.DEFAULT_ACCOUNT_NUMBER;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest

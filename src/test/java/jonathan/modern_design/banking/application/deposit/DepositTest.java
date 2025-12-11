@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import static java.math.BigDecimal.TEN;
 import static jonathan.modern_design._shared.domain.catalogs.Currency.EUR;
-import static jonathan.modern_design.banking.domain.AccountStub.AccountMother.givenAnEmptyAccount;
+import static jonathan.modern_design.banking.domain.AccountDsl.givenAnEmptyAccount;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
