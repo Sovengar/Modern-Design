@@ -8,6 +8,7 @@ import jonathan.modern_design.banking.application.Deposit;
 import jonathan.modern_design.banking.application.GenericUpdateAccount;
 import jonathan.modern_design.banking.application.TransferMoney;
 import jonathan.modern_design.banking.application.create_account.CreateAccount;
+import jonathan.modern_design.banking.application.create_account.CreateAccountCommand;
 import jonathan.modern_design.banking.domain.vo.AccountNumber;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +34,7 @@ public class BankingApiInternal implements BankingApi {
     }
 
     @Override
-    public AccountNumber createAccount(final CreateAccount.Command message) {
+    public AccountNumber createAccount(final CreateAccountCommand message) {
         return createAccount.handle(message);
     }
 

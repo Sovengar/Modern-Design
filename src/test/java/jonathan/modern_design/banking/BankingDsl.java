@@ -1,6 +1,7 @@
 package jonathan.modern_design.banking;
 
 import jakarta.persistence.EntityManager;
+import jonathan.modern_design.banking.domain.AccountStub;
 import jonathan.modern_design.banking.domain.models.Account;
 import jonathan.modern_design.banking.domain.models.AccountEntity;
 import org.springframework.beans.factory.annotation.Autowired;

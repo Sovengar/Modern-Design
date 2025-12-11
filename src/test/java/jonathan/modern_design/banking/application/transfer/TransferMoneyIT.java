@@ -15,9 +15,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.math.BigDecimal;
 
 import static jonathan.modern_design._shared.domain.catalogs.Currency.EUR;
-import static jonathan.modern_design.banking.AccountStub.DEFAULT_SOURCE_ACCOUNT_NUMBER;
-import static jonathan.modern_design.banking.AccountStub.DEFAULT_TARGET_ACCOUNT_NUMBER;
-import static jonathan.modern_design.banking.AccountStub.TransferMoneyMother.fromAccountToAccountWithAmount;
+import static jonathan.modern_design.banking.application.transfer.TransferMoneyDsl.fromAccountToAccountWithAmount;
+import static jonathan.modern_design.banking.domain.AccountStub.DEFAULT_SOURCE_ACCOUNT_NUMBER;
+import static jonathan.modern_design.banking.domain.AccountStub.DEFAULT_TARGET_ACCOUNT_NUMBER;
 import static org.assertj.core.api.Assertions.assertThat;
 
 //TODO ERROR WITH FEIGN @ApplicationModuleTest //Better than @SpringBootTest when using modules

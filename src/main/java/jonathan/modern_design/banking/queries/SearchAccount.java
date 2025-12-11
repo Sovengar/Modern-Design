@@ -2,7 +2,9 @@ package jonathan.modern_design.banking.queries;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.PathBuilderFactory;
 import com.querydsl.jpa.JPQLTemplates;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.persistence.EntityManager;
@@ -11,19 +13,20 @@ import jonathan.modern_design._shared.api.Response;
 import jonathan.modern_design._shared.tags.adapters.DataAdapter;
 import jonathan.modern_design._shared.tags.adapters.WebAdapter;
 import jonathan.modern_design.banking.api.dtos.AccountDto;
-import jonathan.modern_design.banking.domain.models.Account;
 import jonathan.modern_design.banking.domain.models.AccountEntity;
 import jonathan.modern_design.banking.domain.vo.AccountHolderAddress;
 import jonathan.modern_design.banking.infra.store.repositories.spring_jpa.AccountSpringJpaRepo;
-import jonathan.modern_design.banking.infra.store.repositories.spring_jpa.AccountTransactionsViewSpringJpaRepo;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.support.Querydsl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,40 +45,20 @@ import static jonathan.modern_design._shared.infra.AppUrls.BankingUrls.BANKING_M
 import static jonathan.modern_design._shared.infra.TraceIdGenerator.generateTraceId;
 import static jonathan.modern_design.banking.domain.models.QAccountEntity.accountEntity;
 import static jonathan.modern_design.banking.domain.models.QAccountHolder.accountHolder;
-
-public interface SearchAccount {
-    List<AccountIdWithHolderFullName> searchWithJPQL(Criteria filters);
-
-    List<AccountIdWithHolderFullName> searchWithQueryDSL(Criteria filters);
-
-    List<AccountDto> searchWithAddress(AccountHolderAddress address);
-
-    Page<AccountDto> searchWithPagination(final Pageable pageable, final Criteria filters);
-
-    List<AccountDto> searchWithCity(final String city);
-
-    @Builder
-    record Criteria(
-            String fullName,
-            LocalDate birthdate
-    ) {
-    }
-
-    record AccountIdWithHolderFullName(Long accountId, String fullName) {
-    }
-}
+import static jonathan.modern_design.banking.infra.store.AccountSpecifications.hasBirthdate;
+import static jonathan.modern_design.banking.infra.store.AccountSpecifications.hasFullName;
 
 @Slf4j
 @RequiredArgsConstructor
 @WebAdapter(BANKING_MODULE_URL + ACCOUNTS_RESOURCE_URL)
 class SearchAccountHttpController {
-    private final SearchAccountQueryImpl querier;
+    private final SearchAccount querier;
 
     @Operation(description = "Search Account")
     @PostMapping("/search/xxxPage")
-    public ResponseEntity<Response<List<SearchAccount.AccountIdWithHolderFullName>>> searchProjectionForXXXPage(@RequestBody SearchAccount.Criteria filters) {
-        var accountSearchResults = querier.searchWithQueryDSL(filters);
-        return ResponseEntity.ok(new Response.Builder<List<SearchAccount.AccountIdWithHolderFullName>>().data(accountSearchResults).withDefaultMetadataV1());
+    public ResponseEntity<Response<Page<SearchAccount.AccountIdWithHolderFullName>>> searchProjectionForXXXPage(@RequestBody SearchAccount.Criteria filters, Pageable pageable) {
+        var accountSearchResults = querier.searchWithQueryDSL(filters, pageable);
+        return ResponseEntity.ok(new Response.Builder<Page<SearchAccount.AccountIdWithHolderFullName>>().data(accountSearchResults).withDefaultMetadataV1());
     }
 
     @Operation(description = "Find Accounts")
@@ -95,20 +78,18 @@ class SearchAccountHttpController {
 }
 
 @DataAdapter
-//Has to have Impl in the name to avoid Spring mapping to JPARepository
-class SearchAccountQueryImpl implements SearchAccount {
+public class SearchAccount {
     @PersistenceContext
     private final EntityManager entityManager;
     private final AccountSpringJpaRepo repository;
     private final JPAQueryFactory queryFactory;
 
-    public SearchAccountQueryImpl(EntityManager entityManager, AccountSpringJpaRepo repository, AccountTransactionsViewSpringJpaRepo viewRepository) {
+    public SearchAccount(EntityManager entityManager, AccountSpringJpaRepo repository) {
         this.repository = repository;
         this.entityManager = entityManager;
         this.queryFactory = new JPAQueryFactory(JPQLTemplates.DEFAULT, entityManager);
     }
 
-    @Override
     public List<AccountIdWithHolderFullName> searchWithJPQL(Criteria filters) {
         // Alternative: Spring Specifications https://docs.spring.io/spring-data/jpa/reference/jpa/specifications.html
         String jpql = "SELECT new jonathan.modern_design.banking.queries.SearchAccount.AccountSearchResult(a.id, a.name)" +
@@ -138,32 +119,36 @@ class SearchAccountQueryImpl implements SearchAccount {
         return query.getResultList();
     }
 
-    @Override
-    public List<AccountIdWithHolderFullName> searchWithQueryDSL(Criteria filters) {
+    public Page<AccountIdWithHolderFullName> searchWithQueryDSL(Criteria filters, Pageable pageable) {
         var filtersBuilded = buildFilters(filters);
 
-        return queryFactory
+        var query = queryFactory
                 .select(Projections.constructor(AccountIdWithHolderFullName.class, accountEntity.id, accountHolder.name.name))
                 .from(accountEntity)
                 .join(accountEntity.accountHolder, accountHolder)
-                .where(filtersBuilded)
-                .fetch();
+                .where(filtersBuilded);
+
+        applyPaginationWithQueryDsl(pageable, query, AccountEntity.class);
+        var result = query.fetch();
+
+        return new PageImpl<>(result, pageable, query.fetchCount());
     }
 
-    @Override
     public Page<AccountDto> searchWithPagination(final Pageable pageable, final Criteria filters) {
-        List<Account> accounts = repository.findAll(pageable)
-                .getContent()
-                .stream()
-                .map(Account::new)
-                .toList();
+        Specification<AccountEntity> spec = null;
 
-        //This is bad, there is no filter. Just showing findAll pageable from Spring Data JPA
-        var accountsDto = accounts.stream().map(AccountDto::new).toList();
-        return new PageImpl<>(accountsDto, pageable, accounts.size());
+        if (StringUtils.hasLength(filters.fullName())) {
+            spec = spec == null ? hasFullName(filters.fullName()) : spec.and(hasFullName(filters.fullName()));
+        }
+
+        if (filters.birthdate() != null) {
+            spec = spec == null ? hasBirthdate(filters.birthdate()) : spec.and(hasBirthdate(filters.birthdate()));
+        }
+
+        var page = spec == null ? repository.findAll(pageable) : repository.findAll(spec, pageable);
+        return page.map(AccountDto::new);
     }
 
-    @Override
     public List<AccountDto> searchWithCity(final String city) {
 
         List<AccountEntity> accounts = entityManager
@@ -178,7 +163,6 @@ class SearchAccountQueryImpl implements SearchAccount {
         return accounts.stream().map(AccountDto::new).toList();
     }
 
-    @Override
     public List<AccountDto> searchWithAddress(final AccountHolderAddress address) {
 
         List<AccountEntity> accounts = entityManager
@@ -193,7 +177,7 @@ class SearchAccountQueryImpl implements SearchAccount {
         return accounts.stream().map(AccountDto::new).toList();
     }
 
-    private BooleanBuilder buildFilters(final SearchAccount.Criteria filters) {
+    private BooleanBuilder buildFilters(final Criteria filters) {
         BooleanBuilder builder = new BooleanBuilder();
 
         ofNullable(filters.fullName())
@@ -203,6 +187,24 @@ class SearchAccountQueryImpl implements SearchAccount {
                 .ifPresent(birthdate -> builder.and(accountHolder.birthdate.birthdate.eq(birthdate)));
 
         return builder;
+    }
+
+    private void applyPaginationWithQueryDsl(final Pageable pageable, final JPAQuery<?> query, Class clazz) {
+        if (pageable.getOffset() > 1000) {
+            throw new RuntimeException("Too many results");
+        }
+        Querydsl querydsl = new Querydsl(Objects.requireNonNull(entityManager), (new PathBuilderFactory()).create(clazz));
+        querydsl.applyPagination(pageable, query);
+    }
+
+    @Builder
+    public record Criteria(
+            String fullName,
+            LocalDate birthdate
+    ) {
+    }
+
+    public record AccountIdWithHolderFullName(Long accountId, String fullName) {
     }
 }
 

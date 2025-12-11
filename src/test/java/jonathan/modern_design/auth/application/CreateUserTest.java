@@ -7,10 +7,10 @@ import jonathan.modern_design.auth.infra.UsersConfig;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static jonathan.modern_design.auth.UserStub.CreateInvalidUser.createUserWithInvalidEmail;
-import static jonathan.modern_design.auth.UserStub.CreateInvalidUser.createUserWithShortPassword;
-import static jonathan.modern_design.auth.UserStub.CreateInvalidUser.createUserWithTooLongPassword;
-import static jonathan.modern_design.auth.UserStub.CreateValidUser.createUserCommandWithValidData;
+import static jonathan.modern_design.auth.application.CreateUserDsl.createUserWithInvalidEmail;
+import static jonathan.modern_design.auth.application.CreateUserDsl.createUserWithShortPassword;
+import static jonathan.modern_design.auth.application.CreateUserDsl.createUserWithTooLongPassword;
+import static jonathan.modern_design.auth.application.CreateUserDsl.withValidData;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -22,7 +22,7 @@ class CreateUserTest {
     class WithValidUserShould {
         @Test
         void register_user() {
-            var data = createUserCommandWithValidData();
+            var data = withValidData();
             authApi.registerUser(data);
             var user = authApi.findUser(User.Id.of(data.id()));
             assertThat(user).isNotNull();

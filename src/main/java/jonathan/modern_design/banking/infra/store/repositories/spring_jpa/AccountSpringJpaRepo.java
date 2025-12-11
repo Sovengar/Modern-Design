@@ -4,6 +4,7 @@ import jonathan.modern_design.banking.api.dtos.AccountDto;
 import jonathan.modern_design.banking.domain.models.AccountEntity;
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public interface AccountSpringJpaRepo extends JpaRepository<AccountEntity, Long> {
+public interface AccountSpringJpaRepo extends JpaRepository<AccountEntity, Long>, JpaSpecificationExecutor<AccountEntity> {
     Optional<AccountEntity> findByAccountNumber(@NonNull String accountNumber);
 
     default AccountEntity findByAccNumberOrElseThrow(@NonNull final String accountNumber) {

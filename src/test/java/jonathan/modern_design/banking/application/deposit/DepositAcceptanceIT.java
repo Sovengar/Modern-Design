@@ -6,7 +6,7 @@ import jonathan.modern_design.banking.BankingAcceptanceConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static jonathan.modern_design.banking.AccountStub.DEFAULT_ACCOUNT_NUMBER;
+import static jonathan.modern_design.banking.domain.AccountStub.DEFAULT_ACCOUNT_NUMBER;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 

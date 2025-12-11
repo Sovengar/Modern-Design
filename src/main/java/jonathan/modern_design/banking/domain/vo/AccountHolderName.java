@@ -39,7 +39,7 @@ public class AccountHolderName {
         return ofNullable(name);
     }
 
-    private static class UserRealNameNotValidException extends RootException {
+    static class UserRealNameNotValidException extends RootException {
         @Serial private static final long serialVersionUID = -6239696180800018814L;
 
         public UserRealNameNotValidException(String message) {

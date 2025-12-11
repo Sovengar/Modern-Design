@@ -3,8 +3,6 @@ package jonathan.modern_design.banking.application.create_account;
 import com.google.common.annotations.VisibleForTesting;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import jonathan.modern_design._shared.api.Response;
 import jonathan.modern_design._shared.domain.CountryRepo;
 import jonathan.modern_design._shared.domain.catalogs.Currency;
@@ -33,7 +31,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.math.BigDecimal;
 import java.net.URI;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -56,8 +53,8 @@ class CreateAccountHttpController {
         //Authentication + Authorization
 
         log.info("Request arrived to createAccount with command: {}", request);
-        var appAddressCommand = new CreateAccount.Command.Address(request.address().street(), request.address().city(), request.address().state(), request.address().zipCode(), request.address().countryCode());
-        var appCommand = new CreateAccount.Command(Optional.ofNullable(request.fullName()), request.email(), request.username(), appAddressCommand, request.password(), request.currency(), request.phoneNumbers(), request.birthdate(), request.personalId());
+        var appAddressCommand = new CreateAccountCommand.Address(request.address().street(), request.address().city(), request.address().state(), request.address().zipCode(), request.address().countryCode());
+        var appCommand = new CreateAccountCommand(Optional.ofNullable(request.fullName()), request.email(), request.username(), appAddressCommand, request.password(), request.currency(), request.phoneNumbers(), request.birthdate(), request.personalId());
         final var accountNumber = createAccount.handle(appCommand).getAccountNumber();
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{accountNumber}").buildAndExpand(accountNumber).toUri();
@@ -83,7 +80,7 @@ public class CreateAccount {
     private final CountryRepo countryRepo;
 
     @Transactional
-    public AccountNumber handle(final Command cmd) {
+    public AccountNumber handle(final CreateAccountCommand cmd) {
         log.info("START - Creating account with command: {}", cmd);
 
         ComplexDomainService.handle();
@@ -92,7 +89,7 @@ public class CreateAccount {
         var userId = registerUser(cmd);
 
         var country = countryRepo.findByCodeOrElseThrow(cmd.address().countryCode());
-        var address = AccountHolderAddress.of(null, cmd.address().street, cmd.address().city, cmd.address().state, cmd.address().zipCode, country);
+        var address = AccountHolderAddress.of(null, cmd.address().street(), cmd.address().city(), cmd.address().state(), cmd.address().zipCode(), country);
         var accountHolder = AccountHolder.create(UUID.randomUUID(), cmd.fullName(), cmd.personalId(), address, cmd.birthdate(), cmd.phoneNumbers(), userId.getUserId());
         accountHolderRepo.save(accountHolder);
 
@@ -109,7 +106,7 @@ public class CreateAccount {
         log.info("Doing more complex logic...");
     }
 
-    private User.Id registerUser(final Command cmd) {
+    private User.Id registerUser(final CreateAccountCommand cmd) {
         var userId = UUID.randomUUID();
         var userCreateCommand = new RegisterUser.Command(userId, cmd.username(), cmd.email(), cmd.password());
         authApi.registerUser(userCreateCommand);
@@ -127,21 +124,6 @@ public class CreateAccount {
         }
     }
 
-    public record Command(
-            Optional<String> fullName,
-            @NotEmpty(message = "Email is required") String email,
-            @NotEmpty(message = "Username is required") String username,
-            @NotNull(message = "Address is required") Address address,
-            @NotEmpty(message = "Password is required") String password,
-            @NotNull(message = "Currency is required") String currency,
-            @NotNull(message = "PhoneNumbers is required") List<String> phoneNumbers,
-            @NotNull(message = "Birthdate is required") LocalDate birthdate,
-            @NotEmpty(message = "Personal Id is required") String personalId
-    ) {
-
-        public record Address(String street, String city, String state, String zipCode, String countryCode) {
-        }
-    }
 }
 
 

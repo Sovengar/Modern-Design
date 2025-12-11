@@ -8,7 +8,7 @@ import jakarta.persistence.PersistenceContext;
 import jonathan.modern_design._shared.tags.adapters.DataAdapter;
 import jonathan.modern_design.auth.api.AuthApi;
 import jonathan.modern_design.auth.domain.models.User;
-import jonathan.modern_design.banking.api.AccountQueryApi;
+import jonathan.modern_design.banking.api.BankingQueryApi;
 import jonathan.modern_design.banking.api.dtos.AccountDto;
 import jonathan.modern_design.search.store.AccountWithUserInfoRepo;
 import jonathan.modern_design.search.view_models.AccountWithUserInfo;
@@ -24,21 +24,21 @@ class IdkSearch {
     @PersistenceContext
     private final EntityManager entityManager;
     private final JPAQueryFactory queryFactory;
-    private final AccountQueryApi accountQueryApi;
+    private final BankingQueryApi bankingQueryApi;
     private final AuthApi authApi;
     private final AccountWithUserInfoRepo accountWithUserInfoRepo;
 
-    public IdkSearch(EntityManager entityManager, AccountQueryApi accountQueryApi, AuthApi authApi, AccountWithUserInfoRepo accountWithUserInfoRepo) {
+    public IdkSearch(EntityManager entityManager, BankingQueryApi bankingQueryApi, AuthApi authApi, AccountWithUserInfoRepo accountWithUserInfoRepo) {
         this.entityManager = entityManager;
         this.queryFactory = new JPAQueryFactory(JPQLTemplates.DEFAULT, entityManager);
-        this.accountQueryApi = accountQueryApi;
+        this.bankingQueryApi = bankingQueryApi;
         this.authApi = authApi;
         this.accountWithUserInfoRepo = accountWithUserInfoRepo;
     }
 
     public Optional<AccountWithUserInfo> findAccountWithUserInfo(UUID userId) {
         var user = authApi.findUser(User.Id.of(userId));
-        var account = accountQueryApi.findByUserId(userId);
+        var account = bankingQueryApi.findByUserId(userId);
 
 
         //Searching doing query composition into a ViewModel
