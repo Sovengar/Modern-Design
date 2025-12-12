@@ -1,7 +1,6 @@
 package jonathan.modern_design._shared.api;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
 
 import java.util.List;
 import java.util.Map;
@@ -23,7 +22,6 @@ public record PaginatedResponse<T>(
         @Schema(description = "Available client-side actions")
         List<Response.Action> actions
 ) {
-    @Builder
     public PaginatedResponse {
     }
 

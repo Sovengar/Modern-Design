@@ -78,7 +78,7 @@ public class User extends BaseAggregateRoot<User> {
         this.role = requireNonNull(role);
         this.deleted = false;
 
-        this.registerEvent(new UserSnapshot(id.getUserId(), username.getUsername(), email.getEmail()));
+        this.registerEvent(new UserSnapshot(this.id.getUserId(), this.username.getUsername(), this.email.getEmail()));
     }
 
     public Optional<String> getInternalEnterpriseEmail() {

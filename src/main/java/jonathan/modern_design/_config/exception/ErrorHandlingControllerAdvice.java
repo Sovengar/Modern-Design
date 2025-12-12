@@ -2,10 +2,12 @@ package jonathan.modern_design._config.exception;
 
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.constraints.NotNull;
+import jonathan.modern_design.banking.application.Deposit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.internal.engine.path.PathImpl;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -25,6 +27,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -36,6 +39,8 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 @Slf4j
 @RequiredArgsConstructor
 class ErrorHandlingControllerAdvice extends ResponseEntityExceptionHandler {
+
+    private final MessageSource messages;
 
     // Process @Valid
     @Override
@@ -84,6 +89,35 @@ class ErrorHandlingControllerAdvice extends ResponseEntityExceptionHandler {
         log.error("Error ID: {} - {}", getErrorId(problemDetail), ex.getMessage(), ex);
 
         return problemDetail;
+    }
+
+    //TODO MOVE TO API Defined Exceptions
+    @ExceptionHandler(Deposit.DepositLimitExceeded.class)
+    public ResponseEntity<ProblemDetail> handleDepositLimitExceeded(Deposit.DepositLimitExceeded ex, Locale locale) {
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.UNPROCESSABLE_ENTITY);
+
+        String title = messages.getMessage(
+                "error.deposit.limit.exceeded.title",
+                null,
+                locale
+        );
+
+        String detail = messages.getMessage(
+                "error.deposit.limit.exceeded.detail",
+                null,
+                locale
+        );
+
+        //problem.setTitle("Deposit limit exceeded");
+        //problem.setDetail("The deposit amount exceeds the daily limit for this account.");
+        problem.setTitle(title);
+        problem.setDetail(detail);
+
+        problem.setProperty("accountId", ex.accountId());
+        problem.setProperty("attemptedAmount", ex.attemptedAmount());
+        problem.setProperty("dailyLimit", ex.dailyLimit());
+
+        return ResponseEntity.status(problem.getStatus()).body(problem);
     }
 
     //Catch API defined exceptions

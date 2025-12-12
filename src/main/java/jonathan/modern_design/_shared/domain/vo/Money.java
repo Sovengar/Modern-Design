@@ -56,6 +56,7 @@ public class Money {
         return new Money(this.balance.subtract(other.balance), this.currency);
     }
 
+    //In the future this limitation could be removed, using a Double Dispatch to translate currencies
     private void checkCurrency(Money incomingMoney) {
         if (this.currency == null || Objects.isNull(incomingMoney) || incomingMoney.currency == null) {
             throw new OperationWithDifferentCurrenciesException();

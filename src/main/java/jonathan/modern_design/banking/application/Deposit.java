@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jonathan.modern_design._shared.api.Response;
 import jonathan.modern_design._shared.domain.catalogs.Currency;
 import jonathan.modern_design._shared.domain.vo.Money;
 import jonathan.modern_design._shared.tags.ApplicationService;
@@ -19,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 
+import java.io.Serial;
 import java.math.BigDecimal;
 
 import static jonathan.modern_design._shared.infra.AppUrls.BankingUrls.ACCOUNTS_RESOURCE_URL;
@@ -33,7 +33,7 @@ class DepositHttpController {
 
     @Operation(summary = "Deposit money to an account")
     @PutMapping("/{accountNumber}/deposit/{amount}/{currency}")
-    public ResponseEntity<Response<Void>> deposit(
+    public ResponseEntity<Void> deposit(
             @PathVariable("accountNumber") String accountNumber,
             @PathVariable("amount") BigDecimal amount,
             @PathVariable("currency") String currency
@@ -46,7 +46,7 @@ class DepositHttpController {
         log.info("Request arrived to Deposit for accountNumber: {} with amount: {} and currency: {}", accountNumber, amount, currency);
         deposit.handle(message);
 
-        return ResponseEntity.ok(new Response.Builder<Void>().withDefaultMetadataV1());
+        return ResponseEntity.ok().build();
     }
 }
 
@@ -76,6 +76,34 @@ public class Deposit {
             @NotNull(message = "Amount is required") BigDecimal amount,
             @NotNull(message = "Currency is required") Currency currency) {
     }
+
+    public static final class DepositLimitExceeded extends RuntimeException {
+        @Serial private static final long serialVersionUID = -1450858818814932050L;
+        private final String accountId;
+        private final long attemptedAmount;
+        private final long dailyLimit;
+
+        public DepositLimitExceeded(String accountId, long attemptedAmount, long dailyLimit) {
+            super("Deposit amount exceeds the daily limit");
+            this.accountId = accountId;
+            this.attemptedAmount = attemptedAmount;
+            this.dailyLimit = dailyLimit;
+        }
+
+        public String accountId() {
+            return accountId;
+        }
+
+        public long attemptedAmount() {
+            return attemptedAmount;
+        }
+
+        public long dailyLimit() {
+            return dailyLimit;
+        }
+    }
 }
+
+
 
 
