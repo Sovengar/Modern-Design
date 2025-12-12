@@ -24,16 +24,16 @@ import static lombok.AccessLevel.PRIVATE;
 
 @Embeddable
 @ValueObject
-@Data //No record for Hibernate
-@NoArgsConstructor(access = PRIVATE, force = true) //For Hibernate
-@AllArgsConstructor(access = PACKAGE) //Use factory method
+@Data // No record for Hibernate
+@NoArgsConstructor(access = PRIVATE, force = true) // For Hibernate
+@AllArgsConstructor(access = PACKAGE) // Use factory method
 public class AccountHolderPhoneNumbers {
     private static final String SEPARATOR = ";";
-    private static final String PHONE_NUMBER_REGEX = "^(?:\\+?\\d{1,4}[\\s.-]?)?(?:\\(?\\d+\\)?[\\s.-]?)*\\d+(?:\\s?(?:x|ext\\.?)\\s?\\d{1,5})?$\n";
 
     /**
      * Double Dispatch, delegating from VO to a third party library.
-     * At this point, while we keep acknowledging the degree of coupling with the third party library (keeping it to the bare minimum),
+     * At this point, while we keep acknowledging the degree of coupling with the
+     * third party library (keeping it to the bare minimum),
      * there is no problem.
      */
     private static final PhoneNumberUtil PHONE_NUMBER_UTIL = PhoneNumberUtil.getInstance();
@@ -51,22 +51,14 @@ public class AccountHolderPhoneNumbers {
     }
 
     public static AccountHolderPhoneNumbers of(List<String> phoneNumbers) {
-        AccountHolderPhoneNumbers accountHolderPhoneNumbers = new AccountHolderPhoneNumbers(phoneNumbers);
-        validatePhoneNumbers(accountHolderPhoneNumbers.getPhoneNumbers());
-
-        return accountHolderPhoneNumbers;
+        var validPhoneNumbers = phoneNumbers.stream()
+                .map(AccountHolderPhoneNumbers::validateAndNormalizePhoneNumber)
+                .toList();
+        return new AccountHolderPhoneNumbers(validPhoneNumbers);
     }
 
     private static Set<String> transformStringToSet(String phoneNumbers) {
         return Set.of(phoneNumbers.split(SEPARATOR));
-    }
-
-    private static void validatePhoneNumbers(Set<String> phoneNumbersSet) {
-        phoneNumbersSet.forEach(userPhoneNumber -> {
-//            if (!userPhoneNumber.matches(PHONE_NUMBER_REGEX)) {
-//                throw new InvalidPhoneNumbersException();
-//            }
-        });
     }
 
     private static String validateAndNormalizePhoneNumber(String value) {
@@ -87,7 +79,8 @@ public class AccountHolderPhoneNumbers {
         return String.join(SEPARATOR, phoneNumbers);
     }
 
-    //If this logic grows, for example, based on the role allowing more phones, move to a domain Service
+    // If this logic grows, for example, based on the role allowing more phones,
+    // move to a domain Service
     private boolean hasMoreThanTwoPhoneNumbers() {
         return phoneNumbersSet.size() > 2;
     }
@@ -126,7 +119,8 @@ public class AccountHolderPhoneNumbers {
     }
 
     private static class MaximumNumberOfPhoneNumbersExceededException extends RootException {
-        @Serial private static final long serialVersionUID = -6507485328113799878L;
+        @Serial
+        private static final long serialVersionUID = -6507485328113799878L;
 
         MaximumNumberOfPhoneNumbersExceededException() {
             super("Maximum number of phone numbers exceeded");
@@ -134,7 +128,8 @@ public class AccountHolderPhoneNumbers {
     }
 
     static class InvalidPhoneNumbersException extends RootException {
-        @Serial private static final long serialVersionUID = -6507485328113799878L;
+        @Serial
+        private static final long serialVersionUID = -6507485328113799878L;
 
         InvalidPhoneNumbersException(String msg) {
             super(msg);
