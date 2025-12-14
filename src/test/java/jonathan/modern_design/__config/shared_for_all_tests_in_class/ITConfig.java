@@ -24,7 +24,7 @@ import static jonathan.modern_design._config.database.FlywayConfig.SCHEMAS;
 public abstract class ITConfig {
     @Container
     @ServiceConnection
-    protected static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(DockerImageName.parse("postgres:15.7"))
+    protected static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(DockerImageName.parse("postgres:16-alpine"))
             .withReuse(true); // Ensure that testcontainers.reuse.enable=true is set in ~/.testcontainers.properties
     //TODO DOUBT WITH REUSE
 

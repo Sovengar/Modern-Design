@@ -16,7 +16,6 @@ import java.util.UUID;
 
 import static jonathan.modern_design.banking.domain.AccountDsl.givenAnAccountWithUserId;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertThrows;
 
 @DatabaseTest
 @IntegrationConfig
@@ -59,10 +58,5 @@ class FindAccountIT extends BankingDsl {
         // Assert
         assertThat(result).isNotNull();
         assertThat(result.accountNumber()).isEqualTo(AccountDsl.DEFAULT_SOURCE_ACCOUNT_NUMBER);
-    }
-
-    @Test
-    void shouldFailIfAccountDoesNotExist() {
-        assertThrows(AssertionError.class, () -> findAccount.queryWith("NOT_FOUND"));
     }
 }

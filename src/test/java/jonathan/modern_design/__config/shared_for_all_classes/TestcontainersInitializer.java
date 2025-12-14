@@ -11,7 +11,7 @@ import static jonathan.modern_design._config.database.FlywayConfig.SCHEMAS;
 
 public class TestcontainersInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(DockerImageName.parse("postgres:15.7"));
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(DockerImageName.parse("postgres:16-alpine"));
     //static KafkaContainer kafka = new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:5.4.3"));
 
     static {

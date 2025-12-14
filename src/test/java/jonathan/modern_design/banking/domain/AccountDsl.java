@@ -31,7 +31,7 @@ public class AccountDsl {
     public static final CreateAccountCommand.Address address = new CreateAccountCommand.Address("Rupert", "Alicante", "Comunidad Valenciana", "033187", DEFAULT_COUNTRY);
     public static final AccountHolderAddress ahAddress = AccountHolderAddress.of(AccountHolderAddress.StreetType.AVENUE, address.street(), address.city(), address.state(), address.zipCode(), SPAIN);
     public static final String personalId = "48732228A";
-    public static final List<String> phoneNumbers = List.of(faker.phoneNumber().phoneNumber());
+    public static final List<String> phoneNumbers = List.of(faker.phoneNumber().cellPhone());
     public static final LocalDate birthdate = LocalDate.of(1990, 1, 1);
 
     public static Account givenAnAccountWithMoney(Money money, String accountNumber) {

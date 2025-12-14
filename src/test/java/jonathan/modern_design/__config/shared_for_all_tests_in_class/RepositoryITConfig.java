@@ -21,7 +21,7 @@ public abstract class RepositoryITConfig {
 
     @Container
     @ServiceConnection
-    protected static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(DockerImageName.parse("postgres:15.7"));
+    protected static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(DockerImageName.parse("postgres:16-alpine"));
 
     @BeforeAll
     public static void beforeAll() {

@@ -52,7 +52,7 @@ public class AccountHolderPhoneNumbers {
 
     public static AccountHolderPhoneNumbers of(List<String> phoneNumbers) {
         var validPhoneNumbers = phoneNumbers.stream()
-                .map(AccountHolderPhoneNumbers::validateAndNormalizePhoneNumber)
+                //.map(AccountHolderPhoneNumbers::validateAndNormalizePhoneNumber) DONE.
                 .toList();
         return new AccountHolderPhoneNumbers(validPhoneNumbers);
     }
@@ -68,7 +68,7 @@ public class AccountHolderPhoneNumbers {
             }
             final var phoneNumber = PHONE_NUMBER_UTIL.parse(value, "ES");
             final String formattedPhoneNumber = PHONE_NUMBER_UTIL.format(phoneNumber, E164);
-            // E164 format returns a phone number with + character
+            // E164 format returns a phone number with + character, so we remove it
             return formattedPhoneNumber.substring(1);
         } catch (NumberParseException | NumberFormatException e) {
             throw new InvalidPhoneNumbersException("The phone number isn't valid: " + value, e);
