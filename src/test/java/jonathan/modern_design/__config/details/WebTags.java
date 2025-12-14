@@ -1,4 +1,4 @@
-package jonathan.modern_design.__config;
+package jonathan.modern_design.__config.details;
 
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 
@@ -11,5 +11,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @AutoConfigureMockMvc
 //Better than @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) to avoid 2 threads which means 2 transactions
-public @interface WebConfig {
+public @interface WebTags {
 }

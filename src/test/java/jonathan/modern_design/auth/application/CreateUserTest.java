@@ -1,6 +1,6 @@
 package jonathan.modern_design.auth.application;
 
-import jonathan.modern_design.__config.shared_for_all_classes.UnitTest;
+import jonathan.modern_design.__config.runners.UnitTestRunner;
 import jonathan.modern_design.auth.api.AuthApi;
 import jonathan.modern_design.auth.domain.models.User;
 import jonathan.modern_design.auth.infra.UsersConfig;
@@ -14,7 +14,7 @@ import static jonathan.modern_design.auth.application.CreateUserDsl.withValidDat
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@UnitTest
+@UnitTestRunner
 class CreateUserTest {
     private final AuthApi authApi = new UsersConfig().userApi();
 

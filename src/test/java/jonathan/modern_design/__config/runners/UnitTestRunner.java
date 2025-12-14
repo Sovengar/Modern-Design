@@ -1,6 +1,6 @@
-package jonathan.modern_design.__config.shared_for_all_classes;
+package jonathan.modern_design.__config.runners;
 
-import jonathan.modern_design.__config.PrettyTestNames;
+import jonathan.modern_design.__config.utils.PrettyTestNames;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -16,5 +16,5 @@ import java.lang.annotation.Target;
 @ActiveProfiles("test")
 @DisplayNameGeneration(PrettyTestNames.class)
 @ExtendWith(MockitoExtension.class)
-public @interface UnitTest {
+public @interface UnitTestRunner {
 }

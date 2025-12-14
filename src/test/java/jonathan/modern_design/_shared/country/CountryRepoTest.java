@@ -1,6 +1,6 @@
 package jonathan.modern_design._shared.country;
 
-import jonathan.modern_design.__config.PrettyTestNames;
+import jonathan.modern_design.__config.utils.PrettyTestNames;
 import jonathan.modern_design._shared.domain.CountryRepo;
 import jonathan.modern_design._shared.infra.repositories.CountryInMemoryRepo;
 import lombok.val;

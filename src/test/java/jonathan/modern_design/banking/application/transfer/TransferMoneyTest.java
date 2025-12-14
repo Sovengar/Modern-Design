@@ -1,6 +1,6 @@
 package jonathan.modern_design.banking.application.transfer;
 
-import jonathan.modern_design.__config.TimeExtension;
+import jonathan.modern_design.__config.utils.TimeExtension;
 import jonathan.modern_design._shared.domain.exceptions.OperationWithDifferentCurrenciesException;
 import jonathan.modern_design._shared.domain.vo.Money;
 import jonathan.modern_design.banking.BankingUnitConfig;

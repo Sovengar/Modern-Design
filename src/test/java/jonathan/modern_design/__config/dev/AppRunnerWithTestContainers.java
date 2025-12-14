@@ -1,7 +1,7 @@
-package jonathan.modern_design;
+package jonathan.modern_design.__config.dev;
 
 
-import jonathan.modern_design.__config.dev.TestContainersConfig;
+import jonathan.modern_design.AppRunner;
 import org.springframework.boot.SpringApplication;
 
 public class AppRunnerWithTestContainers {

@@ -1,5 +1,6 @@
-package jonathan.modern_design.__config.shared_for_all_classes;
+package jonathan.modern_design.__config.utils;
 
+import jonathan.modern_design.__config.initializers.InfraInitializer;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.lang.annotation.ElementType;
@@ -9,6 +10,6 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@ContextConfiguration(initializers = TestcontainersInitializer.class)
+@ContextConfiguration(initializers = InfraInitializer.class)
 public @interface EnableTestContainers {
 }

@@ -8,7 +8,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
 @TestConfiguration(proxyBeanMethods = false)
-public class PostgreSQLConfig {
+public class PostgresContainerBean {
 
     @RestartScope
     @Bean

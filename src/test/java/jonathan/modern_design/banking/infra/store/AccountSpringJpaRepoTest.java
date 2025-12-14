@@ -1,8 +1,8 @@
 package jonathan.modern_design.banking.infra.store;
 
-import jonathan.modern_design.__config.IntegrationConfig;
-import jonathan.modern_design.__config.shared_for_all_classes.DatabaseTest;
-import jonathan.modern_design.__config.shared_for_all_classes.EnableTestContainers;
+import jonathan.modern_design.__config.details.IntegrationTags;
+import jonathan.modern_design.__config.runners.DatabaseITRunner;
+import jonathan.modern_design.__config.utils.EnableTestContainers;
 import jonathan.modern_design.banking.BankingDsl;
 import jonathan.modern_design.banking.domain.AccountDsl;
 import jonathan.modern_design.banking.domain.models.AccountEntity;
@@ -27,8 +27,8 @@ interface AccountProjection {
 }
 
 @Slf4j
-@DatabaseTest
-@IntegrationConfig
+@DatabaseITRunner
+@IntegrationTags
 @EnableTestContainers
 class AccountSpringJpaRepoTest extends BankingDsl {
     @Autowired

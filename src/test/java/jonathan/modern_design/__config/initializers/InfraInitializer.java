@@ -1,4 +1,4 @@
-package jonathan.modern_design.__config.shared_for_all_classes;
+package jonathan.modern_design.__config.initializers;
 
 import org.flywaydb.core.Flyway;
 import org.springframework.boot.test.util.TestPropertyValues;
@@ -9,7 +9,7 @@ import org.testcontainers.utility.DockerImageName;
 
 import static jonathan.modern_design._config.database.FlywayConfig.SCHEMAS;
 
-public class TestcontainersInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+public class InfraInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(DockerImageName.parse("postgres:16-alpine"));
     //static KafkaContainer kafka = new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:5.4.3"));

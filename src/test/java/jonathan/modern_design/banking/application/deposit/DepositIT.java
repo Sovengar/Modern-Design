@@ -1,7 +1,7 @@
 package jonathan.modern_design.banking.application.deposit;
 
-import jonathan.modern_design.__config.shared_for_all_classes.AcceptanceTest;
-import jonathan.modern_design.__config.shared_for_all_classes.EnableTestContainers;
+import jonathan.modern_design.__config.runners.AcceptanceITRunner;
+import jonathan.modern_design.__config.utils.EnableTestContainers;
 import jonathan.modern_design._shared.domain.catalogs.Currency;
 import jonathan.modern_design.banking.BankingDsl;
 import jonathan.modern_design.banking.application.Deposit;
@@ -16,7 +16,7 @@ import static jonathan.modern_design.banking.domain.AccountDsl.DEFAULT_ACCOUNT_N
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-@AcceptanceTest
+@AcceptanceITRunner
 @EnableTestContainers
 class DepositIT extends BankingDsl {
     @Autowired

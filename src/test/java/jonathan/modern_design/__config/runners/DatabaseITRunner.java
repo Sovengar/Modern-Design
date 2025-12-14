@@ -1,7 +1,7 @@
-package jonathan.modern_design.__config.shared_for_all_classes;
+package jonathan.modern_design.__config.runners;
 
-import jonathan.modern_design.__config.DatabaseConfig;
-import jonathan.modern_design.__config.IntegrationConfig;
+import jonathan.modern_design.__config.details.DatabaseTags;
+import jonathan.modern_design.__config.details.IntegrationTags;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
@@ -12,11 +12,11 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@IntegrationConfig
-@DatabaseConfig
+@IntegrationTags
+@DatabaseTags
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @DataJpaTest
-public @interface DatabaseTest {
+public @interface DatabaseITRunner {
     //Add @Import in your target class to import your slice.
     //Add @EnableTestContainers in your target class to enable testcontainers.
 }

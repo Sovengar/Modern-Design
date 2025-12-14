@@ -1,6 +1,6 @@
 package jonathan.modern_design;
 
-import jonathan.modern_design.__config.shared_for_all_classes.EnableTestContainers;
+import jonathan.modern_design.__config.utils.EnableTestContainers;
 import jonathan.modern_design.amazon.order.OrderApi;
 import jonathan.modern_design.amazon.order.domain.Order;
 import jonathan.modern_design.amazon.order.domain.OrderCompleted;

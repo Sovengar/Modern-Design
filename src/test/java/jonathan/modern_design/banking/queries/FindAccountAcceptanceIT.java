@@ -1,7 +1,7 @@
 package jonathan.modern_design.banking.queries;
 
-import jonathan.modern_design.__config.shared_for_all_classes.AcceptanceTest;
-import jonathan.modern_design.__config.shared_for_all_classes.EnableTestContainers;
+import jonathan.modern_design.__config.runners.AcceptanceITRunner;
+import jonathan.modern_design.__config.utils.EnableTestContainers;
 import jonathan.modern_design.banking.BankingAcceptanceConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,7 +12,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-@AcceptanceTest
+@AcceptanceITRunner
 @EnableTestContainers
 class FindAccountAcceptanceIT extends BankingAcceptanceConfig {
 

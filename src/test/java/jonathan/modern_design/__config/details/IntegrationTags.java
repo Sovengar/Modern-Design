@@ -1,5 +1,6 @@
-package jonathan.modern_design.__config;
+package jonathan.modern_design.__config.details;
 
+import jonathan.modern_design.__config.utils.PrettyTestNames;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Tag;
 import org.springframework.test.context.ActiveProfiles;
@@ -14,7 +15,7 @@ import java.lang.annotation.Target;
 @Tag("integration")
 @ActiveProfiles("test")
 @DisplayNameGeneration(PrettyTestNames.class)
-public @interface IntegrationConfig {
+public @interface IntegrationTags {
 }
 
 

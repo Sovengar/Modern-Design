@@ -1,4 +1,4 @@
-package jonathan.modern_design.__config;
+package jonathan.modern_design.__config.details;
 
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,5 +13,5 @@ import java.lang.annotation.Target;
 //@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Transactional
 @Rollback
-public @interface DatabaseConfig {
+public @interface DatabaseTags {
 }
