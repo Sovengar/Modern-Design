@@ -1,4 +1,4 @@
-package jonathan.modern_design.__config.utils;
+package jonathan.modern_design.__config;
 
 import org.junit.jupiter.api.DisplayNameGenerator;
 

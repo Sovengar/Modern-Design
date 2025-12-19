@@ -1,0 +1,13 @@
+{
+  "data": {
+    "accountNumber": "1e95e7f2-1b5b-4049-a37e-44385b3533e3",
+    "balance": 0,
+    "currency": "EURO",
+    "status": "ACTIVE"
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "timestamp": "${json-unit.ignore-element}",
+    "traceId": "${json-unit.ignore-element}"
+  }
+}

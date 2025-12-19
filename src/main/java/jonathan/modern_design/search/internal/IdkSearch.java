@@ -12,12 +12,14 @@ import jonathan.modern_design.banking.api.BankingQueryApi;
 import jonathan.modern_design.banking.api.dtos.AccountDto;
 import jonathan.modern_design.search.store.AccountWithUserInfoRepo;
 import jonathan.modern_design.search.view_models.AccountWithUserInfo;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import static java.util.Optional.empty;
+import static jonathan.modern_design.banking.domain.models.QAccountEntity.accountEntity;
 
 @DataAdapter
 class IdkSearch {
@@ -50,16 +52,15 @@ class IdkSearch {
         return result1.or(() -> result2);
     }
 
-    public List<AccountDto> searchForXXXPage(AccountCriteria filters) {
-        return List.of();
-        //var filtersBuilded = buildFilters(filters);
-        //
-        //var accounts = queryFactory
-        //        .selectFrom(accountEntity)
-        //        .where(filtersBuilded.and(accountEntity.userId.userId.eq(user.id.userId)))
-        //        .fetch();
-        //
-        //return accounts.stream().map(AccountDto::new).toList();
+    public Page<AccountDto> searchForXXXPage(AccountCriteria filters) {
+        var filtersBuilded = buildFilters(filters);
+
+        var accounts = queryFactory
+                .selectFrom(accountEntity)
+                //TODO .where(filtersBuilded.and(accountEntity.userId.userId.eq(user.id.userId)))
+                .fetch();
+
+        return new PageImpl<>(accounts.stream().map(AccountDto::new).toList());
     }
 
     public Optional<AccountDto> searchWithUserPassword(final String password) {

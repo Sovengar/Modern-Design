@@ -1,7 +1,7 @@
 package jonathan.modern_design.banking.queries;
 
-import jonathan.modern_design.__config.runners.AcceptanceITRunner;
-import jonathan.modern_design.__config.utils.EnableTestContainers;
+import jonathan.modern_design.__config.initializers.InfraInitializer;
+import jonathan.modern_design.__config.runners.AcceptanceRunner;
 import jonathan.modern_design.banking.BankingAcceptanceConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,9 +12,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-@AcceptanceITRunner
-@EnableTestContainers
-class FindAccountAcceptanceIT extends BankingAcceptanceConfig {
+@AcceptanceRunner
+@InfraInitializer
+class FindAccountAT extends BankingAcceptanceConfig {
 
     @Test
     void should_find_account_by_number() throws Exception {

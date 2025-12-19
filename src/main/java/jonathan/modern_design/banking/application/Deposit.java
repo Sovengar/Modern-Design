@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 
-import java.io.Serial;
 import java.math.BigDecimal;
 
 import static jonathan.modern_design._shared.infra.AppUrls.BankingUrls.ACCOUNTS_RESOURCE_URL;
@@ -76,34 +75,4 @@ public class Deposit {
             @NotNull(message = "Amount is required") BigDecimal amount,
             @NotNull(message = "Currency is required") Currency currency) {
     }
-
-    public static final class DepositLimitExceeded extends RuntimeException {
-        @Serial private static final long serialVersionUID = -1450858818814932050L;
-        private final String accountId;
-        private final long attemptedAmount;
-        private final long dailyLimit;
-
-        public DepositLimitExceeded(String accountId, long attemptedAmount, long dailyLimit) {
-            super("Deposit amount exceeds the daily limit");
-            this.accountId = accountId;
-            this.attemptedAmount = attemptedAmount;
-            this.dailyLimit = dailyLimit;
-        }
-
-        public String accountId() {
-            return accountId;
-        }
-
-        public long attemptedAmount() {
-            return attemptedAmount;
-        }
-
-        public long dailyLimit() {
-            return dailyLimit;
-        }
-    }
 }
-
-
-
-

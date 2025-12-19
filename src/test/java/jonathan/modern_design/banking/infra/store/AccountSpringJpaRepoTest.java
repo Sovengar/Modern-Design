@@ -1,8 +1,7 @@
 package jonathan.modern_design.banking.infra.store;
 
-import jonathan.modern_design.__config.details.IntegrationTags;
-import jonathan.modern_design.__config.runners.DatabaseITRunner;
-import jonathan.modern_design.__config.utils.EnableTestContainers;
+import jonathan.modern_design.__config.initializers.InfraInitializer;
+import jonathan.modern_design.__config.runners.DatabaseRunner;
 import jonathan.modern_design.banking.BankingDsl;
 import jonathan.modern_design.banking.domain.AccountDsl;
 import jonathan.modern_design.banking.domain.models.AccountEntity;
@@ -10,6 +9,7 @@ import jonathan.modern_design.banking.infra.store.repositories.spring_jpa.Accoun
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -27,9 +27,9 @@ interface AccountProjection {
 }
 
 @Slf4j
-@DatabaseITRunner
-@IntegrationTags
-@EnableTestContainers
+@DatabaseRunner
+@DataJpaTest
+@InfraInitializer
 class AccountSpringJpaRepoTest extends BankingDsl {
     @Autowired
     private AccountSpringJpaRepo accountRepository;

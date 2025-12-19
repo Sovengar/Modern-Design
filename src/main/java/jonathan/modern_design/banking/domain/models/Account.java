@@ -5,7 +5,6 @@ import jonathan.modern_design._shared.tags.models.AggregateRoot;
 import jonathan.modern_design._shared.tags.persistence.InMemoryOnlyCatalog;
 import jonathan.modern_design._shared.tags.persistence.MicroType;
 import jonathan.modern_design.banking.api.events.AccountCreated;
-import jonathan.modern_design.banking.application.Deposit;
 import jonathan.modern_design.banking.domain.events.AccountActivated;
 import jonathan.modern_design.banking.domain.events.AccountDeactivated;
 import jonathan.modern_design.banking.domain.events.MoneyDeposited;
@@ -13,6 +12,7 @@ import jonathan.modern_design.banking.domain.events.MoneyWithdrawed;
 import jonathan.modern_design.banking.domain.events.NewAccountNumberGenerated;
 import jonathan.modern_design.banking.domain.exceptions.AccountIsAlreadyActiveException;
 import jonathan.modern_design.banking.domain.exceptions.AccountIsInactiveException;
+import jonathan.modern_design.banking.domain.exceptions.DepositLimitExceeded;
 import jonathan.modern_design.banking.domain.policies.AccountNumberGenerator;
 import jonathan.modern_design.banking.domain.vo.AccountNumber;
 import lombok.Getter;
@@ -80,7 +80,7 @@ public final class Account {
         int dailyDepositLimit = 1000; //Move to entity, restart every 24h.
 
         if (money.getBalance().precision() > dailyDepositLimit) {
-            throw new Deposit.DepositLimitExceeded(this.accountId.id.toString(), money.getBalance().precision(), dailyDepositLimit);
+            throw new DepositLimitExceeded(this.accountId.id.toString(), money.getBalance().precision(), dailyDepositLimit);
         }
 
         this.money = this.money.add(money);

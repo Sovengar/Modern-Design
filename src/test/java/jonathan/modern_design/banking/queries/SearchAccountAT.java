@@ -1,7 +1,7 @@
 package jonathan.modern_design.banking.queries;
 
-import jonathan.modern_design.__config.runners.AcceptanceITRunner;
-import jonathan.modern_design.__config.utils.EnableTestContainers;
+import jonathan.modern_design.__config.initializers.InfraInitializer;
+import jonathan.modern_design.__config.runners.AcceptanceRunner;
 import jonathan.modern_design.banking.BankingAcceptanceConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,9 +13,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-@AcceptanceITRunner
-@EnableTestContainers
-class SearchAccountAcceptanceIT extends BankingAcceptanceConfig {
+@AcceptanceRunner
+@InfraInitializer
+class SearchAccountAT extends BankingAcceptanceConfig {
 
     @Test
     void should_search_accounts() throws Exception {
@@ -39,10 +39,8 @@ class SearchAccountAcceptanceIT extends BankingAcceptanceConfig {
                         .content(jsonFilters)
                         .contentType(MediaType.APPLICATION_JSON))
                 //.andExpect(status().isOk())
-                .andExpect(jsonPath("$.content", hasSize(3)))
-                .andExpect(jsonPath("$.totalElements", is(7)))
-                .andExpect(jsonPath("$.totalPages", is(3)))
-                .andExpect(jsonPath("$.content[0].data", is("DummyData")))
-        ;
+                .andExpect(jsonPath("$.data.content", hasSize(3)))
+                .andExpect(jsonPath("$.data.totalElements", is(7)))
+                .andExpect(jsonPath("$.data.totalPages", is(3)));
     }
 }

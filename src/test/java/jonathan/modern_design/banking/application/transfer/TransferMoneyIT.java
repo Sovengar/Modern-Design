@@ -1,7 +1,7 @@
 package jonathan.modern_design.banking.application.transfer;
 
-import jonathan.modern_design.__config.runners.AcceptanceITRunner;
-import jonathan.modern_design.__config.utils.EnableTestContainers;
+import jonathan.modern_design.__config.initializers.InfraInitializer;
+import jonathan.modern_design.__config.runners.AcceptanceRunner;
 import jonathan.modern_design._shared.domain.vo.Money;
 import jonathan.modern_design.banking.BankingDsl;
 import jonathan.modern_design.banking.application.TransferMoney;
@@ -22,8 +22,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 //TODO ERROR WITH FEIGN @ApplicationModuleTest //Better than @SpringBootTest when using modules
 @SpringBootTest
-@AcceptanceITRunner
-@EnableTestContainers
+@AcceptanceRunner
+@InfraInitializer
 class TransferMoneyIT extends BankingDsl {
     @Autowired
     private TransferMoney transferMoney;

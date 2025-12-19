@@ -1,6 +1,6 @@
 package jonathan.modern_design;
 
-import jonathan.modern_design.__config.utils.EnableTestContainers;
+import jonathan.modern_design.__config.initializers.InfraInitializer;
 import jonathan.modern_design.amazon.order.OrderApi;
 import jonathan.modern_design.amazon.order.domain.Order;
 import jonathan.modern_design.amazon.order.domain.OrderCompleted;
@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Integration test for the overall application.
  */
 @SpringBootTest
-@EnableTestContainers
+@InfraInitializer
 @Import(EventPublicationRegistryTests.FailingAsyncTransactionalEventListener.class)
 @DirtiesContext
 @RequiredArgsConstructor

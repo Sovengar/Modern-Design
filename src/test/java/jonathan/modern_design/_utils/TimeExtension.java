@@ -1,4 +1,4 @@
-package jonathan.modern_design.__config.utils;
+package jonathan.modern_design._utils;
 
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.InvocationInterceptor;

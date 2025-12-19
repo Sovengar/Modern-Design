@@ -1,7 +1,7 @@
 package jonathan.modern_design.amazon.shipping;
 
-import jonathan.modern_design.__config.runners.AcceptanceITRunner;
-import jonathan.modern_design.__config.utils.EnableTestContainers;
+import jonathan.modern_design.__config.initializers.InfraInitializer;
+import jonathan.modern_design.__config.runners.AcceptanceRunner;
 import jonathan.modern_design.amazon.shipping.api.ShippingResultResolved;
 import jonathan.modern_design.amazon.shipping.application.AckShipping;
 import org.junit.jupiter.api.Test;
@@ -14,8 +14,8 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ApplicationModuleTest //Better than @SpringBootTest when using modules
-@AcceptanceITRunner
-@EnableTestContainers
+@AcceptanceRunner
+@InfraInitializer
 class ShippingModuleTest {
     @Autowired
     AckShipping sut;

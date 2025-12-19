@@ -3,9 +3,8 @@ package jonathan.modern_design.banking._dev_testing;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import jonathan.modern_design.__config.details.IntegrationTags;
-import jonathan.modern_design.__config.runners.DatabaseITRunner;
-import jonathan.modern_design.__config.utils.EnableTestContainers;
+import jonathan.modern_design.__config.initializers.InfraInitializer;
+import jonathan.modern_design.__config.runners.DatabaseRunner;
 import jonathan.modern_design.banking.domain.models.AccountEntity;
 import jonathan.modern_design.banking.domain.models.QAccountEntity;
 import lombok.extern.slf4j.Slf4j;
@@ -13,14 +12,15 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import static jonathan.modern_design.banking.domain.AccountDsl.givenAnEmptyAccount;
 
 //NOT WORKING
 @Slf4j
-@DatabaseITRunner
-@IntegrationTags
-@EnableTestContainers
+@DatabaseRunner
+@DataJpaTest
+@InfraInitializer
 class QueryPlayGround {
     @Autowired
     private EntityManagerFactory emf;

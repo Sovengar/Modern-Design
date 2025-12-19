@@ -8,6 +8,7 @@ import jonathan.modern_design.banking.domain.store.AccountRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,6 +44,7 @@ class DeactivateAccountHttpController {
 public class DeactivateAccount {
     private final AccountRepo repository;
 
+    @Transactional
     public void handle(final String accountNumber) {
         Assert.state(StringUtils.hasText(accountNumber), "Account number is required");
 

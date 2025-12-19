@@ -2,7 +2,7 @@ package jonathan.modern_design._config.exception;
 
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.constraints.NotNull;
-import jonathan.modern_design.banking.application.Deposit;
+import jonathan.modern_design.banking.domain.exceptions.DepositLimitExceeded;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -92,8 +92,8 @@ class ErrorHandlingControllerAdvice extends ResponseEntityExceptionHandler {
     }
 
     //TODO MOVE TO API Defined Exceptions
-    @ExceptionHandler(Deposit.DepositLimitExceeded.class)
-    public ResponseEntity<ProblemDetail> handleDepositLimitExceeded(Deposit.DepositLimitExceeded ex, Locale locale) {
+    @ExceptionHandler(DepositLimitExceeded.class)
+    public ResponseEntity<ProblemDetail> handleDepositLimitExceeded(DepositLimitExceeded ex, Locale locale) {
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.UNPROCESSABLE_ENTITY);
 
         String title = messages.getMessage(

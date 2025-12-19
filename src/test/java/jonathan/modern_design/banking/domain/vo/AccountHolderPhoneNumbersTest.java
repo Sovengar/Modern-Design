@@ -1,6 +1,5 @@
 package jonathan.modern_design.banking.domain.vo;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -15,21 +14,18 @@ class AccountHolderPhoneNumbersTest {
 
     @Test
     void testOf_ValidSinglePhoneNumber() {
-        List<String> phoneNumbers = List.of("600000000");
-        AccountHolderPhoneNumbers accountHolderPhoneNumbers = AccountHolderPhoneNumbers.of(phoneNumbers);
-
-        assertNotNull(accountHolderPhoneNumbers);
+        var phoneNumbers = AccountHolderPhoneNumbers.of(List.of("34600000000"));
         // Expects E164 without leading + (34 prefix for Spain)
-        assertEquals(Set.of("34600000000"), accountHolderPhoneNumbers.getPhoneNumbers());
+        assertEquals(Set.of("600000000"), phoneNumbers.getPhoneNumbers());
     }
 
     @Test
     void testOf_ValidMultiplePhoneNumbers() {
-        List<String> phoneNumbers = List.of("600000000", "910000000");
+        List<String> phoneNumbers = List.of("34600000000", "34910000000");
         AccountHolderPhoneNumbers accountHolderPhoneNumbers = AccountHolderPhoneNumbers.of(phoneNumbers);
 
         assertNotNull(accountHolderPhoneNumbers);
-        assertEquals(Set.of("34600000000", "34910000000"), accountHolderPhoneNumbers.getPhoneNumbers());
+        assertEquals(Set.of("600000000", "910000000"), accountHolderPhoneNumbers.getPhoneNumbers());
     }
 
     @Test

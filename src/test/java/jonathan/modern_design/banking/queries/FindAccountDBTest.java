@@ -2,14 +2,14 @@ package jonathan.modern_design.banking.queries;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jonathan.modern_design.__config.details.IntegrationTags;
-import jonathan.modern_design.__config.runners.DatabaseITRunner;
-import jonathan.modern_design.__config.utils.EnableTestContainers;
+import jonathan.modern_design.__config.initializers.InfraInitializer;
+import jonathan.modern_design.__config.runners.DatabaseRunner;
 import jonathan.modern_design.banking.BankingDsl;
 import jonathan.modern_design.banking.domain.AccountDsl;
 import jonathan.modern_design.banking.domain.models.AccountEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
 import java.util.UUID;
@@ -17,11 +17,11 @@ import java.util.UUID;
 import static jonathan.modern_design.banking.domain.AccountDsl.givenAnAccountWithUserId;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DatabaseITRunner
-@IntegrationTags
-@EnableTestContainers
+@DatabaseRunner
+@DataJpaTest
+@InfraInitializer
 @Import(FindAccount.class)
-class FindAccountIT extends BankingDsl {
+class FindAccountDBTest extends BankingDsl {
     @PersistenceContext
     private EntityManager entityManager;
 

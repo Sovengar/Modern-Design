@@ -38,6 +38,10 @@ public class AccountDsl {
         return builder(accountNumber, money, true, AccountHolderDsl.randomAccountHolder());
     }
 
+    public static Account givenARandomAccountWithBalance(double balance) {
+        return givenAnAccountWithBalance(balance, UUID.randomUUID().toString());
+    }
+
     public static Account givenAnAccountWithBalance(double balance, String accountNumber) {
         return builder(accountNumber, Money.of(balance, EUR), true, AccountHolderDsl.randomAccountHolder());
     }

@@ -1,8 +1,8 @@
 package jonathan.modern_design.amazon.order;
 
 
-import jonathan.modern_design.__config.runners.AcceptanceITRunner;
-import jonathan.modern_design.__config.utils.EnableTestContainers;
+import jonathan.modern_design.__config.initializers.InfraInitializer;
+import jonathan.modern_design.__config.runners.AcceptanceRunner;
 import jonathan.modern_design.amazon.inventory.domain.LineItem;
 import jonathan.modern_design.amazon.order.application.PlaceOrder;
 import jonathan.modern_design.amazon.order.domain.Order;
@@ -22,8 +22,8 @@ import java.util.UUID;
 @SpringBootTest
 @EnableScenarios
 ///
-@AcceptanceITRunner
-@EnableTestContainers
+@AcceptanceRunner
+@InfraInitializer
 class OrderIT {
     @Autowired
     private OrderApi orderApi;

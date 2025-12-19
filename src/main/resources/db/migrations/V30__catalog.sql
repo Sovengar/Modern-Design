@@ -20,4 +20,3 @@ create table catalog.product_reviews(
     FOREIGN KEY (product_id) REFERENCES catalog.products(sku_id)
 );
 
-insert into catalog.products values('123', 'iPhone', 'Hipster Phone', '1000', '2.5');
