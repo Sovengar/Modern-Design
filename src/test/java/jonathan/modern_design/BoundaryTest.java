@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.modulith.core.ApplicationModules;
-import org.springframework.modulith.docs.Documenter;
 
 import static com.tngtech.archunit.base.DescribedPredicate.alwaysTrue;
 import static com.tngtech.archunit.core.domain.JavaClass.Predicates.resideInAnyPackage;
@@ -83,29 +82,6 @@ class BoundaryTest {
         void testModuleVerification() {
             modules.forEach(System.out::println);
             modules.verify();
-        }
-
-        @SuppressWarnings("java:S2699")
-        @Test
-        void writeDocumentationSnippets() {
-            new Documenter(modules)
-                    .writeModulesAsPlantUml()
-                    .writeIndividualModulesAsPlantUml();
-            //new Documenter(modules).writeModuleCanvases();
-            //Documenter.DiagramOptions.defaults().withStyle(Documenter.DiagramOptions.DiagramStyle.UML);
-            //new Documenter(modules).writeAggregatingDocument();
-        }
-
-        @SuppressWarnings("java:S2699")
-        @Test
-        @Disabled
-        void generateAsciidoc() {
-            var canvasOptions = Documenter.CanvasOptions.defaults();
-
-            var docOptions = Documenter.DiagramOptions.defaults()
-                    .withStyle(Documenter.DiagramOptions.DiagramStyle.UML);
-
-            new Documenter(modules).writeDocumentation(docOptions, canvasOptions);
         }
     }
 }
